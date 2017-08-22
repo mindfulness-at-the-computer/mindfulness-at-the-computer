@@ -1,0 +1,68 @@
+
+
+***breathing: using the latest frequency to set breathing in and out in the system tray***
+
+
+
+# Brainstorming
+adding a bell every half an hour or so to remind the user to take breaks
+alternatively the user can se a dialog
+
+breathing button with three states: in, out, not active
+toggle button
+
+
+# Tracking feelings
+easy to change feelings, etc (feeling, mental formation, ___) from the system tray icon popup menu
+notification when some time has passed, asking what the feeling, etc is now
+
+# Background (theoretical):
+*right intention/thinking*
+right mindfulness
+(right effort)
+
+# temporary breathing text
+and ability to add this later to the db
+
+
+
+
+========
+
+# Features
+* New or temporary breathing intention [high prio]
+  * important that this is easy to add, so new phrases can be added on the fly and used right away
+* Saving breathing/intention texts [medium prio]
+* Reminders [medium prio]
+*
+
+# Parts of the interface
+setting an intention
+
+# Other features
+
+========
+
+# User stories
+* User would like to add a phrase and then use it straight away
+* User wants to be reminded of phrase - pop up
+  * last used?
+  * **following up** so that the phrase has been acted upon (implemented, followed up)
+    (see teachings on love by tnh)
+
+
+========
+
+# Example phrases
+may i be well in body and mind
+
+========
+
+1. setting intention
+2. following up with action
+(from teachings on love by tnh)
+
+========
+
+https://www.iconfinder.com/search/?q=notification&price=free
+
