@@ -9,7 +9,7 @@ import mb_model
 POINT_SIZE_INT = 11
 
 
-class PhrasesCompositeWidget(QtWidgets.QWidget):
+class PhraseCompositeWidget(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
 
@@ -56,8 +56,7 @@ class PhrasesCompositeWidget(QtWidgets.QWidget):
         if not (ob_text_sg and ob_text_sg.strip()):
             return
 
-        mb_model.PhrasesM.add(mb_global.active_collection_id_it,
-            9, ib_text_sg, ob_text_sg)  # -TODO: Change order
+        mb_model.PhrasesM.add(ib_text_sg, ob_text_sg)
 
         self.add_new_in_breath_text_le.clear()
         self.add_new_out_breath_text_le.clear()
@@ -81,7 +80,7 @@ class PhrasesCompositeWidget(QtWidgets.QWidget):
         scroll_to_lower_edge_int = 0
         frame_list = []
         for l_phrase_item in mb_model.PhrasesM.get_all_for_collection(
-                mb_global.active_collection_id_it):
+                mb_global.active_ibob_id_it):
             frame_l6 = QtWidgets.QFrame()
             self.scroll_list_vbox_l5.addWidget(frame_l6)
 

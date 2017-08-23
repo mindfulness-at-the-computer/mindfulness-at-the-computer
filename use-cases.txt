@@ -1,0 +1,54 @@
+
+
+
+# Scenarios / Use Cases
+
+## Reminders to breathe while using the computer
+Priority: Essential
+
+Showing messages/pop-ups for the user
+
+The user can easily switch between single phrases that are shown to the user
+(if the user can easily switch between them it's less important to have a list of several
+
+### Collection of phrases
+Priority: Low
+
+These reminders can vary and be randomized from a collection, for example:
+* Breathing in i know i am breahing in, out
+* Breathing in i am aware of my body
+* Breathing in ___________
+**Also being able to select the percentage chance for each**
+
+Maybe this would be better in another application
+
+## Following the breathing
+Priority: Essential
+
+Using the shift key (or pressing a button with three states) to follow the breath graphically
+
+### Sequential order of phrases
+Priority: Medium
+
+Q: What is the relation between this and "Collections of phrases" (above)
+
+## Setting a positive intention and following up with questions later on
+Example:
+* Was i peaceful in my body and mind?
+
+## Remembering to take a break
+Priority: High
+
+A dialog window can be shown to remind the user to take a break.
+This window can maybe also be used to select the new practice (when the user gets back).
+(Does this mean that we instead want to show the main window by "restoring" it?)
+
+The application might ask a question like this: "Do you want to take a break?"; "Not right now", "Yes"
+
+### Remembering to take care of the body
+Priority: High/Medium
+
+For example by doing some mindful movements
+
+
+

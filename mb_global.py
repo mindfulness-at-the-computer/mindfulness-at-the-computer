@@ -5,7 +5,7 @@ NO_DIARY_ENTRY_SELECTED = -1
 DATABASE_FILE_NAME = "mb_database_file.db"
 
 active_question_id_it = NO_DIARY_ENTRY_SELECTED
-active_collection_id_it = NO_DIARY_ENTRY_SELECTED
+active_ibob_id_it = NO_DIARY_ENTRY_SELECTED
 persistent_bool = False
 
 

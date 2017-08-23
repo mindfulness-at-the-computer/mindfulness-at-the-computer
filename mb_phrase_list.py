@@ -7,7 +7,7 @@ import mb_model
 import mb_global
 
 
-class CollectionsCompositeWidget(QtWidgets.QWidget):
+class PhraseListCompositeWidget(QtWidgets.QWidget):
     row_changed_signal = QtCore.pyqtSignal()
 
     def __init__(self):
@@ -48,7 +48,7 @@ class CollectionsCompositeWidget(QtWidgets.QWidget):
             current_question_qli = self.list_widget.item(current_row_int)
             customqlabel_widget = self.list_widget.itemWidget(current_question_qli)
             mb_global.active_question_id_it = 1  # customqlabel_widget.question_entry_id
-            mb_global.active_collection_id_it = customqlabel_widget.question_entry_id
+            mb_global.active_ibob_id_it = customqlabel_widget.question_entry_id
 
         self.row_changed_signal.emit()
 

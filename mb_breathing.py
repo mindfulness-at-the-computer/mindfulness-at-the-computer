@@ -33,17 +33,20 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
 
         ##hbox_widget = QtWidgets.QWidget()
         ##self..setCentralWidget(hbox_widget)
-        hbox = QtWidgets.QHBoxLayout()
-        self.setLayout(hbox)
-
         vbox = QtWidgets.QVBoxLayout()
-        hbox.addLayout(vbox)
+        self.setLayout(vbox)
 
-        self.ib_qll = QtWidgets.QLabel()
-        vbox.addWidget(self.ib_qll)
-        self.ob_qll = QtWidgets.QLabel()
-        vbox.addWidget(self.ob_qll)
 
+        self.bi_text_qll = QtWidgets.QLabel("test1")
+        self.bo_text_qll = QtWidgets.QLabel("test2")
+        vbox.addWidget(self.bi_text_qll)
+        vbox.addWidget(self.bo_text_qll)
+
+
+        self.ib_length_qll = QtWidgets.QLabel()
+        vbox.addWidget(self.ib_length_qll)
+        self.ob_length_qll = QtWidgets.QLabel()
+        vbox.addWidget(self.ob_length_qll)
 
         self.breathing_graphicsview = QtWidgets.QGraphicsView()  # QGraphicsScene
         vbox.addWidget(self.breathing_graphicsview)
@@ -52,7 +55,6 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.breathing_graphicsview.setScene(self.breathing_graphicsscene)
 
         #self.breathing_graphicsscene.addText("Breathing in i know i am breathing in, breathing out")
-        #self.breathing_graphicsscene.
 
         self.update_gui()
 
@@ -133,10 +135,11 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         t_graphics_rect_item.setRect(new_rect)
 
     def update_gui(self):
-        self.ib_qll.setText(str(self.in_breath_length_ft))
-        self.ob_qll.setText(str(self.out_breath_length_ft))
+        self.ib_length_qll.setText(str(self.in_breath_length_ft))
+        self.ob_length_qll.setText(str(self.out_breath_length_ft))
 
 
+"""
 class RoundedRectGraphicsItem(QtWidgets.QGraphicsItem):
     def __init__(self, i_x_int, i_y_int, i_width_int, i_height_int):
         super().__init__()
@@ -160,4 +163,4 @@ class RoundedRectGraphicsItem(QtWidgets.QGraphicsItem):
         i_QPainter.setPen(QtGui.QPen(QtCore.Qt.black, self.pen_width_int))
         i_QPainter.drawRoundedRect(self.qrectf, 4, 4)
 
-
+"""
