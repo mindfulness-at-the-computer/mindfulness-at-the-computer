@@ -29,8 +29,9 @@ def initial_schema_and_setup(i_db_conn):
     i_db_conn.execute(
         "CREATE TABLE " + DbSchemaM.PhrasesTable.name + "("
         + DbSchemaM.PhrasesTable.Cols.id + " INTEGER PRIMARY KEY, "
+        + DbSchemaM.PhrasesTable.Cols.title + " TEXT NOT NULL, "
         + DbSchemaM.PhrasesTable.Cols.ib_phrase + " TEXT NOT NULL, "
-        + DbSchemaM.PhrasesTable.Cols.ob_phrase + " TEXT NOT NULL, "
+        + DbSchemaM.PhrasesTable.Cols.ob_phrase + " TEXT NOT NULL"
         + ")"
     )
 
@@ -86,6 +87,7 @@ class DbSchemaM:
 
         class Cols:
             id = "id"  # key
+            title = "title"
             ib_phrase = "ib_phrase"
             ob_phrase = "ob_phrase"
             # vertical_order = "vertical_order"
@@ -94,20 +96,22 @@ class DbSchemaM:
 
 
 class PhrasesM:
-    def __init__(self, i_id: int, i_ib: str, i_ob: str) -> None:
+    def __init__(self, i_id: int, i_title: str, i_ib: str, i_ob: str) -> None:
         self.id_int = i_id
+        self.title_str = i_title
         self.ib_str = i_ib
         self.ob_str = i_ob
 
     @staticmethod
-    def add(i_ib: str, i_ob: str) -> None:
+    def add(i_title: str, i_ib: str, i_ob: str) -> None:
         db_connection = DbHelperM.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor.execute(
             "INSERT INTO " + DbSchemaM.PhrasesTable.name + "("
+            + DbSchemaM.PhrasesTable.Cols.title + ", "
             + DbSchemaM.PhrasesTable.Cols.ib_phrase + ", "
-            + DbSchemaM.PhrasesTable.Cols.ob_phrase + ", "
-            + ") VALUES (?, ?)", (i_ib, i_ob)
+            + DbSchemaM.PhrasesTable.Cols.ob_phrase
+            + ") VALUES (?, ?, ?)", (i_title, i_ib, i_ob)
         )
         db_connection.commit()
 
@@ -149,6 +153,42 @@ class PhrasesM:
         )
         db_connection.commit()
 
+    @staticmethod
+    def update_title(i_id: int, i_new_title: str):
+        db_connection = DbHelperM.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + DbSchemaM.PhrasesTable.name
+            + " SET " + DbSchemaM.PhrasesTable.Cols.title + " = ?"
+            + " WHERE " + DbSchemaM.PhrasesTable.Cols.id + " = ?",
+            (i_new_title, str(i_id))
+        )
+        db_connection.commit()
+
+    @staticmethod
+    def update_in_breath(i_id: int, i_new_in_breath: str):
+        db_connection = DbHelperM.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + DbSchemaM.PhrasesTable.name
+            + " SET " + DbSchemaM.PhrasesTable.Cols.ib_phrase + " = ?"
+            + " WHERE " + DbSchemaM.PhrasesTable.Cols.id + " = ?",
+            (i_new_in_breath, str(i_id))
+        )
+        db_connection.commit()
+
+    @staticmethod
+    def update_out_breath(i_id: int, i_new_out_breath: str):
+        db_connection = DbHelperM.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + DbSchemaM.PhrasesTable.name
+            + " SET " + DbSchemaM.PhrasesTable.Cols.ob_phrase + " = ?"
+            + " WHERE " + DbSchemaM.PhrasesTable.Cols.id + " = ?",
+            (i_new_out_breath, str(i_id))
+        )
+        db_connection.commit()
+
 
 def export_all():
     csv_writer = csv.writer(open("exported.csv", "w"))
@@ -167,23 +207,28 @@ def backup_db_file():
 def populate_db_with_test_data():
 
     PhrasesM.add(
+        "In, out",
         "Breathing in, i know i am breathing in",
         "Breathing out, i know i am breathing out",
     )
     PhrasesM.add(
+        "Happy, safe",
         "Breathing in, may i be peaceful, happy, and safe",
         "Breathing out, may i be free from fear, hatred, and delusion",
     )
     PhrasesM.add(
+        "Aware of Body",
         "Aware of my body, i breathe in",
         "Aware of my feelings, i breathe out",
     )
     PhrasesM.add(
+        "Caring for Body",
         "Breathing in, i care for my body",
         "Breathing out, i care for my body",
     )
 
     PhrasesM.add(
+        "Aware of painful feeling",
         "Breathing in, i am aware of a painful feeling",
         "Breathing out, i am aware of a painful feeling",
     )

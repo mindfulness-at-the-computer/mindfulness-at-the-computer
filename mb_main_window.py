@@ -4,6 +4,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 import mb_global
+import mb_model
 import mb_breathing
 import mb_phrase_list
 
@@ -17,8 +18,6 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.setCorner(QtCore.Qt.BottomRightCorner, QtCore.Qt.RightDockWidgetArea)
 
         self.tray_icon = None
-
-        mb_global.active_ibob_id_it = 1
 
         vbox_widget = QtWidgets.QWidget()
         self.setCentralWidget(vbox_widget)
@@ -38,22 +37,27 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.menu_bar = self.menuBar()
         self.update_menu()
 
-        self.start_timer()
+        self.start_background_breathing_notification_timer()
 
-    def start_timer(self):
+        self.start__timer()
+
+    def start_background_breathing_notification_timer(self):
         self.self_care_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
         self.self_care_qtimer.timeout.connect(self.timer_timeout)
         self.self_care_qtimer.start(30 * 1000)
 
     def timer_timeout(self):
-        APPLICATION_TITLE_STR = "Mindful breathing"
-
-        self.tray_icon.showMessage(
-            APPLICATION_TITLE_STR,
-            "breathing in i know i am breathing in\nbreathing out i know i am breathing out",
-            icon=QtWidgets.QSystemTrayIcon.NoIcon,
-            msecs=10*1000
-        )
+        if mb_global.active_phrase_id_it != mb_global.NO_PHRASE_SELECTED:
+            active_phrase = mb_model.PhrasesM.get(mb_global.active_phrase_id_it)
+            self.tray_icon.showMessage(
+                mb_global.APPLICATION_TITLE_STR,
+                active_phrase.ib_str + "\n" + active_phrase.ob_str,
+                icon=QtWidgets.QSystemTrayIcon.NoIcon,
+                msecs=10*1000
+            )
+        # TODO: The title (now "application title string") and the icon
+        # could be used to show if the message is a mindfulness of breathing message
+        # or a message for taking a break (or something else)
 
     def update_menu(self):
         self.menu_bar.clear()
@@ -88,39 +92,6 @@ class MbMainWindow(QtWidgets.QMainWindow):
         """
         sys.exit()
 
-    # overridden
-    def keyPressEvent(self, iQKeyEvent):
-        if iQKeyEvent.key() == QtCore.Qt.Key_Shift:
-            logging.info("shift key pressed")
-            self.breathing_composite_widget.stop_breathing_out_timer()
-            self.breathing_composite_widget.start_breathing_in_timer()
-
-            self.phrase.update_gui(mb_global.BreathingState.breathing_in)
-        elif iQKeyEvent.key() == QtCore.Qt.Key_Return or iQKeyEvent.key() == QtCore.Qt.Key_Enter:
-            logging.info("enter or return key pressed")
-            self.breathing_composite_widget.stop_breathing_in_timer()
-            self.breathing_composite_widget.stop_breathing_out_timer()
-        elif iQKeyEvent.key() == QtCore.Qt.Key_Backspace or iQKeyEvent.key() == QtCore.Qt.Key_Delete:
-            logging.info("backspace or delete key pressed")
-            self.breathing_composite_widget.stop_breathing_in_timer()
-            self.breathing_composite_widget.stop_breathing_out_timer()
-            self.breathing_composite_widget.in_breath_graphics_qgri_list.clear()
-            self.breathing_composite_widget.out_breath_graphics_qgri_list.clear()
-            self.breathing_composite_widget.breathing_graphicsscene.clear()
-        else:
-            super().keyPressEvent(self, iQKeyEvent)
-
-    # overridden
-    def keyReleaseEvent(self, iQKeyEvent):
-        if iQKeyEvent.key() == QtCore.Qt.Key_Shift:
-            logging.info("shift key released")
-            self.breathing_composite_widget.stop_breathing_in_timer()
-            self.breathing_composite_widget.start_breathing_out_timer()
-
-            self.phrase.update_gui(mb_global.BreathingState.breathing_out)
-        else:
-            super().keyPressEvent(self, iQKeyEvent)
-
     def update_gui(self):
-        self.phrase.update_gui()
+        self.breathing_composite_widget.update_gui()
 
