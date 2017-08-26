@@ -3,7 +3,6 @@ import datetime
 import shutil
 import sqlite3
 import enum
-
 import mb_global
 
 SQLITE_FALSE_INT = 0
@@ -11,6 +10,12 @@ SQLITE_TRUE_INT = 1
 SQLITE_NULL_STR = "NULL"
 TIME_NOT_SET_INT = -1
 NO_REFERENCE_INT = -1
+NO_REST_REMINDER_INT = -1
+NO_BREATHING_REMINDER_INT = -1
+DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT = 1
+DEFAULT_BREATHING_REMINDER_INTERVAL_SECONDS_INT = 30
+DEFAULT_BREATHING_REMINDER_LENGTH_SECONDS_INT = 10
+SINGLE_SETTINGS_ID_INT = 0
 
 
 def get_schema_version(i_db_conn):
@@ -34,6 +39,28 @@ def initial_schema_and_setup(i_db_conn):
         + DbSchemaM.PhrasesTable.Cols.ob_phrase + " TEXT NOT NULL"
         + ")"
     )
+
+    i_db_conn.execute(
+        "CREATE TABLE " + DbSchemaM.SettingsTable.name + "("
+        + DbSchemaM.SettingsTable.Cols.id + " INTEGER PRIMARY KEY, "
+        + DbSchemaM.SettingsTable.Cols.rest_reminder_interval + " INTEGER NOT NULL"
+        + " DEFAULT " + str(DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT) + ", "
+        + DbSchemaM.SettingsTable.Cols.breathing_reminder_interval + " INTEGER NOT NULL"
+        + " DEFAULT " + str(DEFAULT_BREATHING_REMINDER_INTERVAL_SECONDS_INT) + ", "
+        + DbSchemaM.SettingsTable.Cols.breathing_reminder_length + " INTEGER NOT NULL"
+        + " DEFAULT " + str(DEFAULT_BREATHING_REMINDER_LENGTH_SECONDS_INT)
+        + ")"
+    )
+
+    db_connection = DbHelperM.get_db_connection()
+    db_cursor = db_connection.cursor()
+    db_cursor.execute(
+        "INSERT OR IGNORE INTO " + DbSchemaM.SettingsTable.name + "("
+        + DbSchemaM.SettingsTable.Cols.id
+        + ") VALUES (?)", (SINGLE_SETTINGS_ID_INT,)
+    )
+    # -please note "OR IGNORE"
+    db_connection.commit()
 
     if not mb_global.persistent_bool:
         populate_db_with_test_data()
@@ -93,6 +120,15 @@ class DbSchemaM:
             # vertical_order = "vertical_order"
             # ib_short_phrase = "ib_short_phrase"
             # ob_short_phrase = "ob_short_phrase"
+
+    class SettingsTable:
+        name = "settings"
+
+        class Cols:
+            id = "id"  # key
+            rest_reminder_interval = "rest_reminder_interval"
+            breathing_reminder_interval = "breathing_reminder_interval"
+            breathing_reminder_length = "breathing_reminder_length"
 
 
 class PhrasesM:
@@ -186,6 +222,46 @@ class PhrasesM:
             + " SET " + DbSchemaM.PhrasesTable.Cols.ob_phrase + " = ?"
             + " WHERE " + DbSchemaM.PhrasesTable.Cols.id + " = ?",
             (i_new_out_breath, str(i_id))
+        )
+        db_connection.commit()
+
+
+class SettingsM:
+    def __init__(
+        self,
+        i_id: int,
+        i_rest_reminder_interval: int,
+        i_breathing_reminder_interval: int,
+        i_breathing_reminder_length: int
+    ) -> None:
+        # (id is not used)
+        self.rest_reminder_interval_int = i_rest_reminder_interval
+        self.breathing_reminder_interval_int = i_breathing_reminder_interval
+        self.i_breathing_reminder_length_int = i_breathing_reminder_length
+
+    @staticmethod
+    def get():
+        db_connection = DbHelperM.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor_result = db_cursor.execute(
+            "SELECT * FROM " + DbSchemaM.SettingsTable.name
+            + " WHERE " + DbSchemaM.SettingsTable.Cols.id + "=" + str(SINGLE_SETTINGS_ID_INT)
+        )
+        reminder_db_te = db_cursor_result.fetchone()
+        db_connection.commit()
+
+        return SettingsM(*reminder_db_te)
+        # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
+
+    @staticmethod
+    def update_rest_reminder_interval(i_reminder_interval: int):
+        db_connection = DbHelperM.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + DbSchemaM.SettingsTable.name
+            + " SET " + DbSchemaM.SettingsTable.Cols.rest_reminder_interval + " = ?"
+            + " WHERE " + DbSchemaM.SettingsTable.Cols.id + " = ?",
+            (str(i_reminder_interval), SINGLE_SETTINGS_ID_INT)
         )
         db_connection.commit()
 

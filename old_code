@@ -1,0 +1,28 @@
+        # extensible dialogs ("more")
+
+        """
+        Note that QDialog (and any other widget that has type Qt::Dialog) uses the parent widget
+        slightly differently from other classes in Qt. A dialog is always a top-level widget,
+        but if it has a parent, its default location is centered on top of the parent's top-level
+        widget (if it is not top-level itself). It will also share the parent's taskbar entry.
+        """
+
+        # Idea: Give the user options: Tea, Movement exercise, taking a walk, _____
+        # One button for each alternatve
+
+        """
+        primary_text_str = ""
+        informative_text_str = ""
+        detailed_text_str = ""  # -optional
+        # icon
+        # standard buttons
+        msgbox = QtWidgets.QMessageBox()
+        """
+
+        """
+        QtWidgets.QMessageBox.information(
+            self,
+            "Please take care of yourself",
+            "Breathing in I am aware of my steps\nBreathing out I am aware of my body"
+        )
+        """

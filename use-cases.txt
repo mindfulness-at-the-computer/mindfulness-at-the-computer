@@ -61,3 +61,13 @@ Priority:
 This is what is already done in the other cases, but maybe we can add a heart or something that
 reminds the user to do things with "kindfulness"
 
+
+## Remembering the purpose of the work at the computer
+Priority: High
+Maybe we are contributing to social justice, mental well-being or something else, maybe
+simply helping our colleagues?
+
+
+====================
+
+

@@ -3,6 +3,9 @@
 ***breathing: using the latest frequency to set breathing in and out in the system tray***
 
 
+***Clicking on the notification to continue with the next phrase***
+
+
 
 # Brainstorming
 adding a bell every half an hour or so to remind the user to take breaks
