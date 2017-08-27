@@ -13,8 +13,8 @@ The application uses notifications, the system needs to support that for all fea
 ## Screenshots
 
 ## Downloads
-* <a href="" download><strong>Windows</strong></a>
-* <a href="" download><strong>Ubuntu</strong></a>
+
+[![Ubuntu](_img/ubuntu.png)](ubuntu_file_to_download) [![Windows](_img/windows.png)](windows_file_to_download)
 
 ## Usage
 
