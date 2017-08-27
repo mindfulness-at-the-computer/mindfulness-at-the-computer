@@ -6,17 +6,15 @@ Features:
 * asdf
 * 2
 
-## Screenshots
-
-## Downloads
-* <a href=""><strong>Windows</strong></a>
-* <a href=""><strong>Ubuntu</strong></a>
-
-<button type="button">Ubuntu</button>
-
 ## System requirements
 
 The application uses notifications, the system needs to support that for all features to work. On MacOS you need to install growl for notifications to be shown
+
+## Screenshots
+
+## Downloads
+* <a href="" download><strong>Windows</strong></a>
+* <a href="" download><strong>Ubuntu</strong></a>
 
 ## Sign up for updates
 
