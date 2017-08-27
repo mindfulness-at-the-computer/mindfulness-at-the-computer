@@ -41,3 +41,14 @@ Email list
 * Developer documentation
 * Other projects https://fswellbeing.github.io/
 * License: GPLv3
+
+
+---
+title: user-docs
+---
+
+# User documentation
+
+test text
+
+
