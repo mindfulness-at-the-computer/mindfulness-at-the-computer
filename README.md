@@ -16,6 +16,10 @@ Features:
 
 The application uses notifications, the system needs to support that for all features to work. On MacOS you need to install growl for notifications to be shown
 
+## Sign up for updates
+
+Email list
+
 ## For developers
 
 * Developer documentation
