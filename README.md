@@ -12,7 +12,7 @@ Features:
 * <a href=""><strong>Windows</strong></a>
 * <a href=""><strong>Ubuntu</strong></a>
 
-<a href="" download><div style="background-color:red; color:white">Ubuntu</div></a>
+<button type="button">Ubuntu</button>
 
 ## System requirements
 
