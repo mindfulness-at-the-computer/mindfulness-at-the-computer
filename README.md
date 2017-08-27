@@ -16,9 +16,9 @@ The application uses notifications, the system needs to support that for all fea
 
 ## Downloads
 
-[![Ubuntu](ghp_img/ubuntu.png)](ubuntu_file_to_download)
+[![Ubuntu](ghpimg/ubuntu.png)](ubuntu_file_to_download)
 
-[![Windows](ghp_img/windows.png)](windows_file_to_download)
+[![Windows](ghpimg/windows.png)](windows_file_to_download)
 
 
 ## Usage
