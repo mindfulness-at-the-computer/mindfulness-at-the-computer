@@ -3,13 +3,13 @@
 
 Welcome to this project site
 
-# Downloads
+## Downloads
 
-## Windows
+### Windows
 text
 
-## Ubuntu
+### Ubuntu
 test
 
-# Developer documentation
+## Developer documentation
 asdf
