@@ -1,16 +1,26 @@
-# mindful-breathing-pt2
-
+# Mindful Breathing
 
 Welcome to this project site
+
+Features:
+* asdf
+* 2
+
+## Screenshots
 
 ## Downloads
 test text
 
-### Windows
-text
+<a href=""><strong>Windows</strong></a>
 
-### Ubuntu
-test
+<a href=""><strong>Ubuntu</strong></a>
 
-## Developer documentation
-asdf
+## For developers
+
+### Developer documentation
+
+### Other projects
+https://fswellbeing.github.io/
+
+### License
+GPLv3
