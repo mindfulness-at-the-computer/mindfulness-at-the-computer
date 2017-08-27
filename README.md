@@ -1,3 +1,6 @@
+[![Documentation status](http://mindful-breathing-pt2.readthedocs.io/en/latest/?badge=latest)](http://mindful-breathing-pt2.readthedocs.io/)
+
+
 # Mindful Breathing
 
 Welcome to this project site
