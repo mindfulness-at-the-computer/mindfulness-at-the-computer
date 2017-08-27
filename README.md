@@ -6,7 +6,7 @@ Features:
 * asdf
 * 2
 
-## System requirements
+System requirements:
 
 The application uses notifications, the system needs to support that for all features to work. On MacOS you need to install growl for notifications to be shown
 
@@ -15,6 +15,8 @@ The application uses notifications, the system needs to support that for all fea
 ## Downloads
 * <a href="" download><strong>Windows</strong></a>
 * <a href="" download><strong>Ubuntu</strong></a>
+
+## Usage
 
 ## Sign up for updates
 
