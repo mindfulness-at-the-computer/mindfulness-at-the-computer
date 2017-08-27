@@ -1,3 +1,7 @@
+---
+title: main-page
+---
+
 [![Documentation Status](https://readthedocs.org/projects/mindful-breathing-pt2/badge/?version=latest)](http://mindful-breathing-pt2.readthedocs.io/en/latest/?badge=latest)
 
 # Mindful Breathing
