@@ -14,7 +14,14 @@ The application uses notifications, the system needs to support that for all fea
 
 ## Downloads
 
+![Ubuntu](_img/ubuntu.png) **[Download](ubuntu_file_to_download)**
+
+![Windows](_img/windows.png) **[Download](windows_file_to_download)**
+
+
+<
 [![Ubuntu](_img/ubuntu.png)](ubuntu_file_to_download) [![Windows](_img/windows.png)](windows_file_to_download)
+>
 
 ## Usage
 
