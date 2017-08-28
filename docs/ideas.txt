@@ -1,5 +1,10 @@
 
 
+
+***Advanced rules for what phrases are shown when***
+Ex: Day of week and time of day
+
+
 ***breathing: using the latest frequency to set breathing in and out in the system tray***
 
 

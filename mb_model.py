@@ -8,7 +8,6 @@ import mb_global
 SQLITE_FALSE_INT = 0
 SQLITE_TRUE_INT = 1
 SQLITE_NULL_STR = "NULL"
-TIME_NOT_SET_INT = -1
 NO_REFERENCE_INT = -1
 NO_REST_REMINDER_INT = -1
 NO_BREATHING_REMINDER_INT = -1
@@ -43,8 +42,12 @@ def initial_schema_and_setup(i_db_conn):
     i_db_conn.execute(
         "CREATE TABLE " + DbSchemaM.SettingsTable.name + "("
         + DbSchemaM.SettingsTable.Cols.id + " INTEGER PRIMARY KEY, "
+        + DbSchemaM.SettingsTable.Cols.rest_reminder_active + " INTEGER NOT NULL"
+        + " DEFAULT " + str(SQLITE_TRUE_INT) + ", "
         + DbSchemaM.SettingsTable.Cols.rest_reminder_interval + " INTEGER NOT NULL"
         + " DEFAULT " + str(DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT) + ", "
+        + DbSchemaM.SettingsTable.Cols.breathing_reminder_active + " INTEGER NOT NULL"
+        + " DEFAULT " + str(SQLITE_TRUE_INT) + ", "
         + DbSchemaM.SettingsTable.Cols.breathing_reminder_interval + " INTEGER NOT NULL"
         + " DEFAULT " + str(DEFAULT_BREATHING_REMINDER_INTERVAL_SECONDS_INT) + ", "
         + DbSchemaM.SettingsTable.Cols.breathing_reminder_length + " INTEGER NOT NULL"
@@ -126,7 +129,9 @@ class DbSchemaM:
 
         class Cols:
             id = "id"  # key
+            rest_reminder_active = "rest_reminder_active"
             rest_reminder_interval = "rest_reminder_interval"
+            breathing_reminder_active = "breathing_reminder_active"
             breathing_reminder_interval = "breathing_reminder_interval"
             breathing_reminder_length = "breathing_reminder_length"
 
@@ -230,14 +235,18 @@ class SettingsM:
     def __init__(
         self,
         i_id: int,
+        i_rest_reminder_active: int,
         i_rest_reminder_interval: int,
+        i_breathing_reminder_active: int,
         i_breathing_reminder_interval: int,
         i_breathing_reminder_length: int
     ) -> None:
         # (id is not used)
+        self.rest_reminder_active_bool = SQLITE_TRUE_INT if i_rest_reminder_active else SQLITE_FALSE_INT
         self.rest_reminder_interval_int = i_rest_reminder_interval
+        self.breathing_reminder_active_bool = SQLITE_TRUE_INT if i_breathing_reminder_active else SQLITE_FALSE_INT
         self.breathing_reminder_interval_int = i_breathing_reminder_interval
-        self.i_breathing_reminder_length_int = i_breathing_reminder_length
+        self.breathing_reminder_length_int = i_breathing_reminder_length
 
     @staticmethod
     def get():
@@ -254,6 +263,18 @@ class SettingsM:
         # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
 
     @staticmethod
+    def update_rest_reminder_active(i_reminder_active: bool):
+        db_connection = DbHelperM.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + DbSchemaM.SettingsTable.name
+            + " SET " + DbSchemaM.SettingsTable.Cols.rest_reminder_active + " = ?"
+            + " WHERE " + DbSchemaM.SettingsTable.Cols.id + " = ?",
+            (SQLITE_TRUE_INT if i_reminder_active else SQLITE_FALSE_INT, SINGLE_SETTINGS_ID_INT)
+        )
+        db_connection.commit()
+
+    @staticmethod
     def update_rest_reminder_interval(i_reminder_interval: int):
         db_connection = DbHelperM.get_db_connection()
         db_cursor = db_connection.cursor()
@@ -262,6 +283,42 @@ class SettingsM:
             + " SET " + DbSchemaM.SettingsTable.Cols.rest_reminder_interval + " = ?"
             + " WHERE " + DbSchemaM.SettingsTable.Cols.id + " = ?",
             (str(i_reminder_interval), SINGLE_SETTINGS_ID_INT)
+        )
+        db_connection.commit()
+
+    @staticmethod
+    def update_breathing_reminder_active(i_reminder_active: bool):
+        db_connection = DbHelperM.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + DbSchemaM.SettingsTable.name
+            + " SET " + DbSchemaM.SettingsTable.Cols.breathing_reminder_active + " = ?"
+            + " WHERE " + DbSchemaM.SettingsTable.Cols.id + " = ?",
+            (SQLITE_TRUE_INT if i_reminder_active else SQLITE_FALSE_INT, SINGLE_SETTINGS_ID_INT)
+        )
+        db_connection.commit()
+
+    @staticmethod
+    def update_breathing_reminder_interval(i_reminder_interval: int):
+        db_connection = DbHelperM.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + DbSchemaM.SettingsTable.name
+            + " SET " + DbSchemaM.SettingsTable.Cols.breathing_reminder_interval + " = ?"
+            + " WHERE " + DbSchemaM.SettingsTable.Cols.id + " = ?",
+            (str(i_reminder_interval), SINGLE_SETTINGS_ID_INT)
+        )
+        db_connection.commit()
+
+    @staticmethod
+    def update_breathing_reminder_length(i_reminder_length: int):
+        db_connection = DbHelperM.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + DbSchemaM.SettingsTable.name
+            + " SET " + DbSchemaM.SettingsTable.Cols.breathing_reminder_length + " = ?"
+            + " WHERE " + DbSchemaM.SettingsTable.Cols.id + " = ?",
+            (str(i_reminder_length), SINGLE_SETTINGS_ID_INT)
         )
         db_connection.commit()
 

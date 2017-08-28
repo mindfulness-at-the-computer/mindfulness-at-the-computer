@@ -224,6 +224,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         elif iQKeyEvent.key() == QtCore.Qt.Key_Return or iQKeyEvent.key() == QtCore.Qt.Key_Enter:
             logging.info("enter or return key pressed")
             self.stop()
+
             # TODO: Fix this using toggle/setChecked
 
         elif iQKeyEvent.key() == QtCore.Qt.Key_Backspace or iQKeyEvent.key() == QtCore.Qt.Key_Delete:

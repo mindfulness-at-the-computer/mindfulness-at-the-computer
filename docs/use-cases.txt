@@ -9,13 +9,13 @@ Priority: **Essential**
 Showing messages/pop-ups for the user
 
 The user can easily switch between single phrases that are shown to the user
-(if the user can easily switch between them it's less important to have a list of several
+(if the user can easily switch between them it's less important to have a list of several)
 
 ### Collection of phrases
 Priority: Low
 
 These reminders can vary and be randomized from a collection, for example:
-* Breathing in i know i am breahing in, out
+* Breathing in i know i am breathing in, out
 * Breathing in i am aware of my body
 * Breathing in ___________
 **Also being able to select the percentage chance for each**
