@@ -6,7 +6,7 @@ from PyQt5 import QtWidgets
 import mb_model
 import mb_global
 
-BAR_WIDTH_FT = 16.0
+BAR_WIDTH_FT = 32.0
 
 
 class BreathingCompositeWidget(QtWidgets.QWidget):
@@ -57,6 +57,10 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         vbox_l2.addLayout(hbox_l3)
         self.ib_toggle_qpb = QtWidgets.QPushButton("In")
         hbox_l3.addWidget(self.ib_toggle_qpb)
+        self.ib_toggle_qpb.setCheckable(True)
+        self.ib_toggle_qpb.toggled.connect(self.on_ib_toggled)
+
+        hbox_l3.addStretch(1)
 
         self.ib_icon_cqll = CustomIconLabel(
             mb_global.BreathingState.breathing_in,
@@ -66,16 +70,16 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.ib_icon_cqll.widget_entered_signal.connect(self.on_icon_widget_entered)
         self.ib_icon_cqll.widget_left_signal.connect(self.on_icon_widget_left)
 
-        self.ib_toggle_qpb.setCheckable(True)
-        self.ib_toggle_qpb.toggled.connect(self.on_ib_toggled)
-
-        hbox_l3.addStretch(1)
 
 
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
         self.ob_toggle_qpb = QtWidgets.QPushButton("Out")
         hbox_l3.addWidget(self.ob_toggle_qpb)
+        self.ob_toggle_qpb.setCheckable(True)
+        self.ob_toggle_qpb.toggled.connect(self.on_ob_toggled)
+
+        hbox_l3.addStretch(1)
 
         self.ob_icon_cqll = CustomIconLabel(
             mb_global.BreathingState.breathing_out,
@@ -85,11 +89,8 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.ob_icon_cqll.widget_entered_signal.connect(self.on_icon_widget_entered)
         self.ob_icon_cqll.widget_left_signal.connect(self.on_icon_widget_left)
 
-        hbox_l3.addStretch(1)
 
 
-        self.ob_toggle_qpb.setCheckable(True)
-        self.ob_toggle_qpb.toggled.connect(self.on_ob_toggled)
 
 
         start_stop_vbox = QtWidgets.QVBoxLayout()
@@ -116,6 +117,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
 
         self.breathing_graphicsscene = QtWidgets.QGraphicsScene()
         self.breathing_graphicsview.setScene(self.breathing_graphicsscene)
+        ##self.breathing_graphicsview.centerOn(QtCore.Qt.AlignRight)
 
         self.update_gui()
 
@@ -190,9 +192,35 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
 
         self.update_gui()
 
-        t_graphics_rect_item = self.breathing_graphicsscene.addRect(QtCore.QRectF(
-            float(self.breath_counter_int * (BAR_WIDTH_FT + 2.0)), 0.0, BAR_WIDTH_FT, 1.0
-        ))
+
+
+
+        t_drawrect = QtCore.QRectF(
+            float(self.breath_counter_int * (BAR_WIDTH_FT + 2.0)),
+            0.0,
+            BAR_WIDTH_FT,
+            1.0
+        )
+
+
+        t_start_qpointf = QtCore.QPointF(t_drawrect.x(), t_drawrect.y() - 100.0)
+        t_stop_qpointf = t_drawrect.bottomLeft()  # QtCore.QPointF(0.0, 50.0)
+        t_linear_gradient = QtGui.QLinearGradient(t_start_qpointf, t_stop_qpointf)
+        t_linear_gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        t_linear_gradient.setColorAt(1.0, QtGui.QColor(0, 0, 0))
+        t_brush = QtGui.QBrush(t_linear_gradient)
+        #t_brush = QtGui.QBrush(QtGui.QColor(0, 255, 0))
+
+
+        # t_pen = QtGui.QPen(QtGui.QColor(255, 0, 0))
+        t_pen = QtGui.QPen()
+
+
+        t_graphics_rect_item = self.breathing_graphicsscene.addRect(
+            t_drawrect,
+            pen=t_pen,
+            brush=t_brush
+        )
         self.in_breath_graphics_qgri_list.append(t_graphics_rect_item)
 
     def stop_breathing_in_timer(self):
@@ -212,6 +240,8 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         #new_rect.setHeight(new_rect.height() + 1)
         new_rect.setY(new_rect.y() - 1)
         t_graphics_rect_item.setRect(new_rect)
+
+        self.breathing_graphicsview.centerOn(t_graphics_rect_item)
 
     def start_breathing_out_timer(self):
         self.out_breath_length_ft = 0.0
