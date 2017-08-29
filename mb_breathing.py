@@ -192,9 +192,6 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
 
         self.update_gui()
 
-
-
-
         t_drawrect = QtCore.QRectF(
             float(self.breath_counter_int * (BAR_WIDTH_FT + 2.0)),
             0.0,
@@ -202,19 +199,14 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
             1.0
         )
 
-
-        t_start_qpointf = QtCore.QPointF(t_drawrect.x(), t_drawrect.y() - 100.0)
+        t_start_qpointf = QtCore.QPointF(t_drawrect.x(), t_drawrect.y() - 120.0)
         t_stop_qpointf = t_drawrect.bottomLeft()  # QtCore.QPointF(0.0, 50.0)
         t_linear_gradient = QtGui.QLinearGradient(t_start_qpointf, t_stop_qpointf)
-        t_linear_gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
-        t_linear_gradient.setColorAt(1.0, QtGui.QColor(0, 0, 0))
+        t_linear_gradient.setColorAt(0.0, QtGui.QColor(220, 220, 220))
+        t_linear_gradient.setColorAt(1.0, QtGui.QColor(120, 120, 120))
         t_brush = QtGui.QBrush(t_linear_gradient)
-        #t_brush = QtGui.QBrush(QtGui.QColor(0, 255, 0))
 
-
-        # t_pen = QtGui.QPen(QtGui.QColor(255, 0, 0))
-        t_pen = QtGui.QPen()
-
+        t_pen = QtGui.QPen(QtCore.Qt.NoPen)
 
         t_graphics_rect_item = self.breathing_graphicsscene.addRect(
             t_drawrect,
@@ -253,9 +245,30 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
 
         self.update_gui()
 
-        t_graphics_rect_item = self.breathing_graphicsscene.addRect(QtCore.QRectF(
-            float(self.breath_counter_int * (BAR_WIDTH_FT + 2.0)), 1.0, BAR_WIDTH_FT, 1.0
-        ))
+
+
+
+        t_drawrect = QtCore.QRectF(
+            float(self.breath_counter_int * (BAR_WIDTH_FT + 2.0)),
+            1.0,
+            BAR_WIDTH_FT,
+            1.0
+        )
+
+        t_start_qpointf = QtCore.QPointF(t_drawrect.x(), t_drawrect.y() + 150.0)
+        t_stop_qpointf = t_drawrect.bottomLeft()  # QtCore.QPointF(0.0, 50.0)
+        t_linear_gradient = QtGui.QLinearGradient(t_start_qpointf, t_stop_qpointf)
+        t_linear_gradient.setColorAt(0.0, QtGui.QColor(230, 230, 230))
+        t_linear_gradient.setColorAt(1.0, QtGui.QColor(190, 190, 190))
+        t_brush = QtGui.QBrush(t_linear_gradient)
+
+        t_pen = QtGui.QPen(QtCore.Qt.NoPen)
+
+        t_graphics_rect_item = self.breathing_graphicsscene.addRect(
+            t_drawrect,
+            brush=t_brush,
+            pen=t_pen
+        )
 
         self.out_breath_graphics_qgri_list.append(t_graphics_rect_item)
         self.breath_counter_int += 1
