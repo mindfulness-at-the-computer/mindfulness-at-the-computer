@@ -9,16 +9,20 @@ import mb_model
 import mb_breathing
 import mb_phrase_list
 import mb_settings
+import mb_quotes
+import mb_insights
 
 
 class MbMainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.show()
-        self.setGeometry(100, 100, 900, 600)
-        # self.setCorner(QtCore.Qt.BottomLeftCorner, QtCore.Qt.LeftDockWidgetArea)
-        # self.setCorner(QtCore.Qt.BottomRightCorner, QtCore.Qt.RightDockWidgetArea)
+        self.setGeometry(100, 100, 900, 500)
+        self.setCorner(QtCore.Qt.BottomLeftCorner, QtCore.Qt.LeftDockWidgetArea)
+        self.setCorner(QtCore.Qt.BottomRightCorner, QtCore.Qt.RightDockWidgetArea)
         self.setWindowIcon(QtGui.QIcon("icon.png"))
+
+        self.setStyleSheet("selection-background-color:#bfef7f")  # -#91c856
 
         self.tray_icon = None
         self.rest_reminder_qtimer = None
@@ -49,6 +53,18 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.settings_widget.breathing_test_button_clicked_signal.connect(self.show_breathing_notification)
         self.settings_widget.rest_test_button_clicked_signal.connect(self.show_rest_reminder)
 
+        self.quotes_dock = QtWidgets.QDockWidget("Quotes")
+        self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.quotes_dock)
+        self.quotes_widget = mb_quotes.CompositeQuotesWidget()
+        self.quotes_dock.setWidget(self.quotes_widget)
+        self.quotes_dock.hide()  # -hiding at the start
+
+        self.insights_dock = QtWidgets.QDockWidget("Quotes")
+        self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.insights_dock)
+        self.insights_widget = mb_insights.CompositeInsightsWidget()
+        self.insights_dock.setWidget(self.insights_widget)
+        self.insights_dock.hide()  # -hiding at the start
+
         # Menu
         self.menu_bar = self.menuBar()
         self.update_menu()
@@ -70,7 +86,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
     def stop_rest_reminder_timer(self):
         if self.rest_reminder_qtimer is not None and self.rest_reminder_qtimer.isActive():
-            self.rest_reminder_qtimer.stop()
+            self.rest_reminder_qtimer.pause()
 
     def start_rest_reminder_timer(self):
         self.stop_rest_reminder_timer()
@@ -137,10 +153,26 @@ class MbMainWindow(QtWidgets.QMainWindow):
         window_menu = self.menu_bar.addMenu("&Windows")
         show_settings_window_action = self.settings_dock.toggleViewAction()
         window_menu.addAction(show_settings_window_action)
+        show_quotes_window_action = self.quotes_dock.toggleViewAction()
+        window_menu.addAction(show_quotes_window_action)
 
         help_menu = self.menu_bar.addMenu("&Help")
         about_action = QtWidgets.QAction("About", self)
         help_menu.addAction(about_action)
+        about_action.triggered.connect(self.show_about_box)
+
+    def show_about_box(self):
+        message_box = QtWidgets.QMessageBox.about(
+            self,
+            "About Mindfulness at the Computer",
+            ("Concept and programming by Tord\n"
+            'Photography (for application icon) by Torgny Dellsén - torgnydellsen.zenfolio.com\n'
+            'Other icons from Open Iconic - useiconic.com\n'
+            "Software License: GPLv3\n"
+            )
+        )
+
+        # "Photo license: CC BY-SA 4.0"
 
     # overridden
     def closeEvent(self, i_QCloseEvent):
@@ -160,6 +192,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
     def update_gui(self):
         self.breathing_composite_widget.update_gui()
+        self.settings_widget.update_gui()
 
 
 class RestReminderDialog(QtWidgets.QDialog):

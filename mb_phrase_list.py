@@ -48,6 +48,8 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         details_vbox.addWidget(self.out_breath_phrase_qle)
         self.out_breath_phrase_qle.textChanged.connect(self.details_out_breath_text_changed)
 
+        # self.list_widget.selectAll()
+
         self.update_gui()
 
     def details_title_text_changed(self):
@@ -85,6 +87,8 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
             current_question_qli = self.list_widget.item(current_row_int)
             customqlabel_widget = self.list_widget.itemWidget(current_question_qli)
             mb_global.active_phrase_id_it = customqlabel_widget.question_entry_id
+        else:
+            raise Exception("We should not be able to deselect")
 
         self.update_gui_details()
         self.row_changed_signal.emit()

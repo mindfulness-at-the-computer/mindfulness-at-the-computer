@@ -49,10 +49,10 @@ class SettingsComposite(QtWidgets.QWidget):
         rr_vbox.addWidget(self.rest_reminder_test_qpb)
         self.rest_reminder_test_qpb.clicked.connect(self.on_rest_test_clicked)
 
-        breathing_reminder_qgb = QtWidgets.QGroupBox("Breathing Reminder")
-        vbox.addWidget(breathing_reminder_qgb)
+        self.breathing_reminder_qgb = QtWidgets.QGroupBox("Breathing Reminder")
+        vbox.addWidget(self.breathing_reminder_qgb)
         br_vbox = QtWidgets.QVBoxLayout()
-        breathing_reminder_qgb.setLayout(br_vbox)
+        self.breathing_reminder_qgb.setLayout(br_vbox)
         self.breathing_reminder_enabled_qcb = QtWidgets.QCheckBox("Active")
         br_vbox.addWidget(self.breathing_reminder_enabled_qcb)
         self.breathing_reminder_enabled_qcb.toggled.connect(self.on_breathing_active_toggled)
@@ -77,6 +77,8 @@ class SettingsComposite(QtWidgets.QWidget):
         vbox.addStretch(1)
 
         vbox.addWidget(QtWidgets.QLabel("<i>All changes are automatically saved</i>"))
+
+        self.breathing_reminder_qgb.setDisabled(True)  # -disabled until a phrase has been selected
 
         self.update_gui()
 
@@ -134,6 +136,8 @@ class SettingsComposite(QtWidgets.QWidget):
         self.rest_reminder_interval_qsb.setValue(rest_reminder_interval_minutes_int)
 
         # Breathing reminder
+        if mb_global.active_phrase_id_it != mb_global.NO_PHRASE_SELECTED:
+            self.breathing_reminder_qgb.setDisabled(False)
         self.breathing_reminder_enabled_qcb.setChecked(
             mb_model.SettingsM.get().breathing_reminder_active_bool
         )
