@@ -11,13 +11,15 @@ ICON_FILE_PATH_STR = "icon.png"
 if __name__ == "__main__":
 
     argument_parser = argparse.ArgumentParser()
-    argument_parser.add_argument("--persistent", "-p", help="Persistent db storage", action="store_true")
+    argument_parser.add_argument(
+        "--testing", "-p", help="Persistent db storage", action="store_true"
+    )
     # -for info about "store_true" please search here: https://docs.python.org/3/howto/argparse.html
     args = argument_parser.parse_args()
-    if args.persistent:
-        mb_global.persistent_bool = True
+    if args.testing:
+        mb_global.testing_bool = True
     else:
-        mb_global.persistent_bool = False
+        mb_global.testing_bool = False
 
     logging.basicConfig(level=logging.DEBUG)  # -by default only warnings and higher are shown
     app = QtWidgets.QApplication(sys.argv)

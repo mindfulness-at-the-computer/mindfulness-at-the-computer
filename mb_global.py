@@ -5,7 +5,7 @@ NO_PHRASE_SELECTED = -1
 DATABASE_FILE_NAME = "mb_database_file.db"
 
 active_phrase_id_it = NO_PHRASE_SELECTED
-persistent_bool = False
+testing_bool = False
 
 
 class BreathingState(enum.Enum):
@@ -17,10 +17,10 @@ breathing_state = BreathingState.inactive
 
 
 def get_database_filename():
-    if persistent_bool:
-        return DATABASE_FILE_NAME
-    else:
+    if testing_bool:
         return ":memory:"
+    else:
+        return DATABASE_FILE_NAME
 
 
 

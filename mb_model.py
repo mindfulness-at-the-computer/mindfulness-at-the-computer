@@ -65,7 +65,7 @@ def initial_schema_and_setup(i_db_conn):
     # -please note "OR IGNORE"
     db_connection.commit()
 
-    if not mb_global.persistent_bool:
+    if mb_global.testing_bool:
         populate_db_with_test_data()
 
 """
