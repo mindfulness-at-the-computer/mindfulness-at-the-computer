@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Mindful Breathing
-Exec=python3 /home/sunyata/PycharmProjects/mindful-breathing-pt2/mindful-breathing.py --persistent
+Exec=python3 /home/sunyata/PycharmProjects/mindful-breathing-pt2/mindful-breathing.py
 Terminal=false
 Type=Application
 Icon=/home/sunyata/PycharmProjects/mindful-breathing-pt2/icon.png
