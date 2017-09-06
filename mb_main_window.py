@@ -23,7 +23,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.setCorner(QtCore.Qt.BottomRightCorner, QtCore.Qt.RightDockWidgetArea)
         self.setWindowIcon(QtGui.QIcon("icon.png"))
 
-        self.setStyleSheet("selection-background-color:#bfef7f")  # -#91c856
+        self.setStyleSheet("selection-background-color:#bfef7f; selection-color:#000000;")  # -#91c856
 
         self.tray_icon = None
         self.rest_reminder_qtimer = None

@@ -44,6 +44,7 @@ class SettingsComposite(QtWidgets.QWidget):
         rr_vbox.addWidget(self.rest_reminder_interval_qll)
         self.rest_reminder_interval_qsb = QtWidgets.QSpinBox()
         rr_vbox.addWidget(self.rest_reminder_interval_qsb)
+        # self.rest_reminder_interval_qsb.setSingleStep(5)
         self.rest_reminder_interval_qsb.setMinimum(MIN_REST_REMINDER_INT)
         self.rest_reminder_interval_qsb.valueChanged.connect(self.on_rest_interval_value_changed)
         self.rest_reminder_qprb = QtWidgets.QProgressBar()
