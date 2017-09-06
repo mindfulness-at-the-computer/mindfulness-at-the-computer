@@ -21,6 +21,10 @@ alternatively the user can se a dialog
 breathing button with three states: in, out, not active
 toggle button
 
+# Theoretical
+
+Focus on mindfulness and resting, not on getting things done
+
 
 # Tracking feelings
 easy to change feelings, etc (feeling, mental formation, ___) from the system tray icon popup menu

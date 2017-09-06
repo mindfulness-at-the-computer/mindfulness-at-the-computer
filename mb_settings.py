@@ -46,17 +46,29 @@ class SettingsComposite(QtWidgets.QWidget):
         rr_vbox.addWidget(self.rest_reminder_interval_qsb)
         self.rest_reminder_interval_qsb.setMinimum(MIN_REST_REMINDER_INT)
         self.rest_reminder_interval_qsb.valueChanged.connect(self.on_rest_interval_value_changed)
-        self.rest_reminder_test_qpb = QtWidgets.QPushButton("Test")
-        rr_vbox.addWidget(self.rest_reminder_test_qpb)
-        self.rest_reminder_test_qpb.clicked.connect(self.on_rest_test_clicked)
-
-
         self.rest_reminder_qprb = QtWidgets.QProgressBar()
         rr_vbox.addWidget(self.rest_reminder_qprb)
         self.rest_reminder_qprb.setTextVisible(False)
+
+        hbox = QtWidgets.QHBoxLayout()
+        rr_vbox.addLayout(hbox)
+        self.rest_reminder_test_qpb = QtWidgets.QPushButton("Test")
+        hbox.addWidget(self.rest_reminder_test_qpb)
+        self.rest_reminder_test_qpb.clicked.connect(self.on_rest_test_clicked)
         self.rest_reminder_reset_qpb = QtWidgets.QPushButton("Reset timer")
-        rr_vbox.addWidget(self.rest_reminder_reset_qpb)
+        hbox.addWidget(self.rest_reminder_reset_qpb)
         self.rest_reminder_reset_qpb.clicked.connect(self.on_rest_reset_clicked)
+
+        self.rest_actions_qlw = QtWidgets.QListWidget()
+        rr_vbox.addWidget(self.rest_actions_qlw)
+
+        hbox = QtWidgets.QHBoxLayout()
+        rr_vbox.addLayout(hbox)
+        self.rest_add_action_qle = QtWidgets.QLineEdit()
+        hbox.addWidget(self.rest_add_action_qle)
+        self.rest_add_action_qpb = QtWidgets.QPushButton("Add")
+        hbox.addWidget(self.rest_add_action_qpb)
+        self.rest_add_action_qpb.clicked.connect(self.add_rest_action_clicked)
 
 
         self.breathing_reminder_qgb = QtWidgets.QGroupBox("Breathing Reminder")
@@ -90,6 +102,13 @@ class SettingsComposite(QtWidgets.QWidget):
 
         self.breathing_reminder_qgb.setDisabled(True)  # -disabled until a phrase has been selected
 
+        self.update_gui()
+
+    def add_rest_action_clicked(self):
+        mb_model.RestActionsM.add(
+            self.rest_add_action_qle.text().strip(),
+            "stones.png"
+        )
         self.update_gui()
 
     def on_rest_reset_clicked(self):
@@ -156,6 +175,12 @@ class SettingsComposite(QtWidgets.QWidget):
         self.rest_reminder_qprb.setMinimum(0)
         self.rest_reminder_qprb.setMaximum(rest_reminder_interval_minutes_int)
         self.rest_reminder_qprb.setValue(mb_global.rest_reminder_minutes_passed_int)
+
+        self.rest_actions_qlw.clear()
+        for rest_action in mb_model.RestActionsM.get_all():
+            list_item = QtWidgets.QListWidgetItem(rest_action.title_str)
+            # list_item.setData(rest_action.id_int)
+            self.rest_actions_qlw.addItem(list_item)
 
         # Breathing reminder
         if mb_global.active_phrase_id_it != mb_global.NO_PHRASE_SELECTED:

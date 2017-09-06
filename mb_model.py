@@ -40,6 +40,14 @@ def initial_schema_and_setup(i_db_conn):
     )
 
     i_db_conn.execute(
+        "CREATE TABLE " + DbSchemaM.RestActionsTable.name + "("
+        + DbSchemaM.RestActionsTable.Cols.id + " INTEGER PRIMARY KEY, "
+        + DbSchemaM.RestActionsTable.Cols.title + " TEXT NOT NULL, "
+        + DbSchemaM.RestActionsTable.Cols.image_path + " TEXT NOT NULL"
+        + ")"
+    )
+
+    i_db_conn.execute(
         "CREATE TABLE " + DbSchemaM.SettingsTable.name + "("
         + DbSchemaM.SettingsTable.Cols.id + " INTEGER PRIMARY KEY, "
         + DbSchemaM.SettingsTable.Cols.rest_reminder_active + " INTEGER NOT NULL"
@@ -123,6 +131,15 @@ class DbSchemaM:
             # vertical_order = "vertical_order"
             # ib_short_phrase = "ib_short_phrase"
             # ob_short_phrase = "ob_short_phrase"
+
+    class RestActionsTable:
+        name = "rest_actions"
+
+        class Cols:
+            id = "id"
+            title = "title"
+            image_path = "image_path"
+            # TODO: notes as well here?
 
     class SettingsTable:
         name = "settings"
@@ -231,6 +248,53 @@ class PhrasesM:
         db_connection.commit()
 
 
+class RestActionsM:
+    def __init__(self, i_id: int, i_title: str, i_image_path: str) -> None:
+        self.id_int = i_id
+        self.title_str = i_title
+        self.image_path_str = i_image_path
+
+    @staticmethod
+    def add(i_title: str, i_image_path: str) -> None:
+        db_connection = DbHelperM.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "INSERT INTO " + DbSchemaM.RestActionsTable.name + "("
+            + DbSchemaM.RestActionsTable.Cols.title + ", "
+            + DbSchemaM.RestActionsTable.Cols.image_path
+            + ") VALUES (?, ?)", (i_title, i_image_path)
+        )
+        db_connection.commit()
+
+    @staticmethod
+    def get(i_id: int):
+        db_connection = DbHelperM.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor_result = db_cursor.execute(
+            "SELECT * FROM " + DbSchemaM.RestActionsTable.name
+            + " WHERE " + DbSchemaM.RestActionsTable.Cols.id + "=" + str(i_id)
+        )
+        rest_action_db_te = db_cursor_result.fetchone()
+        db_connection.commit()
+
+        return PhrasesM(*rest_action_db_te)
+        # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
+
+    @staticmethod
+    def get_all():
+        ret_reminder_list = []
+        db_connection = DbHelperM.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor_result = db_cursor.execute(
+            "SELECT * FROM " + DbSchemaM.RestActionsTable.name
+        )
+        rest_actions_db_te_list = db_cursor_result.fetchall()
+        for rest_action_db_te in rest_actions_db_te_list:
+            ret_reminder_list.append(RestActionsM(*rest_action_db_te))
+        db_connection.commit()
+        return ret_reminder_list
+
+
 class SettingsM:
     def __init__(
         self,
@@ -326,9 +390,9 @@ class SettingsM:
 def export_all():
     csv_writer = csv.writer(open("exported.csv", "w"))
     for phrase in PhrasesM.get_all():
-        time_datetime = datetime.date.fromtimestamp(phrase.date_added_it)
-        date_str = time_datetime.strftime("%Y-%m-%d")
-        csv_writer.writerow((date_str, phrase.diary_text))
+        # time_datetime = datetime.date.fromtimestamp(phrase.date_added_it)
+        # date_str = time_datetime.strftime("%Y-%m-%d")
+        csv_writer.writerow((phrase.title_str, phrase.ib_str, phrase.ob_str))
 
 
 def backup_db_file():

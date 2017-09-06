@@ -152,6 +152,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
         quit_action = QtWidgets.QAction("Quit", self)
         file_menu.addAction(quit_action)
         quit_action.triggered.connect(self.exit_application)
+        export_action = QtWidgets.QAction("Export", self)
+        file_menu.addAction(export_action)
+        export_action.triggered.connect(mb_model.export_all)
 
         debug_menu = self.menu_bar.addMenu("&Debug")
         update_gui_action = QtWidgets.QAction("Update GUI", self)
