@@ -96,15 +96,31 @@ class RestReminderDialog(QtWidgets.QDialog):
 
     def populate_list_of_buttons(self):
 
-
         for rest_action in mb_model.RestActionsM.get_all():
-            rest_action_qpb = QtWidgets.QPushButton(rest_action.title_str)
-            rest_action_qpb.setCheckable(True)
-            self.rest_actions_qbg.addButton(rest_action_qpb)
-            self.ra_vbox.addWidget(rest_action_qpb)
+            rest_action_cpb = CustomPushButton(
+                rest_action.title_str,
+                rest_action.id_int
+            )
+            rest_action_cpb.setCheckable(True)
+            self.rest_actions_qbg.addButton(rest_action_cpb)
+            self.ra_vbox.addWidget(rest_action_cpb)
 
-        # store id as .data
+            rest_action_cpb.button_clicked_signal.connect(self.on_rest_action_button_clicked)
 
+    def on_rest_action_button_clicked(self, i_id: int):
+        print("Id of button clicked: " + str(i_id))
+
+
+
+class CustomPushButton(QtWidgets.QPushButton):
+    button_clicked_signal = QtCore.pyqtSignal(int)
+    def __init__(self, i_title: str, i_id: int):
+        super().__init__(i_title)  # -TODO: Send parent as well here?
+        self.id_int = i_id
+        self.clicked.connect(self.on_button_clicked)
+
+    def on_button_clicked(self):
+        self.button_clicked_signal.emit(self.id_int)
 
 
 

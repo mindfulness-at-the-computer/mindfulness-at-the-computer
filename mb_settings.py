@@ -179,7 +179,7 @@ class SettingsComposite(QtWidgets.QWidget):
         self.rest_actions_qlw.clear()
         for rest_action in mb_model.RestActionsM.get_all():
             list_item = QtWidgets.QListWidgetItem(rest_action.title_str)
-            # list_item.setData(rest_action.id_int)
+            ### list_item.setData(rest_action.id_int)
             self.rest_actions_qlw.addItem(list_item)
 
         # Breathing reminder
