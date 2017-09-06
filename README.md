@@ -1,6 +1,10 @@
-[![Documentation Status](https://readthedocs.org/projects/mindful-breathing-pt2/badge/?version=latest)](http://mindful-breathing-pt2.readthedocs.io/en/latest/?badge=latest)
 
-# Mindful Breathing
+
+# Mindfulness at the Computer
+
+Aka: m@c
+
+Aka: matc
 
 Welcome to this project site
 
@@ -24,12 +28,13 @@ The application uses notifications, the system needs to support that for all fea
 
 ## Downloads
 
-[![Ubuntu](ghpimg/ubuntu.png)](ubuntu_file_to_download)
-[![Windows](ghpimg/windows.png)](windows_file_to_download)
-
+TBD
 
 ## Usage
 
+TBD
+
+Also see the [user documentation below](#user-documentation)
 
 ## Sign up for updates
 
@@ -38,13 +43,13 @@ Email list
 
 ## For developers
 
-* Developer documentation
+* Developer documentation Link: TBD
 * Other projects https://fswellbeing.github.io/
 * License: GPLv3
 
 
 # User documentation
 
-test text
+TBD
 
 
