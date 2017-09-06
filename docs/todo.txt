@@ -1,0 +1,7 @@
+[ ] images for each rest action
+[x] reset time for rest reminder
+[x] show number of minutes to next rest?
+[ ] split the settings for rest and breathing reminders
+[ ] changing the name to "mindfulness at the computer" or "m@c"
+    how to do this and maintain repo locally? (maybe just push and then remove, with a backup locally in a tar file)
+[ ] making it easier to add new breathing entries

@@ -11,6 +11,7 @@ import mb_phrase_list
 import mb_settings
 import mb_quotes
 import mb_insights
+import mb_rest_reminder_dialog
 
 
 class MbMainWindow(QtWidgets.QMainWindow):
@@ -52,6 +53,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.settings_widget.breathing_settings_updated_signal.connect(self.on_breathing_settings_updated)
         self.settings_widget.breathing_test_button_clicked_signal.connect(self.show_breathing_notification)
         self.settings_widget.rest_test_button_clicked_signal.connect(self.show_rest_reminder)
+        self.settings_widget.rest_reset_button_clicked_signal.connect(self.start_rest_reminder_timer)
 
         self.quotes_dock = QtWidgets.QDockWidget("Quotes")
         self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.quotes_dock)
@@ -59,7 +61,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.quotes_dock.setWidget(self.quotes_widget)
         self.quotes_dock.hide()  # -hiding at the start
 
-        self.insights_dock = QtWidgets.QDockWidget("Quotes")
+        self.insights_dock = QtWidgets.QDockWidget("Insights")
         self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.insights_dock)
         self.insights_widget = mb_insights.CompositeInsightsWidget()
         self.insights_dock.setWidget(self.insights_widget)
@@ -86,17 +88,28 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
     def stop_rest_reminder_timer(self):
         if self.rest_reminder_qtimer is not None and self.rest_reminder_qtimer.isActive():
-            self.rest_reminder_qtimer.pause()
+            self.rest_reminder_qtimer.stop()
+        self.settings_widget.update_gui()  # -so that the progressbar is updated
 
     def start_rest_reminder_timer(self):
+        mb_global.rest_reminder_minutes_passed_int = 0
         self.stop_rest_reminder_timer()
-        rest_reminder_interval_minutes_int = mb_model.SettingsM.get().rest_reminder_interval_int
         self.rest_reminder_qtimer = QtCore.QTimer(self)
-        self.rest_reminder_qtimer.timeout.connect(self.show_rest_reminder)
-        self.rest_reminder_qtimer.start(rest_reminder_interval_minutes_int * 60 * 1000)
+        self.rest_reminder_qtimer.timeout.connect(self.rest_reminder_timeout)
+        self.rest_reminder_qtimer.start(60 * 1000)  # -one minute
+
+    def rest_reminder_timeout(self):
+        mb_global.rest_reminder_minutes_passed_int += 1
+        rest_reminder_interval_minutes_int = mb_model.SettingsM.get().rest_reminder_interval_int
+        if mb_global.rest_reminder_minutes_passed_int >= rest_reminder_interval_minutes_int:
+            self.show_rest_reminder()
+        self.settings_widget.rest_reminder_qprb.setValue(
+            mb_global.rest_reminder_minutes_passed_int
+        )
 
     def show_rest_reminder(self):
-        RestReminderDialog.show_dialog(self)
+        mb_global.rest_reminder_minutes_passed_int = 0
+        mb_rest_reminder_dialog.RestReminderDialog.show_dialog(self)
         # TODO: Do we want to set another icon for the system tray?
 
     def on_breathing_settings_updated(self):
@@ -146,7 +159,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         debug_menu.addAction(update_gui_action)
         show_rest_dialog_qaction = QtWidgets.QAction("Rest Dialog", self)
         show_rest_dialog_qaction.triggered.connect(
-            functools.partial(RestReminderDialog.show_dialog, self)
+            functools.partial(mb_rest_reminder_dialog.RestReminderDialog.show_dialog, self)
         )
         debug_menu.addAction(show_rest_dialog_qaction)
 
@@ -193,57 +206,4 @@ class MbMainWindow(QtWidgets.QMainWindow):
     def update_gui(self):
         self.breathing_composite_widget.update_gui()
         self.settings_widget.update_gui()
-
-
-class RestReminderDialog(QtWidgets.QDialog):
-    def __init__(self, i_parent):
-        super(RestReminderDialog, self).__init__(i_parent)
-        self.setWindowTitle("Please take care of yourself")
-        self.setWindowIcon(QtGui.QIcon("icon.png"))
-        vbox = QtWidgets.QVBoxLayout(self)
-        # -please note: If we don't send "self" to the QVBoxLayout we won't see the main window
-        #  in the background of the dialog. Also we don't need to use self.setLayout(vbox)
-
-        rest_kindness_alternatives_qbb = QtWidgets.QDialogButtonBox()
-        vbox.addWidget(rest_kindness_alternatives_qbb)
-
-        rest_kindness_alternatives_qbb.setOrientation(QtCore.Qt.Vertical)
-
-        movement_qpb = QtWidgets.QPushButton("Movement exercise")
-        rest_kindness_alternatives_qbb.addButton(movement_qpb, QtWidgets.QDialogButtonBox.YesRole)
-        walk_qpb = QtWidgets.QPushButton("Taking a walk")
-        rest_kindness_alternatives_qbb.addButton(walk_qpb, QtWidgets.QDialogButtonBox.YesRole)
-
-        wait_qpb = QtWidgets.QPushButton("Wait (snooze) for 5 minutes")
-        rest_kindness_alternatives_qbb.addButton(wait_qpb, QtWidgets.QDialogButtonBox.NoRole)
-
-        close_qpb = QtWidgets.QPushButton("Close")
-        rest_kindness_alternatives_qbb.addButton(close_qpb, QtWidgets.QDialogButtonBox.NoRole)
-        close_qpb.clicked.connect(self.on_close_button_clicked)
-
-        # Roles: http://doc.qt.io/qt-5/qdialogbuttonbox.html#ButtonRole-enum
-
-        """
-        tension in body, releasing tension, mindful movements
-        mindfulness of walking
-        making tea, drinking tea
-        
-        **if skipping break: arms over head**
-        stretching arms
-        """
-
-        # TODO: Idea: For each action have a small image that the user can set
-
-    def on_close_button_clicked(self):
-        ##self.parent().show()
-        self.accept()
-
-    @staticmethod
-    def show_dialog(i_parent):
-        i_parent.show()
-        # -PLEASE NOTE: We have to make sure the window is visible if using a modal dialog,
-        #  otherwise when the dialog is closed the whole application will close as well
-        #  (unknown why)
-        rest_reminder_dialog = RestReminderDialog(i_parent)
-        rest_reminder_dialog.exec()
 

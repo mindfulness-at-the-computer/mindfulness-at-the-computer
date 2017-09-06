@@ -242,9 +242,9 @@ class SettingsM:
         i_breathing_reminder_length: int
     ) -> None:
         # (id is not used)
-        self.rest_reminder_active_bool = SQLITE_TRUE_INT if i_rest_reminder_active else SQLITE_FALSE_INT
+        self.rest_reminder_active_bool = True if i_rest_reminder_active else False
         self.rest_reminder_interval_int = i_rest_reminder_interval
-        self.breathing_reminder_active_bool = SQLITE_TRUE_INT if i_breathing_reminder_active else SQLITE_FALSE_INT
+        self.breathing_reminder_active_bool = True if i_breathing_reminder_active else False
         self.breathing_reminder_interval_int = i_breathing_reminder_interval
         self.breathing_reminder_length_int = i_breathing_reminder_length
 

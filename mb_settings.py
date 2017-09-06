@@ -23,6 +23,7 @@ class SettingsComposite(QtWidgets.QWidget):
     breathing_settings_updated_signal = QtCore.pyqtSignal()
     breathing_test_button_clicked_signal = QtCore.pyqtSignal()
     rest_test_button_clicked_signal = QtCore.pyqtSignal()
+    rest_reset_button_clicked_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -32,10 +33,10 @@ class SettingsComposite(QtWidgets.QWidget):
         vbox = QtWidgets.QVBoxLayout()
         self.setLayout(vbox)
 
-        rest_reminder_qgb = QtWidgets.QGroupBox("Rest Reminder")
-        vbox.addWidget(rest_reminder_qgb)
+        self.rest_reminder_qgb = QtWidgets.QGroupBox("Rest Reminder")
+        vbox.addWidget(self.rest_reminder_qgb)
         rr_vbox = QtWidgets.QVBoxLayout()
-        rest_reminder_qgb.setLayout(rr_vbox)
+        self.rest_reminder_qgb.setLayout(rr_vbox)
         self.rest_reminder_enabled_qcb = QtWidgets.QCheckBox("Active")
         rr_vbox.addWidget(self.rest_reminder_enabled_qcb)
         self.rest_reminder_enabled_qcb.toggled.connect(self.on_rest_active_toggled)
@@ -48,6 +49,15 @@ class SettingsComposite(QtWidgets.QWidget):
         self.rest_reminder_test_qpb = QtWidgets.QPushButton("Test")
         rr_vbox.addWidget(self.rest_reminder_test_qpb)
         self.rest_reminder_test_qpb.clicked.connect(self.on_rest_test_clicked)
+
+
+        self.rest_reminder_qprb = QtWidgets.QProgressBar()
+        rr_vbox.addWidget(self.rest_reminder_qprb)
+        self.rest_reminder_qprb.setTextVisible(False)
+        self.rest_reminder_reset_qpb = QtWidgets.QPushButton("Reset timer")
+        rr_vbox.addWidget(self.rest_reminder_reset_qpb)
+        self.rest_reminder_reset_qpb.clicked.connect(self.on_rest_reset_clicked)
+
 
         self.breathing_reminder_qgb = QtWidgets.QGroupBox("Breathing Reminder")
         vbox.addWidget(self.breathing_reminder_qgb)
@@ -82,6 +92,9 @@ class SettingsComposite(QtWidgets.QWidget):
 
         self.update_gui()
 
+    def on_rest_reset_clicked(self):
+        self.rest_reset_button_clicked_signal.emit()
+
     def on_rest_test_clicked(self):
         self.rest_test_button_clicked_signal.emit()
 
@@ -103,6 +116,11 @@ class SettingsComposite(QtWidgets.QWidget):
             return
         mb_model.SettingsM.update_rest_reminder_interval(i_new_value)
         self.rest_settings_updated_signal.emit()
+
+        rest_reminder_interval_minutes_int = mb_model.SettingsM.get().rest_reminder_interval_int
+        self.rest_reminder_qprb.setMinimum(0)
+        self.rest_reminder_qprb.setMaximum(rest_reminder_interval_minutes_int)
+        self.rest_reminder_qprb.setValue(mb_global.rest_reminder_minutes_passed_int)
 
     def on_breathing_active_toggled(self, i_checked_bool):
         if self.updating_gui_bool:
@@ -129,11 +147,15 @@ class SettingsComposite(QtWidgets.QWidget):
         self.updating_gui_bool = True
 
         # Rest reminder
-        self.rest_reminder_enabled_qcb.setChecked(
-            mb_model.SettingsM.get().rest_reminder_active_bool
-        )
+        rr_enabled = mb_model.SettingsM.get().rest_reminder_active_bool
+        self.rest_reminder_enabled_qcb.setChecked(rr_enabled)
         rest_reminder_interval_minutes_int = mb_model.SettingsM.get().rest_reminder_interval_int
         self.rest_reminder_interval_qsb.setValue(rest_reminder_interval_minutes_int)
+        self.rest_reminder_interval_qsb.setDisabled(not rr_enabled)
+        self.rest_reminder_test_qpb.setEnabled(rr_enabled)
+        self.rest_reminder_qprb.setMinimum(0)
+        self.rest_reminder_qprb.setMaximum(rest_reminder_interval_minutes_int)
+        self.rest_reminder_qprb.setValue(mb_global.rest_reminder_minutes_passed_int)
 
         # Breathing reminder
         if mb_global.active_phrase_id_it != mb_global.NO_PHRASE_SELECTED:

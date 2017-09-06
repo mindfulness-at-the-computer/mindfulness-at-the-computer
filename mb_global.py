@@ -6,6 +6,7 @@ DATABASE_FILE_NAME = "mb_database_file.db"
 
 active_phrase_id_it = NO_PHRASE_SELECTED
 testing_bool = False
+rest_reminder_minutes_passed_int = 0
 
 
 class BreathingState(enum.Enum):
