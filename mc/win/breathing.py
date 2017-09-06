@@ -1,10 +1,11 @@
 import logging
 import time
+
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
-import mb_model
-import mb_global
+
+from mc import model, mc_global
 
 BAR_WIDTH_FT = 32.0
 
@@ -82,13 +83,13 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         vbox_l5 = QtWidgets.QVBoxLayout()
         hbox_l4.addLayout(vbox_l5)
         self.ib_icon_cqll = CustomIconLabel(
-            mb_global.BreathingState.breathing_in,
+            mc_global.BreathingState.breathing_in,
             "icons/arrow-circle-top-4x.png"
         )
         vbox_l5.addWidget(self.ib_icon_cqll)
         self.ib_icon_cqll.widget_entered_signal.connect(self.on_icon_widget_entered)
         self.ob_icon_cqll = CustomIconLabel(
-            mb_global.BreathingState.breathing_out,
+            mc_global.BreathingState.breathing_out,
             "icons/arrow-circle-bottom-4x.png"
         )
         vbox_l5.addWidget(self.ob_icon_cqll)
@@ -131,17 +132,17 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
 
     def on_icon_widget_entered(self, i_io_as_int: int):
         # -breathing state is used in two different variables in this function
-        if mb_global.breathing_state == mb_global.BreathingState.inactive:
+        if mc_global.breathing_state == mc_global.BreathingState.inactive:
             return
-        io_enum_state = mb_global.BreathingState(i_io_as_int)
+        io_enum_state = mc_global.BreathingState(i_io_as_int)
         print("io_enum_state = " + io_enum_state.name)
-        if io_enum_state == mb_global.BreathingState.breathing_in:
+        if io_enum_state == mc_global.BreathingState.breathing_in:
             self.ib_toggle_qpb.setChecked(True)
-        elif io_enum_state == mb_global.BreathingState.breathing_out:
+        elif io_enum_state == mc_global.BreathingState.breathing_out:
             self.ob_toggle_qpb.setChecked(True)
 
     def on_start_pause_clicked(self):
-        if mb_global.breathing_state == mb_global.breathing_state.inactive:
+        if mc_global.breathing_state == mc_global.breathing_state.inactive:
             self.breathing_in()
         else:
             self.pause()
@@ -166,12 +167,12 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.update_gui()
 
     def breathing_in(self):
-        mb_global.breathing_state = mb_global.BreathingState.breathing_in
+        mc_global.breathing_state = mc_global.BreathingState.breathing_in
         self.stop_breathing_out_timer()
         self.start_breathing_in_timer()
 
     def breathing_out(self):
-        mb_global.breathing_state = mb_global.BreathingState.breathing_out
+        mc_global.breathing_state = mc_global.BreathingState.breathing_out
         self.stop_breathing_in_timer()
         self.start_breathing_out_timer()
 
@@ -184,7 +185,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.breathing_graphicsscene.clear()
 
     def pause(self):
-        mb_global.breathing_state = mb_global.BreathingState.inactive
+        mc_global.breathing_state = mc_global.BreathingState.inactive
         self.stop_breathing_in_timer()
         self.stop_breathing_out_timer()
 
@@ -302,7 +303,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.updating_gui_bool = True
 
         # Buttons and shortcut descriptions
-        if mb_global.breathing_state == mb_global.BreathingState.inactive:
+        if mc_global.breathing_state == mc_global.BreathingState.inactive:
             self.ib_toggle_qpb.setEnabled(False)
             self.ob_toggle_qpb.setEnabled(False)
             start_font = QtGui.QFont()
@@ -322,13 +323,13 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
 
             # self.start_stop_shortcut_qll.setText("shortcut")
 
-            if mb_global.breathing_state == mb_global.BreathingState.breathing_in:
+            if mc_global.breathing_state == mc_global.BreathingState.breathing_in:
                 # self.iob_toggle_qpb.setText("Breathing In")
                 self.ib_toggle_qpb.setChecked(True)
                 self.ob_toggle_qpb.setChecked(False)
                 # self.iob_shortcut_qll.setText("Press and hold shift to breathe in")
 
-            elif mb_global.breathing_state == mb_global.BreathingState.breathing_out:
+            elif mc_global.breathing_state == mc_global.BreathingState.breathing_out:
                 # self.iob_toggle_qpb.setText("Breathing Out")
                 self.ib_toggle_qpb.setChecked(False)
                 self.ob_toggle_qpb.setChecked(True)
@@ -337,16 +338,16 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.ib_length_qll.setText(str(self.in_breath_length_ft))
         self.ob_length_qll.setText(str(self.out_breath_length_ft))
 
-        if mb_global.active_phrase_id_it != mb_global.NO_PHRASE_SELECTED:
+        if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED:
             self.help_text_qll.hide()
 
-            active_phrase = mb_model.PhrasesM.get(mb_global.active_phrase_id_it)
+            active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
 
             ib_formatted_str = active_phrase.ib_str
             ob_formatted_str = active_phrase.ob_str
-            if mb_global.breathing_state == mb_global.BreathingState.breathing_in:
+            if mc_global.breathing_state == mc_global.BreathingState.breathing_in:
                 ib_formatted_str += " ←"
-            elif mb_global.breathing_state == mb_global.BreathingState.breathing_out:
+            elif mc_global.breathing_state == mc_global.BreathingState.breathing_out:
                 ob_formatted_str += " ←"
             self.bi_text_qll.setText(ib_formatted_str)
             self.bo_text_qll.setText(ob_formatted_str)
@@ -362,15 +363,15 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         if iQKeyEvent.key() == QtCore.Qt.Key_Shift:
             logging.info("shift key pressed")
 
-            if mb_global.breathing_state == mb_global.BreathingState.breathing_out:
+            if mc_global.breathing_state == mc_global.BreathingState.breathing_out:
                 self.ib_toggle_qpb.setChecked(True)
 
             # self.phrase.update_gui(mb_global.BreathingState.breathing_in)
         elif iQKeyEvent.key() == QtCore.Qt.Key_Return or iQKeyEvent.key() == QtCore.Qt.Key_Enter:
             logging.info("enter or return key pressed")
 
-            if (mb_global.breathing_state == mb_global.BreathingState.breathing_out
-                    or mb_global.breathing_state == mb_global.BreathingState.breathing_in):
+            if (mc_global.breathing_state == mc_global.BreathingState.breathing_out
+                    or mc_global.breathing_state == mc_global.BreathingState.breathing_in):
                 self.start_pause_qpb.click()
 
         elif iQKeyEvent.key() == QtCore.Qt.Key_Backspace or iQKeyEvent.key() == QtCore.Qt.Key_Delete:
@@ -386,7 +387,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
     def keyReleaseEvent(self, iQKeyEvent):
         if iQKeyEvent.key() == QtCore.Qt.Key_Shift:
             logging.info("shift key released")
-            if mb_global.breathing_state == mb_global.BreathingState.breathing_in:
+            if mc_global.breathing_state == mc_global.BreathingState.breathing_in:
                 self.ob_toggle_qpb.setChecked(True)
         else:
             pass
@@ -395,7 +396,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
 class CustomIconLabel(QtWidgets.QLabel):
     widget_entered_signal = QtCore.pyqtSignal(int)  # -using mb_global.BreathingState with value
 
-    def __init__(self, i_io: mb_global.BreathingState, i_icon_image_path: str):
+    def __init__(self, i_io: mc_global.BreathingState, i_icon_image_path: str):
         super().__init__()
         self.io_enum = i_io
 

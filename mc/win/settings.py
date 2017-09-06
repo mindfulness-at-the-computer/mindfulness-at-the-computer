@@ -1,14 +1,7 @@
-import logging
-import sys
-import functools
 from PyQt5 import QtCore
-from PyQt5 import QtGui
 from PyQt5 import QtWidgets
-import mb_global
-import mb_model
-import mb_breathing
-import mb_phrase_list
 
+from mc import model, mc_global
 
 # Here we place settings for the application, for example the time between notifications,
 # as well as if there is audio as well as the notification
@@ -106,7 +99,7 @@ class SettingsComposite(QtWidgets.QWidget):
         self.update_gui()
 
     def add_rest_action_clicked(self):
-        mb_model.RestActionsM.add(
+        model.RestActionsM.add(
             self.rest_add_action_qle.text().strip(),
             "stones.png"
         )
@@ -126,7 +119,7 @@ class SettingsComposite(QtWidgets.QWidget):
             return
         self.rest_reminder_interval_qsb.setDisabled(not i_checked_bool)
         self.rest_reminder_test_qpb.setDisabled(not i_checked_bool)
-        mb_model.SettingsM.update_rest_reminder_active(i_checked_bool)
+        model.SettingsM.update_rest_reminder_active(i_checked_bool)
         self.rest_settings_updated_signal.emit()
 
     def on_rest_interval_value_changed(self, i_new_value: int):
@@ -134,13 +127,13 @@ class SettingsComposite(QtWidgets.QWidget):
         # (there is no problem when running normally, that is without debug)
         if self.updating_gui_bool:
             return
-        mb_model.SettingsM.update_rest_reminder_interval(i_new_value)
+        model.SettingsM.update_rest_reminder_interval(i_new_value)
         self.rest_settings_updated_signal.emit()
 
-        rest_reminder_interval_minutes_int = mb_model.SettingsM.get().rest_reminder_interval_int
+        rest_reminder_interval_minutes_int = model.SettingsM.get().rest_reminder_interval_int
         self.rest_reminder_qprb.setMinimum(0)
         self.rest_reminder_qprb.setMaximum(rest_reminder_interval_minutes_int)
-        self.rest_reminder_qprb.setValue(mb_global.rest_reminder_minutes_passed_int)
+        self.rest_reminder_qprb.setValue(mc_global.rest_reminder_minutes_passed_int)
 
     def on_breathing_active_toggled(self, i_checked_bool):
         if self.updating_gui_bool:
@@ -148,50 +141,50 @@ class SettingsComposite(QtWidgets.QWidget):
         self.breathing_reminder_interval_qsb.setDisabled(not i_checked_bool)
         self.breathing_reminder_length_qsb.setDisabled(not i_checked_bool)
         self.breathing_reminder_test_qpb.setDisabled(not i_checked_bool)
-        mb_model.SettingsM.update_breathing_reminder_active(i_checked_bool)
+        model.SettingsM.update_breathing_reminder_active(i_checked_bool)
         self.breathing_settings_updated_signal.emit()
 
     def on_breathing_interval_value_changed(self, i_new_value: int):
         if self.updating_gui_bool:
             return
-        mb_model.SettingsM.update_breathing_reminder_interval(i_new_value)
+        model.SettingsM.update_breathing_reminder_interval(i_new_value)
         self.breathing_settings_updated_signal.emit()
 
     def on_breathing_length_value_changed(self, i_new_value: int):
         if self.updating_gui_bool:
             return
-        mb_model.SettingsM.update_breathing_reminder_length(i_new_value)
+        model.SettingsM.update_breathing_reminder_length(i_new_value)
         self.breathing_settings_updated_signal.emit()
 
     def update_gui(self):
         self.updating_gui_bool = True
 
         # Rest reminder
-        rr_enabled = mb_model.SettingsM.get().rest_reminder_active_bool
+        rr_enabled = model.SettingsM.get().rest_reminder_active_bool
         self.rest_reminder_enabled_qcb.setChecked(rr_enabled)
-        rest_reminder_interval_minutes_int = mb_model.SettingsM.get().rest_reminder_interval_int
+        rest_reminder_interval_minutes_int = model.SettingsM.get().rest_reminder_interval_int
         self.rest_reminder_interval_qsb.setValue(rest_reminder_interval_minutes_int)
         self.rest_reminder_interval_qsb.setDisabled(not rr_enabled)
         self.rest_reminder_test_qpb.setEnabled(rr_enabled)
         self.rest_reminder_qprb.setMinimum(0)
         self.rest_reminder_qprb.setMaximum(rest_reminder_interval_minutes_int)
-        self.rest_reminder_qprb.setValue(mb_global.rest_reminder_minutes_passed_int)
+        self.rest_reminder_qprb.setValue(mc_global.rest_reminder_minutes_passed_int)
 
         self.rest_actions_qlw.clear()
-        for rest_action in mb_model.RestActionsM.get_all():
+        for rest_action in model.RestActionsM.get_all():
             list_item = QtWidgets.QListWidgetItem(rest_action.title_str)
             ### list_item.setData(rest_action.id_int)
             self.rest_actions_qlw.addItem(list_item)
 
         # Breathing reminder
-        if mb_global.active_phrase_id_it != mb_global.NO_PHRASE_SELECTED:
+        if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED:
             self.breathing_reminder_qgb.setDisabled(False)
         self.breathing_reminder_enabled_qcb.setChecked(
-            mb_model.SettingsM.get().breathing_reminder_active_bool
+            model.SettingsM.get().breathing_reminder_active_bool
         )
-        breathing_reminder_interval_minutes_int = mb_model.SettingsM.get().breathing_reminder_interval_int
+        breathing_reminder_interval_minutes_int = model.SettingsM.get().breathing_reminder_interval_int
         self.breathing_reminder_interval_qsb.setValue(breathing_reminder_interval_minutes_int)
-        breathing_reminder_length_minutes_int = mb_model.SettingsM.get().breathing_reminder_length_int
+        breathing_reminder_length_minutes_int = model.SettingsM.get().breathing_reminder_length_int
         self.breathing_reminder_length_qsb.setValue(breathing_reminder_length_minutes_int)
 
         self.updating_gui_bool = False

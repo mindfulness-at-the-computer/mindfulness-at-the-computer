@@ -1,10 +1,12 @@
-import sys
-import logging
 import argparse
-from PyQt5 import QtWidgets
+import logging
+import sys
+
 from PyQt5 import QtGui
-import mb_global
-import mb_main_window
+from PyQt5 import QtWidgets
+
+from mc import mc_global
+from mc.win import main_window
 
 ICON_FILE_PATH_STR = "icon.png"
 
@@ -17,13 +19,13 @@ if __name__ == "__main__":
     # -for info about "store_true" please search here: https://docs.python.org/3/howto/argparse.html
     args = argument_parser.parse_args()
     if args.testing:
-        mb_global.testing_bool = True
+        mc_global.testing_bool = True
     else:
-        mb_global.testing_bool = False
+        mc_global.testing_bool = False
 
     logging.basicConfig(level=logging.DEBUG)  # -by default only warnings and higher are shown
     app = QtWidgets.QApplication(sys.argv)
-    main_window = mb_main_window.MbMainWindow()
+    main_window = main_window.MbMainWindow()
 
     # System tray
     main_window.tray_icon = QtWidgets.QSystemTrayIcon(QtGui.QIcon(ICON_FILE_PATH_STR), app)

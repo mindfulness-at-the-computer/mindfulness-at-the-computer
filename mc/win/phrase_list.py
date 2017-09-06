@@ -1,10 +1,8 @@
 
 from PyQt5 import QtCore
-from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 
-import mb_model
-import mb_global
+from mc import model, mc_global
 
 
 class PhraseListCompositeWidget(QtWidgets.QWidget):
@@ -53,23 +51,23 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         self.update_gui()
 
     def details_title_text_changed(self):
-        assert mb_global.active_phrase_id_it != mb_global.NO_PHRASE_SELECTED
-        mb_model.PhrasesM.update_title(
-            mb_global.active_phrase_id_it,
+        assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED
+        model.PhrasesM.update_title(
+            mc_global.active_phrase_id_it,
             self.breath_title_qle.text()
         )
 
     def details_in_breath_text_changed(self):
-        assert mb_global.active_phrase_id_it != mb_global.NO_PHRASE_SELECTED
-        mb_model.PhrasesM.update_in_breath(
-            mb_global.active_phrase_id_it,
+        assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED
+        model.PhrasesM.update_in_breath(
+            mc_global.active_phrase_id_it,
             self.in_breath_phrase_qle.text()
         )
 
     def details_out_breath_text_changed(self):
-        assert mb_global.active_phrase_id_it != mb_global.NO_PHRASE_SELECTED
-        mb_model.PhrasesM.update_out_breath(
-            mb_global.active_phrase_id_it,
+        assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED
+        model.PhrasesM.update_out_breath(
+            mc_global.active_phrase_id_it,
             self.out_breath_phrase_qle.text()
         )
 
@@ -77,7 +75,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         text_sg = self.add_to_list_le.text().strip()  # strip is needed to remove a newline at the end (why?)
         if not (text_sg and text_sg.strip()):
             return
-        mb_model.PhrasesM.add(text_sg, "Breathing in", "Breathing out")
+        model.PhrasesM.add(text_sg, "Breathing in", "Breathing out")
         self.add_to_list_le.clear()
         self.update_gui()
 
@@ -86,7 +84,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         if current_row_int != -1:
             current_question_qli = self.list_widget.item(current_row_int)
             customqlabel_widget = self.list_widget.itemWidget(current_question_qli)
-            mb_global.active_phrase_id_it = customqlabel_widget.question_entry_id
+            mc_global.active_phrase_id_it = customqlabel_widget.question_entry_id
         else:
             raise Exception("We should not be able to deselect")
 
@@ -96,7 +94,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
     def update_gui(self):
         # List
         self.list_widget.clear()
-        for l_phrase in mb_model.PhrasesM.get_all():
+        for l_phrase in model.PhrasesM.get_all():
             #self.list_widget.addItem(l_collection.title_str)
             custom_label = CustomQLabel(l_phrase.title_str, l_phrase.id_int)
             list_item = QtWidgets.QListWidgetItem()
@@ -107,18 +105,18 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         self.update_gui_details()
 
     def update_gui_details(self):
-        if mb_global.active_phrase_id_it != mb_global.NO_PHRASE_SELECTED:
-            active_phrase = mb_model.PhrasesM.get(mb_global.active_phrase_id_it)
+        if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED:
+            active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
             self.breath_title_qle.setText(active_phrase.title_str)
             self.in_breath_phrase_qle.setText(active_phrase.ib_str)
             self.out_breath_phrase_qle.setText(active_phrase.ob_str)
 
 
 class CustomQLabel(QtWidgets.QLabel):
-    question_entry_id = mb_global.NO_PHRASE_SELECTED  # -"static"
+    question_entry_id = mc_global.NO_PHRASE_SELECTED  # -"static"
     #mouse_pressed_signal = QtCore.pyqtSignal(QtGui.QMouseEvent, int)
 
-    def __init__(self, i_text_sg, i_diary_entry_id=mb_global.NO_PHRASE_SELECTED):
+    def __init__(self, i_text_sg, i_diary_entry_id=mc_global.NO_PHRASE_SELECTED):
         super().__init__(i_text_sg)
         self.question_entry_id = i_diary_entry_id
 

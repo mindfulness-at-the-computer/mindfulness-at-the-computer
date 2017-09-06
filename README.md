@@ -19,11 +19,11 @@ The application uses notifications, the system needs to support that for all fea
 
 ## Screenshots
 
-![Main window](ghpimg/screenshot-window-1.png)
+![Main window](docs/img/screenshot-window-1.png)
 
-![Notification](ghpimg/screenshot-notification-1.png)
+![Notification](docs/img/screenshot-notification-1.png)
 
-![System tray](ghpimg/screenshot-systray-1.png)
+![System tray](docs/img/screenshot-systray-1.png)
 
 
 ## Downloads

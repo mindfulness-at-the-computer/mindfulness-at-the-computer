@@ -1,11 +1,8 @@
-import logging
-import sys
-import functools
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
-import mb_global
-import mb_model
+
+from mc import model, mc_global
 
 
 class RestReminderDialog(QtWidgets.QDialog):
@@ -59,7 +56,7 @@ class RestReminderDialog(QtWidgets.QDialog):
         self.image_qll = QtWidgets.QLabel()
         self.image_qll.setScaledContents(True)
         self.image_qll.setPixmap(
-            QtGui.QPixmap(mb_global.active_rest_image_full_path_str)
+            QtGui.QPixmap(mc_global.active_rest_image_full_path_str)
         )
         hbox_l1.addWidget(self.image_qll)
 
@@ -96,7 +93,7 @@ class RestReminderDialog(QtWidgets.QDialog):
 
     def populate_list_of_buttons(self):
 
-        for rest_action in mb_model.RestActionsM.get_all():
+        for rest_action in model.RestActionsM.get_all():
             rest_action_cpb = CustomPushButton(
                 rest_action.title_str,
                 rest_action.id_int
