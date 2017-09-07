@@ -246,42 +246,85 @@ def export_all():
         csv_writer.writerow((phrase.title_str, phrase.ib_str, phrase.ob_str))
 
 
-def populate_db_with_test_data():
-
+def populate_db_with_setup_data():
     PhrasesM.add(
         "In, out",
+        "Breathing in, I know I am breathing in",
+        "Breathing out, I know I am breathing out",
+    )
+    PhrasesM.add(
+        "Happy, safe",
+        "Breathing in, may I be peaceful, happy, and safe",
+        "Breathing out, may I be free from fear, hatred, and delusion",
+    )
+    PhrasesM.add(
+        "Aware of Body",
+        "Aware of my body, I breathe in",
+        "Aware of my body, I breathe out",
+    )
+    PhrasesM.add(
+        "Aware of painful feeling",
+        "Breathing in, I am aware of a painful feeling in my body",
+        "Breathing out, I am aware of a painful feeling in my body",
+    )
+    PhrasesM.add(
+        "Caring for Body",
+        "Breathing in, I care for my body",
+        "Breathing out, I relax my body",
+    )
+
+    RestActionsM.add(
+        "Making a cup of tea",
+        "tea.png"
+    )
+    RestActionsM.add(
+        "Movement exercise with the arms",
+        "stones.png"
+    )
+    RestActionsM.add(
+        "Going outside",
+        ""
+    )
+    RestActionsM.add(
+        "Slow Mindful walking",
+        ""
+    )
+    RestActionsM.add(
+        "Opening a window",
+        ""
+    )
+
+
+def populate_db_with_test_data():
+    populate_db_with_setup_data()
+
+    """
+    PhrasesM.add(
+        "Test - In, out",
         "Breathing in, i know i am breathing in",
         "Breathing out, i know i am breathing out",
     )
     PhrasesM.add(
-        "Happy, safe",
+        "Test - Happy, safe",
         "Breathing in, may i be peaceful, happy, and safe",
         "Breathing out, may i be free from fear, hatred, and delusion",
     )
     PhrasesM.add(
-        "Aware of Body",
+        "Test - Aware of Body",
         "Aware of my body, i breathe in",
         "Aware of my feelings, i breathe out",
     )
     PhrasesM.add(
-        "Caring for Body",
+        "Test - Caring for Body",
         "Breathing in, i care for my body",
         "Breathing out, i care for my body",
     )
-
     PhrasesM.add(
-        "Aware of painful feeling",
+        "Test - Aware of painful feeling",
         "Breathing in, i am aware of a painful feeling",
         "Breathing out, i am aware of a painful feeling",
     )
+    """
 
-"""
-class CollectionSetupEnum(enum.Enum):
-    # -only used at setup
-    breathing = 1  # _te
-    breathing_with_mental_formations = 2
-    awareness_of_body = 3
-    self_compassion = 4
-"""
 
 

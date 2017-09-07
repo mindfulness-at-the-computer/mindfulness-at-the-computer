@@ -23,6 +23,17 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.setCorner(QtCore.Qt.BottomRightCorner, QtCore.Qt.RightDockWidgetArea)
         self.setWindowIcon(QtGui.QIcon("icon.png"))
 
+        if mc_global.testing_bool:
+            data_storage_str = "{Testing - data stored in memory}"
+        else:
+            data_storage_str = "{Live - data stored on hard drive}"
+        window_title_str = (
+            mc_global.APPLICATION_TITLE_STR
+            + " [" + mc_global.APPLICATION_VERSION_STR + "] "
+            + data_storage_str
+        )
+        self.setWindowTitle(window_title_str)
+
         self.setStyleSheet("selection-background-color:#bfef7f; selection-color:#000000;")  # -#91c856
 
         self.tray_icon = None

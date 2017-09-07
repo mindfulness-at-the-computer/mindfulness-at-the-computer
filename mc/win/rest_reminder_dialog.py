@@ -21,24 +21,18 @@ class RestReminderDialog(QtWidgets.QDialog):
 
         rest_kindness_alternatives_qbb.setOrientation(QtCore.Qt.Vertical)
 
+        """
         movement_qpb = QtWidgets.QPushButton("Movement exercise")
         rest_kindness_alternatives_qbb.addButton(movement_qpb, QtWidgets.QDialogButtonBox.YesRole)
         walk_qpb = QtWidgets.QPushButton("Taking a walk")
         rest_kindness_alternatives_qbb.addButton(walk_qpb, QtWidgets.QDialogButtonBox.YesRole)
+        """
 
         self.rest_actions_qgb = QtWidgets.QGroupBox("Rest actions")
         vbox_l2.addWidget(self.rest_actions_qgb)
         self.ra_vbox = QtWidgets.QVBoxLayout()
         self.rest_actions_qgb.setLayout(self.ra_vbox)
         self.rest_actions_qbg = QtWidgets.QButtonGroup()
-        button_one = QtWidgets.QPushButton("one")
-        button_two = QtWidgets.QPushButton("two")
-        button_one.setCheckable(True)
-        button_two.setCheckable(True)
-        self.rest_actions_qbg.addButton(button_one)
-        self.rest_actions_qbg.addButton(button_two)
-        self.ra_vbox.addWidget(button_one)
-        self.ra_vbox.addWidget(button_two)
 
         self.populate_list_of_buttons()
 

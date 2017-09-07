@@ -2,6 +2,7 @@
 import datetime
 import shutil
 import sqlite3
+import os
 
 from mc import mc_global
 from mc import model
@@ -12,7 +13,7 @@ SQLITE_NULL_STR = "NULL"
 NO_REFERENCE_INT = -1
 NO_REST_REMINDER_INT = -1
 NO_BREATHING_REMINDER_INT = -1
-DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT = 1
+DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT = 25
 DEFAULT_BREATHING_REMINDER_INTERVAL_SECONDS_INT = 30
 DEFAULT_BREATHING_REMINDER_LENGTH_SECONDS_INT = 10
 SINGLE_SETTINGS_ID_INT = 0
@@ -76,6 +77,13 @@ def initial_schema_and_setup(i_db_conn):
 
     if mc_global.testing_bool:
         model.populate_db_with_test_data()
+    else:
+        db_file_exists_bl = os.path.isfile(mc_global.get_database_filename())
+        if not db_file_exists_bl:
+            model.populate_db_with_setup_data()
+        else:
+            pass  # -default, the user has started the application before and is not testing
+
 
 """
 Example of db upgrade code:

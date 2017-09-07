@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument(
-        "--testing", "-p", help="Persistent db storage", action="store_true"
+        "--testing", "-t", help="Testing", action="store_true"
     )
     # -for info about "store_true" please search here: https://docs.python.org/3/howto/argparse.html
     args = argument_parser.parse_args()

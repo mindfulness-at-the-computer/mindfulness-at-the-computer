@@ -1,8 +1,10 @@
 import enum
+import os
 
 APPLICATION_TITLE_STR = "Mindful breathing"
+APPLICATION_VERSION_STR = "0.1"
 NO_PHRASE_SELECTED = -1
-DATABASE_FILE_NAME = "mb_database_file.db"
+DATABASE_FILE_NAME = "matc.db"
 
 active_phrase_id_it = NO_PHRASE_SELECTED
 testing_bool = False
@@ -25,4 +27,11 @@ def get_database_filename():
         return DATABASE_FILE_NAME
 
 
+"""
+def does_database_exist_started() -> bool:
+    if os.path.isfile(DATABASE_FILE_NAME):
+        return True
+    else:
+        return False
+"""
 
