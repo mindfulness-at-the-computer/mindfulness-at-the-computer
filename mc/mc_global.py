@@ -10,6 +10,7 @@ active_phrase_id_it = NO_PHRASE_SELECTED
 testing_bool = False
 rest_reminder_minutes_passed_int = 0
 active_rest_image_full_path_str = "tea.png"
+db_file_exists_at_application_startup_bl = False
 
 
 class BreathingState(enum.Enum):

@@ -1,6 +1,7 @@
 import argparse
 import logging
 import sys
+import os
 
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
@@ -11,6 +12,9 @@ from mc.win import main_window
 ICON_FILE_PATH_STR = "icon.png"
 
 if __name__ == "__main__":
+    mc_global.db_file_exists_at_application_startup_bl = os.path.isfile(mc_global.get_database_filename())
+    # -settings this variable before the file has been created
+
 
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument(

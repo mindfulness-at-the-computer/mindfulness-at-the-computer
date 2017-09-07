@@ -66,6 +66,7 @@ def initial_schema_and_setup(i_db_conn):
     )
 
     db_connection = Helper.get_db_connection()
+
     db_cursor = db_connection.cursor()
     db_cursor.execute(
         "INSERT OR IGNORE INTO " + Schema.SettingsTable.name + "("
@@ -78,8 +79,7 @@ def initial_schema_and_setup(i_db_conn):
     if mc_global.testing_bool:
         model.populate_db_with_test_data()
     else:
-        db_file_exists_bl = os.path.isfile(mc_global.get_database_filename())
-        if not db_file_exists_bl:
+        if not mc_global.db_file_exists_at_application_startup_bl:
             model.populate_db_with_setup_data()
         else:
             pass  # -default, the user has started the application before and is not testing
@@ -106,6 +106,7 @@ class Helper(object):
     # noinspection PyTypeChecker
     @staticmethod
     def get_db_connection():
+
         if Helper.__db_connection is None:
             Helper.__db_connection = sqlite3.connect(mc_global.get_database_filename())
 
