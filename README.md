@@ -18,7 +18,9 @@ Features:
 
 ![System tray](docs/img/screenshot-systray-1.png)
 
-(These screenshots have been taken on a GNU/Linux system, it may a bit different for you)
+![Rest reminder](docs/img/screenshot-rest-reminder-1.png)
+
+(These screenshots have been taken on a GNU/Linux system, it look a bit different for you)
 
 
 ## Downloads
@@ -42,7 +44,7 @@ On MacOS you also need to install growl for the breathing reminder notifications
 To start:
 
 1. Change directory to where the software files have been extracted
-2. Type and run `python well-being-diary.py` on Windows or `python3 .py`on GNU/Linux systems
+2. Type and run `python mindfulness-at-the-computer.py` on Windows or `python3 mindfulness-at-the-computer.py`on GNU/Linux systems
 
 ### Advanced setup (optional)
 
@@ -54,9 +56,9 @@ For desktop systems that are compatible with the [freedesktop](https://www.freed
 
 To use this file:
 
-1. Edit the `well-being-diary.desktop` file and change the paths to match the path that you are using
-2. Copy the `well-being-diary.desktop` file to your desktop or any place where you want to be able to start the application from
-3. Copy the `well-being-diary.desktop` file to `/usr/share/applications/` using `sudo`
+1. Edit the `mindfulness-at-the-computer.desktop` file and change the paths to match the path that you are using
+2. Copy the `mindfulness-at-the-computer.desktop` file to your desktop or any place where you want to be able to start the application from
+3. Copy the `mindfulness-at-the-computer.desktop` file to `/usr/share/applications/` using `sudo`
 
 
 ## Sign up for updates
