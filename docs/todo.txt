@@ -7,3 +7,7 @@
 [x] adding user-selected images for the rest settings
 [ ] reorganize the widgets for the rest reminders
 [ ] adding logging - and removing print statements (except when the application starts perhaps?)
+[ ] making the difference between the qlineedit widgets and the qprogressbar larger
+https://stackoverflow.com/questions/9368824/change-the-color-of-a-qprogressbar
+
+

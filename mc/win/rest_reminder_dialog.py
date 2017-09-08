@@ -52,10 +52,8 @@ class RestReminderDialog(QtWidgets.QDialog):
         self.image_qll = QtWidgets.QLabel()
         hbox_l1.addWidget(self.image_qll)
         self.image_qll.setScaledContents(True)
-        self.image_qll.setPixmap(
-            QtGui.QPixmap(mc_global.active_rest_image_full_path_str)
-        )
-        self.resize_image()
+        # self.image_qll.setPixmap(QtGui.QPixmap(mc_global.active_rest_image_full_path_str))
+        # self.resize_image()
 
 
 

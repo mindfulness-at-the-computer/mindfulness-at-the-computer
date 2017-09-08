@@ -91,6 +91,8 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         self.update_gui_details()
         self.row_changed_signal.emit()
 
+
+
     def update_gui(self):
         # List
         self.list_widget.clear()

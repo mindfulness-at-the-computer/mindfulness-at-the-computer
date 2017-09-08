@@ -251,7 +251,7 @@ class SettingsM:
 
 
 def export_all():
-    csv_writer = csv.writer(open("exported.csv", "w"))
+    csv_writer = csv.writer(open("user-files/exported.csv", "w"))
     for phrase in PhrasesM.get_all():
         # time_datetime = datetime.date.fromtimestamp(phrase.date_added_it)
         # date_str = time_datetime.strftime("%Y-%m-%d")
@@ -292,11 +292,11 @@ def populate_db_with_setup_data():
 
     RestActionsM.add(
         "Making a cup of tea",
-        "user_files/tea.png"
+        "user_files/images/tea.png"
     )
     RestActionsM.add(
         "Movement exercise with the arms",
-        "user_files/stones.png"
+        "user_files/images/stones.png"
     )
     RestActionsM.add(
         "Going outside",

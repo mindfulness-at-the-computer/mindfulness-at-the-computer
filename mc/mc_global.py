@@ -13,7 +13,7 @@ active_rest_action_id_it = NO_REST_ACTION_SELECTED_INT
 active_phrase_id_it = NO_PHRASE_SELECTED_INT
 testing_bool = False
 rest_reminder_minutes_passed_int = 0
-active_rest_image_full_path_str = "user_files/tea.png"
+# active_rest_image_full_path_str = "user_files/tea.png"
 db_file_exists_at_application_startup_bl = False
 
 
@@ -32,8 +32,8 @@ def get_database_filename():
         return DATABASE_FILE_PATH_STR
 
 
-def get_user_files_path():
-    user_dir_path_str = QtCore.QDir.currentPath() + "/" + "user_files" + "/"
+def get_user_images_path():
+    user_dir_path_str = QtCore.QDir.currentPath() + "/user_files/images/"
     return QtCore.QDir.toNativeSeparators(user_dir_path_str)
     # TODO: Do this in Python instead of with Qt?
 

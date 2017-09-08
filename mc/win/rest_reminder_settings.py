@@ -1,3 +1,4 @@
+import os
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 
@@ -26,26 +27,22 @@ class RestSettingsComposite(QtWidgets.QWidget):
         vbox = QtWidgets.QVBoxLayout()
         self.setLayout(vbox)
 
-        self.rest_reminder_qgb = QtWidgets.QGroupBox("Rest Reminder")
-        vbox.addWidget(self.rest_reminder_qgb)
-        rr_vbox = QtWidgets.QVBoxLayout()
-        self.rest_reminder_qgb.setLayout(rr_vbox)
         self.rest_reminder_enabled_qcb = QtWidgets.QCheckBox("Active")
-        rr_vbox.addWidget(self.rest_reminder_enabled_qcb)
+        vbox.addWidget(self.rest_reminder_enabled_qcb)
         self.rest_reminder_enabled_qcb.toggled.connect(self.on_rest_active_toggled)
         self.rest_reminder_interval_qll = QtWidgets.QLabel("Interval (minutes)")
-        rr_vbox.addWidget(self.rest_reminder_interval_qll)
+        vbox.addWidget(self.rest_reminder_interval_qll)
         self.rest_reminder_interval_qsb = QtWidgets.QSpinBox()
-        rr_vbox.addWidget(self.rest_reminder_interval_qsb)
+        vbox.addWidget(self.rest_reminder_interval_qsb)
         # self.rest_reminder_interval_qsb.setSingleStep(5)
         self.rest_reminder_interval_qsb.setMinimum(MIN_REST_REMINDER_INT)
         self.rest_reminder_interval_qsb.valueChanged.connect(self.on_rest_interval_value_changed)
         self.rest_reminder_qprb = QtWidgets.QProgressBar()
-        rr_vbox.addWidget(self.rest_reminder_qprb)
+        vbox.addWidget(self.rest_reminder_qprb)
         self.rest_reminder_qprb.setTextVisible(False)
 
         hbox = QtWidgets.QHBoxLayout()
-        rr_vbox.addLayout(hbox)
+        vbox.addLayout(hbox)
         self.rest_reminder_test_qpb = QtWidgets.QPushButton("Test")
         hbox.addWidget(self.rest_reminder_test_qpb)
         self.rest_reminder_test_qpb.clicked.connect(self.on_rest_test_clicked)
@@ -54,11 +51,11 @@ class RestSettingsComposite(QtWidgets.QWidget):
         self.rest_reminder_reset_qpb.clicked.connect(self.on_rest_reset_clicked)
 
         self.rest_actions_qlw = QtWidgets.QListWidget()
-        rr_vbox.addWidget(self.rest_actions_qlw)
+        vbox.addWidget(self.rest_actions_qlw)
         self.rest_actions_qlw.currentRowChanged.connect(self.on_current_row_changed)
 
         hbox = QtWidgets.QHBoxLayout()
-        rr_vbox.addLayout(hbox)
+        vbox.addLayout(hbox)
         self.rest_add_action_qle = QtWidgets.QLineEdit()
         hbox.addWidget(self.rest_add_action_qle)
         self.rest_add_action_qpb = QtWidgets.QPushButton("Add")
@@ -83,6 +80,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
         details_vbox.addLayout(hbox)
         self.details_image_path_qll = QtWidgets.QLabel()
         hbox.addWidget(self.details_image_path_qll)
+        self.details_image_path_qll.setWordWrap(True)
         self.select_image_qpb = QtWidgets.QPushButton("Select image")
         hbox.addWidget(self.select_image_qpb)
         self.select_image_qpb.clicked.connect(self.on_select_image_clicked)
@@ -111,7 +109,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
         image_file_result_tuple = QtWidgets.QFileDialog.getOpenFileName(
             self,
             "Please choose an image",
-            mc_global.get_user_files_path(),
+            mc_global.get_user_images_path(),
             "Image files (*.png *.jpg *.bmp)"
         )
         image_file_path_str = image_file_result_tuple[0]
@@ -189,8 +187,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
         if mc_global.active_rest_action_id_it != mc_global.NO_REST_ACTION_SELECTED_INT:
             rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
             self.details_name_qle.setText(rest_action.title_str)
-            self.details_image_path_qll.setText(rest_action.image_path_str)
-
+            self.details_image_path_qll.setText(os.path.basename(rest_action.image_path_str))
 
 
 class CustomQLabel(QtWidgets.QLabel):
