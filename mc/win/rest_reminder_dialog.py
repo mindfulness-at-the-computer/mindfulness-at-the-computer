@@ -48,11 +48,13 @@ class RestReminderDialog(QtWidgets.QDialog):
 
 
         self.image_qll = QtWidgets.QLabel()
+        hbox_l1.addWidget(self.image_qll)
         self.image_qll.setScaledContents(True)
         self.image_qll.setPixmap(
             QtGui.QPixmap(mc_global.active_rest_image_full_path_str)
         )
-        hbox_l1.addWidget(self.image_qll)
+        self.resize_image()
+
 
 
         """
@@ -100,6 +102,33 @@ class RestReminderDialog(QtWidgets.QDialog):
 
     def on_rest_action_button_clicked(self, i_id: int):
         print("Id of button clicked: " + str(i_id))
+        rest_action = model.RestActionsM.get(i_id)
+        self.image_qll.setPixmap(QtGui.QPixmap(rest_action.image_path_str))
+        self.resize_image()
+
+    def resize_image(self):
+        if self.image_qll.pixmap() is None:
+            return
+        old_width_int = self.image_qll.pixmap().width()
+        old_height_int = self.image_qll.pixmap().height()
+        if old_width_int == 0:
+            return
+        goal_width_int = 400
+        goal_height_int = 400
+        width_relation_float = old_width_int / goal_width_int
+        height_relation_float = old_height_int / goal_height_int
+
+        # if width_relation_float > 1.0 or height_relation_float > 1.0:  # -scaling down
+        if width_relation_float > height_relation_float:
+            scaled_width_int = goal_width_int
+            scaled_height_int = (scaled_width_int / old_width_int) * old_height_int
+        else:
+            scaled_height_int = goal_height_int
+            scaled_width_int = (scaled_height_int / old_height_int) * old_width_int
+
+        self.image_qll.setFixedWidth(scaled_width_int)
+        self.image_qll.setFixedHeight(scaled_height_int)
+
 
 
 

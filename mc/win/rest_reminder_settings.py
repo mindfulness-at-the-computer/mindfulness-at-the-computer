@@ -11,7 +11,7 @@ from mc import model, mc_global
 MIN_REST_REMINDER_INT = 1  # -in minutes
 
 
-class SettingsComposite(QtWidgets.QWidget):
+class RestSettingsComposite(QtWidgets.QWidget):
     rest_settings_updated_signal = QtCore.pyqtSignal()
     breathing_settings_updated_signal = QtCore.pyqtSignal()
     breathing_test_button_clicked_signal = QtCore.pyqtSignal()
@@ -55,6 +55,7 @@ class SettingsComposite(QtWidgets.QWidget):
 
         self.rest_actions_qlw = QtWidgets.QListWidget()
         rr_vbox.addWidget(self.rest_actions_qlw)
+        self.rest_actions_qlw.currentRowChanged.connect(self.on_current_row_changed)
 
         hbox = QtWidgets.QHBoxLayout()
         rr_vbox.addLayout(hbox)
@@ -65,38 +66,64 @@ class SettingsComposite(QtWidgets.QWidget):
         self.rest_add_action_qpb.clicked.connect(self.add_rest_action_clicked)
 
 
-        self.breathing_reminder_qgb = QtWidgets.QGroupBox("Breathing Reminder")
-        vbox.addWidget(self.breathing_reminder_qgb)
-        br_vbox = QtWidgets.QVBoxLayout()
-        self.breathing_reminder_qgb.setLayout(br_vbox)
-        self.breathing_reminder_enabled_qcb = QtWidgets.QCheckBox("Active")
-        br_vbox.addWidget(self.breathing_reminder_enabled_qcb)
-        self.breathing_reminder_enabled_qcb.toggled.connect(self.on_breathing_active_toggled)
-        self.breathing_reminder_interval_qll = QtWidgets.QLabel("Interval (seconds)")
-        br_vbox.addWidget(self.breathing_reminder_interval_qll)
-        self.breathing_reminder_interval_qsb = QtWidgets.QSpinBox()
-        br_vbox.addWidget(self.breathing_reminder_interval_qsb)
-        self.breathing_reminder_interval_qsb.valueChanged.connect(
-            self.on_breathing_interval_value_changed
-        )
-        self.breathing_reminder_length_qll = QtWidgets.QLabel("Length (seconds)")
-        br_vbox.addWidget(self.breathing_reminder_length_qll)
-        self.breathing_reminder_length_qsb = QtWidgets.QSpinBox()
-        br_vbox.addWidget(self.breathing_reminder_length_qsb)
-        self.breathing_reminder_length_qsb.valueChanged.connect(
-            self.on_breathing_length_value_changed
-        )
-        self.breathing_reminder_test_qpb = QtWidgets.QPushButton("Test")
-        br_vbox.addWidget(self.breathing_reminder_test_qpb)
-        self.breathing_reminder_test_qpb.clicked.connect(self.on_breathing_test_clicked)
+        # Details
+        self.details_qgb = QtWidgets.QGroupBox("Details")
+        vbox.addWidget(self.details_qgb)
+        details_vbox = QtWidgets.QVBoxLayout()
+        self.details_qgb.setLayout(details_vbox)
+
+        hbox = QtWidgets.QHBoxLayout()
+        details_vbox.addLayout(hbox)
+        hbox.addWidget(QtWidgets.QLabel("Title"))
+        self.details_name_qle = QtWidgets.QLineEdit()
+        hbox.addWidget(self.details_name_qle)
+
+
+        hbox = QtWidgets.QHBoxLayout()
+        details_vbox.addLayout(hbox)
+        self.details_image_path_qll = QtWidgets.QLabel()
+        hbox.addWidget(self.details_image_path_qll)
+        self.select_image_qpb = QtWidgets.QPushButton("Select image")
+        hbox.addWidget(self.select_image_qpb)
+        self.select_image_qpb.clicked.connect(self.on_select_image_clicked)
+
+
 
         vbox.addStretch(1)
 
-        vbox.addWidget(QtWidgets.QLabel("<i>All changes are automatically saved</i>"))
-
-        self.breathing_reminder_qgb.setDisabled(True)  # -disabled until a phrase has been selected
+        # vbox.addWidget(QtWidgets.QLabel("<i>All changes are automatically saved</i>"))
 
         self.update_gui()
+
+    def on_current_row_changed(self):
+        current_row_int = self.rest_actions_qlw.currentRow()
+        if current_row_int != -1:
+            current_rest_action_qli = self.rest_actions_qlw.item(current_row_int)
+            customqlabel_widget = self.rest_actions_qlw.itemWidget(current_rest_action_qli)
+            mc_global.active_rest_action_id_it = customqlabel_widget.question_entry_id
+        else:
+            raise Exception("We should not be able to deselect")
+
+        self.update_gui_details()
+        #### self.row_changed_signal.emit()
+
+    def on_select_image_clicked(self):
+        image_file_result_tuple = QtWidgets.QFileDialog.getOpenFileName(
+            self,
+            "Please choose an image",
+            QtCore.QDir.homePath(),
+            "Image files (*.png *.jpg *.bmp)"
+        )
+        image_file_path_str = image_file_result_tuple[0]
+        print(image_file_path_str)
+        if image_file_path_str:
+            model.RestActionsM.update_rest_action_image_path(
+                mc_global.active_rest_action_id_it,
+                image_file_path_str
+            )
+            self.update_gui_details()
+        else:
+            pass
 
     def add_rest_action_clicked(self):
         model.RestActionsM.add(
@@ -110,9 +137,6 @@ class SettingsComposite(QtWidgets.QWidget):
 
     def on_rest_test_clicked(self):
         self.rest_test_button_clicked_signal.emit()
-
-    def on_breathing_test_clicked(self):
-        self.breathing_test_button_clicked_signal.emit()
 
     def on_rest_active_toggled(self, i_checked_bool):
         if self.updating_gui_bool:
@@ -135,26 +159,6 @@ class SettingsComposite(QtWidgets.QWidget):
         self.rest_reminder_qprb.setMaximum(rest_reminder_interval_minutes_int)
         self.rest_reminder_qprb.setValue(mc_global.rest_reminder_minutes_passed_int)
 
-    def on_breathing_active_toggled(self, i_checked_bool):
-        if self.updating_gui_bool:
-            return
-        self.breathing_reminder_interval_qsb.setDisabled(not i_checked_bool)
-        self.breathing_reminder_length_qsb.setDisabled(not i_checked_bool)
-        self.breathing_reminder_test_qpb.setDisabled(not i_checked_bool)
-        model.SettingsM.update_breathing_reminder_active(i_checked_bool)
-        self.breathing_settings_updated_signal.emit()
-
-    def on_breathing_interval_value_changed(self, i_new_value: int):
-        if self.updating_gui_bool:
-            return
-        model.SettingsM.update_breathing_reminder_interval(i_new_value)
-        self.breathing_settings_updated_signal.emit()
-
-    def on_breathing_length_value_changed(self, i_new_value: int):
-        if self.updating_gui_bool:
-            return
-        model.SettingsM.update_breathing_reminder_length(i_new_value)
-        self.breathing_settings_updated_signal.emit()
 
     def update_gui(self):
         self.updating_gui_bool = True
@@ -172,20 +176,28 @@ class SettingsComposite(QtWidgets.QWidget):
 
         self.rest_actions_qlw.clear()
         for rest_action in model.RestActionsM.get_all():
-            list_item = QtWidgets.QListWidgetItem(rest_action.title_str)
-            ### list_item.setData(rest_action.id_int)
+            rest_action_title_cll = CustomQLabel(rest_action.title_str, rest_action.id_int)
+            list_item = QtWidgets.QListWidgetItem()
             self.rest_actions_qlw.addItem(list_item)
+            self.rest_actions_qlw.setItemWidget(list_item, rest_action_title_cll)
 
-        # Breathing reminder
-        if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED:
-            self.breathing_reminder_qgb.setDisabled(False)
-        self.breathing_reminder_enabled_qcb.setChecked(
-            model.SettingsM.get().breathing_reminder_active_bool
-        )
-        breathing_reminder_interval_minutes_int = model.SettingsM.get().breathing_reminder_interval_int
-        self.breathing_reminder_interval_qsb.setValue(breathing_reminder_interval_minutes_int)
-        breathing_reminder_length_minutes_int = model.SettingsM.get().breathing_reminder_length_int
-        self.breathing_reminder_length_qsb.setValue(breathing_reminder_length_minutes_int)
+        self.update_gui_details()
 
         self.updating_gui_bool = False
+
+    def update_gui_details(self):
+        if mc_global.active_rest_action_id_it != mc_global.NO_REST_ACTION_SELECTED_INT:
+            rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
+            self.details_name_qle.setText(rest_action.title_str)
+            self.details_image_path_qll.setText(rest_action.image_path_str)
+
+
+
+class CustomQLabel(QtWidgets.QLabel):
+    question_entry_id = mc_global.NO_PHRASE_SELECTED_INT  # -"static"
+    #mouse_pressed_signal = QtCore.pyqtSignal(QtGui.QMouseEvent, int)
+
+    def __init__(self, i_text_sg, i_diary_entry_id=mc_global.NO_PHRASE_SELECTED_INT):
+        super().__init__(i_text_sg)
+        self.question_entry_id = i_diary_entry_id
 

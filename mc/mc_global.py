@@ -3,10 +3,12 @@ import os
 
 APPLICATION_TITLE_STR = "Mindful breathing"
 APPLICATION_VERSION_STR = "0.1"
-NO_PHRASE_SELECTED = -1
+NO_PHRASE_SELECTED_INT = -1
+NO_REST_ACTION_SELECTED_INT = -1
 DATABASE_FILE_NAME = "matc.db"
 
-active_phrase_id_it = NO_PHRASE_SELECTED
+active_rest_action_id_it = NO_REST_ACTION_SELECTED_INT
+active_phrase_id_it = NO_PHRASE_SELECTED_INT
 testing_bool = False
 rest_reminder_minutes_passed_int = 0
 active_rest_image_full_path_str = "tea.png"

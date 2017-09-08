@@ -340,7 +340,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.ib_length_qll.setText(str(self.in_breath_length_ft))
         self.ob_length_qll.setText(str(self.out_breath_length_ft))
 
-        if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED:
+        if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT:
             self.help_text_qll.hide()
 
             active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)

@@ -128,7 +128,7 @@ class RestActionsM:
         rest_action_db_te = db_cursor_result.fetchone()
         db_connection.commit()
 
-        return PhrasesM(*rest_action_db_te)
+        return RestActionsM(*rest_action_db_te)
         # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
 
     @staticmethod
@@ -144,6 +144,18 @@ class RestActionsM:
             ret_reminder_list.append(RestActionsM(*rest_action_db_te))
         db_connection.commit()
         return ret_reminder_list
+
+    @staticmethod
+    def update_rest_action_image_path(i_id: int, i_new_image_path: str):
+        db_connection = db.Helper.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + db.Schema.RestActionsTable.name
+            + " SET " + db.Schema.RestActionsTable.Cols.image_path + " = ?"
+            + " WHERE " + db.Schema.RestActionsTable.Cols.id + " = ?",
+            (i_new_image_path, str(i_id))
+        )
+        db_connection.commit()
 
 
 class SettingsM:
@@ -271,6 +283,11 @@ def populate_db_with_setup_data():
         "Caring for Body",
         "Breathing in, I care for my body",
         "Breathing out, I relax my body",
+    )
+    PhrasesM.add(
+        "Confidence, peace",
+        "Breathing in confidence",
+        "Breathing out peace",
     )
 
     RestActionsM.add(

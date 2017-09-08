@@ -51,21 +51,21 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         self.update_gui()
 
     def details_title_text_changed(self):
-        assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED
+        assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT
         model.PhrasesM.update_title(
             mc_global.active_phrase_id_it,
             self.breath_title_qle.text()
         )
 
     def details_in_breath_text_changed(self):
-        assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED
+        assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT
         model.PhrasesM.update_in_breath(
             mc_global.active_phrase_id_it,
             self.in_breath_phrase_qle.text()
         )
 
     def details_out_breath_text_changed(self):
-        assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED
+        assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT
         model.PhrasesM.update_out_breath(
             mc_global.active_phrase_id_it,
             self.out_breath_phrase_qle.text()
@@ -105,7 +105,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         self.update_gui_details()
 
     def update_gui_details(self):
-        if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED:
+        if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT:
             active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
             self.breath_title_qle.setText(active_phrase.title_str)
             self.in_breath_phrase_qle.setText(active_phrase.ib_str)
@@ -113,10 +113,10 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
 
 
 class CustomQLabel(QtWidgets.QLabel):
-    question_entry_id = mc_global.NO_PHRASE_SELECTED  # -"static"
+    question_entry_id = mc_global.NO_PHRASE_SELECTED_INT  # -"static"
     #mouse_pressed_signal = QtCore.pyqtSignal(QtGui.QMouseEvent, int)
 
-    def __init__(self, i_text_sg, i_diary_entry_id=mc_global.NO_PHRASE_SELECTED):
+    def __init__(self, i_text_sg, i_diary_entry_id=mc_global.NO_PHRASE_SELECTED_INT):
         super().__init__(i_text_sg)
         self.question_entry_id = i_diary_entry_id
 
