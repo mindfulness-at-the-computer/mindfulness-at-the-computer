@@ -2,7 +2,7 @@
 [x] show number of minutes to next rest?
 [x] split the settings for rest and breathing reminders --- and move the breathing reminder part to the left side
 [x] changing the name to "mindfulness at the computer" or "m@c"
-    how to do this and maintain repo locally? (maybe just push and then remove, with a backup locally in a tar file)
 [ ] making it easier to add new breathing entries
-[ ] adding user-selected images for the rest settings
-
+[ ] making it easier to add new rest
+[x] adding user-selected images for the rest settings
+[ ] reorganize the widgets for the rest reminders

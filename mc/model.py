@@ -292,11 +292,11 @@ def populate_db_with_setup_data():
 
     RestActionsM.add(
         "Making a cup of tea",
-        "tea.png"
+        "user_files/tea.png"
     )
     RestActionsM.add(
         "Movement exercise with the arms",
-        "stones.png"
+        "user_files/stones.png"
     )
     RestActionsM.add(
         "Going outside",

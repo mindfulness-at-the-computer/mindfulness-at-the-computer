@@ -128,7 +128,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
     def add_rest_action_clicked(self):
         model.RestActionsM.add(
             self.rest_add_action_qle.text().strip(),
-            "stones.png"
+            ""
         )
         self.update_gui()
 

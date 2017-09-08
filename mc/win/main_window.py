@@ -22,7 +22,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.setGeometry(100, 100, 900, 500)
         self.setCorner(QtCore.Qt.BottomLeftCorner, QtCore.Qt.LeftDockWidgetArea)
         self.setCorner(QtCore.Qt.BottomRightCorner, QtCore.Qt.RightDockWidgetArea)
-        self.setWindowIcon(QtGui.QIcon("icon.png"))
+        self.setWindowIcon(QtGui.QIcon(mc_global.APPLICATION_ICON_PATH_STR))
 
         if mc_global.testing_bool:
             data_storage_str = "{Testing - data stored in memory}"

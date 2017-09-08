@@ -9,8 +9,6 @@ from PyQt5 import QtWidgets
 from mc import mc_global
 from mc.win import main_window
 
-ICON_FILE_PATH_STR = "icon.png"
-
 if __name__ == "__main__":
     mc_global.db_file_exists_at_application_startup_bl = os.path.isfile(mc_global.get_database_filename())
     # -settings this variable before the file has been created
@@ -32,7 +30,10 @@ if __name__ == "__main__":
     main_window = main_window.MbMainWindow()
 
     # System tray
-    main_window.tray_icon = QtWidgets.QSystemTrayIcon(QtGui.QIcon(ICON_FILE_PATH_STR), app)
+    main_window.tray_icon = QtWidgets.QSystemTrayIcon(
+        QtGui.QIcon(mc_global.APPLICATION_ICON_PATH_STR),
+        app
+    )
     main_window.tray_icon.show()
 
     tray_menu = QtWidgets.QMenu(main_window)
