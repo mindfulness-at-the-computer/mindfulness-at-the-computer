@@ -1,5 +1,6 @@
 import enum
 import os
+from PyQt5 import QtCore
 
 APPLICATION_TITLE_STR = "Mindfulness at the Computer"
 APPLICATION_VERSION_STR = "0.1"
@@ -29,6 +30,12 @@ def get_database_filename():
         return ":memory:"
     else:
         return DATABASE_FILE_PATH_STR
+
+
+def get_user_files_path():
+    user_dir_path_str = QtCore.QDir.currentPath() + "/" + "user_files" + "/"
+    return QtCore.QDir.toNativeSeparators(user_dir_path_str)
+    # TODO: Do this in Python instead of with Qt?
 
 
 """

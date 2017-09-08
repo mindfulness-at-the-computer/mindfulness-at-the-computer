@@ -111,7 +111,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
         image_file_result_tuple = QtWidgets.QFileDialog.getOpenFileName(
             self,
             "Please choose an image",
-            QtCore.QDir.homePath(),
+            mc_global.get_user_files_path(),
             "Image files (*.png *.jpg *.bmp)"
         )
         image_file_path_str = image_file_result_tuple[0]

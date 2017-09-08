@@ -1,3 +1,5 @@
+import logging
+
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
@@ -103,8 +105,19 @@ class RestReminderDialog(QtWidgets.QDialog):
     def on_rest_action_button_clicked(self, i_id: int):
         print("Id of button clicked: " + str(i_id))
         rest_action = model.RestActionsM.get(i_id)
-        self.image_qll.setPixmap(QtGui.QPixmap(rest_action.image_path_str))
-        self.resize_image()
+        if rest_action.image_path_str:
+            self.image_qll.setPixmap(
+                QtGui.QPixmap(
+                    rest_action.image_path_str
+                )
+            )
+            self.resize_image()
+        else:
+            formatted_title_str = ""
+            self.image_qll.setText(rest_action.title_str)
+            new_font = QtGui.QFont()
+            new_font.setPointSize(17)
+            self.image_qll.setFont(new_font)
 
     def resize_image(self):
         if self.image_qll.pixmap() is None:

@@ -155,7 +155,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
             active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
             reminder_str = active_phrase.ib_str + "\n" + active_phrase.ob_str
             self.tray_icon.showMessage(
-                mc_global.APPLICATION_TITLE_STR,
+                "Mindful breathing",
                 reminder_str.strip(),
                 icon=QtWidgets.QSystemTrayIcon.NoIcon,
                 msecs=settings.breathing_reminder_length_int * 1000

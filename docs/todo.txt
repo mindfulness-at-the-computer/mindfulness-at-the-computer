@@ -6,3 +6,4 @@
 [ ] making it easier to add new rest
 [x] adding user-selected images for the rest settings
 [ ] reorganize the widgets for the rest reminders
+[ ] adding logging - and removing print statements (except when the application starts perhaps?)
