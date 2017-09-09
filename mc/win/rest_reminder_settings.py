@@ -1,6 +1,7 @@
 import os
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
+from PyQt5 import QtGui
 
 from mc import model, mc_global
 
@@ -10,7 +11,7 @@ from mc import model, mc_global
 # All intervals are in minutes
 
 MIN_REST_REMINDER_INT = 1  # -in minutes
-
+MAX_REST_REMINDER_INT = 99
 
 class RestSettingsComposite(QtWidgets.QWidget):
     rest_settings_updated_signal = QtCore.pyqtSignal()
@@ -24,36 +25,51 @@ class RestSettingsComposite(QtWidgets.QWidget):
 
         self.updating_gui_bool = False
 
+
+
+
+
         vbox = QtWidgets.QVBoxLayout()
         self.setLayout(vbox)
 
-        self.rest_reminder_enabled_qcb = QtWidgets.QCheckBox("Active")
+        self.rest_reminder_enabled_qcb = QtWidgets.QCheckBox("Enabled")
         vbox.addWidget(self.rest_reminder_enabled_qcb)
+        hbox = QtWidgets.QHBoxLayout()
+        vbox.addLayout(hbox)
         self.rest_reminder_enabled_qcb.toggled.connect(self.on_rest_active_toggled)
-        self.rest_reminder_interval_qll = QtWidgets.QLabel("Interval (minutes)")
-        vbox.addWidget(self.rest_reminder_interval_qll)
+        hbox.addWidget(QtWidgets.QLabel("Interval:"))
         self.rest_reminder_interval_qsb = QtWidgets.QSpinBox()
-        vbox.addWidget(self.rest_reminder_interval_qsb)
-        # self.rest_reminder_interval_qsb.setSingleStep(5)
+        hbox.addWidget(self.rest_reminder_interval_qsb)
+        hbox.addWidget(QtWidgets.QLabel("minutes"))
+        hbox.addStretch(1)
         self.rest_reminder_interval_qsb.setMinimum(MIN_REST_REMINDER_INT)
+        self.rest_reminder_interval_qsb.setMaximum(MAX_REST_REMINDER_INT)
         self.rest_reminder_interval_qsb.valueChanged.connect(self.on_rest_interval_value_changed)
+        vbox.addWidget(QtWidgets.QLabel("Remaining time until next break"))
         self.rest_reminder_qprb = QtWidgets.QProgressBar()
         vbox.addWidget(self.rest_reminder_qprb)
         self.rest_reminder_qprb.setTextVisible(False)
+        """
+        base_qcolor = QtGui.QColor(41, 163, 41, 0)
+        base_qpalette = QtGui.QPalette()
+        base_qpalette.setColor(QtGui.QPalette.Base, base_qcolor)
+        self.rest_reminder_qprb.setPalette(base_qpalette)
+        """
+        self.rest_reminder_qprb.setStyleSheet("background-color: #f4fde7;")
 
-        hbox = QtWidgets.QHBoxLayout()
-        vbox.addLayout(hbox)
-        self.rest_reminder_test_qpb = QtWidgets.QPushButton("Test")
-        hbox.addWidget(self.rest_reminder_test_qpb)
-        self.rest_reminder_test_qpb.clicked.connect(self.on_rest_test_clicked)
+        # hbox = QtWidgets.QHBoxLayout()
+        # vbox.addLayout(hbox)
         self.rest_reminder_reset_qpb = QtWidgets.QPushButton("Reset timer")
-        hbox.addWidget(self.rest_reminder_reset_qpb)
+        vbox.addWidget(self.rest_reminder_reset_qpb)
         self.rest_reminder_reset_qpb.clicked.connect(self.on_rest_reset_clicked)
 
+
+        # Rest actions
+        vbox.addWidget(CustomFrame())
+        vbox.addWidget(QtWidgets.QLabel("Rest actions"))
         self.rest_actions_qlw = QtWidgets.QListWidget()
         vbox.addWidget(self.rest_actions_qlw)
         self.rest_actions_qlw.currentRowChanged.connect(self.on_current_row_changed)
-
         hbox = QtWidgets.QHBoxLayout()
         vbox.addLayout(hbox)
         self.rest_add_action_qle = QtWidgets.QLineEdit()
@@ -62,30 +78,28 @@ class RestSettingsComposite(QtWidgets.QWidget):
         hbox.addWidget(self.rest_add_action_qpb)
         self.rest_add_action_qpb.clicked.connect(self.add_rest_action_clicked)
 
-
         # Details
         self.details_qgb = QtWidgets.QGroupBox("Details")
         vbox.addWidget(self.details_qgb)
         details_vbox = QtWidgets.QVBoxLayout()
         self.details_qgb.setLayout(details_vbox)
 
-        hbox = QtWidgets.QHBoxLayout()
-        details_vbox.addLayout(hbox)
-        hbox.addWidget(QtWidgets.QLabel("Title"))
+        details_vbox.addWidget(QtWidgets.QLabel("Title"))
         self.details_name_qle = QtWidgets.QLineEdit()
-        hbox.addWidget(self.details_name_qle)
+        details_vbox.addWidget(self.details_name_qle)
 
-
-        hbox = QtWidgets.QHBoxLayout()
-        details_vbox.addLayout(hbox)
         self.details_image_path_qll = QtWidgets.QLabel()
-        hbox.addWidget(self.details_image_path_qll)
+        details_vbox.addWidget(self.details_image_path_qll)
         self.details_image_path_qll.setWordWrap(True)
         self.select_image_qpb = QtWidgets.QPushButton("Select image")
-        hbox.addWidget(self.select_image_qpb)
+        details_vbox.addWidget(self.select_image_qpb)
         self.select_image_qpb.clicked.connect(self.on_select_image_clicked)
 
-
+        # Take break button
+        vbox.addWidget(CustomFrame())
+        self.rest_reminder_test_qpb = QtWidgets.QPushButton("Take a break now")  # -from the computer
+        vbox.addWidget(self.rest_reminder_test_qpb)
+        self.rest_reminder_test_qpb.clicked.connect(self.on_rest_test_clicked)
 
         vbox.addStretch(1)
 
@@ -187,7 +201,10 @@ class RestSettingsComposite(QtWidgets.QWidget):
         if mc_global.active_rest_action_id_it != mc_global.NO_REST_ACTION_SELECTED_INT:
             rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
             self.details_name_qle.setText(rest_action.title_str)
-            self.details_image_path_qll.setText(os.path.basename(rest_action.image_path_str))
+            if rest_action.image_path_str:
+                self.details_image_path_qll.setText(os.path.basename(rest_action.image_path_str))
+            else:
+                self.details_image_path_qll.setText("(no image set)")
 
 
 class CustomQLabel(QtWidgets.QLabel):
@@ -198,3 +215,9 @@ class CustomQLabel(QtWidgets.QLabel):
         super().__init__(i_text_sg)
         self.question_entry_id = i_diary_entry_id
 
+
+class CustomFrame(QtWidgets.QFrame):
+    def __init__(self):
+        super().__init__()
+        self.setFrameShape(QtWidgets.QFrame.HLine)
+        self.setFrameShadow(QtWidgets.QFrame.Sunken)

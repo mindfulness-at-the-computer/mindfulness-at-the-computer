@@ -80,12 +80,8 @@ class RestReminderDialog(QtWidgets.QDialog):
 
     @staticmethod
     def show_dialog(i_parent):
-        i_parent.show()
-        # -PLEASE NOTE: We have to make sure the window is visible if using a modal dialog,
-        #  otherwise when the dialog is closed the whole application will close as well
-        #  (unknown why)
         rest_reminder_dialog = RestReminderDialog(i_parent)
-        rest_reminder_dialog.exec()
+        rest_reminder_dialog.show()  # -modeless
 
     def populate_list_of_buttons(self):
 

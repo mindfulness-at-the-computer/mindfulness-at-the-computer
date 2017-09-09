@@ -1,4 +1,10 @@
 
+
+messages in the status bar
+"for best effect, please use a square (1x1) image"
+"changes are automatically saved"
+
+
 **ending the day with maybe deep relaxation**
 
 

@@ -5,9 +5,12 @@
 [ ] making it easier to add new breathing entries
 [ ] making it easier to add new rest
 [x] adding user-selected images for the rest settings
-[ ] reorganize the widgets for the rest reminders
+[x] reorganize the widgets for the rest reminders
 [ ] adding logging - and removing print statements (except when the application starts perhaps?)
 [ ] making the difference between the qlineedit widgets and the qprogressbar larger
 https://stackoverflow.com/questions/9368824/change-the-color-of-a-qprogressbar
+[ ] making the rest dialog non-modal
+[ ] disable breathing reminders while following the breath,
+and reset to previous state when the user "stops/clears"
 
 

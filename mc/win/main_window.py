@@ -19,7 +19,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.show()
-        self.setGeometry(100, 100, 900, 500)
+        self.setGeometry(100, 100, 900, 600)
         self.setCorner(QtCore.Qt.BottomLeftCorner, QtCore.Qt.LeftDockWidgetArea)
         self.setCorner(QtCore.Qt.BottomRightCorner, QtCore.Qt.RightDockWidgetArea)
         self.setWindowIcon(QtGui.QIcon(mc_global.APPLICATION_ICON_PATH_STR))
@@ -36,6 +36,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle(window_title_str)
 
         self.setStyleSheet("selection-background-color:#bfef7f; selection-color:#000000;")  # -#91c856
+        ### QProgressBar{background-color:#333333;}
 
         self.tray_icon = None
         self.rest_reminder_qtimer = None

@@ -310,6 +310,36 @@ def populate_db_with_setup_data():
         "Opening a window",
         ""
     )
+    RestActionsM.add(
+        "Eating a healthy snack",
+        ""
+    )
+    RestActionsM.add(
+        "sitting meditation",
+        ""
+    )
+    RestActionsM.add(
+        "watering the plants",
+        ""
+    )
+    RestActionsM.add(
+        "taking a walk outside",
+        ""
+    )
+    RestActionsM.add(
+        "mindful slow walking inside",
+        ""
+    )
+    RestActionsM.add(
+        "opening the window",
+        ""
+    )
+    RestActionsM.add(
+        "letting in some fresh air",
+        ""
+    )
+
+
 
 
 def populate_db_with_test_data():
