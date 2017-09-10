@@ -3,6 +3,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 
 from mc import model, mc_global
+import mc.dlg.safe_delete_dialog
 
 
 class PhraseListCompositeWidget(QtWidgets.QWidget):
@@ -45,10 +46,26 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         details_vbox.addWidget(QtWidgets.QLabel("Out breath phrase"))
         details_vbox.addWidget(self.out_breath_phrase_qle)
         self.out_breath_phrase_qle.textChanged.connect(self.details_out_breath_text_changed)
+        self.delete_phrase_qpb = QtWidgets.QPushButton("Delete")
+        details_vbox.addWidget(self.delete_phrase_qpb)
+        self.delete_phrase_qpb.clicked.connect(self.on_delete_clicked)
 
         # self.list_widget.selectAll()
 
         self.update_gui()
+
+    def on_delete_clicked(self):
+        # active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
+        conf_result_bool = mc.dlg.safe_delete_dialog.SafeDeleteDialog.get_safe_confirmation_dialog(
+            "Are you sure that you want to remove this entry?",
+        )
+        if conf_result_bool:
+            self.list_widget.clearSelection()
+            model.PhrasesM.remove(mc_global.active_phrase_id_it)
+            mc_global.active_phrase_id_it = mc_global.NO_PHRASE_SELECTED_INT
+            self.update_gui()
+        else:
+            pass
 
     def details_title_text_changed(self):
         assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT

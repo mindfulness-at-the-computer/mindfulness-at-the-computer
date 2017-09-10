@@ -132,6 +132,16 @@ class RestActionsM:
         # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
 
     @staticmethod
+    def remove(i_id_int):
+        db_connection = db.Helper.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "DELETE FROM " + db.Schema.RestActionsTable.name
+            + " WHERE " + db.Schema.RestActionsTable.Cols.id + "=" + str(i_id_int)
+        )
+        db_connection.commit()
+
+    @staticmethod
     def get_all():
         ret_reminder_list = []
         db_connection = db.Helper.get_db_connection()

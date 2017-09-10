@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 
 from mc import model, mc_global
+import mc.dlg.safe_delete_dialog
 
 # Here we place settings for the application, for example the time between notifications,
 # as well as if there is audio as well as the notification
@@ -12,6 +13,7 @@ from mc import model, mc_global
 
 MIN_REST_REMINDER_INT = 1  # -in minutes
 MAX_REST_REMINDER_INT = 99
+
 
 class RestSettingsComposite(QtWidgets.QWidget):
     rest_settings_updated_signal = QtCore.pyqtSignal()
@@ -91,6 +93,9 @@ class RestSettingsComposite(QtWidgets.QWidget):
         self.select_image_qpb = QtWidgets.QPushButton("Select image")
         details_vbox.addWidget(self.select_image_qpb)
         self.select_image_qpb.clicked.connect(self.on_select_image_clicked)
+        self.delete_qpb = QtWidgets.QPushButton("Delete action")
+        details_vbox.addWidget(self.delete_qpb)
+        self.delete_qpb.clicked.connect(self.on_delete_clicked)
 
         # Take break button
         vbox.addWidget(CustomFrame())
@@ -103,6 +108,19 @@ class RestSettingsComposite(QtWidgets.QWidget):
         # vbox.addWidget(QtWidgets.QLabel("<i>All changes are automatically saved</i>"))
 
         self.update_gui()
+
+    def on_delete_clicked(self):
+        # active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
+        conf_result_bool = mc.dlg.safe_delete_dialog.SafeDeleteDialog.get_safe_confirmation_dialog(
+            "Are you sure that you want to remove this entry?"
+        )
+        if conf_result_bool:
+            self.rest_actions_qlw.clearSelection()
+            model.RestActionsM.remove(mc_global.active_rest_action_id_it)
+            mc_global.active_rest_action_id_it = mc_global.NO_REST_ACTION_SELECTED_INT
+            self.update_gui()
+        else:
+            pass
 
     def on_current_row_changed(self):
         current_row_int = self.rest_actions_qlw.currentRow()

@@ -1,4 +1,3 @@
-import functools
 import sys
 
 from PyQt5 import QtCore
@@ -6,13 +5,13 @@ from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 
 from mc import model, mc_global
+from mc.dlg import rest_reminder_dialog
 from mc.win import breathing
+from mc.win import breathing_reminder_settings
 from mc.win import insights
 from mc.win import phrase_list
 from mc.win import quotes
-from mc.win import rest_reminder_dialog
 from mc.win import rest_reminder_settings
-from mc.win import breathing_reminder_settings
 
 
 class MbMainWindow(QtWidgets.QMainWindow):
