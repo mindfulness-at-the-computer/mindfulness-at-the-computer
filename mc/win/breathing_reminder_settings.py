@@ -24,15 +24,11 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
 
         self.updating_gui_bool = False
 
-        new_font = QtGui.QFont()
-        new_font.setBold(True)
-
         vbox = QtWidgets.QVBoxLayout()
         self.setLayout(vbox)
 
         self.breathing_reminder_enabled_qcb = QtWidgets.QCheckBox("Enabled")
         vbox.addWidget(self.breathing_reminder_enabled_qcb)
-        self.breathing_reminder_enabled_qcb.setFont(new_font)
         self.breathing_reminder_enabled_qcb.toggled.connect(self.on_breathing_active_toggled)
         hbox = QtWidgets.QHBoxLayout()
         vbox.addLayout(hbox)

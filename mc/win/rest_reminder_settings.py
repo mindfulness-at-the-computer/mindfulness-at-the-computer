@@ -26,9 +26,6 @@ class RestSettingsComposite(QtWidgets.QWidget):
         self.updating_gui_bool = False
 
 
-
-
-
         vbox = QtWidgets.QVBoxLayout()
         self.setLayout(vbox)
 

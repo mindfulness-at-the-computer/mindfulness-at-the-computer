@@ -1,4 +1,9 @@
 
+***comparing with stillness buddy***
+- adding a schedule with breaks?
+-
+
+
 
 messages in the status bar
 "for best effect, please use a square (1x1) image"

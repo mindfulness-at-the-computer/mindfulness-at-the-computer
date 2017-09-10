@@ -129,8 +129,17 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
     def show_rest_reminder(self):
         mc_global.rest_reminder_minutes_passed_int = 0
-        rest_reminder_dialog.RestReminderDialog.show_dialog(self)
-        # TODO: Do we want to set another icon for the system tray?
+
+        rest_reminder = rest_reminder_dialog.RestReminderDialog(self)
+        result = rest_reminder.exec()
+        if result:
+            outcome_int = rest_reminder.dialog_outcome_int
+            if outcome_int != rest_reminder_dialog.CLOSED_RESULT_INT:
+                total_time = model.SettingsM.get().rest_reminder_interval_int
+                mc_global.rest_reminder_minutes_passed_int = total_time - rest_reminder.dialog_outcome_int
+            else:
+                pass
+        self.update_gui()
 
     def on_breathing_settings_updated(self):
         settings = model.SettingsM.get()
@@ -180,11 +189,6 @@ class MbMainWindow(QtWidgets.QMainWindow):
         update_gui_action = QtWidgets.QAction("Update GUI", self)
         update_gui_action.triggered.connect(self.update_gui)
         debug_menu.addAction(update_gui_action)
-        show_rest_dialog_qaction = QtWidgets.QAction("Rest Dialog", self)
-        show_rest_dialog_qaction.triggered.connect(
-            functools.partial(rest_reminder_dialog.RestReminderDialog.show_dialog, self)
-        )
-        debug_menu.addAction(show_rest_dialog_qaction)
 
         window_menu = self.menu_bar.addMenu("&Windows")
         show_breathing_settings_window_action = self.breathing_settings_dock.toggleViewAction()

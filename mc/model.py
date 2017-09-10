@@ -340,6 +340,12 @@ def populate_db_with_setup_data():
     )
 
 
+    """
+    movement_qpb = QtWidgets.QPushButton("Movement exercise")
+    rest_kindness_alternatives_qbb.addButton(movement_qpb, QtWidgets.QDialogButtonBox.YesRole)
+    walk_qpb = QtWidgets.QPushButton("Taking a walk")
+    rest_kindness_alternatives_qbb.addButton(walk_qpb, QtWidgets.QDialogButtonBox.YesRole)
+    """
 
 
 def populate_db_with_test_data():

@@ -15,6 +15,7 @@ testing_bool = False
 rest_reminder_minutes_passed_int = 0
 # active_rest_image_full_path_str = "user_files/tea.png"
 db_file_exists_at_application_startup_bl = False
+display_inline_help_texts_bool = True  # -TODO
 
 
 class BreathingState(enum.Enum):

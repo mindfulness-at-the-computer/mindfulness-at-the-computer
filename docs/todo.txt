@@ -1,16 +1,21 @@
-[x] reset time for rest reminder
-[x] show number of minutes to next rest?
-[x] split the settings for rest and breathing reminders --- and move the breathing reminder part to the left side
-[x] changing the name to "mindfulness at the computer" or "m@c"
 [ ] making it easier to add new breathing entries
 [ ] making it easier to add new rest
-[x] adding user-selected images for the rest settings
-[x] reorganize the widgets for the rest reminders
 [ ] adding logging - and removing print statements (except when the application starts perhaps?)
 [ ] making the difference between the qlineedit widgets and the qprogressbar larger
 https://stackoverflow.com/questions/9368824/change-the-color-of-a-qprogressbar
 [ ] making the rest dialog non-modal
 [ ] disable breathing reminders while following the breath,
 and reset to previous state when the user "stops/clears"
-
+[ ] add inline help text for new users
+[ ] show rest action list settings in a dialog window instead - we maybe don't need this in the main window
+[ ] *prio*: when breathing starts, everything else is grayed out
+  - what about when the application is paused?
+[ ] details grayed out when no rest action has been selected yet (same as for the breathing reminders)
+[ ] rest reminders: inspiring quotes etc
+[ ] prio: fix the whole enabled/disabled system for the application
+[ ] prio: deleting entries
+[ ] add a separate tab for rest actions and for quotes
+[ ] allow images instead of quotes, or create a third tab for just images?
+[ ] add a nice and simple gradient background for the quotes?
+[ ] add different test setups (no list items for example)
 
