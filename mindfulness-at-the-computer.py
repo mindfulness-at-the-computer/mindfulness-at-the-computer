@@ -27,6 +27,7 @@ if __name__ == "__main__":
 
     logging.basicConfig(level=logging.DEBUG)  # -by default only warnings and higher are shown
     app = QtWidgets.QApplication(sys.argv)
+    app.setQuitOnLastWindowClosed(False)
     main_window = main_window.MbMainWindow()
 
     # System tray

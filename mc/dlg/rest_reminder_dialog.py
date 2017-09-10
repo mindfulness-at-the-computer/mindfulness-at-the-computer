@@ -55,17 +55,11 @@ class RestReminderDialog(QtWidgets.QDialog):
         # Roles: http://doc.qt.io/qt-5/qdialogbuttonbox.html#ButtonRole-enum
 
     def on_wait_clicked(self):
-        self.parent().show()
-        # -this is done to avoid the dialog closing in cases when the application is
-        # "running in the tray"
         minutes_int = self.wait_qsb.value()
         self.dialog_outcome_int = minutes_int
         self.accept()
 
     def on_close_button_clicked(self):
-        self.parent().show()
-        # -this is done to avoid the dialog closing in cases when the application is
-        # "running in the tray"
         self.dialog_outcome_int = CLOSED_RESULT_INT
         self.accept()
 
@@ -77,6 +71,7 @@ class RestReminderDialog(QtWidgets.QDialog):
 
 class CustomPushButton(QtWidgets.QPushButton):
     button_clicked_signal = QtCore.pyqtSignal(int)
+
     def __init__(self, i_title: str, i_id: int):
         super().__init__(i_title)  # -TODO: Send parent as well here?
         self.id_int = i_id

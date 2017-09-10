@@ -18,4 +18,10 @@ and reset to previous state when the user "stops/clears"
 [ ] allow images instead of quotes, or create a third tab for just images?
 [ ] add a nice and simple gradient background for the quotes?
 [ ] add different test setups (no list items for example)
+[ ] distraction free mode when following the breath
+[ ] using vbox.addSpacing(x) to separate parts of the interface (maybe this can replace the
+horizontal lines?)
+[ ] what to display in the system tray menu?
+http://doc.qt.io/qt-5/qsystemtrayicon.html#setContextMenu
+[ ] prio: auto-select the new phrase after adding, same for the rest actions
 

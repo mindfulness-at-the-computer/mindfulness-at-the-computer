@@ -92,3 +92,20 @@ may i be well in body and mind
 
 https://www.iconfinder.com/search/?q=notification&price=free
 
+
+# Tech
+
+http://doc.qt.io/qt-5/qfontdialog.html
+http://doc.qt.io/qt-5/qerrormessage.html
+http://doc.qt.io/qt-5/qcolordialog.html
+
+Stack of widgets where only one widget is visible at a time
+QToolTip
+Tool tips (balloon help) for any widget
+QWhatsThis
+Simple description of any widget, i.e. answering the question "What's This?
+
+http://doc.qt.io/qt-5/qstyle.html
+
+
+
