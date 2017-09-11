@@ -158,6 +158,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
             ""
         )
         self.update_gui()
+        self.rest_actions_qlw.setCurrentRow(self.rest_actions_qlw.count() - 1)
 
     def on_rest_reset_clicked(self):
         self.rest_reset_button_clicked_signal.emit()

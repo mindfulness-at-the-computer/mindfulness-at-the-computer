@@ -1,3 +1,5 @@
+[ ] prio: fix the whole enabled/disabled system for the application
+[ ] *prio*: when breathing starts, everything else is grayed out
 [ ] making it easier to add new breathing entries
 [ ] making it easier to add new rest
 [ ] adding logging - and removing print statements (except when the application starts perhaps?)
@@ -8,12 +10,10 @@ https://stackoverflow.com/questions/9368824/change-the-color-of-a-qprogressbar
 and reset to previous state when the user "stops/clears"
 [ ] add inline help text for new users
 [ ] show rest action list settings in a dialog window instead - we maybe don't need this in the main window
-[ ] *prio*: when breathing starts, everything else is grayed out
   - what about when the application is paused?
 [ ] details grayed out when no rest action has been selected yet (same as for the breathing reminders)
 [ ] rest reminders: inspiring quotes etc
-[ ] prio: fix the whole enabled/disabled system for the application
-[ ] prio: deleting entries
+[x] prio: deleting entries
 [ ] add a separate tab for rest actions and for quotes
 [ ] allow images instead of quotes, or create a third tab for just images?
 [ ] add a nice and simple gradient background for the quotes?
@@ -23,5 +23,5 @@ and reset to previous state when the user "stops/clears"
 horizontal lines?)
 [ ] what to display in the system tray menu?
 http://doc.qt.io/qt-5/qsystemtrayicon.html#setContextMenu
-[ ] prio: auto-select the new phrase after adding, same for the rest actions
+[x] prio: auto-select the new phrase after adding, same for the rest actions
 

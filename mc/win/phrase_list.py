@@ -95,6 +95,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         model.PhrasesM.add(text_sg, "Breathing in", "Breathing out")
         self.add_to_list_le.clear()
         self.update_gui()
+        self.list_widget.setCurrentRow(self.list_widget.count() - 1)
 
     def on_current_row_changed(self):
         current_row_int = self.list_widget.currentRow()
