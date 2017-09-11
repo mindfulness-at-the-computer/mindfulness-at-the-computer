@@ -1,27 +1,32 @@
+[ ] prio: don't change the current time until
+1. the user presses the "reset timer" button
+or
+2. the current time has run out
+[ ] "take a break now" resets the current timer
+
 [ ] prio: fix the whole enabled/disabled system for the application
 [ ] *prio*: when breathing starts, everything else is grayed out
-[ ] making it easier to add new breathing entries
-[ ] making it easier to add new rest
-[ ] adding logging - and removing print statements (except when the application starts perhaps?)
-[ ] making the difference between the qlineedit widgets and the qprogressbar larger
-https://stackoverflow.com/questions/9368824/change-the-color-of-a-qprogressbar
-[ ] making the rest dialog non-modal
 [ ] disable breathing reminders while following the breath,
 and reset to previous state when the user "stops/clears"
++ distraction free mode when following the breath
+
+[ ] making it easier to add new breathing entries,
+making it easier to add new rest
+
 [ ] add inline help text for new users
+
 [ ] show rest action list settings in a dialog window instead - we maybe don't need this in the main window
-  - what about when the application is paused?
-[ ] details grayed out when no rest action has been selected yet (same as for the breathing reminders)
-[ ] rest reminders: inspiring quotes etc
-[x] prio: deleting entries
-[ ] add a separate tab for rest actions and for quotes
-[ ] allow images instead of quotes, or create a third tab for just images?
-[ ] add a nice and simple gradient background for the quotes?
-[ ] add different test setups (no list items for example)
-[ ] distraction free mode when following the breath
+
 [ ] using vbox.addSpacing(x) to separate parts of the interface (maybe this can replace the
 horizontal lines?)
 [ ] what to display in the system tray menu?
 http://doc.qt.io/qt-5/qsystemtrayicon.html#setContextMenu
-[x] prio: auto-select the new phrase after adding, same for the rest actions
 
+[ ] adding logging - and removing print statements (except when the application starts perhaps?)
+[ ] add different test setups (no list items for example)
+
+[ ] keyboard shortcuts for adding new list entries
+
+[x] keyboard focus on breathing in for newly added breathing phrase
+
+[ ] update the breathing phrase main area as the user changes the phrases (in and out)

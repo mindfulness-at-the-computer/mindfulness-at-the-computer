@@ -1,6 +1,7 @@
 
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
+from PyQt5 import QtGui
 
 from mc import model, mc_global
 import mc.dlg.safe_delete_dialog
@@ -22,8 +23,16 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
 
         hbox = QtWidgets.QHBoxLayout()
         vbox.addLayout(hbox)
-        self.add_to_list_le = QtWidgets.QLineEdit()
-        hbox.addWidget(self.add_to_list_le)
+        self.add_to_list_qle = QtWidgets.QLineEdit()
+        hbox.addWidget(self.add_to_list_qle)
+        # self.add_to_list_qle.setsho
+        QtWidgets.QShortcut(
+            QtGui.QKeySequence(QtCore.Qt.Key_Return),
+            self.add_to_list_qle,
+            member=self.add_new_phrase_button_clicked,
+            context=QtCore.Qt.WidgetShortcut
+        )
+        # QtCore.QObject.connec
         self.add_new_phrase = QtWidgets.QPushButton("Add")
         self.add_new_phrase.clicked.connect(self.add_new_phrase_button_clicked)
         hbox.addWidget(self.add_new_phrase)
@@ -53,6 +62,9 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         # self.list_widget.selectAll()
 
         self.update_gui()
+
+    def on_return_shortcut_triggered(self):
+        print("the return key has been pressed")
 
     def on_delete_clicked(self):
         # active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
@@ -89,13 +101,14 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         )
 
     def add_new_phrase_button_clicked(self):
-        text_sg = self.add_to_list_le.text().strip()  # strip is needed to remove a newline at the end (why?)
+        text_sg = self.add_to_list_qle.text().strip()  # strip is needed to remove a newline at the end (why?)
         if not (text_sg and text_sg.strip()):
             return
         model.PhrasesM.add(text_sg, "Breathing in", "Breathing out")
-        self.add_to_list_le.clear()
+        self.add_to_list_qle.clear()
         self.update_gui()
         self.list_widget.setCurrentRow(self.list_widget.count() - 1)
+        self.in_breath_phrase_qle.setFocus()
 
     def on_current_row_changed(self):
         current_row_int = self.list_widget.currentRow()

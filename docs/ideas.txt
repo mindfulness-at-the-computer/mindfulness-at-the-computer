@@ -1,4 +1,20 @@
 
+idea: set a goal in the number of breaks to take each day
+
+
+[ ] put rest reminder progressbar in the status bar?
+
+[ ] rest reminders: inspiring quotes etc
+[ ] allow images instead of quotes, or create a third tab for just images?
+[ ] add a nice and simple gradient background for the quotes?
+
+
+insights into what is important with using the computer:
+- contributing
+- happy sitting here
+
+
+
 ***comparing with stillness buddy***
 - adding a schedule with breaks?
 -
