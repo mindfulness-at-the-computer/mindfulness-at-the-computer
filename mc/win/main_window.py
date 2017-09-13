@@ -61,16 +61,16 @@ class MbMainWindow(QtWidgets.QMainWindow):
         # settings_dock.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
         self.rest_settings_widget = rest_reminder_settings.RestSettingsComposite()
         self.rest_settings_dock.setWidget(self.rest_settings_widget)
-        self.rest_settings_widget.rest_settings_updated_signal.connect(self.on_rest_settings_updated)
+        self.rest_settings_widget.rest_settings_updated_signal.connect(self.update_rest_timer)
         self.rest_settings_widget.rest_test_button_clicked_signal.connect(self.show_rest_reminder)
-        self.rest_settings_widget.rest_reset_button_clicked_signal.connect(self.start_rest_reminder_timer)
+        self.rest_settings_widget.rest_reset_button_clicked_signal.connect(self.update_rest_timer)
 
         self.breathing_settings_dock = QtWidgets.QDockWidget("Breathing reminders")
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.breathing_settings_dock)
         # settings_dock.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
         self.breathing_settings_widget = breathing_reminder_settings.BreathingSettingsComposite()
         self.breathing_settings_dock.setWidget(self.breathing_settings_widget)
-        self.breathing_settings_widget.breathing_settings_updated_signal.connect(self.on_breathing_settings_updated)
+        self.breathing_settings_widget.breathing_settings_updated_signal.connect(self.update_breathing_timer)
         self.breathing_settings_widget.breathing_test_button_clicked_signal.connect(self.show_breathing_notification)
 
 
@@ -90,19 +90,23 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.menu_bar = self.menuBar()
         self.update_menu()
 
-        self.start_breathing_notification_timer()
-        self.start_rest_reminder_timer()
+        self.update_breathing_timer()
+        self.update_rest_timer()
 
     def phrase_row_changed(self):
-        self.start_breathing_notification_timer()
+        self.update_breathing_timer()
         self.update_gui()
 
-    def on_rest_settings_updated(self):
+    def update_rest_timer(self):
         settings = model.SettingsM.get()
         if settings.rest_reminder_active_bool:
             self.start_rest_reminder_timer()
         else:
             self.stop_rest_reminder_timer()
+
+
+
+
 
     def stop_rest_reminder_timer(self):
         if self.rest_reminder_qtimer is not None and self.rest_reminder_qtimer.isActive():
@@ -110,8 +114,6 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.rest_settings_widget.update_gui()  # -so that the progressbar is updated
 
     def start_rest_reminder_timer(self):
-        if model.SettingsM.get().rest_reminder_active_bool:
-            return
         mc_global.rest_reminder_minutes_passed_int = 0
         self.stop_rest_reminder_timer()
         self.rest_reminder_qtimer = QtCore.QTimer(self)
@@ -141,7 +143,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
                 pass
         self.update_gui()
 
-    def on_breathing_settings_updated(self):
+
+
+    def update_breathing_timer(self):
         settings = model.SettingsM.get()
         if settings.breathing_reminder_active_bool:
             self.start_breathing_notification_timer()
@@ -153,8 +157,6 @@ class MbMainWindow(QtWidgets.QMainWindow):
             self.breathing_qtimer.stop()
 
     def start_breathing_notification_timer(self):
-        if not model.SettingsM.get().breathing_reminder_active_bool:
-            return
         self.stop_breathing_notification_timer()
         settings = model.SettingsM.get()
         self.breathing_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
@@ -175,6 +177,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
         # TODO: The title (now "application title string") and the icon
         # could be used to show if the message is a mindfulness of breathing message
         # or a message for taking a break (or something else)
+
+
+
 
     def update_menu(self):
         self.menu_bar.clear()
