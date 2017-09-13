@@ -13,10 +13,6 @@ and reset to previous state when the user "stops/clears"
 [x] making it easier to add new breathing entries,
 making it easier to add new rest
 
-[ ] add inline help text for new users
-
-[ ] show rest action list settings in a dialog window instead - we maybe don't need this in the main window
-
 [ ] using vbox.addSpacing(x) to separate parts of the interface (maybe this can replace the
 horizontal lines?)
 [ ] what to display in the system tray menu?
@@ -25,7 +21,7 @@ http://doc.qt.io/qt-5/qsystemtrayicon.html#setContextMenu
 [ ] adding logging - and removing print statements (except when the application starts perhaps?)
 [ ] add different test setups (no list items for example)
 
-[ ] keyboard shortcuts for adding new list entries
+[x] keyboard shortcuts for adding new list entries
 
 [x] keyboard focus on breathing in for newly added breathing phrase
 

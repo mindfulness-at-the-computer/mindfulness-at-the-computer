@@ -80,6 +80,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.rest_actions_dock)
         self.rest_actions_widget = mc.win.rest_actions.RestActionsComposite()
         self.rest_actions_dock.setWidget(self.rest_actions_widget)
+        size_policy = self.rest_actions_dock.sizePolicy()
+        size_policy.setVerticalPolicy(QtWidgets.QSizePolicy.Maximum)
+        self.rest_actions_dock.setSizePolicy(size_policy)
 
         """
         self.quotes_dock = QtWidgets.QDockWidget("Quotes")

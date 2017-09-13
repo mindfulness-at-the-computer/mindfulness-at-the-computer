@@ -7,6 +7,7 @@ ex: 30 sek, 60 sekunder
 (kanske likadant för rest reminders)
 
 
+[ ] add inline help text for new users
 
 [ ] put rest reminder progressbar in the status bar?
 
