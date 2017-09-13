@@ -42,6 +42,7 @@ class RestActionsComposite(QtWidgets.QWidget):
         # Details
         self.details_qgb = QtWidgets.QGroupBox("Details")
         vbox.addWidget(self.details_qgb)
+        self.details_qgb.setDisabled(True)
         details_vbox = QtWidgets.QVBoxLayout()
         self.details_qgb.setLayout(details_vbox)
 
@@ -85,10 +86,12 @@ class RestActionsComposite(QtWidgets.QWidget):
     def on_current_row_changed(self):
         current_row_int = self.rest_actions_qlw.currentRow()
         if current_row_int != -1:
+            self.details_qgb.setDisabled(False)
             current_rest_action_qli = self.rest_actions_qlw.item(current_row_int)
             customqlabel_widget = self.rest_actions_qlw.itemWidget(current_rest_action_qli)
             mc_global.active_rest_action_id_it = customqlabel_widget.question_entry_id
         else:
+            self.details_qgb.setDisabled(True)
             raise Exception("We should not be able to deselect")
 
         self.update_gui_details()

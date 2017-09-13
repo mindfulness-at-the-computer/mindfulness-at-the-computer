@@ -39,9 +39,10 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
 
         # Details
         details_vbox = QtWidgets.QVBoxLayout()
-        details_qgb = QtWidgets.QGroupBox("Details")
-        vbox.addWidget(details_qgb)
-        details_qgb.setLayout(details_vbox)
+        self.details_qgb = QtWidgets.QGroupBox("Details")
+        vbox.addWidget(self.details_qgb)
+        self.details_qgb.setLayout(details_vbox)
+        self.details_qgb.setDisabled(True)
 
         self.breath_title_qle = QtWidgets.QLineEdit()
         details_vbox.addWidget(QtWidgets.QLabel("Title"))
@@ -113,16 +114,16 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
     def on_current_row_changed(self):
         current_row_int = self.list_widget.currentRow()
         if current_row_int != -1:
+            self.details_qgb.setDisabled(False)
             current_question_qli = self.list_widget.item(current_row_int)
             customqlabel_widget = self.list_widget.itemWidget(current_question_qli)
             mc_global.active_phrase_id_it = customqlabel_widget.question_entry_id
         else:
+            self.details_qgb.setDisabled(True)
             raise Exception("We should not be able to deselect")
 
         self.update_gui_details()
         self.row_changed_signal.emit()
-
-
 
     def update_gui(self):
         # List

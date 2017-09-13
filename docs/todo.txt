@@ -28,3 +28,4 @@ http://doc.qt.io/qt-5/qsystemtrayicon.html#setContextMenu
 [ ] update the breathing phrase main area as the user changes the phrases (in and out)
 
 [ ] pause timer while the rest dialog is displayed
+
