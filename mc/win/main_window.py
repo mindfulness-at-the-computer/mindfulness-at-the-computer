@@ -139,12 +139,10 @@ class MbMainWindow(QtWidgets.QMainWindow):
                 pass
         self.update_gui()
 
-
-
     def update_breathing_timer(self):
         settings = model.SettingsM.get()
         if settings.breathing_reminder_active_bool:
-            self.start_breathing_notification_timer()
+            self.start_breathing_timer()
         else:
             self.stop_breathing_timer()
 
@@ -152,7 +150,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         if self.breathing_qtimer is not None and self.breathing_qtimer.isActive():
             self.breathing_qtimer.stop()
 
-    def start_breathing_notification_timer(self):
+    def start_breathing_timer(self):
         self.stop_breathing_timer()
         settings = model.SettingsM.get()
         self.breathing_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
@@ -161,21 +159,17 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
     def show_breathing_notification(self):
         settings = model.SettingsM.get()
-        if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT:
-            active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
-            reminder_str = active_phrase.ib_str + "\n" + active_phrase.ob_str
-            self.tray_icon.showMessage(
-                "Mindful breathing",
-                reminder_str.strip(),
-                icon=QtWidgets.QSystemTrayIcon.NoIcon,
-                msecs=settings.breathing_reminder_length_int * 1000
-            )
+        assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT
+        active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
+        reminder_str = active_phrase.ib_str + "\n" + active_phrase.ob_str
+        self.tray_icon.showMessage(
+            "Mindful breathing",
+            reminder_str.strip(),
+            icon=QtWidgets.QSystemTrayIcon.NoIcon,
+            msecs=settings.breathing_reminder_length_int * 1000
+        )
         # TODO: The title (now "application title string") and the icon
         # could be used to show if the message is a mindfulness of breathing message
-        # or a message for taking a break (or something else)
-
-
-
 
     def update_menu(self):
         self.menu_bar.clear()
