@@ -10,7 +10,7 @@ or
 and reset to previous state when the user "stops/clears"
 + distraction free mode when following the breath
 
-[ ] making it easier to add new breathing entries,
+[x] making it easier to add new breathing entries,
 making it easier to add new rest
 
 [ ] add inline help text for new users

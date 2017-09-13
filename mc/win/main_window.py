@@ -204,10 +204,11 @@ class MbMainWindow(QtWidgets.QMainWindow):
         message_box = QtWidgets.QMessageBox.about(
             self,
             "About Mindfulness at the Computer",
-            ("Concept and programming by Tord\n"
-            'Photography (for application icon) by Torgny Dellsén - torgnydellsen.zenfolio.com\n'
-            'Other icons from Open Iconic - useiconic.com\n'
-            "Software License: GPLv3\n"
+            ('<html>Concept and programming by Tord Dellsén<br>'
+            'Photography for application icon by Torgny Dellsén <a href="http://torgnydellsen.zenfolio.com">torgnydellsen.zenfolio.com</a><br>'
+            'Other icons from Open Iconic - useiconic.com<br>'
+            'Other images (for the rest actions) have been released into the public domain (CC0)<br>'
+            'Software License: GPLv3</html>'
             )
         )
 
