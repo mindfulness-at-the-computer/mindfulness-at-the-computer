@@ -8,7 +8,7 @@ import mc.dlg.safe_delete_dialog
 
 
 class PhraseListCompositeWidget(QtWidgets.QWidget):
-    row_changed_signal = QtCore.pyqtSignal()
+    phrases_updated_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -93,6 +93,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
             mc_global.active_phrase_id_it,
             self.in_breath_phrase_qle.text()
         )
+        self.phrases_updated_signal.emit()
 
     def details_out_breath_text_changed(self):
         assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT
@@ -100,6 +101,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
             mc_global.active_phrase_id_it,
             self.out_breath_phrase_qle.text()
         )
+        self.phrases_updated_signal.emit()
 
     def add_new_phrase_button_clicked(self):
         text_sg = self.add_to_list_qle.text().strip()  # strip is needed to remove a newline at the end (why?)
@@ -123,7 +125,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
             raise Exception("We should not be able to deselect")
 
         self.update_gui_details()
-        self.row_changed_signal.emit()
+        self.phrases_updated_signal.emit()
 
     def update_gui(self):
         # List

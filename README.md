@@ -16,8 +16,6 @@ Features:
 
 ![Notification](docs/img/screenshot-notification-1.png)
 
-![System tray](docs/img/screenshot-systray-1.png)
-
 ![Rest reminder](docs/img/screenshot-rest-reminder-1.png)
 
 (These screenshots have been taken on a GNU/Linux system, it look a bit different for you)

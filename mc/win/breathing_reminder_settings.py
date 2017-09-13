@@ -99,6 +99,8 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         # Breathing reminder
         if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT:
             self.setDisabled(False)
+        else:
+            self.setDisabled(True)
 
         self.toggle_switch.update_gui(model.SettingsM.get().breathing_reminder_active_bool)
 

@@ -57,7 +57,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.phrase_list_dock.setFeatures(QtWidgets.QDockWidget.NoDockWidgetFeatures)
         self.phrase_list_widget = phrase_list.PhraseListCompositeWidget()
         self.phrase_list_dock.setWidget(self.phrase_list_widget)
-        self.phrase_list_widget.row_changed_signal.connect(self.phrase_row_changed)
+        self.phrase_list_widget.phrases_updated_signal.connect(self.phrase_row_changed)
 
         self.breathing_settings_dock = QtWidgets.QDockWidget("Breathing Reminders")
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.breathing_settings_dock)
