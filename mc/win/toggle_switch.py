@@ -9,19 +9,15 @@ class ToggleSwitchComposite(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
 
-        self.widget_can_be_enabled_bool = False
-
         self.updating_gui_bool = False
 
         vbox = QtWidgets.QVBoxLayout()
         self.setLayout(vbox)
-        # vbox.setContentsMargins(0, -1, -1, 0)
         (left, right, top, bottom) = vbox.getContentsMargins()
         vbox.setContentsMargins(0, 0, 5, 5)
 
         hbox = QtWidgets.QHBoxLayout()
         vbox.addLayout(hbox)
-
 
         self.on_qpb = QtWidgets.QPushButton("On")
         hbox.addWidget(self.on_qpb)
@@ -66,12 +62,6 @@ class ToggleSwitchComposite(QtWidgets.QWidget):
             self.on_qpb.setChecked(False)
             self.off_qpb.setChecked(True)
             self.state_qll.setText("Disabled")
-
-        if self.widget_can_be_enabled_bool:
-            pass
-        else:
-            pass
-            # self.state_qll.setText("Disabled")
 
         self.updating_gui_bool = False
 

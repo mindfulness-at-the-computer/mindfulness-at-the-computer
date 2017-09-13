@@ -100,27 +100,23 @@ class MbMainWindow(QtWidgets.QMainWindow):
     def update_rest_timer(self):
         settings = model.SettingsM.get()
         if settings.rest_reminder_active_bool:
-            self.start_rest_reminder_timer()
+            self.start_rest_timer()
         else:
-            self.stop_rest_reminder_timer()
+            self.stop_rest_timer()
 
-
-
-
-
-    def stop_rest_reminder_timer(self):
+    def stop_rest_timer(self):
         if self.rest_reminder_qtimer is not None and self.rest_reminder_qtimer.isActive():
             self.rest_reminder_qtimer.stop()
         self.rest_settings_widget.update_gui()  # -so that the progressbar is updated
 
-    def start_rest_reminder_timer(self):
+    def start_rest_timer(self):
         mc_global.rest_reminder_minutes_passed_int = 0
-        self.stop_rest_reminder_timer()
+        self.stop_rest_timer()
         self.rest_reminder_qtimer = QtCore.QTimer(self)
-        self.rest_reminder_qtimer.timeout.connect(self.rest_reminder_timeout)
+        self.rest_reminder_qtimer.timeout.connect(self.rest_timer_timeout)
         self.rest_reminder_qtimer.start(60 * 1000)  # -one minute
 
-    def rest_reminder_timeout(self):
+    def rest_timer_timeout(self):
         mc_global.rest_reminder_minutes_passed_int += 1
         rest_reminder_interval_minutes_int = model.SettingsM.get().rest_reminder_interval_int
         if mc_global.rest_reminder_minutes_passed_int >= rest_reminder_interval_minutes_int:
@@ -150,14 +146,14 @@ class MbMainWindow(QtWidgets.QMainWindow):
         if settings.breathing_reminder_active_bool:
             self.start_breathing_notification_timer()
         else:
-            self.stop_breathing_notification_timer()
+            self.stop_breathing_timer()
 
-    def stop_breathing_notification_timer(self):
+    def stop_breathing_timer(self):
         if self.breathing_qtimer is not None and self.breathing_qtimer.isActive():
             self.breathing_qtimer.stop()
 
     def start_breathing_notification_timer(self):
-        self.stop_breathing_notification_timer()
+        self.stop_breathing_timer()
         settings = model.SettingsM.get()
         self.breathing_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
         self.breathing_qtimer.timeout.connect(self.show_breathing_notification)
