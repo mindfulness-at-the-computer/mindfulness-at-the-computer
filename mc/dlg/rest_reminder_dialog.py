@@ -16,7 +16,7 @@ class RestReminderDialog(QtWidgets.QDialog):
     def __init__(self, i_parent):
         super(RestReminderDialog, self).__init__(i_parent)
         self.setWindowTitle("Please take care of yourself")
-        self.setWindowIcon(QtGui.QIcon("icon.png"))
+        self.setWindowIcon(QtGui.QIcon(mc.mc_global.APPLICATION_ICON_PATH_STR))
 
         self.dialog_outcome_int = CLOSED_RESULT_INT
 

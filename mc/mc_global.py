@@ -8,6 +8,7 @@ APPLICATION_ICON_PATH_STR = "icons/icon.png"
 NO_PHRASE_SELECTED_INT = -1
 NO_REST_ACTION_SELECTED_INT = -1
 DATABASE_FILE_PATH_STR = "user_files/mindfulness-at-the-computer.db"
+README_FILE_PATH_STR = "README.md"
 
 active_rest_action_id_it = NO_REST_ACTION_SELECTED_INT
 active_phrase_id_it = NO_PHRASE_SELECTED_INT

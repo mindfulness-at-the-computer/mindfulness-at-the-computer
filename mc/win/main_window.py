@@ -1,4 +1,5 @@
 import sys
+import webbrowser
 
 from PyQt5 import QtCore
 from PyQt5 import QtGui
@@ -12,6 +13,8 @@ from mc.win import insights
 from mc.win import phrase_list
 from mc.win import quotes
 from mc.win import rest_reminder_settings
+import mc.dlg.readme_dialog
+import mc.win.rest_actions
 
 
 class MbMainWindow(QtWidgets.QMainWindow):
@@ -56,7 +59,15 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.phrase_list_dock.setWidget(self.phrase_list_widget)
         self.phrase_list_widget.row_changed_signal.connect(self.phrase_row_changed)
 
-        self.rest_settings_dock = QtWidgets.QDockWidget("Rest reminders")
+        self.breathing_settings_dock = QtWidgets.QDockWidget("Breathing Reminders")
+        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.breathing_settings_dock)
+        # settings_dock.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
+        self.breathing_settings_widget = breathing_reminder_settings.BreathingSettingsComposite()
+        self.breathing_settings_dock.setWidget(self.breathing_settings_widget)
+        self.breathing_settings_widget.breathing_settings_updated_signal.connect(self.update_breathing_timer)
+        self.breathing_settings_widget.breathing_test_button_clicked_signal.connect(self.show_breathing_notification)
+
+        self.rest_settings_dock = QtWidgets.QDockWidget("Rest Reminders")
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.rest_settings_dock)
         # settings_dock.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
         self.rest_settings_widget = rest_reminder_settings.RestSettingsComposite()
@@ -65,15 +76,12 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.rest_settings_widget.rest_test_button_clicked_signal.connect(self.show_rest_reminder)
         self.rest_settings_widget.rest_reset_button_clicked_signal.connect(self.update_rest_timer)
 
-        self.breathing_settings_dock = QtWidgets.QDockWidget("Breathing reminders")
-        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.breathing_settings_dock)
-        # settings_dock.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
-        self.breathing_settings_widget = breathing_reminder_settings.BreathingSettingsComposite()
-        self.breathing_settings_dock.setWidget(self.breathing_settings_widget)
-        self.breathing_settings_widget.breathing_settings_updated_signal.connect(self.update_breathing_timer)
-        self.breathing_settings_widget.breathing_test_button_clicked_signal.connect(self.show_breathing_notification)
+        self.rest_actions_dock = QtWidgets.QDockWidget("Rest Actions")
+        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.rest_actions_dock)
+        self.rest_actions_widget = mc.win.rest_actions.RestActionsComposite()
+        self.rest_actions_dock.setWidget(self.rest_actions_widget)
 
-
+        """
         self.quotes_dock = QtWidgets.QDockWidget("Quotes")
         self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.quotes_dock)
         self.quotes_widget = quotes.CompositeQuotesWidget()
@@ -85,10 +93,13 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.insights_widget = insights.CompositeInsightsWidget()
         self.insights_dock.setWidget(self.insights_widget)
         self.insights_dock.hide()  # -hiding at the start
+        """
 
         # Menu
         self.menu_bar = self.menuBar()
         self.update_menu()
+
+
 
         self.update_breathing_timer()
         self.update_rest_timer()
@@ -192,13 +203,29 @@ class MbMainWindow(QtWidgets.QMainWindow):
         window_menu.addAction(show_breathing_settings_window_action)
         show_rest_settings_window_action = self.rest_settings_dock.toggleViewAction()
         window_menu.addAction(show_rest_settings_window_action)
-        show_quotes_window_action = self.quotes_dock.toggleViewAction()
-        window_menu.addAction(show_quotes_window_action)
+        # show_quotes_window_action = self.quotes_dock.toggleViewAction()
+        # window_menu.addAction(show_quotes_window_action)
+        show_rest_actions_window_action = self.rest_actions_dock.toggleViewAction()
+        window_menu.addAction(show_rest_actions_window_action)
 
         help_menu = self.menu_bar.addMenu("&Help")
         about_action = QtWidgets.QAction("About", self)
         help_menu.addAction(about_action)
         about_action.triggered.connect(self.show_about_box)
+        online_help_action = QtWidgets.QAction("Online help", self)
+        help_menu.addAction(online_help_action)
+        online_help_action.triggered.connect(self.show_online_help)
+        offline_help_action = QtWidgets.QAction("Offline help", self)
+        help_menu.addAction(offline_help_action)
+        offline_help_action.triggered.connect(self.show_offline_help)
+
+    def show_offline_help(self):
+        mc.dlg.readme_dialog.ReadmeDialog.show_dialog(self)
+
+    def show_online_help(self):
+        url_str = "https://github.com/SunyataZero/mindfulness-at-the-computer#user-documentation"
+        # Python: webbrowser.get(url_str) --- doesn't work
+        QtGui.QDesktopServices.openUrl(QtCore.QUrl(url_str))
 
     def show_about_box(self):
         message_box = QtWidgets.QMessageBox.about(
