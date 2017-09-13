@@ -270,14 +270,14 @@ def export_all():
 
 def populate_db_with_setup_data():
     PhrasesM.add(
-        "In, out",
+        "In, Out",
         "Breathing in, I know I am breathing in",
         "Breathing out, I know I am breathing out",
     )
     PhrasesM.add(
-        "Happy, safe",
-        "Breathing in, may I be peaceful, happy, and safe",
-        "Breathing out, may I be free from fear, hatred, and delusion",
+        "Happy, Safe",
+        "May I be peaceful, happy, and safe",
+        ""
     )
     PhrasesM.add(
         "Aware of Body",
@@ -285,19 +285,9 @@ def populate_db_with_setup_data():
         "Aware of my body, I breathe out",
     )
     PhrasesM.add(
-        "Aware of painful feeling",
-        "Breathing in, I am aware of a painful feeling in my body",
-        "Breathing out, I am aware of a painful feeling in my body",
-    )
-    PhrasesM.add(
-        "Caring for Body",
+        "Caring, Relaxing",
         "Breathing in, I care for my body",
         "Breathing out, I relax my body",
-    )
-    PhrasesM.add(
-        "Confidence, peace",
-        "Breathing in confidence",
-        "Breathing out peace",
     )
 
     RestActionsM.add(
@@ -305,48 +295,32 @@ def populate_db_with_setup_data():
         "user_files/images/tea.png"
     )
     RestActionsM.add(
-        "Movement exercise with the arms",
-        "user_files/images/stones.png"
-    )
-    RestActionsM.add(
-        "Going outside",
-        ""
-    )
-    RestActionsM.add(
-        "Slow Mindful walking",
+        "Stretching the arms",
         ""
     )
     RestActionsM.add(
         "Opening a window",
+        "user_files/images/window.png"
+    )
+    RestActionsM.add(
+        "Watering the plants",
+        ""
+    )
+    RestActionsM.add(
+        "Cleaning/organizing your space",
         ""
     )
     RestActionsM.add(
         "Eating a healthy snack",
-        ""
+        "user_files/images/organes-with-flower.png"
     )
     RestActionsM.add(
-        "sitting meditation",
-        ""
+        "Slow Mindful walking inside",
+        "user_files/images/footprint.png"
     )
     RestActionsM.add(
-        "watering the plants",
-        ""
-    )
-    RestActionsM.add(
-        "taking a walk outside",
-        ""
-    )
-    RestActionsM.add(
-        "mindful slow walking inside",
-        ""
-    )
-    RestActionsM.add(
-        "opening the window",
-        ""
-    )
-    RestActionsM.add(
-        "letting in some fresh air",
-        ""
+        "Taking a walk outside",
+        "user_files/images/boots-and-autumn-outside.png"
     )
 
 
@@ -355,6 +329,12 @@ def populate_db_with_setup_data():
     rest_kindness_alternatives_qbb.addButton(movement_qpb, QtWidgets.QDialogButtonBox.YesRole)
     walk_qpb = QtWidgets.QPushButton("Taking a walk")
     rest_kindness_alternatives_qbb.addButton(walk_qpb, QtWidgets.QDialogButtonBox.YesRole)
+
+    "letting in some fresh air",
+    "sitting meditation",
+
+    "Aware of painful feeling",
+    "Confidence, peace",
     """
 
 
