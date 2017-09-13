@@ -2,6 +2,12 @@
 idea: set a goal in the number of breaks to take each day
 
 
+senaste tidsalternativet för breathing reminder interval time
+ex: 30 sek, 60 sekunder
+(kanske likadant för rest reminders)
+
+
+
 [ ] put rest reminder progressbar in the status bar?
 
 [ ] rest reminders: inspiring quotes etc

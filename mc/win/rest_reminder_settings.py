@@ -5,6 +5,7 @@ from PyQt5 import QtGui
 
 from mc import model, mc_global
 import mc.dlg.safe_delete_dialog
+import mc.win.toggle_switch
 
 # Here we place settings for the application, for example the time between notifications,
 # as well as if there is audio as well as the notification
@@ -31,11 +32,12 @@ class RestSettingsComposite(QtWidgets.QWidget):
         vbox = QtWidgets.QVBoxLayout()
         self.setLayout(vbox)
 
-        self.rest_reminder_enabled_qcb = QtWidgets.QCheckBox("Enabled")
-        vbox.addWidget(self.rest_reminder_enabled_qcb)
+        self.rest_reminder_switch = mc.win.toggle_switch.ToggleSwitchComposite()
+        vbox.addWidget(self.rest_reminder_switch)
+        self.rest_reminder_switch.toggled_signal.connect(self.on_switch_toggled)
+
         hbox = QtWidgets.QHBoxLayout()
         vbox.addLayout(hbox)
-        self.rest_reminder_enabled_qcb.toggled.connect(self.on_rest_active_toggled)
         hbox.addWidget(QtWidgets.QLabel("Interval:"))
         self.rest_reminder_interval_qsb = QtWidgets.QSpinBox()
         hbox.addWidget(self.rest_reminder_interval_qsb)
@@ -166,11 +168,9 @@ class RestSettingsComposite(QtWidgets.QWidget):
     def on_rest_test_clicked(self):
         self.rest_test_button_clicked_signal.emit()
 
-    def on_rest_active_toggled(self, i_checked_bool):
+    def on_switch_toggled(self, i_checked_bool):
         if self.updating_gui_bool:
             return
-        self.rest_reminder_interval_qsb.setDisabled(not i_checked_bool)
-        self.rest_reminder_test_qpb.setDisabled(not i_checked_bool)
         model.SettingsM.update_rest_reminder_active(i_checked_bool)
         self.rest_settings_updated_signal.emit()
 
@@ -193,11 +193,9 @@ class RestSettingsComposite(QtWidgets.QWidget):
 
         # Rest reminder
         rr_enabled = model.SettingsM.get().rest_reminder_active_bool
-        self.rest_reminder_enabled_qcb.setChecked(rr_enabled)
+        self.rest_reminder_switch.update_gui(rr_enabled)
         rest_reminder_interval_minutes_int = model.SettingsM.get().rest_reminder_interval_int
         self.rest_reminder_interval_qsb.setValue(rest_reminder_interval_minutes_int)
-        self.rest_reminder_interval_qsb.setDisabled(not rr_enabled)
-        self.rest_reminder_test_qpb.setEnabled(rr_enabled)
         self.rest_reminder_qprb.setMinimum(0)
         self.rest_reminder_qprb.setMaximum(rest_reminder_interval_minutes_int)
         self.rest_reminder_qprb.setValue(mc_global.rest_reminder_minutes_passed_int)

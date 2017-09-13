@@ -91,7 +91,6 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.update_menu()
 
         self.start_breathing_notification_timer()
-
         self.start_rest_reminder_timer()
 
     def phrase_row_changed(self):
@@ -111,6 +110,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.rest_settings_widget.update_gui()  # -so that the progressbar is updated
 
     def start_rest_reminder_timer(self):
+        if model.SettingsM.get().rest_reminder_active_bool:
+            return
         mc_global.rest_reminder_minutes_passed_int = 0
         self.stop_rest_reminder_timer()
         self.rest_reminder_qtimer = QtCore.QTimer(self)
@@ -152,6 +153,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
             self.breathing_qtimer.stop()
 
     def start_breathing_notification_timer(self):
+        if not model.SettingsM.get().breathing_reminder_active_bool:
+            return
         self.stop_breathing_notification_timer()
         settings = model.SettingsM.get()
         self.breathing_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer

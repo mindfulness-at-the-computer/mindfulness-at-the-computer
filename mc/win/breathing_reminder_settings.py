@@ -4,6 +4,8 @@ from PyQt5 import QtGui
 
 from mc import model, mc_global
 
+import mc.win.toggle_switch
+
 # Here we place settings for the application, for example the time between notifications,
 # as well as if there is audio as well as the notification
 # Perhaps we want to hide some of these settings?
@@ -27,9 +29,10 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         vbox = QtWidgets.QVBoxLayout()
         self.setLayout(vbox)
 
-        self.breathing_reminder_enabled_qcb = QtWidgets.QCheckBox("Enabled")
-        vbox.addWidget(self.breathing_reminder_enabled_qcb)
-        self.breathing_reminder_enabled_qcb.toggled.connect(self.on_breathing_active_toggled)
+        self.toggle_switch = mc.win.toggle_switch.ToggleSwitchComposite()
+        vbox.addWidget(self.toggle_switch)
+        self.toggle_switch.toggled_signal.connect(self.on_switch_toggled)
+
         hbox = QtWidgets.QHBoxLayout()
         vbox.addLayout(hbox)
         self.breathing_reminder_interval_qll = QtWidgets.QLabel("Interval:")
@@ -69,12 +72,12 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
     def on_breathing_test_clicked(self):
         self.breathing_test_button_clicked_signal.emit()
 
-    def on_breathing_active_toggled(self, i_checked_bool):
+    def on_switch_toggled(self, i_checked_bool):
         if self.updating_gui_bool:
             return
-        self.breathing_reminder_interval_qsb.setDisabled(not i_checked_bool)
-        self.breathing_reminder_length_qsb.setDisabled(not i_checked_bool)
-        self.breathing_reminder_test_qpb.setDisabled(not i_checked_bool)
+        # self.breathing_reminder_interval_qsb.setDisabled(not i_checked_bool)
+        # self.breathing_reminder_length_qsb.setDisabled(not i_checked_bool)
+        # self.breathing_reminder_test_qpb.setDisabled(not i_checked_bool)
         model.SettingsM.update_breathing_reminder_active(i_checked_bool)
         self.breathing_settings_updated_signal.emit()
 
@@ -90,16 +93,15 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         model.SettingsM.update_breathing_reminder_length(i_new_value)
         self.breathing_settings_updated_signal.emit()
 
-
     def update_gui(self):
         self.updating_gui_bool = True
 
         # Breathing reminder
         if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT:
             self.setDisabled(False)
-        self.breathing_reminder_enabled_qcb.setChecked(
-            model.SettingsM.get().breathing_reminder_active_bool
-        )
+
+        self.toggle_switch.update_gui(model.SettingsM.get().breathing_reminder_active_bool)
+
         breathing_reminder_interval_minutes_int = model.SettingsM.get().breathing_reminder_interval_int
         self.breathing_reminder_interval_qsb.setValue(breathing_reminder_interval_minutes_int)
         breathing_reminder_length_minutes_int = model.SettingsM.get().breathing_reminder_length_int
