@@ -35,9 +35,9 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
             context=QtCore.Qt.WidgetShortcut
         )
         # QtCore.QObject.connec
-        self.add_new_phrase = QtWidgets.QPushButton("Add")
-        self.add_new_phrase.clicked.connect(self.add_new_phrase_button_clicked)
-        hbox.addWidget(self.add_new_phrase)
+        self.add_new_phrase_qpb = QtWidgets.QPushButton("Add")
+        self.add_new_phrase_qpb.clicked.connect(self.add_new_phrase_button_clicked)
+        hbox.addWidget(self.add_new_phrase_qpb)
 
         # Details
         details_vbox = QtWidgets.QVBoxLayout()
