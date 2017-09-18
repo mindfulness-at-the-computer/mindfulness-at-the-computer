@@ -18,7 +18,7 @@ class MainTest(unittest.TestCase):
     def test_second(self):
         assert 5 == 5
 
-    def test_third(self):
+    def test_toggle_switch(self):
         ts_widget = ts.ToggleSwitchComposite()
         QtTest.QTest.mouseClick(ts_widget.on_qpb, QtCore.Qt.LeftButton)
         self.assertEqual(ts_widget.state_qll.text(), "Enabled")
