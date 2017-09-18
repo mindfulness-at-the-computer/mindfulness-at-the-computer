@@ -1,0 +1,44 @@
+
+[ ] change position (maybe using arrows from the icon set)
+* move up, down
+* move to top, bottom
+
+[ ] choosing a different directory for user files (to make it easier to backup)
+options:
+show latest five, top five, chosen by the user
+we could store the date and time that each phrase was last selected in the qlistwidget
+
+
+
+[ ] standardize how gui updates are made
+[ ] standardize a naming system for handler menthods (maybe ending with _m if they update the model?)
+
+[x] showing time left, and take break now in the system tray menu
+[x] disable/enable rest reminders
+[x] disable/enable breathing reminders
+
+[ ] show the five/three latest selected phrases in the system tray menu
+figure out how to store this
+
+[ ] bug: sometimes the time left is not updated when the rest dialog is closed
+[ ] bug: strange slider error on windows, the slider jumps to and fro
+
+=========
+
+Low prio:
+[ ] setting the log level when starting the application, using a command line argument
+[ ] marketing: adding a line in my email signature
+[ ] testing
+ * add different test setups (no list items for example)
+[ ] when breathing starts, everything else is grayed out
+[ ] using vbox.addSpacing(x) to separate parts of the interface (maybe this can replace the
+horizontal lines?)
+[ ] what to display in the system tray menu?
+http://doc.qt.io/qt-5/qsystemtrayicon.html#setContextMenu
+
+[ ] prio: don't change the current time until
+1. the user presses the "reset timer" button
+or
+2. the current time has run out
+[ ] "take a break now" resets the current timer
+[ ] pause timer while the rest dialog is displayed
