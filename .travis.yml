@@ -7,10 +7,3 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 script: python -m unittest discover -s tests
-deploy:
-  provider: pages
-  target_branch: master
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
-  on:
-    branch: master
