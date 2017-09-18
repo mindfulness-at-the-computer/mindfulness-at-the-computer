@@ -36,10 +36,13 @@ class MainTest(unittest.TestCase):
 
         TEST_TEXT_STR = "testing 1"
         QtTest.QTest.keyClicks(pl_widget.add_to_list_qle, TEST_TEXT_STR)
-        QtTest.QTest.mouseClick(pl_widget.add_new_phrase_qpb)
+        QtTest.QTest.mouseClick(pl_widget.add_new_phrase_qpb, QtCore.Qt.LeftButton)
 
+        text_list = []
         for i in range(0, pl_widget.list_widget.count()):
-            text_list = pl_widget.list_widget.item(i).text()
+            qlwi = pl_widget.list_widget.item(i)
+            custom_qll = pl_widget.list_widget.itemWidget(qlwi)
+            text_list.append(custom_qll.text())
         self.assertIn(TEST_TEXT_STR, text_list)
 
 

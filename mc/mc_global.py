@@ -58,25 +58,31 @@ class BreathingState(enum.Enum):
 breathing_state = BreathingState.inactive
 
 
+def get_base_dir():
+    base_dir_str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    return base_dir_str
+
+
 def get_database_filename():
     if testing_bool:
         return ":memory:"
     else:
-        return os.path.join(USER_FILES_DIR_STR, DATABASE_FILE_STR)
+        ret_path_str = os.path.join(get_base_dir(), USER_FILES_DIR_STR, DATABASE_FILE_STR)
+        return ret_path_str
 
 
 def get_user_images_path(i_file_name: str=""):
     if i_file_name:
-        user_images_path_str = os.path.join(USER_FILES_DIR_STR, IMAGES_DIR_STR, i_file_name)
+        user_images_path_str = os.path.join(get_base_dir(), USER_FILES_DIR_STR, IMAGES_DIR_STR, i_file_name)
     else:
-        user_images_path_str = os.path.join(USER_FILES_DIR_STR, IMAGES_DIR_STR)
+        user_images_path_str = os.path.join(get_base_dir(), USER_FILES_DIR_STR, IMAGES_DIR_STR)
     return user_images_path_str
     # user_dir_path_str = QtCore.QDir.currentPath() + "/user_files/images/"
     # return QtCore.QDir.toNativeSeparators(user_dir_path_str)
 
 
 def get_icon_path(i_file_name: str):
-    return os.path.join(ICONS_DIR_STR, i_file_name)
+    return os.path.join(get_base_dir(), ICONS_DIR_STR, i_file_name)
 
 
 def get_app_icon_path():
@@ -85,7 +91,7 @@ def get_app_icon_path():
 
 
 def get_user_files_path(i_file_name: str):
-    return os.path.join("user_files", i_file_name)
+    return os.path.join(get_base_dir(), USER_FILES_DIR_STR, i_file_name)
 
 """
 def does_database_exist_started() -> bool:
