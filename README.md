@@ -1,11 +1,10 @@
 [![saythanks](https://img.shields.io/badge/say-thanks-98e633.svg)](https://saythanks.io/to/SunyataZero)
 [![license-gplv3](https://img.shields.io/badge/license-GPLv3-a42e2b.svg)](https://www.gnu.org/licenses/gpl.html)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/mindfulness-at-the-computer/Lobby)
-
 [![Build Status](https://travis-ci.org/SunyataZero/mindfulness-at-the-computer.svg?branch=master)](https://travis-ci.org/SunyataZero/mindfulness-at-the-computer)
 [![Code Health](https://landscape.io/github/SunyataZero/mindfulness-at-the-computer/master/landscape.svg?style=flat)](https://landscape.io/github/SunyataZero/mindfulness-at-the-computer/master)
-[![codecov](https://codecov.io/gh/SunyataZero/mindfulness-at-the-computer/branch/master/graph/badge.svg)](https://codecov.io/gh/SunyataZero/mindfulness-at-the-computer)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/799f63cfa9254d4b9c3b1f93eebac994)](https://www.codacy.com/app/SunyataZero/mindfulness-at-the-computer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=SunyataZero/mindfulness-at-the-computer&amp;utm_campaign=Badge_Grade)
+[![codecov](https://codecov.io/gh/SunyataZero/mindfulness-at-the-computer/branch/master/graph/badge.svg)](https://codecov.io/gh/SunyataZero/mindfulness-at-the-computer)
 
 # Mindfulness at the Computer
 
