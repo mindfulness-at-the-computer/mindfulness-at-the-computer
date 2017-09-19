@@ -8,6 +8,8 @@
 
 # Mindfulness at the Computer
 
+[![Join the chat at https://gitter.im/mindfulness-at-the-computer/Lobby](https://badges.gitter.im/mindfulness-at-the-computer/Lobby.svg)](https://gitter.im/mindfulness-at-the-computer/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A mindfulness and self-care application for people spending many hours in front of the computer
 
 Features:
