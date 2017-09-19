@@ -2,6 +2,7 @@
 [![license-gplv3](https://img.shields.io/badge/license-GPLv3-a42e2b.svg)](https://www.gnu.org/licenses/gpl.html)
 [![Build Status](https://travis-ci.org/SunyataZero/mindfulness-at-the-computer.svg?branch=master)](https://travis-ci.org/SunyataZero/mindfulness-at-the-computer)
 [![Code Health](https://landscape.io/github/SunyataZero/mindfulness-at-the-computer/master/landscape.svg?style=flat)](https://landscape.io/github/SunyataZero/mindfulness-at-the-computer/master)
+[![codecov](https://codecov.io/gh/SunyataZero/mindfulness-at-the-computer/branch/master/graph/badge.svg)](https://codecov.io/gh/SunyataZero/mindfulness-at-the-computer)
 
 # Mindfulness at the Computer
 
