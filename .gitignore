@@ -4,3 +4,4 @@ dist/
 *.db
 .idea/vcs.xml
 exported.csv
+.coverage
