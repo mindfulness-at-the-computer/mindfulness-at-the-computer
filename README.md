@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/799f63cfa9254d4b9c3b1f93eebac994)](https://www.codacy.com/app/SunyataZero/mindfulness-at-the-computer?utm_source=github.com&utm_medium=referral&utm_content=SunyataZero/mindfulness-at-the-computer&utm_campaign=badger)
 [![saythanks](https://img.shields.io/badge/say-thanks-98e633.svg)](https://saythanks.io/to/SunyataZero)
 [![license-gplv3](https://img.shields.io/badge/license-GPLv3-a42e2b.svg)](https://www.gnu.org/licenses/gpl.html)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/mindfulness-at-the-computer/Lobby)
