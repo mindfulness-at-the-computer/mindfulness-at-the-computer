@@ -10,6 +10,6 @@ before_script:
   - sleep 3 # give xvfb some time to start
 script:
   - python -m unittest discover -s tests
-  - coverage run -m unittest tests
+  - coverage run -m unittest tests/test_main.py
   - coverage report -m
 
