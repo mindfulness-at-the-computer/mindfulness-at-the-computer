@@ -10,7 +10,7 @@ from PyQt5 import QtCore
 import PyQt5.Qt
 
 from mc import mc_global
-from mc.win import main_window
+from mc.gui import main_win
 import mc.model
 import mc.db
 
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)  # -by default only warnings and higher are shown
     matc_qapplication = QtWidgets.QApplication(sys.argv)
     matc_qapplication.setQuitOnLastWindowClosed(False)
-    main_window = main_window.MbMainWindow()
+    main_window = main_win.MbMainWindow()
 
     # System tray
     # Please note: We cannot move the update code into another function, even here in

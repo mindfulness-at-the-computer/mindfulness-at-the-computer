@@ -4,7 +4,7 @@ from PyQt5 import QtGui
 
 from mc import model, mc_global
 
-import mc.win.toggle_switch
+import mc.gui.toggle_switch_cw
 
 # Here we place settings for the application, for example the time between notifications,
 # as well as if there is audio as well as the notification
@@ -29,7 +29,7 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         vbox = QtWidgets.QVBoxLayout()
         self.setLayout(vbox)
 
-        self.toggle_switch = mc.win.toggle_switch.ToggleSwitchComposite()
+        self.toggle_switch = mc.gui.toggle_switch_cw.ToggleSwitchComposite()
         vbox.addWidget(self.toggle_switch)
         self.toggle_switch.toggled_signal.connect(self.on_switch_toggled)
 

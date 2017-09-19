@@ -1,11 +1,12 @@
 import os
-from PyQt5 import QtCore
-from PyQt5 import QtWidgets
-from PyQt5 import QtGui
 
+from PyQt5 import QtCore
+from PyQt5 import QtGui
+from PyQt5 import QtWidgets
+
+import mc.gui.safe_delete_dlg
+import mc.gui.toggle_switch_cw
 from mc import model, mc_global
-import mc.dlg.safe_delete_dialog
-import mc.win.toggle_switch
 
 MIN_REST_REMINDER_INT = 1  # -in minutes
 MAX_REST_REMINDER_INT = 99
@@ -26,7 +27,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
         vbox = QtWidgets.QVBoxLayout()
         self.setLayout(vbox)
 
-        self.rest_reminder_switch = mc.win.toggle_switch.ToggleSwitchComposite()
+        self.rest_reminder_switch = mc.gui.toggle_switch_cw.ToggleSwitchComposite()
         vbox.addWidget(self.rest_reminder_switch)
         self.rest_reminder_switch.toggled_signal.connect(self.on_switch_toggled)
 

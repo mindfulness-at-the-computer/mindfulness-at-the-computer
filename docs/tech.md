@@ -3,9 +3,12 @@
 
 **https://github.com/altendky/graham**
 
+
 ### Packaging, testing, Travis
 
 https://blog.ionelmc.ro/2014/05/25/python-packaging/
+
+https://github.com/codecov/example-python
 
 
 ### Application structure

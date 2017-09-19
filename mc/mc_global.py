@@ -1,6 +1,8 @@
 import enum
 import os
 from PyQt5 import QtCore
+from PyQt5 import QtMultimedia
+
 
 APPLICATION_TITLE_STR = "Mindfulness at the Computer"
 APPLICATION_VERSION_STR = "0.1"
@@ -14,6 +16,7 @@ README_FILE_STR = "README.md"
 USER_FILES_DIR_STR = "user_files"
 IMAGES_DIR_STR = "images"
 ICONS_DIR_STR = "icons"
+AUDIO_DIR_STR = "audio"
 
 active_rest_action_id_it = NO_REST_ACTION_SELECTED_INT
 active_phrase_id_it = NO_PHRASE_SELECTED_INT
@@ -93,6 +96,10 @@ def get_app_icon_path():
 def get_user_files_path(i_file_name: str):
     return os.path.join(get_base_dir(), USER_FILES_DIR_STR, i_file_name)
 
+
+def get_audio_path(i_file_name: str):
+    return os.path.join(get_base_dir(), USER_FILES_DIR_STR, AUDIO_DIR_STR, i_file_name)
+
 """
 def does_database_exist_started() -> bool:
     if os.path.isfile(DATABASE_FILE_NAME):
@@ -100,4 +107,17 @@ def does_database_exist_started() -> bool:
     else:
         return False
 """
+
+
+def play_audio():
+    """
+    Qt audio overview: http://doc.qt.io/qt-5/audiooverview.html
+    Please note that the audio file must be wav, if we want to play compressed audio files it will be
+    more complicated (see docs page above)
+    """
+
+    QtMultimedia.QSound.play(
+        get_audio_path("219028__jarredgibb__tibetan-bells-192khz-original[cc0]-1.wav")
+    )
+
 

@@ -1,22 +1,20 @@
+import logging
 import sys
 import webbrowser
-import logging
 
 from PyQt5 import QtCore
 from PyQt5 import QtGui
-from PyQt5 import QtWidgets
 from PyQt5 import QtTest
+from PyQt5 import QtWidgets
 
+import mc.gui.readme_dlg
+import mc.gui.rest_actions_cw
 from mc import model, mc_global
-from mc.dlg import rest_reminder_dialog
-from mc.win import breathing
-from mc.win import breathing_settings
-from mc.win import insights
-from mc.win import phrase_list
-from mc.win import quotes
-from mc.win import rest_settings
-import mc.dlg.readme_dialog
-import mc.win.rest_actions
+from mc.gui import rest_reminder_dlg
+from mc.gui import breathing_cw
+from mc.gui import breathing_settings_cw
+from mc.gui import phrase_list_cw
+from mc.gui import rest_settings_cw
 
 
 class MbMainWindow(QtWidgets.QMainWindow):
@@ -53,20 +51,20 @@ class MbMainWindow(QtWidgets.QMainWindow):
         vbox = QtWidgets.QVBoxLayout()
         vbox_widget.setLayout(vbox)
 
-        self.breathing_composite_widget = breathing.BreathingCompositeWidget()
+        self.breathing_composite_widget = breathing_cw.BreathingCompositeWidget()
         vbox.addWidget(self.breathing_composite_widget)
 
         self.phrase_list_dock = QtWidgets.QDockWidget("List of Phrases")
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.phrase_list_dock)
         self.phrase_list_dock.setFeatures(QtWidgets.QDockWidget.NoDockWidgetFeatures)
-        self.phrase_list_widget = phrase_list.PhraseListCompositeWidget()
+        self.phrase_list_widget = phrase_list_cw.PhraseListCompositeWidget()
         self.phrase_list_dock.setWidget(self.phrase_list_widget)
         self.phrase_list_widget.phrases_updated_signal.connect(self.phrase_row_changed)
 
         self.breathing_settings_dock = QtWidgets.QDockWidget("Breathing Reminders")
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.breathing_settings_dock)
         # settings_dock.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
-        self.breathing_settings_widget = breathing_settings.BreathingSettingsComposite()
+        self.breathing_settings_widget = breathing_settings_cw.BreathingSettingsComposite()
         self.breathing_settings_dock.setWidget(self.breathing_settings_widget)
         self.breathing_settings_widget.breathing_settings_updated_signal.connect(self.update_breathing_timer)
         self.breathing_settings_widget.breathing_test_button_clicked_signal.connect(self.show_breathing_notification)
@@ -74,7 +72,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.rest_settings_dock = QtWidgets.QDockWidget("Rest Reminders")
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.rest_settings_dock)
         # settings_dock.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
-        self.rest_settings_widget = rest_settings.RestSettingsComposite()
+        self.rest_settings_widget = rest_settings_cw.RestSettingsComposite()
         self.rest_settings_dock.setWidget(self.rest_settings_widget)
         self.rest_settings_widget.rest_settings_updated_signal.connect(self.update_rest_timer)
         self.rest_settings_widget.rest_test_button_clicked_signal.connect(self.show_rest_reminder)
@@ -82,7 +80,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
         self.rest_actions_dock = QtWidgets.QDockWidget("Rest Actions")
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.rest_actions_dock)
-        self.rest_actions_widget = mc.win.rest_actions.RestActionsComposite()
+        self.rest_actions_widget = mc.gui.rest_actions_cw.RestActionsComposite()
         self.rest_actions_dock.setWidget(self.rest_actions_widget)
         size_policy = self.rest_actions_dock.sizePolicy()
         size_policy.setVerticalPolicy(QtWidgets.QSizePolicy.Maximum)
@@ -219,6 +217,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
         clear_phrase_selection_action = QtWidgets.QAction("Clear Breathing Phrase", self)
         debug_menu.addAction(clear_phrase_selection_action)
         clear_phrase_selection_action.triggered.connect(self.debug_clear_breathing_phrase_selection)
+        audio_action = QtWidgets.QAction("Play audio", self)
+        debug_menu.addAction(audio_action)
+        audio_action.triggered.connect(mc.mc_global.play_audio)
 
         window_menu = self.menu_bar.addMenu("&Windows")
         show_breathing_settings_window_action = self.breathing_settings_dock.toggleViewAction()
@@ -248,7 +249,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.phrase_list_widget.list_widget.clearSelection()
 
     def show_offline_help(self):
-        mc.dlg.readme_dialog.ReadmeDialog.show_dialog(self)
+        mc.gui.readme_dlg.ReadmeDialog.show_dialog(self)
 
     def show_online_help(self):
         url_str = "https://github.com/SunyataZero/mindfulness-at-the-computer#user-documentation"
@@ -263,6 +264,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
             'Photography for application icon by Torgny Dellsén <a href="http://torgnydellsen.zenfolio.com">torgnydellsen.zenfolio.com</a><br>'
             'Other icons from Open Iconic - useiconic.com<br>'
             'Other images (for the rest actions) have been released into the public domain (CC0)<br>'
+            'Audio files have been released into the public domain (CC0)<br>'
             'Software License: GPLv3</html>'
             )
         )

@@ -5,8 +5,8 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 
-import mc.win.toggle_switch as ts
-import mc.win.phrase_list as pl
+import mc.gui.toggle_switch_cw as ts
+import mc.gui.phrase_list_cw as pl
 
 app = QtWidgets.QApplication(sys.argv)
 

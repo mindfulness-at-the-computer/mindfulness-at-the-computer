@@ -5,7 +5,7 @@ from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 
 from mc import model, mc_global
-import mc.win.quotes
+import mc.gui.quotes_cw
 
 IMAGE_GOAL_WIDTH_INT = 240
 IMAGE_GOAL_HEIGHT_INT = IMAGE_GOAL_WIDTH_INT
@@ -194,7 +194,7 @@ class RestReminderQuotes(QtWidgets.QWidget):
         self.setLayout(vbox_l2)
 
 
-        quotes_widget = mc.win.quotes.CompositeQuotesWidget()
+        quotes_widget = mc.gui.quotes_cw.CompositeQuotesWidget()
         vbox_l2.addWidget(quotes_widget)
 
 
