@@ -6,4 +6,6 @@ before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
-script: python -m unittest discover -s tests
+script:
+  - python -m unittest discover -s tests
+  - coverage run tests/test_main.py
