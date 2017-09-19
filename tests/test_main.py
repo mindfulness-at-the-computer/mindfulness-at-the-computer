@@ -42,8 +42,14 @@ class MainTest(unittest.TestCase):
         for i in range(0, pl_widget.list_widget.count()):
             qlwi = pl_widget.list_widget.item(i)
             custom_qll = pl_widget.list_widget.itemWidget(qlwi)
-            text_list.append(custom_qll.text())
-        self.assertIn(TEST_TEXT_STR, text_list)
+            #text_list.append(custom_qll.text())
+            if custom_qll.text() == TEST_TEXT_STR:
+                return
+        #self.assertIn(TEST_TEXT_STR, text_list)
+        self.fail()
+
+    def test_selecting_breathing_phrase(self):
+        self.assertTrue(True)
 
 
 if __name__ == "__main__":
