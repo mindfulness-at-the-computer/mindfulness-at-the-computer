@@ -1,26 +1,38 @@
-th {
-    background-color: #999999;
-    color: white;
+.header{
+    background-color: #65ac04;
 }
-th, td {
-    text-align: left;
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
+.navbar{
+    background-color: #c2ff2d;
+    padding: 0px;
+    margin: 0px;
 }
-tr:hover {
-    background-color: #ffffff;
+.navbar a{
+    color: black;
+    text-align: center;
+    font-size: 17pt;
+    text-decoration: none;
+    padding: 0px 10px;
+    margin-bottom: 0px;
+    margin-top: 0px
 }
-/*
+.title{
+    background-color: #65ac04;
+    color:white;
+    width: 100%;
+    font-size:38pt;
+    text-decoration: none;
+}
 body{
-    max-width: 700px;
+    background-color: #727272;
 }
-*/
 .center-div{
     margin: auto;
-    width: 50%;
+    width: 700px;
+    background-color: #f2f2f2;
 }
-.last-update{
-    white-space: nowrap;
+img{
+    max-width:500px;
+    max-height:auto;
 }
 p{
     font-size: 15pt;
@@ -28,7 +40,7 @@ p{
 .fine-print{
     font-size: 12pt;
 }
-h1, h2{
+h1,h2,h3,h4{
     color: #595959;
 }
 
@@ -42,46 +54,18 @@ h1, h2{
     margin: 16px;
 }
 
-.navbar{
-    background-color: #d0d0d0;
-    width: 100%;
-    padding: 0px;
-    margin: 0px;
-}
-.navbar a{
-    color: black;
-    text-align: center;
-    font-size: 24px;
-    text-decoration: none;
-    padding: 0px 10px;
-    margin-bottom: 0px;
-    margin-top: 0px
-}
-.navbar img{
-    padding: 0px;
-    margin: 0px;
-}
 
-body{
-    background-color: #f2f2f2;
+
+.dlbutton{
+    background-color:green;
+    color:white;
+    text-align:center;
+    text-decoration:none;
+    font-size:28pt;
+    cursor:pointer;
+    padding:20px 40px;
+    margin:10px 10px;
 }
 
 /*
-.navbar {
-  overflow: hidden;
-  background-color: #333;
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
-.navbar a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
 */
-
