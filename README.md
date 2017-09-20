@@ -12,7 +12,7 @@
 
 # Mindfulness at the Computer
 
-This file is written for nerds and developers, for an intro to the application please check out the [**application website**](https://sunyatazero.github.io/mindfulness-at-the-computer/)
+*This file is written for nerds and developers who want to contribute to the project, for an intro to the application please check out the [**application website**](https://sunyatazero.github.io/mindfulness-at-the-computer/)*
 
 <!-- TBD: If you are a user you can find the user guide here -->
 
@@ -52,7 +52,7 @@ To use this file:
 **GPLv3**
 
 
-## For Developers
+## Varia
 
 * Developer documentation Link: TBD
 * Other projects https://fswellbeing.github.io/
