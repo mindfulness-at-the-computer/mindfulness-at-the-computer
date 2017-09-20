@@ -148,11 +148,11 @@ class MbMainWindow(QtWidgets.QMainWindow):
     def show_rest_reminder(self):
         mc_global.rest_reminder_minutes_remaining_int = model.SettingsM.get().rest_reminder_interval_int
 
-        rest_reminder = rest_reminder_dialog.RestReminderDialog(self)
+        rest_reminder = rest_reminder_dlg.RestReminderDialog(self)
         result = rest_reminder.exec()
         if result:
             outcome_int = rest_reminder.dialog_outcome_int
-            if outcome_int != rest_reminder_dialog.CLOSED_RESULT_INT:
+            if outcome_int != rest_reminder_dlg.CLOSED_RESULT_INT:
                 mc_global.rest_reminder_minutes_remaining_int = rest_reminder.dialog_outcome_int
             else:
                 pass

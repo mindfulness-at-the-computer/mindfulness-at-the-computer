@@ -10,6 +10,8 @@ import mc.gui.phrase_list_cw as pl
 
 app = QtWidgets.QApplication(sys.argv)
 
+# TODO: find a way to set the testing flag or other way to run in memory instead of on disk
+
 
 class MainTest(unittest.TestCase):
 
