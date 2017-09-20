@@ -1,7 +1,7 @@
 <!--Static badges-->
-[![license-gplv3](https://img.shields.io/badge/license-GPLv3-a42e2b.svg)](https://www.gnu.org/licenses/gpl.html)
-[![saythanks](https://img.shields.io/badge/say-thanks-98e633.svg)](https://saythanks.io/to/SunyataZero)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/mindfulness-at-the-computer/Lobby)
+[![saythanks](https://img.shields.io/badge/say-thanks-98e633.svg)](https://saythanks.io/to/SunyataZero)
+[![license-gplv3](https://img.shields.io/badge/license-GPLv3-a42e2b.svg)](https://www.gnu.org/licenses/gpl.html)
 
 <!--Dynamic badges-->
 [![GitHub (pre-)release](https://img.shields.io/github/release/SunyataZero/mindfulness-at-the-computer/all.svg)](https://github.com/SunyataZero/mindfulness-at-the-computer/releases/latest)
