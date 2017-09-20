@@ -12,47 +12,7 @@
 
 # Mindfulness at the Computer
 
-A mindfulness and self-care application for people spending many hours in front of the computer
-
-Features:
-* **Following your in-breath and out-breath** with a graph displayed
-  * Breathe with text help ("Breathing in I know I am breathing in") and write your own texts
-* Receive notifications to remember to be **mindful of breathing** while the application runs in the background
-* Get reminders when it's **time to take a break from the computer** while the application runs in the background
-
-
-## Screenshots and Video
-
-(These screenshots have been taken on a GNU/Linux system, it look a bit different for you)
-
-### Main Window
-
-![Main window](docs/img/screenshot-window-1.png)
-
-### Breathing Notification
-
-![Notification](docs/img/screenshot-notification-1.png)
-
-### Rest Reminder
-
-![Rest reminder](docs/img/screenshot-rest-reminder-1.png)
-
-
-### Video
-
-[![YouTube preview](docs/img/youtube-preview.png)](https://youtu.be/O8UwpXhcY4k?list=PL19ftcT2gVXZNWPbcAWgVJj_OFXwqQqS7)
-
-Click on the image above to go to a youtube playlist with video examples
-
-
-## Downloads
-
-You can find built packages on the release page:
-
-https://github.com/SunyataZero/mindfulness-at-the-computer/releases
-
-(At the moment there's only an execuatable for 64 bit Linux)
-
+This file is written for nerds and developers, for an introduction to the application please check out the [**application website**](https://sunyatazero.github.io/mindfulness-at-the-computer/)
 
 ## Running from Source
 
@@ -85,50 +45,15 @@ To use this file:
 3. Copy the `mindfulness-at-the-computer.desktop` file to `/usr/share/applications/` using `sudo`
 
 
-## Sign up for Updates
-
-https://groups.google.com/forum/#!forum/mindfulness-at-the-computer
-
-
 ## License
 
 **GPLv3**
-
-[![Free Software, Free Society](https://static.fsf.org/nosvn/images/badges/fsfs_icons_beige-bg.png)](http://u.fsf.org/16e)
 
 
 ## For Developers
 
 * Developer documentation Link: TBD
 * Other projects https://fswellbeing.github.io/
-
-
-## User Documentation
-
-### Following the breath
-
-Click the "Start" button to start following the breath
-
-To switch between in and out breath you can use one of the following methods:
-
-* Press the in and out buttons
-  * You can press the same button again, both the in and out button will switch state
-* Use the keyboard by pressing and holding down the left or right shift key to breathe in and releasing to breathe out
-* Hover over the up and down buttons with the mouse cursor
-
-#### ...with a text
-
-If you first select a breathing phrase in the list to the left you can breathe with the text
-
-### Rest Reminders
-
-Adding a new rest action
-
-TBD: images
-
-### Breathing Reminders
-
-First select a breathing phrase in the list to the left
 
 ## Installation
 
