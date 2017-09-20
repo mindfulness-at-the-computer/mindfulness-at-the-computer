@@ -1,0 +1,18 @@
+language: python
+python:
+  - "3.5"
+install:
+  - "pip install -r varia/requirements.txt"
+  - pip install coverage
+  - pip install codecov
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+script:
+  - coverage run --source=. -m unittest discover -s tests
+  - coverage report -m
+# - python -m unittest discover -s tests
+after_success:
+  - codecov
+
