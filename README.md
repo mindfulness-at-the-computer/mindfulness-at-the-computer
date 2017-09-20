@@ -12,7 +12,9 @@
 
 # Mindfulness at the Computer
 
-This file is written for nerds and developers, for an introduction to the application please check out the [**application website**](https://sunyatazero.github.io/mindfulness-at-the-computer/)
+This file is written for nerds and developers, for an intro to the application please check out the [**application website**](https://sunyatazero.github.io/mindfulness-at-the-computer/)
+
+<!-- TBD: If you are a user you can find the user guide here -->
 
 ## Running from Source
 
