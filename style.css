@@ -10,11 +10,14 @@ th, td {
 tr:hover {
     background-color: #ffffff;
 }
-.title{
-    font-size: 15pt;
+/*
+body{
+    max-width: 700px;
 }
-.descr{
-    max-width: 240px;
+*/
+.center-div{
+    margin: auto;
+    width: 50%;
 }
 .last-update{
     white-space: nowrap;
