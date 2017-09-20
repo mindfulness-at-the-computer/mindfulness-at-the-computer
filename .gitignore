@@ -1,7 +1,0 @@
-build/
-dist/
-*.spec
-*.db
-.idea/vcs.xml
-exported.csv
-.coverage
