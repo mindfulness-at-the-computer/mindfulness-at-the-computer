@@ -1,4 +1,6 @@
 
+[ ] prio: hovering or clicking on the text (i, o) for switching
+
 [ ] change position (maybe using arrows from the icon set)
 * move up, down
 * move to top, bottom

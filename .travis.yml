@@ -10,7 +10,7 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 script:
-  - coverage run --source=./,./mc,./mc/gui,./mc/dlg -m unittest discover -s tests
+  - coverage run --source=. -m unittest discover -s tests
   - coverage report -m
 # - python -m unittest discover -s tests
 after_success:

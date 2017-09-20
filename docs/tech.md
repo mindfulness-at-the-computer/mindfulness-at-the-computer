@@ -3,12 +3,22 @@
 
 **https://github.com/altendky/graham**
 
+https://github.com/search?l=Python&q=stars%3A%3E1&s=stars&type=Repositories
+
 
 ### Packaging, testing, Travis
 
 https://blog.ionelmc.ro/2014/05/25/python-packaging/
 
 https://github.com/codecov/example-python
+
+
+### Code coverage
+
+for coverage.py to discover the subdirectories of the root dir specified with --source
+we need to have an __init__.py file for each directory/package
+
+https://github.com/audreyr/how-to/blob/master/python/use_coverage_with_unittest.rst
 
 
 ### Application structure
