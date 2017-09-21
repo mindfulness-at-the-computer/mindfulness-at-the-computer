@@ -18,6 +18,16 @@ You have to be using the platform that you are building the executables for
 This process will create an executable file with supporting .so files, however we may want to also create an installation package
 
 
+We also need to include this:
+
+import glob
+my_datas = []
+my_datas += glob.glob("user_files")
+
+a.datas = my_datas
+
+
+
 ## Building on Windows
 
 * Install version 3.5 of Python (PyInstaller doesn't work with 3.6 at the time of writing) with these settings:
