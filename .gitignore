@@ -1,6 +1,7 @@
 build/
 dist/
 *.db
+mindfulness-at-the-computer.spec
 .idea/vcs.xml
 exported.csv
 .coverage

@@ -129,33 +129,39 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.rest_settings_widget.update_gui()  # -so that the progressbar is updated
 
     def start_rest_timer(self):
-        mc_global.rest_reminder_minutes_remaining_int = model.SettingsM.get().rest_reminder_interval_int
+        mc_global.rest_reminder_minutes_passed_int = 0
         self.stop_rest_timer()
         self.rest_reminder_qtimer = QtCore.QTimer(self)
         self.rest_reminder_qtimer.timeout.connect(self.rest_timer_timeout)
         self.rest_reminder_qtimer.start(60 * 1000)  # -one minute
 
     def rest_timer_timeout(self):
-        mc_global.rest_reminder_minutes_remaining_int -= 1
-        if mc_global.rest_reminder_minutes_remaining_int <= 0:
+        mc_global.rest_reminder_minutes_passed_int += 1
+        if (mc_global.rest_reminder_minutes_passed_int
+                >= model.SettingsM.get().rest_reminder_interval_int):
             self.show_rest_reminder()
+        #######self.rest_settings_widget.updating_gui_bool = True
         self.rest_settings_widget.rest_reminder_qsr.setValue(
-            model.SettingsM.get().rest_reminder_interval_int
-            - mc_global.rest_reminder_minutes_remaining_int
+            mc_global.rest_reminder_minutes_passed_int
         )
+        #######self.rest_settings_widget.updating_gui_bool = False
         ########self.update_tray_menu(1, 1)
 
     def show_rest_reminder(self):
-        mc_global.rest_reminder_minutes_remaining_int = model.SettingsM.get().rest_reminder_interval_int
+        mc_global.rest_reminder_minutes_passed_int = 0
 
         rest_reminder = rest_reminder_dlg.RestReminderDialog(self)
         result = rest_reminder.exec()
         if result:
             outcome_int = rest_reminder.dialog_outcome_int
             if outcome_int != rest_reminder_dlg.CLOSED_RESULT_INT:
-                mc_global.rest_reminder_minutes_remaining_int = rest_reminder.dialog_outcome_int
+                wait_time_int = outcome_int
+                mc_global.rest_reminder_minutes_passed_int = (
+                    model.SettingsM.get().rest_reminder_interval_int
+                    - wait_time_int
+                )
             else:
-                pass
+                mc_global.rest_reminder_minutes_passed_int = 0
         self.update_gui()
 
     def update_breathing_timer(self):
@@ -178,7 +184,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.breathing_qtimer.start(settings.breathing_reminder_interval_int * 1000)
 
     def show_breathing_notification(self):
-        if mc_global.breathing_state != mc_global.BreathingState.inactive:
+        if mc_global.breathing_state != mc_global.BreathingState.inactive \
+                or mc_global.active_phrase_id_it == -1:
             return  # -TODO: Alternatively we can stop and start timers when the state changes
         settings = model.SettingsM.get()
         ####### TODO: assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT

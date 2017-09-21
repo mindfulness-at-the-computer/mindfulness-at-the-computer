@@ -45,7 +45,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
         self.rest_reminder_qsr = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)  # .QProgressBar()
         vbox.addWidget(self.rest_reminder_qsr)
         self.rest_reminder_qsr.setTickPosition(QtWidgets.QSlider.NoTicks)
-        self.rest_reminder_qsr.valueChanged.connect(self.on_rest_reminder_value_changed)
+        self.rest_reminder_qsr.valueChanged.connect(self.on_rest_reminder_slider_value_changed)
 
         """
         self.slider = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)
@@ -82,11 +82,12 @@ class RestSettingsComposite(QtWidgets.QWidget):
 
         self.update_gui()
 
-    def on_rest_reminder_value_changed(self, i_new_value: int):
-        time_passed_int = i_new_value
-        total_time_int = model.SettingsM.get().rest_reminder_interval_int
-        mc_global.rest_reminder_minutes_remaining_int = total_time_int - time_passed_int
-        mc_global.update_tray_rest_progress_bar(time_passed_int, total_time_int)
+    def on_rest_reminder_slider_value_changed(self, i_new_value: int):
+        mc_global.rest_reminder_minutes_passed_int = i_new_value
+        mc_global.update_tray_rest_progress_bar(
+            mc_global.rest_reminder_minutes_passed_int,
+            model.SettingsM.get().rest_reminder_interval_int
+        )
 
     def on_rest_reset_clicked(self):
         self.rest_reset_button_clicked_signal.emit()
@@ -106,13 +107,16 @@ class RestSettingsComposite(QtWidgets.QWidget):
         # (there is no problem when running normally, that is without debug)
         if self.updating_gui_bool:
             return
+        #mc_global.rest_reminder_minutes_remaining_int = i_new_value
         model.SettingsM.update_rest_reminder_interval(i_new_value)
-        self.rest_settings_updated_signal.emit()
 
         rest_reminder_interval_minutes_int = model.SettingsM.get().rest_reminder_interval_int
         self.rest_reminder_qsr.setMinimum(0)
         self.rest_reminder_qsr.setMaximum(rest_reminder_interval_minutes_int)
-        self.rest_reminder_qsr.setValue(mc_global.rest_reminder_minutes_remaining_int)
+        self.rest_reminder_qsr.setValue(mc_global.rest_reminder_minutes_passed_int)
+
+
+        self.rest_settings_updated_signal.emit()
 
     def update_gui(self):
         self.updating_gui_bool = True
@@ -124,11 +128,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
         self.rest_reminder_interval_qsb.setValue(interval_minutes_int)
         self.rest_reminder_qsr.setMinimum(0)
         self.rest_reminder_qsr.setMaximum(interval_minutes_int)
-        time_passed_int = (
-            interval_minutes_int
-            - mc_global.rest_reminder_minutes_remaining_int
-        )
-        self.rest_reminder_qsr.setValue(time_passed_int)
+        self.rest_reminder_qsr.setValue(mc_global.rest_reminder_minutes_passed_int)
 
         self.updating_gui_bool = False
 
