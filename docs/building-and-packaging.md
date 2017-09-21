@@ -19,6 +19,8 @@ This process will create an executable file with supporting .so files, however w
 
 The .spec file has been customized to include the user_files and icons directories
 
+Creating the tar.gz file:
+tar -czvf mindfulness-at-the-computer.tar.gz mindfulness-at-the-computer/
 
 
 ## Building on Windows
