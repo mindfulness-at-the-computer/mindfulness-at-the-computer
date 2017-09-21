@@ -13,18 +13,11 @@ You have to be using the platform that you are building the executables for
   * Which version is used will depend on the Ubuntu version, but any version 3.0 - 3.5 should be fine (?)
 * `pip install pyinstaller`
 * go to the base application directory
-* Type `pyinstaller mindfulness-at-the-computer.py`
+* Type `pyinstaller mindfulness-at-the-computer.py mindfulness-at-the-computer-linux.spec`
 
 This process will create an executable file with supporting .so files, however we may want to also create an installation package
 
-
-We also need to include this:
-
-import glob
-my_datas = []
-my_datas += glob.glob("user_files")
-
-a.datas = my_datas
+The .spec file has been customized to include the user_files and icons directories
 
 
 
