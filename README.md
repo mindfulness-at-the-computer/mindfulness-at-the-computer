@@ -1,9 +1,3 @@
-<!--Static badges-->
-[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/mindfulness-at-the-computer/Lobby)
-[![saythanks](https://img.shields.io/badge/say-thanks-98e633.svg)](https://saythanks.io/to/SunyataZero)
-[![license-gplv3](https://img.shields.io/badge/license-GPLv3-a42e2b.svg)](https://www.gnu.org/licenses/gpl.html)
-
-<!--Dynamic badges-->
 [![GitHub (pre-)release](https://img.shields.io/github/release/SunyataZero/mindfulness-at-the-computer/all.svg)](https://github.com/SunyataZero/mindfulness-at-the-computer/releases/latest)
 [![Build Status](https://travis-ci.org/SunyataZero/mindfulness-at-the-computer.svg?branch=master)](https://travis-ci.org/SunyataZero/mindfulness-at-the-computer)
 [![Code Health](https://landscape.io/github/SunyataZero/mindfulness-at-the-computer/master/landscape.svg?style=flat)](https://landscape.io/github/SunyataZero/mindfulness-at-the-computer/master)
@@ -46,11 +40,13 @@ To use this file:
 2. Copy the `mindfulness-at-the-computer.desktop` file to your desktop or any place where you want to be able to start the application from
 3. Copy the `mindfulness-at-the-computer.desktop` file to `/usr/share/applications/` using `sudo`
 
+## Social
+
+[Gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby)
 
 ## License
 
-**GPLv3**
-
+GPLv3
 
 ## Varia
 
@@ -61,7 +57,11 @@ To use this file:
 
 See [Running from Source](#running-from-source) above
 
-***
+<!--
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/mindfulness-at-the-computer/Lobby)
+[![saythanks](https://img.shields.io/badge/say-thanks-98e633.svg)](https://saythanks.io/to/SunyataZero)
+[![license-gplv3](https://img.shields.io/badge/license-GPLv3-a42e2b.svg)](https://www.gnu.org/licenses/gpl.html)
 
 Aka: m@c, matc
+-->
 
