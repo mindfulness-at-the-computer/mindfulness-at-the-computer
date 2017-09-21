@@ -34,6 +34,9 @@ p,ul{
     font-size: 16pt;
     line-height: 26px;
 }
+.fine-print{
+    font-size: 12pt;
+}
 img{
     max-width:480px;
     max-height:auto;
