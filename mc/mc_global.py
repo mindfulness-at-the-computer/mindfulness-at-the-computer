@@ -64,7 +64,6 @@ breathing_state = BreathingState.inactive
 
 
 def get_base_dir():
-    # TODO: Other path for testing?
     base_dir_str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     return base_dir_str
 
