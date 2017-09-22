@@ -7,16 +7,17 @@ from PyQt5 import QtWidgets
 
 import mc.gui.toggle_switch_cw as ts
 import mc.gui.phrase_list_cw as pl
+import mc.mc_global
 
 app = QtWidgets.QApplication(sys.argv)
+# -has to be set here (rather than in __main__) to avoid an error
 
 # TODO: find a way to set the testing flag or other way to run in memory instead of on disk
+# for the database as well as for the other files
+# PLEASE NOTE: We are not going to create new or write to files except for the database file
 
 
 class MainTest(unittest.TestCase):
-
-    def test_first(self):
-        assert 4 == 4
 
     def test_toggle_switch(self):
         ts_widget = ts.ToggleSwitchComposite()
@@ -55,5 +56,6 @@ class MainTest(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    mc.mc_global.testing_bool = True
     unittest.main()
 

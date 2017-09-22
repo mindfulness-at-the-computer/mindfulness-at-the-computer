@@ -27,6 +27,8 @@ db_file_exists_at_application_startup_bl = False
 display_inline_help_texts_bool = True  # -TODO
 
 tray_rest_progress_qaction = None
+
+
 def update_tray_rest_progress_bar(time_passed_int, interval_minutes_int):
     if tray_rest_progress_qaction is not None:
         time_passed_str = ""
@@ -62,6 +64,7 @@ breathing_state = BreathingState.inactive
 
 
 def get_base_dir():
+    # TODO: Other path for testing?
     base_dir_str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     return base_dir_str
 

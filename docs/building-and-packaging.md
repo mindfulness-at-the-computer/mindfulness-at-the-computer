@@ -68,3 +68,7 @@ https://github.com/probonopd/AppImages/tree/master/recipes
 https://github.com/AppImage/AppImageKit/wiki/Creating-AppImages
 
 
+## Versioning
+
+http://semver.org/
+

@@ -19,16 +19,19 @@ if __name__ == "__main__":
     mc_global.db_file_exists_at_application_startup_bl = os.path.isfile(mc_global.get_database_filename())
     # -settings this variable before the file has been created
 
+    """
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument(
         "--testing", "-t", help="Testing", action="store_true"
     )
     # -for info about "store_true" please search here: https://docs.python.org/3/howto/argparse.html
     args = argument_parser.parse_args()
+    
     if args.testing:
         mc_global.testing_bool = True
     else:
         mc_global.testing_bool = False
+    """
 
     logging.basicConfig(level=logging.DEBUG)  # -by default only warnings and higher are shown
     matc_qapplication = QtWidgets.QApplication(sys.argv)
