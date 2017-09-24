@@ -54,9 +54,9 @@ class RestReminderDialog(QtWidgets.QDialog):
         hbox.addWidget(QtWidgets.QLabel("minutes"))
         hbox.addStretch(1)
 
-        close_qpb = QtWidgets.QPushButton("Close")
-        hbox.addWidget(close_qpb)
-        close_qpb.clicked.connect(self.on_close_button_clicked)
+        self.close_qpb = QtWidgets.QPushButton("Close")
+        hbox.addWidget(self.close_qpb)
+        self.close_qpb.clicked.connect(self.on_close_button_clicked)
         # Roles: http://doc.qt.io/qt-5/qdialogbuttonbox.html#ButtonRole-enum
 
     def on_wait_clicked(self):

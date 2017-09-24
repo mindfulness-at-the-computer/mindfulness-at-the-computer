@@ -17,10 +17,14 @@ test_app = QtWidgets.QApplication(sys.argv)
 
 
 class MainTest(unittest.TestCase):
+    matc_main_obj = []
 
     @classmethod
     def setUpClass(cls):
         mc.mc_global.testing_bool = True
+
+    def setUp(self):
+        self.matc_main_obj = mc.matc_main.MatC(test_app)
 
     def test_toggle_switch(self):
         ts_widget = mc.gui.toggle_switch_cw.ToggleSwitchComposite()
@@ -58,11 +62,10 @@ class MainTest(unittest.TestCase):
     """
 
     def test_selecting_breathing_phrase(self):
-        matc_main_obj = mc.matc_main.MatC(test_app)
 
-        pl_widget = matc_main_obj.main_window.phrase_list_widget
+        pl_widget = self.matc_main_obj.main_window.phrase_list_widget
         # pl_widget = mc.gui.phrase_list_cw.PhraseListCompositeWidget()
-        breathing_widget = matc_main_obj.main_window.breathing_composite_widget
+        breathing_widget = self.matc_main_obj.main_window.breathing_composite_widget
         print("breathing_widget.bi_text_qll.text() = " + breathing_widget.bi_text_qll.text())
 
 
@@ -96,6 +99,7 @@ class MainTest(unittest.TestCase):
         if not res_bl:
             self.fail()
         """
+        QtTest.QTest.waitForEvents()
 
         print("breathing_widget.bi_text_qll.text() = " + breathing_widget.bi_text_qll.text())
         print("mc.gui.phrase_list_cw.BREATHING_IN_DEFAULT_PHRASE = " + mc.gui.phrase_list_cw.BREATHING_IN_DEFAULT_PHRASE)
@@ -120,6 +124,12 @@ class MainTest(unittest.TestCase):
                 return True
         return False
 
+    def test_take_a_break_now(self):
+        take_break_qpb = self.matc_main_obj.main_window.rest_settings_widget.rest_reminder_test_qpb
+        rr_dlg = self.matc_main_obj.main_window.rest_reminder_dialog
+        QtTest.QTest.mouseClick(take_break_qpb, QtCore.Qt.LeftButton)
+        QtTest.QTest.qWait(3000)
+        QtTest.QTest.mouseClick(rr_dlg.close_qpb, QtCore.Qt.LeftButton)
 
 if __name__ == "__main__":
     unittest.main()

@@ -40,8 +40,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.setStyleSheet("selection-background-color:#bfef7f; selection-color:#000000;")  # -#91c856
         ### QProgressBar{background-color:#333333;}
 
+        self.rest_reminder_dialog = None
         self.tray_icon = None
-
         self.rest_reminder_qtimer = None
         self.breathing_qtimer = None
 
@@ -149,10 +149,10 @@ class MbMainWindow(QtWidgets.QMainWindow):
     def show_rest_reminder(self):
         mc_global.rest_reminder_minutes_passed_int = 0
 
-        rest_reminder = rest_reminder_dlg.RestReminderDialog(self)
-        result = rest_reminder.exec()
+        self.rest_reminder_dialog = rest_reminder_dlg.RestReminderDialog(self)
+        result = self.rest_reminder_dialog.exec()
         if result:
-            outcome_int = rest_reminder.dialog_outcome_int
+            outcome_int = self.rest_reminder_dialog.dialog_outcome_int
             if outcome_int != rest_reminder_dlg.CLOSED_RESULT_INT:
                 wait_time_int = outcome_int
                 mc_global.rest_reminder_minutes_passed_int = (
