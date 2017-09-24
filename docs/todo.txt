@@ -1,3 +1,5 @@
+[ ] rewriting the initial code so that almost the same code can be run from the
+tests. One thing to look out for is the system tray menu code
 
 [ ] prio: hovering or clicking on the text (i, o) for switching
 

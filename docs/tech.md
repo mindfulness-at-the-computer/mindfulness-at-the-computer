@@ -1,4 +1,11 @@
 
+
+# Tech architecture
+
+Python version: 3.5
+
+
+
 ### Example projects
 
 **https://github.com/altendky/graham**

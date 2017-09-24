@@ -8,6 +8,9 @@ from PyQt5 import QtWidgets
 import mc.gui.safe_delete_dlg
 from mc import model, mc_global
 
+BREATHING_IN_DEFAULT_PHRASE = "Breathing in"
+BREATHING_OUT_DEFAULT_PHRASE = "Breathing out"
+
 
 class PhraseListCompositeWidget(QtWidgets.QWidget):
     phrases_updated_signal = QtCore.pyqtSignal(bool)
@@ -75,8 +78,10 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
             "Are you sure that you want to remove this entry?",
         )
         if conf_result_bool:
-            self.list_widget.clearSelection()
+            if mc_global.active_phrase_id_it == mc_global.NO_PHRASE_SELECTED_INT:
+                logging.warning("No phrase selected")
             model.PhrasesM.remove(mc_global.active_phrase_id_it)
+            self.list_widget.clearSelection()  # -clearing after entry removed from db
             mc_global.active_phrase_id_it = mc_global.NO_PHRASE_SELECTED_INT
             self.update_gui()
         else:
@@ -109,7 +114,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         text_sg = self.add_to_list_qle.text().strip()  # strip is needed to remove a newline at the end (why?)
         if not (text_sg and text_sg.strip()):
             return
-        model.PhrasesM.add(text_sg, "Breathing in", "Breathing out")
+        model.PhrasesM.add(text_sg, BREATHING_IN_DEFAULT_PHRASE, BREATHING_OUT_DEFAULT_PHRASE)
         self.add_to_list_qle.clear()
         self.update_gui()
         self.list_widget.setCurrentRow(self.list_widget.count() - 1)

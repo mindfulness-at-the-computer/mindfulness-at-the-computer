@@ -21,7 +21,6 @@ class MbMainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.show()
         self.setGeometry(100, 100, 900, 600)
         self.setCorner(QtCore.Qt.BottomLeftCorner, QtCore.Qt.LeftDockWidgetArea)
         self.setCorner(QtCore.Qt.BottomRightCorner, QtCore.Qt.RightDockWidgetArea)
