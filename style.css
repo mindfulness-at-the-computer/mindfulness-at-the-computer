@@ -9,7 +9,7 @@
 .navbar a{
     color: black;
     text-align: center;
-    font-size: 18pt;
+    font-size: 16pt;
     text-decoration: none;
     padding: 0px 10px;
     margin-bottom: 0px;
@@ -32,8 +32,8 @@ body{
     background-color: #f2f2f2;
 }
 p,ul{
-    font-size: 16pt;
-    line-height: 26px;
+    font-size: 15pt;
+    line-height: 25px;
 }
 .fine-print{
     font-size: 12pt;
