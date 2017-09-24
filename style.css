@@ -46,15 +46,16 @@ h1,h2,h3,h4{
     color: #595959;
 }
 .dlbutton{
+    display:inline-block;
     background-color:#c2ff2d;
     color:black;
     border-style: solid;
     border-width: 5px;
     border-color: #65ac04;
     border-radius: 10px;
-    padding: 8px 16px;
+    padding: 16px 20px;
     margin: 16px;
-    font-size: 24pt;
+    font-size: 21pt;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
