@@ -223,9 +223,6 @@ class MbMainWindow(QtWidgets.QMainWindow):
         clear_phrase_selection_action = QtWidgets.QAction("Clear Breathing Phrase", self)
         debug_menu.addAction(clear_phrase_selection_action)
         clear_phrase_selection_action.triggered.connect(self.debug_clear_breathing_phrase_selection)
-        audio_action = QtWidgets.QAction("Play audio", self)
-        debug_menu.addAction(audio_action)
-        audio_action.triggered.connect(mc.mc_global.play_audio)
 
         window_menu = self.menu_bar.addMenu("&Windows")
         show_breathing_settings_window_action = self.breathing_settings_dock.toggleViewAction()

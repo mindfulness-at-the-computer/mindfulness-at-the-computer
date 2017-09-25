@@ -14,6 +14,10 @@ def play_audio():
 def get_audio_path(i_file_name: str):
     return os.path.join(get_base_dir(), USER_FILES_DIR_STR, AUDIO_DIR_STR, i_file_name)
 
+audio_action = QtWidgets.QAction("Play audio", self)
+debug_menu.addAction(audio_action)
+audio_action.triggered.connect(mc.mc_global.play_audio)
+
 
 ###############################
 

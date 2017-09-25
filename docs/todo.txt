@@ -1,9 +1,6 @@
 
-[x] moving the audio files to varia and removing the "play" function
-[ ] creating downloads for windows
-[x] reordering the system tray menu
 
-[ ] rewriting the initial code so that almost the same code can be run from the
+[x] rewriting the initial code so that almost the same code can be run from the
 tests. One thing to look out for is the system tray menu code
 
 [x] change position (maybe using arrows from the icon set)
@@ -16,21 +13,14 @@ maybe this is not needed, the user may not want to change this more often than o
 the application? or maybe the user wants to? hard to say, but this would be an interesting
 challenge when writing the application, and it would probably change the db
 
-
-[ ] standardize how gui updates are made
-[ ] standardize a naming system for handler menthods (maybe ending with _m if they update the model?)
-
-[x] showing time left, and take break now in the system tray menu
-[x] disable/enable rest reminders
-[x] disable/enable breathing reminders
-
-
 [ ] bug: sometimes the time left is not updated when the rest dialog is closed
-[ ] bug: strange slider error on windows, the slider jumps to and fro
+[x] bug: strange slider error, the slider jumps to and fro
 
 =========
 
 Low prio:
+[ ] standardize how gui updates are made
+[ ] standardize a naming system for handler methods (maybe ending with _m if they update the model?)
 [ ] choosing a different directory for user files (to make it easier to backup)
 [ ] setting the log level when starting the application, using a command line argument
 [ ] marketing: adding a line in my email signature

@@ -55,7 +55,7 @@ class RestReminderDialog(QtWidgets.QDialog):
         hbox.addWidget(QtWidgets.QLabel("minutes"))
         hbox.addStretch(1)
 
-        self.close_qpb = QtWidgets.QPushButton("Close")
+        self.close_qpb = QtWidgets.QPushButton("Close and Reset Rest Timer")
         hbox.addWidget(self.close_qpb)
         self.close_qpb.clicked.connect(self.on_close_button_clicked)
         # Roles: http://doc.qt.io/qt-5/qdialogbuttonbox.html#ButtonRole-enum
