@@ -71,7 +71,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
         self.rest_reminder_reset_qpb.clicked.connect(self.on_rest_reset_clicked)
 
         # Take break button
-        vbox.addWidget(CustomFrame())
+        # vbox.addWidget(CustomFrame())
         self.rest_reminder_test_qpb = QtWidgets.QPushButton("Take a break now")  # -from the computer
         vbox.addWidget(self.rest_reminder_test_qpb)
         self.rest_reminder_test_qpb.clicked.connect(self.on_rest_test_clicked)

@@ -41,13 +41,6 @@ class MatC:
 
         self.tray_menu = QtWidgets.QMenu(self.main_window)
 
-        mc_global.tray_rest_progress_qaction = QtWidgets.QAction("")
-        self.tray_menu.addAction(mc_global.tray_rest_progress_qaction)
-        mc_global.tray_rest_progress_qaction.setDisabled(True)
-        mc_global.update_tray_rest_progress_bar(0, 1)
-        self.tray_rest_now_qaction = QtWidgets.QAction("Take a Break Now")
-        self.tray_menu.addAction(self.tray_rest_now_qaction)
-        self.tray_rest_now_qaction.triggered.connect(self.main_window.show_rest_reminder)
         mc_global.tray_rest_enabled_qaction = QtWidgets.QAction("Enable Rest Reminder")
         self.tray_menu.addAction(mc_global.tray_rest_enabled_qaction)
         mc_global.tray_rest_enabled_qaction.setCheckable(True)
@@ -55,6 +48,13 @@ class MatC:
             self.main_window.rest_settings_widget.on_switch_toggled
         )
         mc_global.tray_rest_enabled_qaction.setChecked(settings.rest_reminder_active_bool)
+        mc_global.tray_rest_progress_qaction = QtWidgets.QAction("")
+        self.tray_menu.addAction(mc_global.tray_rest_progress_qaction)
+        mc_global.tray_rest_progress_qaction.setDisabled(True)
+        mc_global.update_tray_rest_progress_bar(0, 1)
+        self.tray_rest_now_qaction = QtWidgets.QAction("Take a Break Now")
+        self.tray_menu.addAction(self.tray_rest_now_qaction)
+        self.tray_rest_now_qaction.triggered.connect(self.main_window.show_rest_reminder)
 
         self.tray_menu.addSeparator()
 

@@ -119,6 +119,8 @@ class RestReminderActions(QtWidgets.QWidget):
         # self.resize_image()
 
 
+        # self.help_text_qll = QtWidgets.QLabel("You can let this dialog be on the screen while being away from the computer. When closing this dialog the timer will be restarted")
+        # vbox_l3.addWidget()
 
 
         """

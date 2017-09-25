@@ -98,10 +98,6 @@ def get_app_icon_path():
 def get_user_files_path(i_file_name: str):
     return os.path.join(get_base_dir(), USER_FILES_DIR_STR, i_file_name)
 
-
-def get_audio_path(i_file_name: str):
-    return os.path.join(get_base_dir(), USER_FILES_DIR_STR, AUDIO_DIR_STR, i_file_name)
-
 """
 def does_database_exist_started() -> bool:
     if os.path.isfile(DATABASE_FILE_NAME):
@@ -111,15 +107,5 @@ def does_database_exist_started() -> bool:
 """
 
 
-def play_audio():
-    """
-    Qt audio overview: http://doc.qt.io/qt-5/audiooverview.html
-    Please note that the audio file must be wav, if we want to play compressed audio files it will be
-    more complicated (see docs page above)
-    """
-
-    QtMultimedia.QSound.play(
-        get_audio_path("219028__jarredgibb__tibetan-bells-192khz-original[cc0]-1.wav")
-    )
 
 
