@@ -1,4 +1,7 @@
 
+[ ] idea: hovering or clicking on the text (i, o) for switching
+
+
 idea: set a goal in the number of breaks to take each day
 
 

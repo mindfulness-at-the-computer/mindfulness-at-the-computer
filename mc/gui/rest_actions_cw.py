@@ -189,7 +189,10 @@ class RestActionsComposite(QtWidgets.QWidget):
             rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
             self.details_name_qle.setText(rest_action.title_str)
             if rest_action.image_path_str:
-                self.details_image_path_qll.setText(os.path.basename(rest_action.image_path_str))
+                if os.path.isfile(rest_action.image_path_str):
+                    self.details_image_path_qll.setText(os.path.basename(rest_action.image_path_str))
+                else:
+                    self.details_image_path_qll.setText("image does not exist")
             else:
                 self.details_image_path_qll.setText("(no image set)")
 

@@ -1,4 +1,5 @@
 import logging
+import os
 
 from PyQt5 import QtCore
 from PyQt5 import QtGui
@@ -151,7 +152,7 @@ class RestReminderActions(QtWidgets.QWidget):
     def on_rest_action_button_clicked(self, i_id: int):
         logging.debug("Id of button clicked: " + str(i_id))
         rest_action = model.RestActionsM.get(i_id)
-        if rest_action.image_path_str:
+        if rest_action.image_path_str and os.path.isfile(rest_action.image_path_str):
             self.image_qll.setPixmap(
                 QtGui.QPixmap(
                     rest_action.image_path_str

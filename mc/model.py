@@ -450,7 +450,7 @@ def populate_db_with_setup_data():
     )
     RestActionsM.add(
         "Taking a walk outside",
-        mc.mc_global.get_user_images_path("boots-and-autumn-outside.png")
+        mc.mc_global.get_user_images_path("boots-and-autumn-leaves.png")
     )
 
 

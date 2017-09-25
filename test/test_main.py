@@ -89,16 +89,6 @@ class MainTest(unittest.TestCase):
                     pos=qlwi_rect.center()
                 )
 
-        """
-        QtCore.QCoreApplication.processEvents()
-        QtTest.QTest.waitForEvents()  # <-------------------
-        QtTest.QTest.qWait(3000)
-        """
-        """
-        res_bl = self.click_on_list_widget_entry(pl_widget.list_widget, TEXT_FOR_ENTRY_TO_CLICK_STR)
-        if not res_bl:
-            self.fail()
-        """
         QtTest.QTest.waitForEvents()
 
         print("breathing_widget.bi_text_qll.text() = " + breathing_widget.bi_text_qll.text())
@@ -124,12 +114,6 @@ class MainTest(unittest.TestCase):
                 return True
         return False
 
-    def test_take_a_break_now(self):
-        take_break_qpb = self.matc_main_obj.main_window.rest_settings_widget.rest_reminder_test_qpb
-        rr_dlg = self.matc_main_obj.main_window.rest_reminder_dialog
-        QtTest.QTest.mouseClick(take_break_qpb, QtCore.Qt.LeftButton)
-        QtTest.QTest.qWait(3000)
-        QtTest.QTest.mouseClick(rr_dlg.close_qpb, QtCore.Qt.LeftButton)
 
 if __name__ == "__main__":
     unittest.main()
@@ -143,7 +127,23 @@ def __init__(self, *args, **kwargs):
 pl_widget.list_widget.itemWidget()
 
 Things to test:
-* 
+*
+
+
+        QtCore.QCoreApplication.processEvents()
+        QtTest.QTest.waitForEvents()  # <-------------------
+        QtTest.QTest.qWait(3000)
+        res_bl = self.click_on_list_widget_entry(pl_widget.list_widget, TEXT_FOR_ENTRY_TO_CLICK_STR)
+        if not res_bl:
+            self.fail()
+
+    def test_take_a_break_now(self):
+        take_break_qpb = self.matc_main_obj.main_window.rest_settings_widget.rest_reminder_test_qpb
+        rr_dlg = self.matc_main_obj.main_window.rest_reminder_dialog
+        QtTest.QTest.mouseClick(take_break_qpb, QtCore.Qt.LeftButton)
+        QtTest.QTest.mouseClick(rr_dlg.close_qpb, QtCore.Qt.LeftButton)
+
+ 
 """
 
 # TODO: Make sure that this is the first time the application has been started

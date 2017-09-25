@@ -41,17 +41,6 @@ class MatC:
 
         self.tray_menu = QtWidgets.QMenu(self.main_window)
 
-        self.tray_restore_action = QtWidgets.QAction("Restore")
-        self.tray_menu.addAction(self.tray_restore_action)
-        self.tray_restore_action.triggered.connect(self.main_window.showNormal)
-        self.tray_maximize_action = QtWidgets.QAction("Maximize")
-        self.tray_menu.addAction(self.tray_maximize_action)
-        self.tray_maximize_action.triggered.connect(self.main_window.showMaximized)
-        self.tray_quit_action = QtWidgets.QAction("Quit")
-        self.tray_menu.addAction(self.tray_quit_action)
-        self.tray_quit_action.triggered.connect(self.main_window.exit_application)
-
-        self.tray_menu.addSeparator()
         mc_global.tray_rest_progress_qaction = QtWidgets.QAction("")
         self.tray_menu.addAction(mc_global.tray_rest_progress_qaction)
         mc_global.tray_rest_progress_qaction.setDisabled(True)
@@ -68,6 +57,7 @@ class MatC:
         mc_global.tray_rest_enabled_qaction.setChecked(settings.rest_reminder_active_bool)
 
         self.tray_menu.addSeparator()
+
         mc_global.tray_breathing_enabled_qaction = QtWidgets.QAction("Enable Breathing Reminder")
         self.tray_menu.addAction(mc_global.tray_breathing_enabled_qaction)
         mc_global.tray_breathing_enabled_qaction.setCheckable(True)
@@ -77,7 +67,22 @@ class MatC:
         )
         mc_global.tray_breathing_enabled_qaction.setDisabled(True)
 
+        self.tray_menu.addSeparator()
+
+        self.tray_restore_action = QtWidgets.QAction("Restore")
+        self.tray_menu.addAction(self.tray_restore_action)
+        self.tray_restore_action.triggered.connect(self.main_window.showNormal)
+        self.tray_quit_action = QtWidgets.QAction("Quit")
+        self.tray_menu.addAction(self.tray_quit_action)
+        self.tray_quit_action.triggered.connect(self.main_window.exit_application)
+
         self.main_window.tray_icon.setContextMenu(self.tray_menu)
 
 
+"""
+        self.tray_maximize_action = QtWidgets.QAction("Maximize")
+        self.tray_menu.addAction(self.tray_maximize_action)
+        self.tray_maximize_action.triggered.connect(self.main_window.showMaximized)
+        
+"""
 
