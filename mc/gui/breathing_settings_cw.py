@@ -55,9 +55,12 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
             self.on_breathing_length_value_changed
         )
         hbox.addWidget(QtWidgets.QLabel("seconds"))
+        """
         self.presets_qcb = QtWidgets.QComboBox()
         self.presets_qcb.addItems(["30", "45", "60", "90"])
         hbox.addWidget(self.presets_qcb)
+        """
+
         hbox.addStretch(1)
 
         self.breathing_reminder_test_qpb = QtWidgets.QPushButton("Test")

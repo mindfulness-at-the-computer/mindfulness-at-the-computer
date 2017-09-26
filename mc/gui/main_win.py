@@ -13,7 +13,7 @@ from mc import model, mc_global
 from mc.gui import rest_reminder_dlg
 from mc.gui import breathing_cw
 from mc.gui import breathing_settings_cw
-from mc.gui import phrase_list_cw
+from mc.gui import breathing_phrase_list_cw
 from mc.gui import rest_settings_cw
 
 
@@ -56,7 +56,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.phrase_list_dock = QtWidgets.QDockWidget("List of Phrases")
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.phrase_list_dock)
         self.phrase_list_dock.setFeatures(QtWidgets.QDockWidget.NoDockWidgetFeatures)
-        self.phrase_list_widget = phrase_list_cw.PhraseListCompositeWidget()
+        self.phrase_list_widget = breathing_phrase_list_cw.PhraseListCompositeWidget()
         self.phrase_list_dock.setWidget(self.phrase_list_widget)
         self.phrase_list_widget.phrases_updated_signal.connect(self.phrase_row_changed)
 

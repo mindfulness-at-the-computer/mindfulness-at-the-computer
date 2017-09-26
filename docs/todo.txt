@@ -1,11 +1,5 @@
 
 
-[x] rewriting the initial code so that almost the same code can be run from the
-tests. One thing to look out for is the system tray menu code
-
-[x] change position (maybe using arrows from the icon set)
-* move up, down
-* move to top, bottom
 
 [ ] show the five/three latest selected phrases in the system tray menu
 we could store the date and time that each phrase was last selected in the qlistwidget
@@ -13,10 +7,9 @@ maybe this is not needed, the user may not want to change this more often than o
 the application? or maybe the user wants to? hard to say, but this would be an interesting
 challenge when writing the application, and it would probably change the db
 
-[ ] bug: sometimes the time left is not updated when the rest dialog is closed
-[x] bug: strange slider error, the slider jumps to and fro
 
 =========
+
 
 Low prio:
 [ ] standardize how gui updates are made
@@ -38,3 +31,9 @@ or
 2. the current time has run out
 [ ] "take a break now" resets the current timer
 [ ] pause timer while the rest dialog is displayed
+
+
+bugs:
+
+QXcbConnection: XCB error: 3 (BadWindow), sequence: 960, resource id: 14766962, major code: 40 (TranslateCoords), minor code: 0
+

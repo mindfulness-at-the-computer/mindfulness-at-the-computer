@@ -135,6 +135,16 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         self.update_gui_details()
         self.phrases_updated_signal.emit(self.details_qgb.isEnabled())
 
+    def on_new_row_selected_from_system_tray(self, i_id_of_selected_item: int):
+        mc_global.active_phrase_id_it = i_id_of_selected_item
+        for i in range(0, self.list_widget.count()):
+            item = self.list_widget.item(i)
+            phrase_cqll = self.list_widget.itemWidget(item)
+            logging.debug("phrase_cqll.question_entry_id = " + str(phrase_cqll.question_entry_id))
+            if phrase_cqll.question_entry_id == mc_global.active_phrase_id_it:
+                item.setSelected(True)
+                return
+
     def update_gui(self):
         # List
         self.list_widget.clear()

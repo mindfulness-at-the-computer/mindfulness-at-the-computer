@@ -1,8 +1,5 @@
-import argparse
 import logging
-import sys
-import os
-import sqlite3
+import functools
 
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
@@ -66,6 +63,24 @@ class MatC:
             self.main_window.breathing_settings_widget.on_switch_toggled
         )
         mc_global.tray_breathing_enabled_qaction.setDisabled(True)
+
+        self.phrase_qaction_list = []
+        count_int = 0
+        for l_phrase in mc.model.PhrasesM.get_all():
+            INDENTATION_STR = "  "
+            tray_phrase_qaction = QtWidgets.QAction(INDENTATION_STR + l_phrase.title_str)
+            tray_phrase_qaction.triggered.connect(
+                functools.partial(
+                    self.main_window.phrase_list_widget.on_new_row_selected_from_system_tray,
+                    l_phrase.id_int
+                )
+            )
+            self.phrase_qaction_list.append(tray_phrase_qaction)
+            # self.tray_phrase_qaction = QtWidgets.QAction(l_phrase.title_str)
+            self.tray_menu.addAction(tray_phrase_qaction)
+            count_int += 1
+            if count_int >= 5:
+                break
 
         self.tray_menu.addSeparator()
 
