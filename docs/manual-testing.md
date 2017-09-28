@@ -1,4 +1,8 @@
 
+# Manual testing
+
+Start the application in debug mode, or at least so that you can see the debug output (from the logging)
+
 
 ## System Tray Menu
 
