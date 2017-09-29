@@ -60,3 +60,14 @@ h1,h2,h3,h4{
     text-align: center;
     cursor: pointer;
 }
+.newsletter{
+    display:inline-block;
+    background-color:#c2ff2d;
+    color:black;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #65ac04;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+}

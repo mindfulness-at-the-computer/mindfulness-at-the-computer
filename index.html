@@ -39,11 +39,26 @@
 <h2>Credits and Contact Info</h2>
 <p>Mindfulness at the Computer is made by <a href="https://github.com/SunyataZero">SunyataZero</a>. You can reach him at tord (dot) dellsen (at) gmail (dot) com.</p>
 <p>Detailed credits can be found in the "Help" -> "About" menu inside the application</p>
-
-<!--
 <h2>Sign up for Updates</h2>
-<p>https://groups.google.com/forum/#!forum/mindfulness-at-the-computer</p>
--->
+<p>Subscribe to the newsletter to receive (occasional) email updates about new versions etc.</p>
+<form
+class="newsletter"
+action="https://tinyletter.com/mindfulness-at-the-computer"
+method="post"
+target="popupwindow"
+onsubmit="window.open('https://tinyletter.com/mindfulness-at-the-computer', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true"
+>
+    <label for="tlemail">Please enter your email address: </label>
+    <input type="text" style="width:160px" name="email" id="tlemail" />
+    <input type="hidden" value="1" name="embed"/>
+    <input type="submit" value="Subscribe" />
+</form> <!-- Form based on this code: https://app.tinyletter.com/#!/subscribe/link -->
 
 </body>
 </html>
+
+
+
+<!--
+
+-->
