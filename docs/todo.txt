@@ -1,17 +1,25 @@
 
+[ ] removing the numbers for lenght of in and out-breath, instead replacing with something
+indicating which of these are active at the moment
 
+[x] Windows: remove console window while running the application
+https://stackoverflow.com/questions/25604611/how-to-stop-cmd-prompt-from-showing-when-i-run-my-exe-file
+http://pyinstaller.readthedocs.io/en/stable/usage.html?highlight=noconsole
 
-[ ] show the five/three latest selected phrases in the system tray menu
-we could store the date and time that each phrase was last selected in the qlistwidget
-maybe this is not needed, the user may not want to change this more often than opening
-the application? or maybe the user wants to? hard to say, but this would be an interesting
-challenge when writing the application, and it would probably change the db
+[ ] .spec file should be generic and not contain the paths of a specific computer
 
+[ ] adding a windows icon (.ico)
+
+[ ] adding presets
 
 =========
 
 
 Low prio:
+[ ] rest actions in the rest dialog?
+[ ] indicate which breathing phrase is active in the sys tray. Please note: This means that we
+may also need to include another value here, since the user may not have chosen one of the
+top three / five
 [ ] standardize how gui updates are made
 [ ] standardize a naming system for handler methods (maybe ending with _m if they update the model?)
 [ ] choosing a different directory for user files (to make it easier to backup)
