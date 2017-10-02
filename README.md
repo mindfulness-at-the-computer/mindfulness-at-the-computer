@@ -8,10 +8,25 @@
 
 # Mindfulness at the Computer
 
-*This file is written for nerds and developers who want to contribute to the project, for an intro to the application please check out the [**application website**](https://sunyatazero.github.io/mindfulness-at-the-computer/)*
+This application reminds you to take breaks from the computer, helps you
+remember to stay in touch with and be mindful of your breathing and body
+while sitting at the computer, and helps you concentrate on your in breath
+and out breath when you need a breathing pause.
+
+Written in python, this application can be run on Windows and GNU/Linux
+
+The [**application website**](https://sunyatazero.github.io/mindfulness-at-the-computer/)
+includes more information (Downloads, screenshots, mailing list).
 
 <!-- TBD: If you are a user you can find the user guide here -->
 
+## License
+
+GPLv3
+
+## Social (Support and Development)
+
+[Gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby)
 
 ## Developer document
 
@@ -51,17 +66,6 @@ To use this file:
 1. Edit the `mindfulness-at-the-computer.desktop` file and change the paths to match the path that you are using
 2. Copy the `mindfulness-at-the-computer.desktop` file to your desktop or any place where you want to be able to start the application from
 3. Copy the `mindfulness-at-the-computer.desktop` file to `/usr/share/applications/` using `sudo`
-
-
-## Social
-
-[Gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby)
-
-
-## License
-
-GPLv3
-
 
 ## Varia
 
