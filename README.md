@@ -15,8 +15,8 @@ and out breath when you need a breathing pause.
 
 Written in python, this application can be run on Windows and GNU/Linux
 
-More info can be found at the
-[**application website**](https://sunyatazero.github.io/mindfulness-at-the-computer/)
+The [**application website**](https://sunyatazero.github.io/mindfulness-at-the-computer/)
+includes more information (Downloads, screenshots, mailing list).
 
 <!-- TBD: If you are a user you can find the user guide here -->
 
