@@ -1,4 +1,5 @@
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/mindfulness-at-the-computer/Lobby)
+[![First-timers only](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](http://www.firsttimersonly.com/)
 [![GitHub (pre-)release](https://img.shields.io/github/release/SunyataZero/mindfulness-at-the-computer/all.svg)](https://github.com/SunyataZero/mindfulness-at-the-computer/releases/latest)
 [![Build Status](https://travis-ci.org/SunyataZero/mindfulness-at-the-computer.svg?branch=master)](https://travis-ci.org/SunyataZero/mindfulness-at-the-computer)
 [![Code Health](https://landscape.io/github/SunyataZero/mindfulness-at-the-computer/master/landscape.svg?style=flat)](https://landscape.io/github/SunyataZero/mindfulness-at-the-computer/master)
