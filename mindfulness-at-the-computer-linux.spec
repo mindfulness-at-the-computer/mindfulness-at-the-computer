@@ -2,9 +2,11 @@
 
 block_cipher = None
 
+import os
+cwd_str = os.getcwd()
 
 a = Analysis(['mindfulness-at-the-computer.py'],
-             pathex=['/home/sunyata/PycharmProjects/mindfulness-at-the-computer'],
+             pathex=[cwd_str],
              binaries=[],
              datas=[],
              hiddenimports=[],

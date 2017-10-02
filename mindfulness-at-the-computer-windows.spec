@@ -2,9 +2,16 @@
 
 block_cipher = None
 
+####################################
+# PLEASE NOTE: The path for the Qt binaries have been hard-coded
+####################################
+
+import os
+cwd_str = os.getcwd()
+# 'C:\\TordPython\\mindfulness-at-the-computer-master'
 
 a = Analysis(['mindfulness-at-the-computer.py'],
-             pathex=['C:\\Python\\Python35\\Lib\\site-packages\\PyQt5\\Qt\\bin', 'C:\\TordPython\\mindfulness-at-the-computer-master'],
+             pathex=['C:\\Python\\Python35\\Lib\\site-packages\\PyQt5\\Qt\\bin', cwd_str],
              binaries=[],
              datas=[],
              hiddenimports=[],
