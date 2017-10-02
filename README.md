@@ -12,6 +12,17 @@
 
 <!-- TBD: If you are a user you can find the user guide here -->
 
+
+## Developer document
+
+All docs are in [this directory](docs/)
+
+Some important documents:
+* [Getting Started](docs/getting-started.md)
+* [Developer Guidelines](docs/developer-guidelines.md)
+* [Technical Architecture](docs/tech-architecture.md)
+
+
 ## Running from Source
 
 If there isn't a download for your platform (see the downloads section above) you can instead start the application by following these steps:
@@ -27,7 +38,6 @@ If there isn't a download for your platform (see the downloads section above) yo
 
 On MacOS you also need to install growl for the breathing reminder notifications to be shown
 
-
 ### Advanced Setup (Optional)
 
 Please note: *This is not necessary for running the application*
@@ -42,22 +52,21 @@ To use this file:
 2. Copy the `mindfulness-at-the-computer.desktop` file to your desktop or any place where you want to be able to start the application from
 3. Copy the `mindfulness-at-the-computer.desktop` file to `/usr/share/applications/` using `sudo`
 
+
 ## Social
 
 [Gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby)
+
 
 ## License
 
 GPLv3
 
+
 ## Varia
 
-* Developer documentation Link: TBD
-* Other projects https://fswellbeing.github.io/
+* Other projects for well-being: https://fswellbeing.github.io/
 
-## Installation
-
-See [Running from Source](#running-from-source) above
 
 <!--
 [![saythanks](https://img.shields.io/badge/say-thanks-98e633.svg)](https://saythanks.io/to/SunyataZero)
