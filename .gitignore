@@ -5,3 +5,4 @@ mindfulness-at-the-computer.spec
 .idea/vcs.xml
 exported.csv
 .coverage
+__pycache__/
