@@ -10,10 +10,12 @@
 
 This application reminds you to take breaks from the computer, helps you
 remember to stay in touch with and be mindful of your breathing and body
-while sitting at the computer, and helps you concentrate on your in breath
-and out breath when you need a breathing pause.
+while sitting at the computer, and helps you concentrate on breathing
+in and out when you need a breathing pause.
 
 Written in python, this application can be run on Windows and GNU/Linux
+
+## Download
 
 The [**application website**](https://sunyatazero.github.io/mindfulness-at-the-computer/)
 includes more information (Downloads, screenshots, mailing list).
@@ -40,7 +42,7 @@ Some important documents:
 
 ## Running from Source
 
-If there isn't a download for your platform (see the downloads section above) you can instead start the application by following these steps:
+If you don't see a download option for the platform of your choice, follow these steps to start the application:
 
 1. Download the Python 3.x installation package for your platform: https://www.python.org/downloads/
 2. Install Python 3.x
@@ -51,7 +53,8 @@ If there isn't a download for your platform (see the downloads section above) yo
 7. Change directory to where the software files have been extracted
 8. Type and run `python mindfulness-at-the-computer.py` on Windows or `python3 mindfulness-at-the-computer.py`on GNU/Linux systems
 
-On MacOS you also need to install growl for the breathing reminder notifications to be shown
+NOTE:
+If you are on the MacOS, you need to install growl to get the breathing reminder notifications.
 
 ### Advanced Setup (Optional)
 
@@ -59,7 +62,7 @@ Please note: *This is not necessary for running the application*
 
 #### GNU/Linux Systems
 
-For desktop systems that are compatible with the [freedesktop](https://www.freedesktop.org/) standard - for example Gnome and KDE - you can use the bwb.desktop file included in the source (please note that if using a file manager such as the Gnome file manager you may see the name displayed as "Well-being Diary" rather than the file name) to make the application visible in any start-menu-like menu (in Lubuntu this is called the "main menu" and it's shown when clicking the button in the lower left, "vanilla" (the ordinary) Ubuntu may not have a menu like this
+For desktop systems that are compatible with the [freedesktop](https://www.freedesktop.org/) standard - such as Gnome and KDE - you can use the bwb.desktop file included in the source (If using a file manager, such as Gnome File Manager, you may see the name displayed as "Well-being Diary" rather than "bwb.desktop") to make the application visible in any start-menu-like menu. In Lubuntu, this is called the "main menu" and it's shown when the button in the lower left is clicked. "Vanilla" Ubuntu (ordinary) may not have a menu like this.
 
 To use this file:
 
