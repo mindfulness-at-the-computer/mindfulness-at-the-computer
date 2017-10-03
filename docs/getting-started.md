@@ -16,7 +16,7 @@ Please also see the [Developer Guidelines](developer-guidelines.md)
 * This project is newbie-friendly and has [these issues](https://github.com/SunyataZero/mindfulness-at-the-computer/issues?q=is%3Aissue+is%3Aopen+label%3Afirst-timers-only) specifically for new people
 * Check [the issue list](https://github.com/SunyataZero/mindfulness-at-the-computer/issues) to see if there are any issues marked with [help wanted](https://github.com/SunyataZero/mindfulness-at-the-computer/labels/help%20wanted)
 
-## How to make Pull Requests
+## Pull Requests
 
 1. Fork the repo (if you haven't already done so)
 2. Clone it to your computer
