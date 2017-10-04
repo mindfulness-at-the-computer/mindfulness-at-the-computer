@@ -114,6 +114,8 @@ class RestActionsComposite(QtWidgets.QWidget):
                 return
 
     def add_rest_action_clicked(self):
+        if not(self.rest_add_action_qle.text().strip()):
+            return
         model.RestActionsM.add(
             self.rest_add_action_qle.text().strip(),
             ""
