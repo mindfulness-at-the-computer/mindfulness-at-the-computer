@@ -35,10 +35,8 @@ GPLv3
 All docs are in [this directory](docs/)
 
 Some important documents:
-* [Getting Started](docs/getting-started.md)
-* [Developer Guidelines](docs/developer-guidelines.md)
+* [CONTRIBUTING](CONTRIBUTING.md)
 * [Technical Architecture](docs/tech-architecture.md)
-
 
 ## Running from Source
 
@@ -54,7 +52,7 @@ If you don't see a download option for the platform of your choice, follow these
 8. Type and run `python mindfulness-at-the-computer.py` on Windows or `python3 mindfulness-at-the-computer.py`on GNU/Linux systems
 
 NOTE:
-If you are on the MacOS, you need to install growl to get the breathing reminder notifications.
+If you are on the **MacOS**, you need to install growl to get the breathing reminder notifications.
 
 ### Advanced Setup (Optional)
 
