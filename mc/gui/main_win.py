@@ -255,7 +255,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         mc.gui.readme_dlg.ReadmeDialog.show_dialog(self)
 
     def show_online_help(self):
-        url_str = "https://github.com/SunyataZero/mindfulness-at-the-computer#user-documentation"
+        url_str = "https://sunyatazero.github.io/mindfulness-at-the-computer/user-guide.html"
         # Python: webbrowser.get(url_str) --- doesn't work
         QtGui.QDesktopServices.openUrl(QtCore.QUrl(url_str))
 
