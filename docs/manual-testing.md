@@ -1,7 +1,13 @@
 
 # Manual testing
 
-Start the application in debug mode, or at least so that you can see the debug output (from the logging)
+This document contains test cases for manual testing
+
+For all the tests below: Please start the application in debug mode, or at least so that you can see the debug output (from the logging)
+
+Test Record: Please use the wiki
+
+"TBD" in this document often means that the test case is yet to be written
 
 
 ## System Tray Menu
@@ -10,11 +16,9 @@ Start the application in debug mode, or at least so that you can see the debug o
 1. click on "take break now"
 2. verify: rest dialog comes up
 
-##
-
 ## Rest Dialog
 
-Verify that only one rest dialog appears if multiple are "passed"
+TBD: Verify that only one rest dialog appears if multiple are "passed"
 
 ### Rest actions
 
@@ -36,6 +40,11 @@ Verify that only one rest dialog appears if multiple are "passed"
 
 
 
+### Broken link
+
+TBD: Removing an image file to create a "broken link"
+
+
 ## Phrases
 
 1. Select a phrase from the list to the left
@@ -45,6 +54,9 @@ Verify that only one rest dialog appears if multiple are "passed"
 4. enable breathing reminders
 3. click on "test" for the breathing reminders (or wait for the next reminder)
 4. verify: the text has been changed from before
+
+
+
 
 
 
