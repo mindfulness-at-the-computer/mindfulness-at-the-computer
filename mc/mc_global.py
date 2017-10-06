@@ -53,6 +53,12 @@ def update_tray_breathing_checked(i_checked: bool):
 def update_tray_breathing_enabled(i_enabled: bool):
     if tray_breathing_enabled_qaction is not None:
         tray_breathing_enabled_qaction.setEnabled(i_enabled)
+tray_phrase_qaction_list = []
+"""
+def update_tray_phrase_list(i_qaction_list: list):
+    # if i_qaction_list is not None:
+    tray_phrase_qaction_list = i_qaction_list
+"""
 
 
 class BreathingState(enum.Enum):
