@@ -3,18 +3,13 @@
 
 ## 1. Building binaries
 
-Determining the version number. Semantic versioning is used: semver.org
+Semantic versioning is used: semver.org
 
-### Linux
-There's a .spec file for linux
+PyInstaller is used for building
 
-### Windows
-There's a .spec file for windows
-PLEASE NOTE: The path for the Qt binaries have been hard-coded
-
-
-
-
+Documentation:
+* Command line: http://pyinstaller.readthedocs.io/en/stable/usage.html
+* Spec files: http://pyinstaller.readthedocs.io/en/stable/spec-files.html
 
 
 ### Building on Ubuntu
@@ -42,6 +37,7 @@ Creating the tar.gz file: `tar -czvf mindfulness-at-the-computer.tar.gz mindfuln
 5. Go to the base application directory
 6. TBD: CHECK IF WE CAN GIVE ONE PATH AT COMMAND LINE AND ANOTHER INSIDE THE SPEC FILE `pyinstaller --paths [pyqt5 install directory] mindfulness-at-the-computer-windows.spec`. For example: `pyinstaller --paths C:\Python\P ython35\Lib\site-packages\PyQt5\Qt\bin mindfulness-at-the-computer-windows.spec`
   * `--paths` has to be used: https://stackoverflow.com/questions/42880859/importerror-dll-load-failed-the-specified-module-could-not-be-found-failed-to
+  * PLEASE NOTE: The path for the Qt binaries have been hard-coded
 
 ### Building on Mac
 
