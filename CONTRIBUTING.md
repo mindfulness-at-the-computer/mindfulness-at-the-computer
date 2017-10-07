@@ -42,7 +42,7 @@ No responsibility for any financial or other damage.
 1. Fork the repo (if you haven't already done so).
 2. Clone it to your computer. You can do it using `git clone url_name`.
 3. When you're ready to work on an issue, be sure you're on the **master** branch(Check using `git branch`). From there, create a separate branch. You can do this using `git checkout -b branch_name` where branch_name (e.g. issue_32) is the name of a new branch that you create.
-4. Make your changes. Save the file. Go to the command line and do `git add file_name` to add it to the staging area.  
+4. Make your changes. Save the file. Go to the command line and do `git add file_name` to add it to the staging area.
 5. Commit your changes. Do this using `git commit -m "comment about the changes made"`.
 6. Push the working branch (e.g. issue_32) to your remote fork. This is done using `git push origin branch_name`.
 7. Make the pull request (on the [upstream **master** branch](https://github.com/SunyataZero/mindfulness-at-the-computer/tree/master))
@@ -61,6 +61,19 @@ Periodically, you'll need the sync your repo with mine (the upstream). GitHub ha
     * For step 3 on that page, use https://github.com/SunyataZero/mindfulness-at-the-computer for the URL.
 2. [Syncing a Fork](https://help.github.com/articles/syncing-a-fork/)
     * On that page, it shows how to merge the **master** branch (steps 4 & 5 of **Syncing a Fork**).
+
+### The gh-pages branch
+The gh-pages branch contains the code for the [web site](https://sunyatazero.github.io/mindfulness-at-the-computer/).
+
+You can use the [Pull Request](#pull-requests) procedure for the _gh-pages_ branch (replace instances of _master_ with _gh-pages_). First though, you need to clone the _gh-pages_ branch to your computer.
+
+  1. Within the repo directory, enter in`git branch`. Verify you're on the _master_ branch. You'll also see that
+the _gh-pages_ branch doesn't exist.
+  2. Create the branch and set tracking information: `git checkout -b gh-pages origin/gh-pages`
+That tracks the branch from your fork on GitHub.
+  3. To sync the branch, use the steps outlined in [Syncing](#syncing), replacing instances of _master_ with _gh-pages_.
+
+----------
 
 ## Open conversation policy
 
