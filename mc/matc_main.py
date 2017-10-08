@@ -26,7 +26,7 @@ class MatC:
         # this file (very strange), if we do we won't see the texts, only the separators,
         # unknown why but it may be because of a bug
         self.main_window.tray_icon = QtWidgets.QSystemTrayIcon(
-            QtGui.QIcon(mc_global.get_app_icon_path()),
+            QtGui.QIcon(mc_global.get_app_systray_icon_path()),
             self.matc_qapplication
         )
         self.main_window.tray_icon.show()

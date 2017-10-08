@@ -1,5 +1,6 @@
 import enum
 import os
+import logging
 from PyQt5 import QtCore
 from PyQt5 import QtMultimedia
 
@@ -93,12 +94,32 @@ def get_user_images_path(i_file_name: str=""):
 
 
 def get_icon_path(i_file_name: str):
-    return os.path.join(get_base_dir(), ICONS_DIR_STR, i_file_name)
+    ret_icon_path_str = os.path.join(get_base_dir(), ICONS_DIR_STR, i_file_name)
+    return ret_icon_path_str
 
 
 def get_app_icon_path():
-    app_icon_path_str = get_icon_path(APPLICATION_ICON_NAME_STR)
-    return app_icon_path_str
+    icon_file_name_str = "icon.png"
+    ret_icon_path_str = os.path.join(get_base_dir(), ICONS_DIR_STR, icon_file_name_str)
+    return ret_icon_path_str
+
+
+def get_app_systray_icon_path():
+    # TODO: Separate the systray icon from the window icon
+    icon_file_name_str = ""
+    if (active_rest_action_id_it != NO_REST_ACTION_SELECTED_INT
+    and active_phrase_id_it != NO_PHRASE_SELECTED_INT):
+        icon_file_name_str = "icon-br.png"
+    elif active_phrase_id_it != NO_PHRASE_SELECTED_INT:
+        icon_file_name_str = "icon-b.png"
+    elif active_rest_action_id_it != NO_REST_ACTION_SELECTED_INT:
+        icon_file_name_str = "icon-r.png"
+    else:
+        icon_file_name_str = "icon.png"
+
+    logging.debug("icon_file_name_str = " + icon_file_name_str)
+    ret_icon_path_str = os.path.join(get_base_dir(), ICONS_DIR_STR, icon_file_name_str)
+    return ret_icon_path_str
 
 
 def get_user_files_path(i_file_name: str):

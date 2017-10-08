@@ -297,3 +297,15 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.rest_settings_widget.update_gui()
         self.breathing_settings_widget.update_gui()
 
+        if self.tray_icon is not None:
+            logging.debug(
+                "mc_global.get_app_systray_icon_path() = "
+                + mc_global.get_app_systray_icon_path()
+            )
+            self.tray_icon.setIcon(
+                QtGui.QIcon(mc_global.get_app_systray_icon_path())
+            )
+            # -TODO: Do this in another place?
+            self.tray_icon.show()
+
+
