@@ -75,7 +75,6 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         vbox_l5 = QtWidgets.QVBoxLayout()
         hbox_l4.addLayout(vbox_l5)
         # self.btn_descr_qll = QtWidgets.QLabel("In")
-        vbox_l5.addWidget(self.ib_toggle_qpb)
         self.ib_toggle_qpb = QtWidgets.QPushButton("In")
         vbox_l5.addWidget(self.ib_toggle_qpb)
         self.ib_toggle_qpb.setCheckable(True)
