@@ -22,8 +22,6 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.setMinimumHeight(270)
         self.setMinimumWidth(400)
 
-        self.in_breath_length_ft = 0.0
-        self.out_breath_length_ft = 0.0
         self.ib_qtimer = None
         self.ob_qtimer = None
         self.updating_gui_bool = False
@@ -76,6 +74,8 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
 
         vbox_l5 = QtWidgets.QVBoxLayout()
         hbox_l4.addLayout(vbox_l5)
+        # self.btn_descr_qll = QtWidgets.QLabel("In")
+        vbox_l5.addWidget(self.ib_toggle_qpb)
         self.ib_toggle_qpb = QtWidgets.QPushButton("In")
         vbox_l5.addWidget(self.ib_toggle_qpb)
         self.ib_toggle_qpb.setCheckable(True)
@@ -100,16 +100,6 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         vbox_l5.addWidget(self.ob_icon_cqll)
         self.ob_icon_cqll.widget_entered_signal.connect(self.on_icon_widget_entered)
 
-        vbox_l5 = QtWidgets.QVBoxLayout()
-        hbox_l4.addLayout(vbox_l5)
-        self.ib_length_qll = QtWidgets.QLabel()
-        vbox_l5.addWidget(self.ib_length_qll)
-        self.ob_length_qll = QtWidgets.QLabel()
-        vbox_l5.addWidget(self.ob_length_qll)
-
-
-
-
 
 
 
@@ -127,10 +117,6 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.breathing_graphicsscene = QtWidgets.QGraphicsScene()
         self.breathing_graphicsview.setScene(self.breathing_graphicsscene)
         ##self.breathing_graphicsview.centerOn(QtCore.Qt.AlignRight)
-
-
-        self.breath_counter_qll = QtWidgets.QLabel()
-        vbox_l2.addWidget(self.breath_counter_qll)
 
 
         self.update_gui()
@@ -199,8 +185,6 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
     def start_breathing_in_timer(self):
         self.breath_counter_int += 1
 
-        self.in_breath_length_ft = 0.0
-
         self.ib_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
         self.ib_qtimer.timeout.connect(self.breathing_in_timer_timeout)
         self.ib_qtimer.start(100)
@@ -242,8 +226,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.update_gui()
 
     def breathing_in_timer_timeout(self):
-        self.in_breath_length_ft = round(self.in_breath_length_ft + 0.1, 1)
-        self.update_gui()
+        # self.update_gui()
 
         t_graphics_rect_item = self.in_breath_graphics_qgri_list[-1]
         new_rect = t_graphics_rect_item.rect()
@@ -254,8 +237,6 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.breathing_graphicsview.centerOn(t_graphics_rect_item)
 
     def start_breathing_out_timer(self):
-        self.out_breath_length_ft = 0.0
-
         self.ob_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
         self.ob_qtimer.timeout.connect(self.breathing_out_timer_timeout)
         self.ob_qtimer.start(100)
@@ -301,8 +282,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.update_gui()
 
     def breathing_out_timer_timeout(self):
-        self.out_breath_length_ft = round(self.out_breath_length_ft + 0.1, 1)
-        self.update_gui()
+        # self.update_gui()
 
         t_graphics_rect_item = self.out_breath_graphics_qgri_list[-1]
         new_rect = t_graphics_rect_item.rect()
@@ -346,9 +326,6 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
                 self.ob_toggle_qpb.setChecked(True)
                 # self.iob_shortcut_qll.setText("Release the shift key to breathe out")
 
-        self.ib_length_qll.setText(str(self.in_breath_length_ft))
-        self.ob_length_qll.setText(str(self.out_breath_length_ft))
-
         if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT:
             self.help_text_qll.hide()
 
@@ -372,10 +349,6 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
                 self.bo_text_qll.show()
             else:
                 self.bo_text_qll.hide()
-
-        self.breath_counter_qll.setText(
-            "Breathing counter = " + str(self.breath_counter_int)
-        )
 
         self.updating_gui_bool = False
 
