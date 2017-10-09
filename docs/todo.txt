@@ -1,4 +1,13 @@
 
+
+[ ] build a system for updating gui as well as the icon, in a reliable and consistent way
+
+[ ] Adding a button to the rest dialog for starting breathing after a break
+        self.close_and_breathing_qpb = QtWidgets.QPushButton("Start Breathing")
+        hbox.addWidget(self.close_and_breathing_qpb)
+
+[ ] ***Alt: Integrating rest into the main window***
+
 [ ] removing the numbers for lenght of in and out-breath, instead replacing with something
 indicating which of these are active at the moment
 
