@@ -45,7 +45,7 @@ class RestReminderDialog(QtWidgets.QDialog):
         hbox = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox)
 
-        wait_qpb = QtWidgets.QPushButton("Wait")
+        wait_qpb = QtWidgets.QPushButton("Snooze")
         hbox.addWidget(wait_qpb)
         wait_qpb.clicked.connect(self.on_wait_clicked)
         hbox.addWidget(QtWidgets.QLabel("for"))
