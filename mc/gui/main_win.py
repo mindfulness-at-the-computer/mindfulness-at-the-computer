@@ -7,7 +7,7 @@ from PyQt5 import QtGui
 from PyQt5 import QtTest
 from PyQt5 import QtWidgets
 
-import mc.gui.readme_dlg
+import mc.gui.unused_readme_dlg
 import mc.gui.rest_actions_cw
 from mc import model, mc_global
 from mc.gui import unused_rest_reminder_dlg
@@ -245,6 +245,11 @@ class MbMainWindow(QtWidgets.QMainWindow):
         clear_phrase_selection_action = QtWidgets.QAction("Clear Breathing Phrase", self)
         debug_menu.addAction(clear_phrase_selection_action)
         clear_phrase_selection_action.triggered.connect(self.debug_clear_breathing_phrase_selection)
+        breathing_fullscreen_action = QtWidgets.QAction("Breathing widget fullscreen", self)
+        debug_menu.addAction(breathing_fullscreen_action)
+        breathing_fullscreen_action.triggered.connect(self.showFullScreen)
+        # -"Calling this function only affects windows"
+        # -showNormal
 
         window_menu = self.menu_bar.addMenu("&Windows")
         show_breathing_settings_window_action = self.breathing_settings_dock.toggleViewAction()
@@ -263,18 +268,12 @@ class MbMainWindow(QtWidgets.QMainWindow):
         online_help_action = QtWidgets.QAction("Online help", self)
         help_menu.addAction(online_help_action)
         online_help_action.triggered.connect(self.show_online_help)
-        offline_help_action = QtWidgets.QAction("Offline help", self)
-        help_menu.addAction(offline_help_action)
-        offline_help_action.triggered.connect(self.show_offline_help)
 
     def debug_clear_rest_action_selection(self):
         self.rest_actions_qlw.clearSelection()
 
     def debug_clear_breathing_phrase_selection(self):
         self.phrase_list_widget.list_widget.clearSelection()
-
-    def show_offline_help(self):
-        mc.gui.readme_dlg.ReadmeDialog.show_dialog(self)
 
     def show_online_help(self):
         url_str = "https://sunyatazero.github.io/mindfulness-at-the-computer/user-guide.html"
