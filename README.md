@@ -13,7 +13,7 @@ remember to stay in touch with and be mindful of your breathing and body
 while sitting at the computer, and helps you concentrate on breathing
 in and out when you need a breathing pause.
 
-Written in python, this application can be run on Windows and GNU/Linux
+Written in Python, this application can be run on Windows and GNU/Linux.
 
 ## Download
 
