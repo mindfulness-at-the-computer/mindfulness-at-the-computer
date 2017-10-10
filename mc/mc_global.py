@@ -2,7 +2,6 @@ import enum
 import os
 import logging
 from PyQt5 import QtCore
-from PyQt5 import QtMultimedia
 
 
 APPLICATION_TITLE_STR = "Mindfulness at the Computer"
