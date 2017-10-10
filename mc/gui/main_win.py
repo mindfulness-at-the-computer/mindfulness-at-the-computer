@@ -177,6 +177,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.update_gui()
         # self.showNormal()
         # self.raise_()
+        self.showNormal()
+        # self.raise_()
         self.setWindowState(QtCore.Qt.WindowActive)
         # -TODO: Do we want to use this for the systray as well so we are more consistent?
         #  or else
