@@ -10,11 +10,12 @@ from PyQt5 import QtWidgets
 import mc.gui.readme_dlg
 import mc.gui.rest_actions_cw
 from mc import model, mc_global
-from mc.gui import rest_reminder_dlg
+from mc.gui import unused_rest_reminder_dlg
 from mc.gui import breathing_cw
 from mc.gui import breathing_settings_cw
 from mc.gui import breathing_phrase_list_cw
 from mc.gui import rest_settings_cw
+import mc.gui.rest_reminder_cw
 
 
 class MbMainWindow(QtWidgets.QMainWindow):
@@ -50,8 +51,19 @@ class MbMainWindow(QtWidgets.QMainWindow):
         vbox = QtWidgets.QVBoxLayout()
         vbox_widget.setLayout(vbox)
 
+
+        self.main_area_stacked_widget = QtWidgets.QStackedWidget()
+        vbox.addWidget(self.main_area_stacked_widget)
+
         self.breathing_composite_widget = breathing_cw.BreathingCompositeWidget()
-        vbox.addWidget(self.breathing_composite_widget)
+        self.bcw_sw_id_int = self.main_area_stacked_widget.addWidget(self.breathing_composite_widget)
+
+        self.rest_reminder_composite = mc.gui.rest_reminder_cw.RestReminderComposite()
+        self.rrcw_sw_id_int = self.main_area_stacked_widget.addWidget(self.rest_reminder_composite)
+        self.rest_reminder_composite.result_signal.connect(self.on_rest_reminder_widget_closed)
+
+        self.main_area_stacked_widget.setCurrentIndex(self.bcw_sw_id_int)
+
 
         self.phrase_list_dock = QtWidgets.QDockWidget("List of Phrases")
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.phrase_list_dock)
@@ -146,22 +158,30 @@ class MbMainWindow(QtWidgets.QMainWindow):
         #######self.rest_settings_widget.updating_gui_bool = False
         ########self.update_tray_menu(1, 1)
 
-    def show_rest_reminder(self):
-        mc_global.rest_reminder_minutes_passed_int = 0
-
-        self.rest_reminder_dialog = rest_reminder_dlg.RestReminderDialog(self)
-        result = self.rest_reminder_dialog.exec()
-        if result:
-            outcome_int = self.rest_reminder_dialog.dialog_outcome_int
-            if outcome_int != rest_reminder_dlg.CLOSED_RESULT_INT:
-                wait_time_int = outcome_int
+    def on_rest_reminder_widget_closed(self, i_wait_minutes: int):
+        if i_wait_minutes != mc.gui.rest_reminder_cw.CLOSED_RESULT_INT:
+            if i_wait_minutes != unused_rest_reminder_dlg.CLOSED_RESULT_INT:
                 mc_global.rest_reminder_minutes_passed_int = (
                     model.SettingsM.get().rest_reminder_interval_int
-                    - wait_time_int
+                    - i_wait_minutes
                 )
-            else:
-                mc_global.rest_reminder_minutes_passed_int = 0
+        else:
+            mc_global.rest_reminder_minutes_passed_int = 0
+
+        self.main_area_stacked_widget.setCurrentIndex(self.bcw_sw_id_int)
         self.update_gui()
+
+    def show_rest_reminder(self):
+        #mc_global.rest_reminder_minutes_passed_int = 0
+        self.main_area_stacked_widget.setCurrentIndex(self.rrcw_sw_id_int)
+        self.update_gui()
+        # self.showNormal()
+        # self.raise_()
+        self.setWindowState(QtCore.Qt.WindowActive)
+        # -TODO: Do we want to use this for the systray as well so we are more consistent?
+        #  or else
+
+        # self.activateWindow()
 
     def update_breathing_timer(self):
         settings = model.SettingsM.get()
