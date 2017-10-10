@@ -1,6 +1,7 @@
 *.db
 mindfulness-at-the-computer.spec
 .idea/vcs.xml
+.idea/workspace.xml
 exported.csv
 
 
