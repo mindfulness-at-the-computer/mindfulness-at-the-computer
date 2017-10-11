@@ -12,10 +12,7 @@ import PyQt5.Qt
 
 from mc import mc_global
 from mc.gui import main_win
-import mc.model
-import mc.db
-import mc.matc_main
-
+import mc.gui.main_win
 
 
 if __name__ == "__main__":
@@ -41,8 +38,9 @@ if __name__ == "__main__":
 
 
     matc_qapplication = QtWidgets.QApplication(sys.argv)
-    matc = mc.matc_main.MatC(matc_qapplication)
-    matc.main_window.show()
+    matc_qapplication.setQuitOnLastWindowClosed(False)
+    matc_main_window = mc.gui.main_win.MbMainWindow()
+    matc_main_window.show()
     sys.exit(matc_qapplication.exec_())
 
 
