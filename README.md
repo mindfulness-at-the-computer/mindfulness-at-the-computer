@@ -18,13 +18,9 @@ includes more information (Downloads, screenshots, mailing list).
 
 The application is written in Python and uses Qt/PyQt for the front-end.
 
-## License
+License: GPLv3
 
-GPLv3
-
-## Social
-
-[Gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby)
+Social: [Gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby)
 
 ## Developer documentation
 
