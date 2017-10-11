@@ -136,7 +136,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
             self
         )
         logging.debug("connecting with the activated signal")
-        # self.tray_icon.activated.connect(self.on_systray_activated)
+        self.tray_icon.activated.connect(self.on_systray_activated)
         self.tray_icon.show()
         # self.update_tray_menu()
         if not self.tray_icon.supportsMessages():
@@ -205,6 +205,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.tray_quit_action.triggered.connect(self.exit_application)
 
         self.tray_icon.setContextMenu(self.tray_menu)
+
+    def on_systray_activated(self):
+        logging.debug("entered on_systray_activated")
 
     def phrase_row_changed(self, i_details_enabled: bool):
         self.update_breathing_timer()
