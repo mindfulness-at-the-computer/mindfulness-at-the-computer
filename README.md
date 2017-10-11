@@ -13,26 +13,22 @@ remember to stay in touch with and be mindful of your breathing and body
 while sitting at the computer, and helps you concentrate on breathing
 in and out when you need a breathing pause.
 
-Written in Python, this application can be run on Windows and GNU/Linux.
-
-## Download
-
 The [**application website**](https://sunyatazero.github.io/mindfulness-at-the-computer/)
 includes more information (Downloads, screenshots, mailing list).
 
-<!-- TBD: If you are a user you can find the user guide here -->
+The application is written in Python and uses Qt/PyQt for the front-end.
 
 ## License
 
 GPLv3
 
-## Social (Support and Development)
+## Social
 
 [Gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby)
 
-## Developer document
+## Developer documentation
 
-All docs are in [this directory](docs/)
+All docs are in the [docs directory](docs/)
 
 Some important documents:
 * [CONTRIBUTING](CONTRIBUTING.md)
@@ -45,9 +41,6 @@ Some important documents:
 
 
 <!--
-[![saythanks](https://img.shields.io/badge/say-thanks-98e633.svg)](https://saythanks.io/to/SunyataZero)
-[![license-gplv3](https://img.shields.io/badge/license-GPLv3-a42e2b.svg)](https://www.gnu.org/licenses/gpl.html)
-
 Aka: m@c, matc
 -->
 
