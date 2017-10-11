@@ -40,16 +40,19 @@ class ToggleSwitchComposite(QtWidgets.QWidget):
     def on_on_toggled(self, i_checked: bool):
         if self.updating_gui_bool:
             return
-        if i_checked:
-            self.toggled_signal.emit(True)
-            self.update_gui(True)
+        self.toggled_signal.emit(i_checked)
+        self.update_gui(i_checked)
 
     def on_off_toggled(self, i_checked: bool):
         if self.updating_gui_bool:
             return
+        self.toggled_signal.emit(not i_checked)
+        self.update_gui(not i_checked)
+        """
         if i_checked:
             self.toggled_signal.emit(False)
             self.update_gui(False)
+        """
 
     def update_gui(self, i_enabled: bool):
         self.updating_gui_bool = True
