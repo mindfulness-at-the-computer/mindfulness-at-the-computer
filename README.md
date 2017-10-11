@@ -28,16 +28,12 @@ GPLv3
 
 ## Developer documentation
 
-All docs are in the [docs directory](docs/)
+Most documents are located in the [docs directory](docs/). There's also a [wiki](wiki) that is open for editing
 
 Some important documents:
 * [CONTRIBUTING](CONTRIBUTING.md)
 * [Technical Architecture](docs/tech-architecture.md)
-
-## Varia
-
 * [Running the application from source](docs/running-from-source.md)
-* Other projects for well-being: https://fswellbeing.github.io/
 
 
 <!--
