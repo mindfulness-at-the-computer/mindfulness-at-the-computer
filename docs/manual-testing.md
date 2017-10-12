@@ -5,7 +5,7 @@ This document contains test cases for manual testing
 
 For all the tests below: Please start the application in debug mode, or at least so that you can see the debug output (from the logging)
 
-Test Record: Please use the wiki
+Test Record: Please use [the wiki](https://github.com/SunyataZero/mindfulness-at-the-computer/wiki)
 
 "TBD" in this document often means that the test case is yet to be written
 
