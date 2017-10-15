@@ -38,9 +38,15 @@ p,ul{
 .fine-print{
     font-size: 12pt;
 }
-img{
+img, .video{
     max-width:480px;
     max-height:auto;
+}
+@media (max-width: 480px) {
+    img, .video{
+        width:100%;
+        max-height:auto;
+    }
 }
 h1,h2,h3,h4{
     color: #595959;
