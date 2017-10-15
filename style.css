@@ -28,7 +28,7 @@ body{
 }
 .center-div{
     margin: auto;
-    width: 640px;
+    max-width: 640px;
     background-color: #f2f2f2;
 }
 p,ul{
