@@ -1,19 +1,15 @@
 #!/usr/bin/env python3
-import argparse
 import logging
-import sys
 import os
 import sqlite3
+import sys
 
-from PyQt5 import QtGui
-from PyQt5 import QtWidgets
-from PyQt5 import QtCore
 import PyQt5.Qt
+from PyQt5 import QtCore
+from PyQt5 import QtWidgets
 
-from mc import mc_global
-from mc.gui import main_win
 import mc.gui.main_win
-
+from mc import mc_global
 
 if __name__ == "__main__":
     mc_global.db_file_exists_at_application_startup_bl = os.path.isfile(mc_global.get_database_filename())

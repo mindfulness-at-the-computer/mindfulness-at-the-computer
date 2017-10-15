@@ -1,15 +1,17 @@
 
+[ ] add some extra space after having paused
 
 [ ] build a system for updating gui as well as the icon, in a reliable and consistent way
+[ ] standardize how gui updates are made
+[ ] standardize a naming system for handler methods (maybe ending with _m if they update the model?)
 
 [ ] Adding a button to the rest dialog for starting breathing after a break
         self.close_and_breathing_qpb = QtWidgets.QPushButton("Start Breathing")
         hbox.addWidget(self.close_and_breathing_qpb)
 
-[ ] ***Alt: Integrating rest into the main window***
+[x] ***Alt: Integrating rest into the main window***
 
-[ ] removing the numbers for lenght of in and out-breath, instead replacing with something
-indicating which of these are active at the moment
+[x] removing the numbers for lenght of in and out-breath
 
 [x] Windows: remove console window while running the application
 https://stackoverflow.com/questions/25604611/how-to-stop-cmd-prompt-from-showing-when-i-run-my-exe-file
@@ -25,12 +27,9 @@ http://pyinstaller.readthedocs.io/en/stable/usage.html?highlight=noconsole
 
 
 Low prio:
-[ ] rest actions in the rest dialog?
 [ ] indicate which breathing phrase is active in the sys tray. Please note: This means that we
 may also need to include another value here, since the user may not have chosen one of the
 top three / five
-[ ] standardize how gui updates are made
-[ ] standardize a naming system for handler methods (maybe ending with _m if they update the model?)
 [ ] choosing a different directory for user files (to make it easier to backup)
 [ ] setting the log level when starting the application, using a command line argument
 [ ] marketing: adding a line in my email signature
@@ -46,11 +45,4 @@ http://doc.qt.io/qt-5/qsystemtrayicon.html#setContextMenu
 1. the user presses the "reset timer" button
 or
 2. the current time has run out
-[ ] "take a break now" resets the current timer
-[ ] pause timer while the rest dialog is displayed
-
-
-bugs:
-
-QXcbConnection: XCB error: 3 (BadWindow), sequence: 960, resource id: 14766962, major code: 40 (TranslateCoords), minor code: 0
 
