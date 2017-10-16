@@ -30,6 +30,8 @@ body{
     margin: auto;
     max-width: 640px;
     background-color: #f2f2f2;
+    border-right: 4px solid transparent;
+    border-left: 2px solid transparent;
 }
 p,ul{
     font-size: 15pt;
