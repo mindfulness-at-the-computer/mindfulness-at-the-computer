@@ -14,6 +14,8 @@ Documentation:
 
 ### Building on Ubuntu
 
+*Please choose a fairly early version*, 16.04 or earlier. The reason is that pyinstaller does not bundle libc into the resulting package so the resulting package may not (will not?) work with earlier versions of libc and Ubuntu
+
 1. Install version 3.5 of Python (PyInstaller doesn't work with 3.6 at the time of writing)
   * Which version is used will depend on the Ubuntu version, but any version 3.0 - 3.5 should be fine (?)
 2. `pip install pyinstaller`
