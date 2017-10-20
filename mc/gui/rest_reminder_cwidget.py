@@ -6,7 +6,7 @@ from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 
 from mc import model, mc_global
-import mc.gui.quotes_cw
+import mc.gui.unused_insights_cw
 
 IMAGE_GOAL_WIDTH_INT = 240
 IMAGE_GOAL_HEIGHT_INT = IMAGE_GOAL_WIDTH_INT
@@ -33,26 +33,20 @@ class RestReminderComposite(QtWidgets.QWidget):
         self.setLayout(vbox_l2)
 
         # Main area
-        hbox_l3 = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(hbox_l3)
 
-        # Rest actions
-        vbox_l4 = QtWidgets.QVBoxLayout()
-        hbox_l3.addLayout(vbox_l4)
-        rest_kindness_actions_qgb_l5 = QtWidgets.QGroupBox()
-        vbox_l4.addStretch(1)
-        vbox_l4.addWidget(rest_kindness_actions_qgb_l5)
-        vbox_l4.addStretch(1)
-        self.rka_vbox_l5 = QtWidgets.QVBoxLayout()
-        rest_kindness_actions_qgb_l5.setLayout(self.rka_vbox_l5)
-        self.populate_list_of_buttons()
+        title_qll = QtWidgets.QLabel("Please take good care of yourself")
+        vbox_l2.addWidget(title_qll)
 
         # Image (or text if image is missing)
         self.image_qll = QtWidgets.QLabel()
-        hbox_l3.addWidget(self.image_qll)
+        vbox_l2.addWidget(self.image_qll)
         self.image_qll.setScaledContents(True)
         self.image_qll.setMinimumWidth(IMAGE_GOAL_WIDTH_INT)
         self.image_qll.setMinimumHeight(IMAGE_GOAL_HEIGHT_INT)
+
+        self.title_qll = QtWidgets.QLabel()
+        vbox_l2.addWidget(self.title_qll)
+
         # self.image_qll.setPixmap(QtGui.QPixmap(mc_global.active_rest_image_full_path_str))
         # self.resize_image()
 
@@ -85,34 +79,6 @@ class RestReminderComposite(QtWidgets.QWidget):
         # self.accept()
         self.result_signal.emit(CLOSED_RESULT_INT)
 
-    def populate_list_of_buttons(self):
-        for rest_action in model.RestActionsM.get_all():
-            rest_action_cpb = CustomPushButton(
-                rest_action.title_str,
-                rest_action.id_int
-            )
-            rest_action_cpb.setCheckable(True)
-            self.rest_actions_qbg.addButton(rest_action_cpb)
-            self.rka_vbox_l5.addWidget(rest_action_cpb)
-            rest_action_cpb.button_clicked_signal.connect(self.on_rest_action_button_clicked)
-
-    def on_rest_action_button_clicked(self, i_id: int):
-        logging.debug("Id of button clicked: " + str(i_id))
-        rest_action = model.RestActionsM.get(i_id)
-        if rest_action.image_path_str and os.path.isfile(rest_action.image_path_str):
-            self.image_qll.setPixmap(
-                QtGui.QPixmap(
-                    rest_action.image_path_str
-                )
-            )
-            self.resize_image()
-        else:
-            self.image_qll.setText(rest_action.title_str)
-            new_font = QtGui.QFont()
-            new_font.setPointSize(14)
-            self.image_qll.setFont(new_font)
-            self.image_qll.setWordWrap(True)
-
     def resize_image(self):
         if self.image_qll.pixmap() is None:
             return
@@ -133,15 +99,27 @@ class RestReminderComposite(QtWidgets.QWidget):
         self.image_qll.setFixedWidth(scaled_width_int)
         self.image_qll.setFixedHeight(scaled_height_int)
 
+    def update_gui(self):
+        if mc_global.active_rest_action_id_it == mc_global.NO_REST_ACTION_SELECTED_INT:
+            return
 
-class CustomPushButton(QtWidgets.QPushButton):
-    button_clicked_signal = QtCore.pyqtSignal(int)
+        rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
+        if rest_action.image_path_str and os.path.isfile(rest_action.image_path_str):
+            self.image_qll.show()
+            self.image_qll.setPixmap(
+                QtGui.QPixmap(
+                    rest_action.image_path_str
+                )
+            )
+            self.resize_image()
+        else:
+            self.image_qll.hide()
+            self.image_qll.clear()
 
-    def __init__(self, i_title: str, i_id: int):
-        super().__init__(i_title)  # -TODO: Send parent as well here?
-        self.id_int = i_id
-        self.clicked.connect(self.on_button_clicked)
+        self.title_qll.setText(rest_action.title_str)
+        new_font = QtGui.QFont()
+        new_font.setPointSize(14)
+        self.title_qll.setFont(new_font)
+        self.title_qll.setWordWrap(True)
 
-    def on_button_clicked(self):
-        self.button_clicked_signal.emit(self.id_int)
 

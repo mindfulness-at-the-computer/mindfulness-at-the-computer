@@ -8,15 +8,13 @@ from PyQt5 import QtGui
 from PyQt5 import QtTest
 from PyQt5 import QtWidgets
 
-import mc.gui.unused_readme_dlg
-import mc.gui.rest_actions_cw
+import mc.gui.rest_actions_cwfd
 from mc import model, mc_global
-from mc.gui import unused_rest_reminder_dlg
-from mc.gui import breathing_cw
-from mc.gui import breathing_settings_cw
-from mc.gui import breathing_phrase_list_cw
-from mc.gui import rest_settings_cw
-import mc.gui.rest_reminder_cw
+from mc.gui import breathing_cwidget
+from mc.gui import breathing_reminders_cwfd
+from mc.gui import phrase_list_cwfd
+from mc.gui import rest_reminders_cwfd
+import mc.gui.rest_reminder_cwidget
 
 
 class MbMainWindow(QtWidgets.QMainWindow):
@@ -40,7 +38,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle(window_title_str)
 
         self.setStyleSheet("selection-background-color:#bfef7f; selection-color:#000000;")  # -#91c856
-        ### QProgressBar{background-color:#333333;}
+        # QProgressBar{background-color:#333333;}
 
         self.rest_reminder_dialog = None
         self.tray_icon = None
@@ -56,10 +54,10 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.main_area_stacked_widget = QtWidgets.QStackedWidget()
         vbox.addWidget(self.main_area_stacked_widget)
 
-        self.breathing_composite_widget = breathing_cw.BreathingCompositeWidget()
+        self.breathing_composite_widget = breathing_cwidget.BreathingCompositeWidget()
         self.bcw_sw_id_int = self.main_area_stacked_widget.addWidget(self.breathing_composite_widget)
 
-        self.rest_reminder_composite = mc.gui.rest_reminder_cw.RestReminderComposite()
+        self.rest_reminder_composite = mc.gui.rest_reminder_cwidget.RestReminderComposite()
         self.rrcw_sw_id_int = self.main_area_stacked_widget.addWidget(self.rest_reminder_composite)
         self.rest_reminder_composite.result_signal.connect(self.on_rest_reminder_widget_closed)
 
@@ -69,14 +67,14 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.phrase_list_dock = QtWidgets.QDockWidget("List of Phrases")
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.phrase_list_dock)
         self.phrase_list_dock.setFeatures(QtWidgets.QDockWidget.NoDockWidgetFeatures)
-        self.phrase_list_widget = breathing_phrase_list_cw.PhraseListCompositeWidget()
+        self.phrase_list_widget = phrase_list_cwfd.PhraseListCompositeWidget()
         self.phrase_list_dock.setWidget(self.phrase_list_widget)
         self.phrase_list_widget.phrases_updated_signal.connect(self.phrase_row_changed)
 
         self.breathing_settings_dock = QtWidgets.QDockWidget("Breathing Reminders")
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.breathing_settings_dock)
         # settings_dock.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
-        self.breathing_settings_widget = breathing_settings_cw.BreathingSettingsComposite()
+        self.breathing_settings_widget = breathing_reminders_cwfd.BreathingSettingsComposite()
         self.breathing_settings_dock.setWidget(self.breathing_settings_widget)
         self.breathing_settings_widget.breathing_settings_updated_signal.connect(self.update_breathing_timer)
         self.breathing_settings_widget.breathing_test_button_clicked_signal.connect(self.show_breathing_notification)
@@ -84,16 +82,19 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.rest_settings_dock = QtWidgets.QDockWidget("Rest Reminders")
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.rest_settings_dock)
         # settings_dock.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
-        self.rest_settings_widget = rest_settings_cw.RestSettingsComposite()
+        self.rest_settings_widget = rest_reminders_cwfd.RestSettingsComposite()
         self.rest_settings_dock.setWidget(self.rest_settings_widget)
         self.rest_settings_widget.rest_settings_updated_signal.connect(self.update_rest_timer)
         self.rest_settings_widget.rest_test_button_clicked_signal.connect(self.show_rest_reminder)
         self.rest_settings_widget.rest_reset_button_clicked_signal.connect(self.update_rest_timer)
 
         self.rest_actions_dock = QtWidgets.QDockWidget("Rest Actions")
-        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.rest_actions_dock)
-        self.rest_actions_widget = mc.gui.rest_actions_cw.RestActionsComposite()
+        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.rest_actions_dock)
+        self.rest_actions_dock.setFeatures(QtWidgets.QDockWidget.NoDockWidgetFeatures)
+        self.tabifyDockWidget(self.phrase_list_dock, self.rest_actions_dock)  # <------
+        self.rest_actions_widget = mc.gui.rest_actions_cwfd.RestActionsComposite()
         self.rest_actions_dock.setWidget(self.rest_actions_widget)
+        self.rest_actions_widget.update_signal.connect(self.on_rest_actions_updated)
         size_policy = self.rest_actions_dock.sizePolicy()
         size_policy.setVerticalPolicy(QtWidgets.QSizePolicy.Maximum)
         self.rest_actions_dock.setSizePolicy(size_policy)
@@ -104,28 +105,15 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.quotes_widget = quotes.CompositeQuotesWidget()
         self.quotes_dock.setWidget(self.quotes_widget)
         self.quotes_dock.hide()  # -hiding at the start
-
-        self.insights_dock = QtWidgets.QDockWidget("Insights")
-        self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.insights_dock)
-        self.insights_widget = insights.CompositeInsightsWidget()
-        self.insights_dock.setWidget(self.insights_widget)
-        self.insights_dock.hide()  # -hiding at the start
         """
 
         # Menu
         self.menu_bar = self.menuBar()
         self.update_menu()
 
-
         # Timers
         self.update_breathing_timer()
         self.update_rest_timer()
-
-
-
-
-
-
 
         # System tray
         # Please note: We cannot move the update code into another function, even here in
@@ -206,6 +194,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
         self.tray_icon.setContextMenu(self.tray_menu)
 
+    def on_rest_actions_updated(self):
+        self.rest_reminder_composite.update_gui()
+
     def on_systray_activated(self):
         logging.debug("entered on_systray_activated")
 
@@ -240,15 +231,15 @@ class MbMainWindow(QtWidgets.QMainWindow):
         if (mc_global.rest_reminder_minutes_passed_int
                 >= model.SettingsM.get().rest_reminder_interval_int):
             self.show_rest_reminder()
-        #######self.rest_settings_widget.updating_gui_bool = True
+        # self.rest_settings_widget.updating_gui_bool = True
         self.rest_settings_widget.rest_reminder_qsr.setValue(
             mc_global.rest_reminder_minutes_passed_int
         )
-        #######self.rest_settings_widget.updating_gui_bool = False
-        ########self.update_tray_menu(1, 1)
+        # self.rest_settings_widget.updating_gui_bool = False
+        # self.update_tray_menu(1, 1)
 
     def on_rest_reminder_widget_closed(self, i_wait_minutes: int):
-        if i_wait_minutes != mc.gui.rest_reminder_cw.CLOSED_RESULT_INT:
+        if i_wait_minutes != mc.gui.rest_reminder_cwidget.CLOSED_RESULT_INT:
             if i_wait_minutes != unused_rest_reminder_dlg.CLOSED_RESULT_INT:
                 mc_global.rest_reminder_minutes_passed_int = (
                     model.SettingsM.get().rest_reminder_interval_int
@@ -298,7 +289,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
                 or mc_global.active_phrase_id_it == -1:
             return  # -TODO: Alternatively we can stop and start timers when the state changes
         settings = model.SettingsM.get()
-        ####### TODO: assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT
+        # TODO: assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT
         active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
         reminder_str = active_phrase.ib_str + "\n" + active_phrase.ob_str
         self.tray_icon.showMessage(
@@ -373,12 +364,13 @@ class MbMainWindow(QtWidgets.QMainWindow):
         message_box = QtWidgets.QMessageBox.about(
             self,
             "About Mindfulness at the Computer",
-            ('<html>Concept and programming by Tord Dellsén<br>'
-            'Photography for application icon by Torgny Dellsén <a href="http://torgnydellsen.zenfolio.com">torgnydellsen.zenfolio.com</a><br>'
-            'Other icons from Open Iconic - useiconic.com<br>'
-            'Other images (for the rest actions) have been released into the public domain (CC0)<br>'
-            'Audio files have been released into the public domain (CC0)<br>'
-            'Software License: GPLv3</html>'
+            (
+                '<html>Concept and programming by Tord Dellsén<br>'
+                'Photography for application icon by Torgny Dellsén <a href="http://torgnydellsen.zenfolio.com">torgnydellsen.zenfolio.com</a><br>'
+                'Other icons from Open Iconic - useiconic.com<br>'
+                'Other images (for the rest actions) have been released into the public domain (CC0)<br>'
+                'Audio files have been released into the public domain (CC0)<br>'
+                'Software License: GPLv3</html>'
             )
         )
 
@@ -417,4 +409,5 @@ class MbMainWindow(QtWidgets.QMainWindow):
             )
             # -TODO: Do this in another place?
             self.tray_icon.show()
+
 

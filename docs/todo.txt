@@ -1,4 +1,12 @@
 
+[ ] update icon to show if we are taking a break. (how to do this? should be pretty clear and easy to see)
+
+[ ] make the close and reset timer button larger
+
+[ ] move slider 5 instead of 10 when clicking
+
+[x] using the edit space for the icon as well
+
 [ ] add some extra space after having paused
 
 [ ] build a system for updating gui as well as the icon, in a reliable and consistent way
@@ -9,24 +17,19 @@
         self.close_and_breathing_qpb = QtWidgets.QPushButton("Start Breathing")
         hbox.addWidget(self.close_and_breathing_qpb)
 
-[x] ***Alt: Integrating rest into the main window***
-
-[x] removing the numbers for lenght of in and out-breath
-
-[x] Windows: remove console window while running the application
-https://stackoverflow.com/questions/25604611/how-to-stop-cmd-prompt-from-showing-when-i-run-my-exe-file
-http://pyinstaller.readthedocs.io/en/stable/usage.html?highlight=noconsole
-
 [ ] .spec file should be generic and not contain the paths of a specific computer
 
 [ ] adding a windows icon (.ico)
 
 [ ] adding presets
 
+[ ] if the user only breathes in then the in breaht will be removed
+
 =========
 
 
 Low prio:
+[ ] for x11: add hover functionality for the systray. https://stackoverflow.com/questions/21795919/how-to-catch-the-mousehover-event-for-qsystemtrayicon
 [ ] indicate which breathing phrase is active in the sys tray. Please note: This means that we
 may also need to include another value here, since the user may not have chosen one of the
 top three / five
