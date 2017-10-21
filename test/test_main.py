@@ -7,7 +7,7 @@ from PyQt5 import QtWidgets
 
 import mc.mc_global
 import mc.gui.toggle_switch_cw
-import mc.gui.phrase_list_cwfd
+import mc.gui.phrase_list_dock
 import mc.gui.main_win
 import mc.gui.breathing_cwidget
 import mc.matc_main
@@ -42,7 +42,7 @@ class MainTest(unittest.TestCase):
         self.assertTrue(ts_widget.off_qpb.isChecked())
 
     def test_adding_breathing_phrase(self):
-        pl_widget = mc.gui.phrase_list_cwfd.PhraseListCompositeWidget()
+        pl_widget = mc.gui.phrase_list_dock.PhraseListCompositeWidget()
 
         TEST_TEXT_STR = "testing 1"
         QtTest.QTest.keyClicks(pl_widget.add_to_list_qle, TEST_TEXT_STR)
@@ -92,13 +92,13 @@ class MainTest(unittest.TestCase):
         QtTest.QTest.waitForEvents()
 
         print("breathing_widget.bi_text_qll.text() = " + breathing_widget.bi_text_qll.text())
-        print("mc.gui.phrase_list_cw.BREATHING_IN_DEFAULT_PHRASE = " + mc.gui.phrase_list_cwfd.BREATHING_IN_DEFAULT_PHRASE)
-        is_true = breathing_widget.bi_text_qll.text() == mc.gui.phrase_list_cwfd.BREATHING_IN_DEFAULT_PHRASE
+        print("mc.gui.phrase_list_cw.BREATHING_IN_DEFAULT_PHRASE = " + mc.gui.phrase_list_dock.BREATHING_IN_DEFAULT_PHRASE)
+        is_true = breathing_widget.bi_text_qll.text() == mc.gui.phrase_list_dock.BREATHING_IN_DEFAULT_PHRASE
 
         self.assertTrue(is_true)
 
         self.assertTrue(
-            breathing_widget.bo_text_qll.text() == mc.gui.phrase_list_cwfd.BREATHING_OUT_DEFAULT_PHRASE
+            breathing_widget.bo_text_qll.text() == mc.gui.phrase_list_dock.BREATHING_OUT_DEFAULT_PHRASE
         )
 
     @staticmethod

@@ -5,8 +5,9 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 
-import mc.gui.safe_delete_dlg
-from mc import model, mc_global
+import mc.gui.safe_delete_dialog
+import mc.model
+import mc.mc_global
 
 BREATHING_IN_DEFAULT_PHRASE = "Breathing in"
 BREATHING_OUT_DEFAULT_PHRASE = "Breathing out"
@@ -76,19 +77,19 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         """
         self.edit_texts_qpb = QtWidgets.QPushButton()
         hbox.addWidget(self.edit_texts_qpb)
-        self.edit_texts_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("pencil-2x.png")))
+        self.edit_texts_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("pencil-2x.png")))
         self.edit_texts_qpb.clicked.connect(self.on_edit_texts_clicked)
         self.move_to_top_qpb = QtWidgets.QPushButton()
         hbox.addWidget(self.move_to_top_qpb)
-        self.move_to_top_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("data-transfer-upload-2x.png")))
+        self.move_to_top_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("data-transfer-upload-2x.png")))
         self.move_to_top_qpb.clicked.connect(self.on_move_to_top_clicked)
         self.move_up_qpb = QtWidgets.QPushButton()
         hbox.addWidget(self.move_up_qpb)
-        self.move_up_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("arrow-top-2x.png")))
+        self.move_up_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("arrow-top-2x.png")))
         self.move_up_qpb.clicked.connect(self.on_move_up_clicked)
         self.move_down_qpb = QtWidgets.QPushButton()
         hbox.addWidget(self.move_down_qpb)
-        self.move_down_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("arrow-bottom-2x.png")))
+        self.move_down_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("arrow-bottom-2x.png")))
         self.move_down_qpb.clicked.connect(self.on_move_down_clicked)
 
 
@@ -96,7 +97,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
 
         self.delete_phrase_qpb = QtWidgets.QPushButton()
         hbox.addWidget(self.delete_phrase_qpb)
-        self.delete_phrase_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("trash-2x.png")))
+        self.delete_phrase_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("trash-2x.png")))
         self.delete_phrase_qpb.clicked.connect(self.on_delete_clicked)
 
 
@@ -110,7 +111,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
     def on_move_down_clicked(self):
         self.move_up_down(model.MoveDirectionEnum.down)
 
-    def move_up_down(self, i_up_down: model.MoveDirectionEnum):
+    def move_up_down(self, i_up_down: mc.model.MoveDirectionEnum):
         id_int = mc_global.active_rest_action_id_it
         model.RestActionsM.update_sort_order_move_up_down(id_int, i_up_down)
         self.update_gui()
@@ -213,7 +214,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
     def update_gui(self):
         # List
         self.list_widget.clear()
-        for l_phrase in model.PhrasesM.get_all():
+        for l_phrase in mc.model.PhrasesM.get_all():
             # self.list_widget.addItem(l_collection.title_str)
             custom_label = CustomQLabel(l_phrase.title_str, l_phrase.id_int)
             list_item = QtWidgets.QListWidgetItem()
@@ -222,10 +223,10 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
 
 
 class CustomQLabel(QtWidgets.QLabel):
-    question_entry_id = mc_global.NO_PHRASE_SELECTED_INT  # -"static"
+    question_entry_id = mc.mc_global.NO_PHRASE_SELECTED_INT  # -"static"
     # mouse_pressed_signal = QtCore.pyqtSignal(QtGui.QMouseEvent, int)
 
-    def __init__(self, i_text_sg, i_diary_entry_id=mc_global.NO_PHRASE_SELECTED_INT):
+    def __init__(self, i_text_sg, i_diary_entry_id=mc.mc_global.NO_PHRASE_SELECTED_INT):
         super().__init__(i_text_sg)
         self.question_entry_id = i_diary_entry_id
 
@@ -248,7 +249,7 @@ class EditDialog(QtWidgets.QDialog):
         super(EditDialog, self).__init__(i_parent)
 
         assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT
-        active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
+        active_phrase = model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
 
         vbox = QtWidgets.QVBoxLayout(self)
 

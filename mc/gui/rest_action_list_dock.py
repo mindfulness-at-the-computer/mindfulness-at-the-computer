@@ -6,8 +6,8 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 
-import mc.gui.safe_delete_dlg
-import mc.gui.toggle_switch_cw
+import mc.gui.safe_delete_dialog
+# import mc.gui.toggle_switch_widget
 from mc import model, mc_global
 
 
@@ -136,7 +136,7 @@ class RestActionsComposite(QtWidgets.QWidget):
 
     def on_delete_clicked(self):
         # active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
-        conf_result_bool = mc.gui.safe_delete_dlg.SafeDeleteDialog.get_safe_confirmation_dialog(
+        conf_result_bool = mc.gui.safe_delete_dialog.SafeDeleteDialog.get_safe_confirmation_dialog(
             "Are you sure that you want to remove this entry?"
         )
         if conf_result_bool:

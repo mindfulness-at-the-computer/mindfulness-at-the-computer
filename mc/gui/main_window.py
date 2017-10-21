@@ -8,13 +8,13 @@ from PyQt5 import QtGui
 from PyQt5 import QtTest
 from PyQt5 import QtWidgets
 
-import mc.gui.rest_actions_cwfd
+import mc.gui.rest_action_list_dock
 from mc import model, mc_global
-from mc.gui import breathing_cwidget
-from mc.gui import breathing_reminders_cwfd
-from mc.gui import phrase_list_cwfd
-from mc.gui import rest_reminders_cwfd
-import mc.gui.rest_reminder_cwidget
+import mc.gui.breathing_widget
+import mc.gui.breathing_reminder_settings_dock
+import mc.gui.breathing_phrase_list_dock
+import mc.gui.rest_reminder_settings_dock
+import mc.gui.rest_widget
 
 
 class MbMainWindow(QtWidgets.QMainWindow):
@@ -54,10 +54,10 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.main_area_stacked_widget = QtWidgets.QStackedWidget()
         vbox.addWidget(self.main_area_stacked_widget)
 
-        self.breathing_composite_widget = breathing_cwidget.BreathingCompositeWidget()
+        self.breathing_composite_widget = mc.gui.breathing_widget.BreathingCompositeWidget()
         self.bcw_sw_id_int = self.main_area_stacked_widget.addWidget(self.breathing_composite_widget)
 
-        self.rest_reminder_composite = mc.gui.rest_reminder_cwidget.RestReminderComposite()
+        self.rest_reminder_composite = mc.gui.rest_widget.RestReminderComposite()
         self.rrcw_sw_id_int = self.main_area_stacked_widget.addWidget(self.rest_reminder_composite)
         self.rest_reminder_composite.result_signal.connect(self.on_rest_reminder_widget_closed)
 
@@ -67,14 +67,14 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.phrase_list_dock = QtWidgets.QDockWidget("List of Phrases")
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.phrase_list_dock)
         self.phrase_list_dock.setFeatures(QtWidgets.QDockWidget.NoDockWidgetFeatures)
-        self.phrase_list_widget = phrase_list_cwfd.PhraseListCompositeWidget()
+        self.phrase_list_widget = mc.gui.breathing_phrase_list_dock.PhraseListCompositeWidget()
         self.phrase_list_dock.setWidget(self.phrase_list_widget)
         self.phrase_list_widget.phrases_updated_signal.connect(self.phrase_row_changed)
 
         self.breathing_settings_dock = QtWidgets.QDockWidget("Breathing Reminders")
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.breathing_settings_dock)
         # settings_dock.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
-        self.breathing_settings_widget = breathing_reminders_cwfd.BreathingSettingsComposite()
+        self.breathing_settings_widget = mc.gui.breathing_reminder_settings_dock.BreathingSettingsComposite()
         self.breathing_settings_dock.setWidget(self.breathing_settings_widget)
         self.breathing_settings_widget.breathing_settings_updated_signal.connect(self.update_breathing_timer)
         self.breathing_settings_widget.breathing_test_button_clicked_signal.connect(self.show_breathing_notification)
@@ -82,7 +82,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.rest_settings_dock = QtWidgets.QDockWidget("Rest Reminders")
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.rest_settings_dock)
         # settings_dock.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
-        self.rest_settings_widget = rest_reminders_cwfd.RestSettingsComposite()
+        self.rest_settings_widget = mc.gui.rest_reminder_settings_dock.RestSettingsComposite()
         self.rest_settings_dock.setWidget(self.rest_settings_widget)
         self.rest_settings_widget.rest_settings_updated_signal.connect(self.update_rest_timer)
         self.rest_settings_widget.rest_test_button_clicked_signal.connect(self.show_rest_reminder)
@@ -92,7 +92,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.rest_actions_dock)
         self.rest_actions_dock.setFeatures(QtWidgets.QDockWidget.NoDockWidgetFeatures)
         self.tabifyDockWidget(self.phrase_list_dock, self.rest_actions_dock)  # <------
-        self.rest_actions_widget = mc.gui.rest_actions_cwfd.RestActionsComposite()
+        self.rest_actions_widget = mc.gui.rest_action_list_dock.RestActionsComposite()
         self.rest_actions_dock.setWidget(self.rest_actions_widget)
         self.rest_actions_widget.update_signal.connect(self.on_rest_actions_updated)
         size_policy = self.rest_actions_dock.sizePolicy()
