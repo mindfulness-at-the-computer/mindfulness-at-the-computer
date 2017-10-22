@@ -47,6 +47,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
         vbox.addWidget(self.rest_reminder_qsr)
         self.rest_reminder_qsr.setTickPosition(QtWidgets.QSlider.NoTicks)
         self.rest_reminder_qsr.valueChanged.connect(self.on_rest_reminder_slider_value_changed)
+        self.rest_reminder_qsr.setPageStep(5)
 
         """
         self.slider = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)
