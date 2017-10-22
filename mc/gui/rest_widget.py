@@ -36,6 +36,7 @@ class RestComposite(QtWidgets.QWidget):
 
         title_qll = QtWidgets.QLabel("Please take good care of yourself")
         vbox_l2.addWidget(title_qll)
+        vbox_l2.addStretch(1)
 
         # Image (or text if image is missing)
         self.image_qll = QtWidgets.QLabel()
@@ -49,6 +50,8 @@ class RestComposite(QtWidgets.QWidget):
 
         # self.image_qll.setPixmap(QtGui.QPixmap(mc_global.active_rest_image_full_path_str))
         # self.resize_image()
+
+        vbox_l2.addStretch(1)
 
         # Line of buttons (and widgets) at the bottom of the widget
         hbox_l3 = QtWidgets.QHBoxLayout()
@@ -65,8 +68,14 @@ class RestComposite(QtWidgets.QWidget):
         hbox_l3.addStretch(1)
 
         self.close_qpb = QtWidgets.QPushButton("Close and Reset Rest Timer")
+        hbox_l3 = QtWidgets.QHBoxLayout()
+        vbox_l2.addLayout(hbox_l3)
         hbox_l3.addWidget(self.close_qpb)
         self.close_qpb.clicked.connect(self.on_close_button_clicked)
+        new_font = QtGui.QFont()
+        new_font.setPointSize(16)
+        self.close_qpb.setFont(new_font)
+        hbox_l3.addStretch(1)
 
     def on_wait_clicked(self):
         # minutes_int = self.wait_qsb.value()
