@@ -26,39 +26,7 @@ rest_reminder_minutes_passed_int = 0
 db_file_exists_at_application_startup_bl = False
 display_inline_help_texts_bool = True  # -TODO
 
-tray_rest_progress_qaction = None
 
-
-def update_tray_rest_progress_bar(time_passed_int, interval_minutes_int):
-    if tray_rest_progress_qaction is not None:
-        time_passed_str = ""
-        parts_of_ten_int = (10 * time_passed_int) // interval_minutes_int
-        for i in range(0, 9):
-            if i < parts_of_ten_int:
-                time_passed_str += "◾"
-            else:
-                time_passed_str += "◽"
-        tray_rest_progress_qaction.setText(time_passed_str)
-
-
-tray_rest_enabled_qaction = None
-def update_tray_rest_checked(i_active: bool):
-    if tray_rest_enabled_qaction is not None:
-        tray_rest_enabled_qaction.setChecked(i_active)
-
-tray_breathing_enabled_qaction = None
-def update_tray_breathing_checked(i_checked: bool):
-    if tray_breathing_enabled_qaction is not None:
-        tray_breathing_enabled_qaction.setChecked(i_checked)
-def update_tray_breathing_enabled(i_enabled: bool):
-    if tray_breathing_enabled_qaction is not None:
-        tray_breathing_enabled_qaction.setEnabled(i_enabled)
-tray_phrase_qaction_list = []
-"""
-def update_tray_phrase_list(i_qaction_list: list):
-    # if i_qaction_list is not None:
-    tray_phrase_qaction_list = i_qaction_list
-"""
 
 
 class BreathingState(enum.Enum):

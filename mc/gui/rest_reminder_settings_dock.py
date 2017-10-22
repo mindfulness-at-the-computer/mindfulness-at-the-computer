@@ -85,10 +85,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
 
     def on_rest_reminder_slider_value_changed(self, i_new_value: int):
         mc.mc_global.rest_reminder_minutes_passed_int = i_new_value
-        mc.mc_global.update_tray_rest_progress_bar(
-            mc.mc_global.rest_reminder_minutes_passed_int,
-            mc.model.SettingsM.get().rest_reminder_interval_int
-        )
+        self.rest_settings_updated_signal.emit()
 
     def on_rest_reset_clicked(self):
         self.rest_reset_button_clicked_signal.emit()
@@ -100,7 +97,6 @@ class RestSettingsComposite(QtWidgets.QWidget):
         if self.updating_gui_bool:
             return
         mc.model.SettingsM.update_rest_reminder_active(i_checked_bool)
-        mc.mc_global.update_tray_rest_checked(i_checked_bool)
         self.rest_settings_updated_signal.emit()
 
     def on_rest_interval_value_changed(self, i_new_value: int):

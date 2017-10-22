@@ -82,7 +82,6 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         if self.updating_gui_bool:
             return
         model.SettingsM.update_breathing_reminder_active(i_checked_bool)
-        mc_global.update_tray_breathing_checked(i_checked_bool)
         self.breathing_settings_updated_signal.emit()
 
     def on_breathing_interval_value_changed(self, i_new_value: int):
@@ -103,10 +102,8 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         # Breathing reminder
         if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT:
             self.setDisabled(False)
-            mc_global.update_tray_breathing_enabled(True)
         else:
             self.setDisabled(True)
-            mc_global.update_tray_breathing_enabled(False)
 
         br_enabled = model.SettingsM.get().breathing_reminder_active_bool
         self.toggle_switch.update_gui(br_enabled)

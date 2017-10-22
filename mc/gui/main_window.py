@@ -27,6 +27,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.setCorner(QtCore.Qt.BottomRightCorner, QtCore.Qt.RightDockWidgetArea)
         self.setWindowIcon(QtGui.QIcon(mc.mc_global.get_app_icon_path()))
 
+        self.system_tray = SystemTray()
+
+
         if mc.mc_global.testing_bool:
             data_storage_str = "{Testing - data stored in memory}"
         else:
@@ -103,14 +106,6 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
         self.breathing_phrase_dock.raise_()
 
-        """
-        self.quotes_dock = QtWidgets.QDockWidget("Quotes")
-        self.addDockWidget(QtCore.Qt.BottomDockWidgetArea, self.quotes_dock)
-        self.quotes_widget = quotes.CompositeQuotesWidget()
-        self.quotes_dock.setWidget(self.quotes_widget)
-        self.quotes_dock.hide()  # -hiding at the start
-        """
-
         # Menu
         self.menu_bar = self.menuBar()
         self.update_menu()
@@ -119,6 +114,10 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.on_breathing_settings_changed()
         self.on_rest_settings_changed()
 
+        # Systray
+        self.setup_systray()
+
+    def setup_systray(self):
         # System tray
         # Please note: We cannot move the update code into another function, even here in
         # this file (very strange), if we do we won't see the texts, only the separators,
@@ -148,7 +147,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         mc.mc_global.tray_rest_progress_qaction = QtWidgets.QAction("")
         self.tray_menu.addAction(mc.mc_global.tray_rest_progress_qaction)
         mc.mc_global.tray_rest_progress_qaction.setDisabled(True)
-        mc.mc_global.update_tray_rest_progress_bar(0, 1)
+        self.system_tray.update_tray_rest_progress_bar(0, 1)
         self.tray_rest_now_qaction = QtWidgets.QAction("Take a Break Now")
         self.tray_menu.addAction(self.tray_rest_now_qaction)
         self.tray_rest_now_qaction.triggered.connect(self.show_rest_reminder)
@@ -165,7 +164,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         mc.mc_global.tray_breathing_enabled_qaction.setDisabled(True)
 
         count_int = 0
-        mc.mc_global.tray_phrase_qaction_list.clear()
+        self.system_tray.tray_phrase_qaction_list.clear()
         for l_phrase in mc.model.PhrasesM.get_all():
             INDENTATION_STR = "  "
             ACTIVE_MARKER_STR = "•"
@@ -180,7 +179,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
                     l_phrase.id_int
                 )
             )
-            mc.mc_global.tray_phrase_qaction_list.append(tray_phrase_qaction)
+            self.system_tray.tray_phrase_qaction_list.append(tray_phrase_qaction)
             # self.tray_phrase_qaction = QtWidgets.QAction(l_phrase.title_str)
             self.tray_menu.addAction(tray_phrase_qaction)
             count_int += 1
@@ -401,16 +400,66 @@ class MbMainWindow(QtWidgets.QMainWindow):
         sys.exit()
 
     def update_gui(self, i_event_source=mc.mc_global.EventSource.undefined):
+        settings = mc.model.SettingsM.get()
+
         self.breathing_widget.update_gui()
         self.rest_settings_dw.update_gui()
         self.breathing_settings_dw.update_gui()
         self.rest_widget.update_gui()
+        self.update_systray_icon()
+        # TODO: update systray menu
 
-        if self.tray_icon is not None:
-            icon_path_str = mc.model.get_app_systray_icon_path()
-            logging.debug("icon_path_str = " + icon_path_str)
-            self.tray_icon.setIcon(QtGui.QIcon(icon_path_str))
-            # -TODO: Do this in another place?
-            self.tray_icon.show()
+        self.system_tray.update_tray_breathing_checked(settings.breathing_reminder_active_bool)
+        self.system_tray.update_tray_rest_checked(settings.rest_reminder_active_bool)
+        self.system_tray.update_tray_rest_progress_bar(
+            mc.mc_global.rest_reminder_minutes_passed_int,
+            mc.model.SettingsM.get().rest_reminder_interval_int
+        )
 
+    def update_systray_icon(self):
+        if self.tray_icon is None:
+            return
+        icon_path_str = mc.model.get_app_systray_icon_path()
+        logging.debug("icon_path_str = " + icon_path_str)
+        self.tray_icon.setIcon(QtGui.QIcon(icon_path_str))
+        # -TODO: Do this in another place?
+        self.tray_icon.show()
+
+
+class SystemTray:
+    def __init__(self):
+        self.tray_rest_progress_qaction = None
+        self.tray_rest_enabled_qaction = None
+        self.tray_breathing_enabled_qaction = None
+        self.tray_phrase_qaction_list = []
+
+    def update_tray_rest_progress_bar(self, time_passed_int, interval_minutes_int):
+        if self.tray_rest_progress_qaction is None:
+            return
+        time_passed_str = ""
+        parts_of_ten_int = (10 * time_passed_int) // interval_minutes_int
+        for i in range(0, 9):
+            if i < parts_of_ten_int:
+                time_passed_str += "◾"
+            else:
+                time_passed_str += "◽"
+        self.tray_rest_progress_qaction.setText(time_passed_str)
+
+    def update_tray_rest_checked(self, i_active: bool):
+        if self.tray_rest_enabled_qaction is not None:
+            self.tray_rest_enabled_qaction.setChecked(i_active)
+
+    def update_tray_breathing_checked(self, i_checked: bool):
+        if self.tray_breathing_enabled_qaction is not None:
+            self.tray_breathing_enabled_qaction.setChecked(i_checked)
+
+    def update_tray_breathing_enabled(self, i_enabled: bool):
+        if self.tray_breathing_enabled_qaction is not None:
+            self.tray_breathing_enabled_qaction.setEnabled(i_enabled)
+
+    """
+    def update_tray_phrase_list(i_qaction_list: list):
+        # if i_qaction_list is not None:
+        tray_phrase_qaction_list = i_qaction_list
+    """
 
