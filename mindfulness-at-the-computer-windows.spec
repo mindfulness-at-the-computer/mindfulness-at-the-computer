@@ -11,7 +11,7 @@ cwd_str = os.getcwd()
 # 'C:\\TordPython\\mindfulness-at-the-computer-master'
 
 a = Analysis(['mindfulness-at-the-computer.py'],
-             pathex=['C:\\Python\\Python35\\Lib\\site-packages\\PyQt5\\Qt\\bin', cwd_str],
+             pathex=[cwd_str],
              binaries=[],
              datas=[],
              hiddenimports=[],
