@@ -14,7 +14,8 @@ BREATHING_OUT_DEFAULT_PHRASE = "Breathing out"
 
 
 class PhraseListCompositeWidget(QtWidgets.QWidget):
-    phrases_updated_signal = QtCore.pyqtSignal(bool)
+    phrase_updated_signal = QtCore.pyqtSignal(bool)
+    list_selection_changed_signal = QtCore.pyqtSignal(bool)
 
     def __init__(self):
         super().__init__()
@@ -131,21 +132,8 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
 
     def on_edit_texts_clicked(self):
         edit_dialog_result_tuple = EditDialog.get_edit_dialog()
-        if edit_dialog_result_tuple[0]:
-            assert mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
-            new_title_str = edit_dialog_result_tuple[1][0]
-            mc.model.PhrasesM.update_title(mc.mc_global.active_phrase_id_it, new_title_str)
-            mc.model.PhrasesM.update_in_breath(
-                mc.mc_global.active_phrase_id_it,
-                edit_dialog_result_tuple[1][1]
-            )
-            mc.model.PhrasesM.update_out_breath(
-                mc.mc_global.active_phrase_id_it,
-                edit_dialog_result_tuple[1][2]
-            )
-            self.phrases_updated_signal.emit(True)
-        else:
-            pass
+        self.phrase_updated_signal.emit(True)
+
         """
         text_str = QtWidgets.QInputDialog.getText(
             self,
@@ -182,7 +170,9 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         self.list_widget.setCurrentRow(self.list_widget.count() - 1)
         # self.in_breath_phrase_qle.setFocus()
 
-        EditDialog.get_edit_dialog()
+        # if dialog_result == QtWidgets.QDialog.Accepted:
+        dialog_result = EditDialog.get_edit_dialog()
+        self.phrase_updated_signal.emit(True)
         # asdf
 
     def on_selection_changed(self):
@@ -199,7 +189,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
             mc.mc_global.active_phrase_id_it = mc.mc_global.NO_PHRASE_SELECTED_INT
 
         # self.update_gui_details()
-        self.phrases_updated_signal.emit(active_selected_bool)
+        self.list_selection_changed_signal.emit(active_selected_bool)
         # TODO:
 
     def on_new_row_selected_from_system_tray(self, i_id_of_selected_item: int):
@@ -279,15 +269,18 @@ class EditDialog(QtWidgets.QDialog):
         dialog = EditDialog()
         dialog_result = dialog.exec_()
 
-        confirmation_result_bool = False
         if dialog_result == QtWidgets.QDialog.Accepted:
-            confirmation_result_bool = True
-        edit_tuple = (
-            dialog.breath_title_qle.text(),
-            dialog.in_breath_phrase_qle.text(),
-            dialog.out_breath_phrase_qle.text()
-        )
+            assert mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
+            mc.model.PhrasesM.update_title(
+                mc.mc_global.active_phrase_id_it, dialog.breath_title_qle.text()
+            )
+            mc.model.PhrasesM.update_in_breath(
+                mc.mc_global.active_phrase_id_it, dialog.in_breath_phrase_qle.text()
+            )
+            mc.model.PhrasesM.update_out_breath(
+                mc.mc_global.active_phrase_id_it, dialog.out_breath_phrase_qle.text()
+            )
+        else:
+            pass
 
-        ret_tuple = (confirmation_result_bool, edit_tuple)
-        return ret_tuple
-
+        return dialog_result

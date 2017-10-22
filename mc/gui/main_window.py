@@ -74,7 +74,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.breathing_phrase_dock.setFeatures(QtWidgets.QDockWidget.NoDockWidgetFeatures)
         self.phrase_list_widget = mc.gui.breathing_phrase_list_dock.PhraseListCompositeWidget()
         self.breathing_phrase_dock.setWidget(self.phrase_list_widget)
-        self.phrase_list_widget.phrases_updated_signal.connect(self.on_breathing_phrase_row_changed)
+        self.phrase_list_widget.list_selection_changed_signal.connect(self.on_breathing_list_row_changed)
+        self.phrase_list_widget.phrase_updated_signal.connect(self.on_breathing_phrase_changed)
 
         self.breathing_settings_dock = QtWidgets.QDockWidget("Breathing Reminders")
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.breathing_settings_dock)
@@ -203,13 +204,19 @@ class MbMainWindow(QtWidgets.QMainWindow):
     def on_systray_activated(self):
         logging.debug("entered on_systray_activated")
 
-    def on_breathing_phrase_row_changed(self, i_details_enabled: bool):
+    def on_breathing_list_row_changed(self, i_details_enabled: bool):
         self.change_timer_state()
-        # self.update_gui(mc.mc_global.EventSource.breathing_phrase_changed)
         self.breathing_settings_dw.setEnabled(i_details_enabled)
         mc.mc_global.tray_breathing_enabled_qaction.setEnabled(i_details_enabled)
 
-        self.update_gui(mc.mc_global.EventSource.breathing_phrase_changed)
+        self.update_gui(mc.mc_global.EventSource.breathing_list_selection_changed)
+
+    def on_breathing_phrase_changed(self, i_details_enabled):
+        self.change_timer_state()
+        self.breathing_settings_dw.setEnabled(i_details_enabled)
+        mc.mc_global.tray_breathing_enabled_qaction.setEnabled(i_details_enabled)
+
+        self.update_gui(mc.mc_global.EventSource.breathing_list_phrase_updated)
 
     def on_rest_settings_changed(self):
         settings = mc.model.SettingsM.get()
@@ -412,7 +419,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.rest_settings_dw.update_gui()
         self.breathing_settings_dw.update_gui()
 
-        if (i_event_source != mc.mc_global.EventSource.breathing_phrase_changed
+        if (i_event_source != mc.mc_global.EventSource.breathing_list_selection_changed
                 and i_event_source != mc.mc_global.EventSource.rest_action_changed):
             self.phrase_list_widget.update_gui()
             self.rest_actions_widget.update_gui()

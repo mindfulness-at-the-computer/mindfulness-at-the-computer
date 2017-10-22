@@ -92,7 +92,8 @@ def does_database_exist_started() -> bool:
 class EventSource(enum.Enum):
     undefined = 0
     rest_action_changed = 1
-    breathing_phrase_changed = 2
+    breathing_list_phrase_updated = 21
+    breathing_list_selection_changed = 22
     rest_settings_changed = 3
     breathing_settings_changed = 4
     rest_opened = 5
