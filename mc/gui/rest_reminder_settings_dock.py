@@ -87,7 +87,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
         mc.mc_global.rest_reminder_minutes_passed_int = i_new_value
         mc.mc_global.update_tray_rest_progress_bar(
             mc.mc_global.rest_reminder_minutes_passed_int,
-            mc.mc.model.SettingsM.get().rest_reminder_interval_int
+            mc.model.SettingsM.get().rest_reminder_interval_int
         )
 
     def on_rest_reset_clicked(self):

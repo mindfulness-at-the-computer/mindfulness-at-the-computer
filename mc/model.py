@@ -334,13 +334,17 @@ class SettingsM:
     def update_rest_reminder_active(i_reminder_active: bool):
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
+        new_value_bool_as_int = db.SQLITE_TRUE_INT if i_reminder_active else db.SQLITE_FALSE_INT
+        logging.debug("new_value_bool_as_int = " + str(new_value_bool_as_int))
         db_cursor.execute(
             "UPDATE " + db.Schema.SettingsTable.name
             + " SET " + db.Schema.SettingsTable.Cols.rest_reminder_active + " = ?"
             + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (db.SQLITE_TRUE_INT if i_reminder_active else db.SQLITE_FALSE_INT, db.SINGLE_SETTINGS_ID_INT)
+            (new_value_bool_as_int, db.SINGLE_SETTINGS_ID_INT)
         )
         db_connection.commit()
+
+        logging.debug("result=" + str(SettingsM.get().rest_reminder_active_bool))
 
     @staticmethod
     def update_rest_reminder_interval(i_reminder_interval: int):
@@ -500,28 +504,28 @@ def populate_db_with_test_data():
     )
     """
 
+
+def breathing_reminder_active():
+    settings = mc.model.SettingsM.get()
+    ret_value_bool = (
+        (mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT)
+        and
+        settings.breathing_reminder_active_bool
+    )
+    logging.debug("ret_value_bool = " + str(ret_value_bool))
+    return ret_value_bool
+
+
 def get_app_systray_icon_path():
     # TODO: Separate the systray icon from the window icon
     icon_file_name_str = ""
     settings = mc.model.SettingsM.get()
-
-    if (
-        mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
-        and
-        settings.rest_reminder_active_bool
-        and
-        settings.breathing_reminder_active_bool
-    ):
+    b_active = breathing_reminder_active()
+    if b_active and settings.rest_reminder_active_bool:
         icon_file_name_str = "icon-br.png"
-    elif (
-        mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
-        and
-        settings.breathing_reminder_active_bool
-    ):
+    elif b_active:
         icon_file_name_str = "icon-b.png"
-    elif (
-        settings.rest_reminder_active_bool
-    ):
+    elif settings.rest_reminder_active_bool:
         icon_file_name_str = "icon-r.png"
     else:
         icon_file_name_str = "icon.png"
