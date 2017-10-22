@@ -13,7 +13,7 @@ IMAGE_GOAL_HEIGHT_INT = IMAGE_GOAL_WIDTH_INT
 CLOSED_RESULT_INT = -1
 
 
-class RestReminderComposite(QtWidgets.QWidget):
+class RestComposite(QtWidgets.QWidget):
     result_signal = QtCore.pyqtSignal(int)
     # -used both for wait and for closing
 

@@ -193,21 +193,21 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
             # TODO: setDisabled for other
             current_question_qli = self.list_widget.item(selected_row_int)
             customqlabel_widget = self.list_widget.itemWidget(current_question_qli)
-            mc_global.active_phrase_id_it = customqlabel_widget.question_entry_id
+            mc.mc_global.active_phrase_id_it = customqlabel_widget.question_entry_id
         else:
-            mc_global.active_phrase_id_it = mc_global.NO_PHRASE_SELECTED_INT
+            mc.mc_global.active_phrase_id_it = mc.mc_global.NO_PHRASE_SELECTED_INT
 
         # self.update_gui_details()
         self.phrases_updated_signal.emit(active_selected_bool)
         # TODO:
 
     def on_new_row_selected_from_system_tray(self, i_id_of_selected_item: int):
-        mc_global.active_phrase_id_it = i_id_of_selected_item
+        mc.mc_global.active_phrase_id_it = i_id_of_selected_item
         for i in range(0, self.list_widget.count()):
             item = self.list_widget.item(i)
             phrase_cqll = self.list_widget.itemWidget(item)
             logging.debug("phrase_cqll.question_entry_id = " + str(phrase_cqll.question_entry_id))
-            if phrase_cqll.question_entry_id == mc_global.active_phrase_id_it:
+            if phrase_cqll.question_entry_id == mc.mc_global.active_phrase_id_it:
                 item.setSelected(True)
                 return
 
@@ -248,7 +248,7 @@ class EditDialog(QtWidgets.QDialog):
     def __init__(self, i_parent = None):
         super(EditDialog, self).__init__(i_parent)
 
-        assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT
+        assert mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
         active_phrase = model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
 
         vbox = QtWidgets.QVBoxLayout(self)

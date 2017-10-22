@@ -103,24 +103,6 @@ def get_app_icon_path():
     return ret_icon_path_str
 
 
-def get_app_systray_icon_path():
-    # TODO: Separate the systray icon from the window icon
-    icon_file_name_str = ""
-    if (active_rest_action_id_it != NO_REST_ACTION_SELECTED_INT
-    and active_phrase_id_it != NO_PHRASE_SELECTED_INT):
-        icon_file_name_str = "icon-br.png"
-    elif active_phrase_id_it != NO_PHRASE_SELECTED_INT:
-        icon_file_name_str = "icon-b.png"
-    elif active_rest_action_id_it != NO_REST_ACTION_SELECTED_INT:
-        icon_file_name_str = "icon-r.png"
-    else:
-        icon_file_name_str = "icon.png"
-
-    logging.debug("icon_file_name_str = " + icon_file_name_str)
-    ret_icon_path_str = os.path.join(get_base_dir(), ICONS_DIR_STR, icon_file_name_str)
-    return ret_icon_path_str
-
-
 def get_user_files_path(i_file_name: str):
     return os.path.join(get_base_dir(), USER_FILES_DIR_STR, i_file_name)
 
@@ -133,5 +115,12 @@ def does_database_exist_started() -> bool:
 """
 
 
-
+class EventSource(enum.Enum):
+    undefined = 0
+    rest_action_changed = 1
+    breathing_phrase_changed = 2
+    rest_settings_changed = 3
+    breathing_settings_changed = 4
+    rest_opened = 5
+    rest_closed = 6
 

@@ -2,6 +2,7 @@
 import csv
 import os
 import enum
+import logging
 
 from mc import db
 import mc.mc_global
@@ -498,6 +499,36 @@ def populate_db_with_test_data():
         "Breathing out, i am aware of a painful feeling",
     )
     """
+
+def get_app_systray_icon_path():
+    # TODO: Separate the systray icon from the window icon
+    icon_file_name_str = ""
+    settings = mc.model.SettingsM.get()
+
+    if (
+        mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
+        and
+        settings.rest_reminder_active_bool
+        and
+        settings.breathing_reminder_active_bool
+    ):
+        icon_file_name_str = "icon-br.png"
+    elif (
+        mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
+        and
+        settings.breathing_reminder_active_bool
+    ):
+        icon_file_name_str = "icon-b.png"
+    elif (
+        settings.rest_reminder_active_bool
+    ):
+        icon_file_name_str = "icon-r.png"
+    else:
+        icon_file_name_str = "icon.png"
+
+    logging.debug("icon_file_name_str = " + icon_file_name_str)
+    ret_icon_path_str = os.path.join(mc.mc_global.get_base_dir(), mc.mc_global.ICONS_DIR_STR, icon_file_name_str)
+    return ret_icon_path_str
 
 
 
