@@ -3,6 +3,12 @@ import os
 import logging
 from PyQt5 import QtCore
 
+#############################################
+# This file contains
+# * global application state which is not stored in the database (on disk)
+# * global functions relating to file names/paths
+# * potentially other global functions
+#############################################
 
 APPLICATION_TITLE_STR = "Mindfulness at the Computer"
 APPLICATION_VERSION_STR = "1.0.0-alpha.4"
