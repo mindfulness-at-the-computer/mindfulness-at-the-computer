@@ -72,7 +72,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         """
         self.add_new_texts_qpb = QtWidgets.QPushButton()
         hbox.addWidget(self.add_new_texts_qpb)
-        self.add_new_texts_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("plus-2x.png")))
+        self.add_new_texts_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("plus-2x.png")))
         self.add_new_texts_qpb.clicked.connect(self.on_edit_texts_clicked)
         """
         self.edit_texts_qpb = QtWidgets.QPushButton()
@@ -106,23 +106,23 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         self.update_gui()
 
     def on_move_up_clicked(self):
-        self.move_up_down(model.MoveDirectionEnum.up)
+        self.move_up_down(mc.model.MoveDirectionEnum.up)
 
     def on_move_down_clicked(self):
-        self.move_up_down(model.MoveDirectionEnum.down)
+        self.move_up_down(mc.model.MoveDirectionEnum.down)
 
     def move_up_down(self, i_up_down: mc.model.MoveDirectionEnum):
-        id_int = mc_global.active_rest_action_id_it
-        model.RestActionsM.update_sort_order_move_up_down(id_int, i_up_down)
+        id_int = mc.mc_global.active_rest_action_id_it
+        mc.model.RestActionsM.update_sort_order_move_up_down(id_int, i_up_down)
         self.update_gui()
         self.update_selected()
 
     def on_move_to_top_clicked(self):
-        id_int = mc_global.active_rest_action_id_it
+        id_int = mc.mc_global.active_rest_action_id_it
         while True:
-            result_bool = model.RestActionsM.update_sort_order_move_up_down(
+            result_bool = mc.model.RestActionsM.update_sort_order_move_up_down(
                 id_int,
-                model.MoveDirectionEnum.up
+                mc.model.MoveDirectionEnum.up
             )
             if not result_bool:
                 break
@@ -132,18 +132,16 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
     def on_edit_texts_clicked(self):
         edit_dialog_result_tuple = EditDialog.get_edit_dialog()
         if edit_dialog_result_tuple[0]:
-            assert mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT
-            model.PhrasesM.update_title(
-                mc_global.active_phrase_id_it,
-                self.breath_title_qle.text()
+            assert mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
+            new_title_str = edit_dialog_result_tuple[1][0]
+            mc.model.PhrasesM.update_title(mc.mc_global.active_phrase_id_it, new_title_str)
+            mc.model.PhrasesM.update_in_breath(
+                mc.mc_global.active_phrase_id_it,
+                edit_dialog_result_tuple[1][1]
             )
-            model.PhrasesM.update_in_breath(
-                mc_global.active_phrase_id_it,
-                self.in_breath_phrase_qle.text()
-            )
-            model.PhrasesM.update_out_breath(
-                mc_global.active_phrase_id_it,
-                self.out_breath_phrase_qle.text()
+            mc.model.PhrasesM.update_out_breath(
+                mc.mc_global.active_phrase_id_it,
+                edit_dialog_result_tuple[1][2]
             )
             self.phrases_updated_signal.emit(True)
         else:
@@ -160,16 +158,16 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         logging.debug("the return key has been pressed")
 
     def on_delete_clicked(self):
-        # active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
+        # active_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
         conf_result_bool = mc.gui.safe_delete_dlg.SafeDeleteDialog.get_safe_confirmation_dialog(
             "Are you sure that you want to remove this entry?",
         )
         if conf_result_bool:
-            if mc_global.active_phrase_id_it == mc_global.NO_PHRASE_SELECTED_INT:
+            if mc.mc_global.active_phrase_id_it == mc.mc_global.NO_PHRASE_SELECTED_INT:
                 logging.warning("No phrase selected")
-            model.PhrasesM.remove(mc_global.active_phrase_id_it)
+            mc.model.PhrasesM.remove(mc.mc_global.active_phrase_id_it)
             self.list_widget.clearSelection()  # -clearing after entry removed from db
-            mc_global.active_phrase_id_it = mc_global.NO_PHRASE_SELECTED_INT
+            mc.mc_global.active_phrase_id_it = mc.mc_global.NO_PHRASE_SELECTED_INT
             self.update_gui()
         else:
             pass
@@ -178,11 +176,14 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         text_sg = self.add_to_list_qle.text().strip()  # strip is needed to remove a newline at the end (why?)
         if not (text_sg and text_sg.strip()):
             return
-        model.PhrasesM.add(text_sg, BREATHING_IN_DEFAULT_PHRASE, BREATHING_OUT_DEFAULT_PHRASE)
+        mc.model.PhrasesM.add(text_sg, BREATHING_IN_DEFAULT_PHRASE, BREATHING_OUT_DEFAULT_PHRASE)
         self.add_to_list_qle.clear()
         self.update_gui()
         self.list_widget.setCurrentRow(self.list_widget.count() - 1)
-        self.in_breath_phrase_qle.setFocus()
+        # self.in_breath_phrase_qle.setFocus()
+
+        EditDialog.get_edit_dialog()
+        # asdf
 
     def on_selection_changed(self):
         selected_modelindexlist = self.list_widget.selectedIndexes()
@@ -249,7 +250,7 @@ class EditDialog(QtWidgets.QDialog):
         super(EditDialog, self).__init__(i_parent)
 
         assert mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
-        active_phrase = model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+        active_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
 
         vbox = QtWidgets.QVBoxLayout(self)
 

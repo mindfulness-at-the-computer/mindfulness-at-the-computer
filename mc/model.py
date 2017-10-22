@@ -22,8 +22,22 @@ class PhrasesM:
         self.vert_order_int = i_vert_order
 
     @staticmethod
+    def get_highest_sort_value() -> int:
+        db_connection = db.Helper.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor_result = db_cursor.execute(
+            "SELECT MAX(" + mc.db.Schema.PhrasesTable.Cols.vertical_order + ")"
+            + " FROM " + mc.db.Schema.PhrasesTable.name
+        )
+        return_value_int = db_cursor_result.fetchone()[0]
+        # -0 has to be added here even though there can only be one value
+        return return_value_int
+
+    @staticmethod
     def add(i_title: str, i_ib: str, i_ob: str) -> None:
-        vertical_order_last_pos_int = len(RestActionsM.get_all())
+        # vertical_order_last_pos_int = len(PhrasesM.get_all())
+        vertical_order_last_pos_int = PhrasesM.get_highest_sort_value() + 1
+        logging.debug("vertical_order_last_pos_int = " + str(vertical_order_last_pos_int))
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor.execute(

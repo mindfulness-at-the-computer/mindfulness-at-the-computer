@@ -198,13 +198,13 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.tray_icon.setContextMenu(self.tray_menu)
 
     def on_rest_actions_updated(self):
-        self.update_gui(mc.mc_global.EventSource.rest_settings_changed)
+        self.update_gui(mc.mc_global.EventSource.rest_action_changed)
 
     def on_systray_activated(self):
         logging.debug("entered on_systray_activated")
 
     def on_breathing_phrase_row_changed(self, i_details_enabled: bool):
-        self.on_breathing_settings_changed()
+        self.change_timer_state()
         # self.update_gui(mc.mc_global.EventSource.breathing_phrase_changed)
         self.breathing_settings_dw.setEnabled(i_details_enabled)
         mc.mc_global.tray_breathing_enabled_qaction.setEnabled(i_details_enabled)
@@ -271,12 +271,16 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.update_gui(mc.mc_global.EventSource.rest_opened)
 
     def on_breathing_settings_changed(self):
+        self.change_timer_state()
+        self.update_gui(mc.mc_global.EventSource.breathing_settings_changed)
+
+    def change_timer_state(self):
         settings = mc.model.SettingsM.get()
         if settings.breathing_reminder_active_bool:
             self.start_breathing_timer()
         else:
             self.stop_breathing_timer()
-        self.update_gui(mc.mc_global.EventSource.breathing_settings_changed)
+
 
     def stop_breathing_timer(self):
         if self.breathing_qtimer is not None and self.breathing_qtimer.isActive():
@@ -403,9 +407,16 @@ class MbMainWindow(QtWidgets.QMainWindow):
         settings = mc.model.SettingsM.get()
 
         self.breathing_widget.update_gui()
+        self.rest_widget.update_gui()
+
         self.rest_settings_dw.update_gui()
         self.breathing_settings_dw.update_gui()
-        self.rest_widget.update_gui()
+
+        if (i_event_source != mc.mc_global.EventSource.breathing_phrase_changed
+                and i_event_source != mc.mc_global.EventSource.rest_action_changed):
+            self.phrase_list_widget.update_gui()
+            self.rest_actions_widget.update_gui()
+
         self.update_systray_icon()
         # TODO: update systray menu
 
