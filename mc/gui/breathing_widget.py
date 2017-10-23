@@ -34,20 +34,14 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
 
         self.help_text_qll = QtWidgets.QLabel("Please select a row from the list to the left")
         vbox_l2.addWidget(self.help_text_qll)
-        help_font = QtGui.QFont()
-        help_font.setItalic(True)
-        self.help_text_qll.setFont(help_font)
+        self.help_text_qll.setFont(mc_global.get_font_medium(i_italics=True))
 
-        self.breathing_in_qfont = QtGui.QFont()
-        self.breathing_in_qfont.setPointSize(POINT_SIZE_INT)
-        self.breathing_out_qfont = QtGui.QFont()
-        self.breathing_out_qfont.setPointSize(POINT_SIZE_INT)
         self.bi_text_qll = QtWidgets.QLabel()
         self.bo_text_qll = QtWidgets.QLabel()
         vbox_l2.addWidget(self.bi_text_qll)
         vbox_l2.addWidget(self.bo_text_qll)
-        self.bi_text_qll.setFont(self.breathing_in_qfont)
-        self.bo_text_qll.setFont(self.breathing_out_qfont)
+        self.bi_text_qll.setFont(mc_global.get_font_large())
+        self.bo_text_qll.setFont(mc_global.get_font_large())
         self.bi_text_qll.setWordWrap(True)
         self.bo_text_qll.setWordWrap(True)
 
@@ -296,20 +290,16 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         if mc_global.breathing_state == mc_global.BreathingState.inactive:
             self.ib_toggle_qpb.setEnabled(False)
             self.ob_toggle_qpb.setEnabled(False)
-            start_font = QtGui.QFont()
-            start_font.setBold(True)
             self.start_pause_qpb.setText("Start")
-            self.start_pause_qpb.setFont(start_font)
+            self.start_pause_qpb.setFont(mc_global.get_font_medium(i_bold=True))
 
             # self.start_stop_shortcut_qll.setText("Press and hold shift key to start")
             # self.iob_shortcut_qll.setText("")
         else:
             self.ib_toggle_qpb.setEnabled(True)
             self.ob_toggle_qpb.setEnabled(True)
-            pause_font = QtGui.QFont()
-            pause_font.setBold(False)
             self.start_pause_qpb.setText("Pause")
-            self.start_pause_qpb.setFont(pause_font)
+            self.start_pause_qpb.setFont(mc_global.get_font_medium())
 
             # self.start_stop_shortcut_qll.setText("shortcut")
 

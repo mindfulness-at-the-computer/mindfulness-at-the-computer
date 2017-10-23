@@ -72,9 +72,7 @@ class RestComposite(QtWidgets.QWidget):
         vbox_l2.addLayout(hbox_l3)
         hbox_l3.addWidget(self.close_qpb)
         self.close_qpb.clicked.connect(self.on_close_button_clicked)
-        new_font = QtGui.QFont()
-        new_font.setPointSize(16)
-        self.close_qpb.setFont(new_font)
+        self.close_qpb.setFont(mc_global.get_font_large())
         hbox_l3.addStretch(1)
 
     def on_wait_clicked(self):
@@ -126,9 +124,7 @@ class RestComposite(QtWidgets.QWidget):
             self.image_qll.clear()
 
         self.title_qll.setText(rest_action.title_str)
-        new_font = QtGui.QFont()
-        new_font.setPointSize(14)
-        self.title_qll.setFont(new_font)
+        self.title_qll.setFont(mc_global.get_font_large())
         self.title_qll.setWordWrap(True)
 
 

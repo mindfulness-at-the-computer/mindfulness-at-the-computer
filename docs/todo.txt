@@ -1,6 +1,4 @@
 
-[x] make the close and reset timer button larger
-
 [ ] storing fonts in mcglobal
 
 [ ] standardize a naming system for handler methods (maybe ending with _m if they update the model?)

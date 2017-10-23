@@ -2,11 +2,13 @@ import enum
 import os
 import logging
 from PyQt5 import QtCore
+from PyQt5 import QtGui
 
 #############################################
 # This file contains
 # * global application state which is not stored in the database (on disk)
 # * global functions relating to file names/paths
+# * global font functions
 # * potentially other global functions
 #############################################
 
@@ -87,6 +89,24 @@ def does_database_exist_started() -> bool:
     else:
         return False
 """
+
+# Standard font size is (on almost all systems) 12
+
+def get_font_medium(i_italics: bool=False, i_bold: bool=False):
+    font = QtGui.QFont()
+    font.setItalic(i_italics)
+    return font
+
+def get_font_large(i_underscore: bool=False):
+    font = QtGui.QFont()
+    font.setPointSize(16)
+    font.setUnderline(i_underscore)
+    return font
+
+def get_font_xlarge():
+    font = QtGui.QFont()
+    font.setPointSize(24)
+    return font
 
 
 class EventSource(enum.Enum):

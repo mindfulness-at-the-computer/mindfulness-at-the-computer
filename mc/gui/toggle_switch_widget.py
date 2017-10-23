@@ -1,6 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
+import mc.mc_global
 
 
 class ToggleSwitchComposite(QtWidgets.QWidget):
@@ -33,9 +34,7 @@ class ToggleSwitchComposite(QtWidgets.QWidget):
 
         self.state_qll = QtWidgets.QLabel("Enabled")
         hbox.addWidget(self.state_qll)
-        new_font = QtGui.QFont()
-        new_font.setBold(True)
-        self.state_qll.setFont(new_font)
+        self.state_qll.setFont(mc.mc_global.get_font_medium(i_bold=True))
 
     def on_on_toggled(self, i_checked: bool):
         if self.updating_gui_bool:

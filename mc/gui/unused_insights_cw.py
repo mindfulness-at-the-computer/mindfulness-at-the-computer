@@ -4,6 +4,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 
+import mc.mc_global
 
 
 class CompositeQuotesWidget(QtWidgets.QWidget):
@@ -36,9 +37,7 @@ If I turn away from such thoughts, I may find peace.""")
         self.quotes_label = QtWidgets.QLabel()
         vbox_ql2.addWidget(self.quotes_label)
         self.quotes_label.setWordWrap(True)
-        quotes_font = QtGui.QFont()
-        quotes_font.setPointSize(12)
-        self.quotes_label.setFont(quotes_font)
+        self.quotes_label.setFont(mc.mc_global.get_font_medium())
         #self.quotes_label.setFixedWidth(240)
 
         hbox_ql3 = QtWidgets.QHBoxLayout()
