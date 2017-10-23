@@ -1,9 +1,8 @@
 
 
-[x] Adding a button to the rest dialog for starting breathing after a break
-self.close_and_breathing_qpb = QtWidgets.QPushButton("Start Breathing")
-hbox.addWidget(self.close_and_breathing_qpb)
-ALT: checkbox
+[x] adding a windows icon (.ico)
+
+[ ] store checkbox state in db
 
 [ ] update icon to show if we are taking a break
 (how to do this? should be pretty clear and easy to see)
@@ -12,32 +11,21 @@ ALT: checkbox
 bold for important actions
 
 
-=========
-
-
-Low prio:
-[ ] when switching on the breathing notification, show the notification
 [ ] add some extra space after having paused
 [ ] if the user only breathes in then the in breath will be removed
 
-[ ] adding presets
-[ ] adding a windows icon (.ico)
-[ ] for x11: add hover functionality for the systray. https://stackoverflow.com/questions/21795919/how-to-catch-the-mousehover-event-for-qsystemtrayicon
+
+=========
+
+Low prio:
 [ ] indicate which breathing phrase is active in the sys tray. Please note: This means that we
 may also need to include another value here, since the user may not have chosen one of the
 top three / five
-[ ] choosing a different directory for user files (to make it easier to backup)
 [ ] setting the log level when starting the application, using a command line argument
-[ ] marketing: adding a line in my email signature
 [ ] testing
  * add different test setups (no list items for example)
 [ ] when breathing starts, everything else is grayed out
-[ ] using vbox.addSpacing(x) to separate parts of the interface (maybe this can replace the
-horizontal lines?)
-[ ] what to display in the system tray menu?
-http://doc.qt.io/qt-5/qsystemtrayicon.html#setContextMenu
 [ ] standardize a naming system for handler methods (maybe ending with _m if they update the model?)
-
 [ ] don't change the current time until
 1. the user presses the "reset timer" button
 or

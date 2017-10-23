@@ -28,13 +28,16 @@ a.datas += Tree('.\\' + user_files_dir_str, prefix=user_files_dir_str, excludes=
 # -documentation: https://pythonhosted.org/PyInstaller/advanced-topics.html#the-tree-class
 icons_dir_str = "icons"
 a.datas += Tree('.\\' + icons_dir_str, prefix=icons_dir_str)
-             
+
+win_icon_path_str = '.\\' + icons_dir_str + '\\icon.ico'
+
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
           a.scripts,
           exclude_binaries=True,
           name='mindfulness-at-the-computer',
+          icon=win_icon_path_str,
           debug=False,
           strip=False,
           upx=True,
