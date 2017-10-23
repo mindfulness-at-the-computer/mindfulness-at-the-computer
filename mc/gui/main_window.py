@@ -202,8 +202,11 @@ class MbMainWindow(QtWidgets.QMainWindow):
     def on_rest_actions_updated(self):
         self.update_gui(mc.mc_global.EventSource.rest_action_changed)
 
-    def on_systray_activated(self):
-        logging.debug("entered on_systray_activated")
+    def on_systray_activated(self, i_reason):
+        # QtWidgets.QSystemTrayIcon.
+        logging.debug("entered on_systray_activated. i_reason = " + str(i_reason))
+        self.tray_icon.contextMenu().popup()
+        # self.tray_icon.show()
 
     def on_breathing_list_row_changed(self, i_details_enabled: bool):
         self.change_timer_state()
