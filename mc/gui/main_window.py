@@ -86,7 +86,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.breathing_settings_dw.breathing_test_button_clicked_signal.connect(self.show_breathing_notification)
 
         self.rest_settings_dock = QtWidgets.QDockWidget("Rest Reminders")
-        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.rest_settings_dock)
+        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.rest_settings_dock)
         # settings_dock.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
         self.rest_settings_dw = mc.gui.rest_reminder_settings_dock.RestSettingsComposite()
         self.rest_settings_dock.setWidget(self.rest_settings_dw)
