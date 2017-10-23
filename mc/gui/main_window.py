@@ -93,6 +93,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.rest_settings_dw.rest_settings_updated_signal.connect(self.on_rest_settings_changed)
         self.rest_settings_dw.rest_test_button_clicked_signal.connect(self.show_rest_reminder)
         self.rest_settings_dw.rest_reset_button_clicked_signal.connect(self.on_rest_settings_changed)
+        self.rest_settings_dw.rest_slider_value_changed_signal.connect(self.on_rest_slider_value_changed)
 
         self.rest_actions_dock = QtWidgets.QDockWidget("Rest Actions")
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.rest_actions_dock)
@@ -225,6 +226,10 @@ class MbMainWindow(QtWidgets.QMainWindow):
         else:
             self.stop_rest_timer()
         self.update_gui(mc.mc_global.EventSource.rest_settings_changed)
+
+    def on_rest_slider_value_changed(self):
+        settings = mc.model.SettingsM.get()
+        self.update_gui(mc.mc_global.EventSource.rest_slider_value_changed)
 
     def stop_rest_timer(self):
         if self.rest_reminder_qtimer is not None and self.rest_reminder_qtimer.isActive():
@@ -414,11 +419,12 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.breathing_widget.update_gui()
         self.rest_widget.update_gui()
 
-        self.rest_settings_dw.update_gui()
+        if i_event_source != mc.mc_global.EventSource.rest_slider_value_changed:
+            self.rest_settings_dw.update_gui()
         self.breathing_settings_dw.update_gui()
 
         if (i_event_source != mc.mc_global.EventSource.breathing_list_selection_changed
-                and i_event_source != mc.mc_global.EventSource.rest_action_changed):
+        and i_event_source != mc.mc_global.EventSource.rest_action_changed):
             self.phrase_list_widget.update_gui()
             self.rest_actions_widget.update_gui()
 

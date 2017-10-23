@@ -1,7 +1,4 @@
 
-[x] storing fonts in mcglobal
-
-[ ] standardize a naming system for handler methods (maybe ending with _m if they update the model?)
 
 [ ] Adding a button to the rest dialog for starting breathing after a break
         self.close_and_breathing_qpb = QtWidgets.QPushButton("Start Breathing")
@@ -10,6 +7,7 @@
 [ ] update icon to show if we are taking a break
 (how to do this? should be pretty clear and easy to see)
 
+[ ] bold for: take break now, close and reset timer,
 
 =========
 
@@ -34,8 +32,9 @@ top three / five
 horizontal lines?)
 [ ] what to display in the system tray menu?
 http://doc.qt.io/qt-5/qsystemtrayicon.html#setContextMenu
+[ ] standardize a naming system for handler methods (maybe ending with _m if they update the model?)
 
-[ ] prio: don't change the current time until
+[ ] don't change the current time until
 1. the user presses the "reset timer" button
 or
 2. the current time has run out

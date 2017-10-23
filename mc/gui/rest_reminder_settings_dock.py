@@ -15,10 +15,9 @@ MAX_REST_REMINDER_INT = 99
 
 class RestSettingsComposite(QtWidgets.QWidget):
     rest_settings_updated_signal = QtCore.pyqtSignal()
-    breathing_settings_updated_signal = QtCore.pyqtSignal()
-    breathing_test_button_clicked_signal = QtCore.pyqtSignal()
     rest_test_button_clicked_signal = QtCore.pyqtSignal()
     rest_reset_button_clicked_signal = QtCore.pyqtSignal()
+    rest_slider_value_changed_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -88,7 +87,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
         if self.updating_gui_bool:
             return
         mc.mc_global.rest_reminder_minutes_passed_int = i_new_value
-        self.rest_settings_updated_signal.emit()
+        self.rest_slider_value_changed_signal.emit()
 
     def on_rest_reset_clicked(self):
         self.rest_reset_button_clicked_signal.emit()

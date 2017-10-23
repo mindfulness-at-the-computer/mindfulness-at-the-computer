@@ -92,16 +92,20 @@ def does_database_exist_started() -> bool:
 
 # Standard font size is (on almost all systems) 12
 
+
 def get_font_medium(i_italics: bool=False, i_bold: bool=False):
     font = QtGui.QFont()
     font.setItalic(i_italics)
+    font.setBold(i_bold)
     return font
+
 
 def get_font_large(i_underscore: bool=False):
     font = QtGui.QFont()
     font.setPointSize(16)
     font.setUnderline(i_underscore)
     return font
+
 
 def get_font_xlarge():
     font = QtGui.QFont()
@@ -114,7 +118,8 @@ class EventSource(enum.Enum):
     rest_action_changed = 1
     breathing_list_phrase_updated = 21
     breathing_list_selection_changed = 22
-    rest_settings_changed = 3
+    rest_settings_changed = 31
+    rest_slider_value_changed = 34
     breathing_settings_changed = 4
     rest_opened = 5
     rest_closed = 6
