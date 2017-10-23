@@ -256,7 +256,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         # self.update_tray_menu(1, 1)
 
     def on_rest_reminder_widget_closed(self, i_wait_minutes: int):
-        if i_wait_minutes != mc.gui.rest_widget.CLOSED_RESULT_INT:
+        if i_wait_minutes >= 0:  # mc.gui.rest_widget.CLOSED_RESULT_INT
             if i_wait_minutes != unused_rest_reminder_dlg.CLOSED_RESULT_INT:
                 mc.mc_global.rest_reminder_minutes_passed_int = (
                     mc.model.SettingsM.get().rest_reminder_interval_int
@@ -266,6 +266,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
             mc.mc_global.rest_reminder_minutes_passed_int = 0
 
         self.main_area_stacked_widget.setCurrentIndex(self.bcw_sw_id_int)
+        if i_wait_minutes == mc.gui.rest_widget.CLOSED_WITH_BREATHING_RESULT_INT:
+            self.breathing_widget.on_start_pause_clicked()
         self.breathing_phrase_dock.raise_()
         # -this may not work, info here:
         # http://www.qtcentre.org/threads/21362-Setting-the-active-tab-with-tabified-docking-windows

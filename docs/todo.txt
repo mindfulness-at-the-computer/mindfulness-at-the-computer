@@ -1,6 +1,6 @@
 
 
-[ ] Adding a button to the rest dialog for starting breathing after a break
+[x] Adding a button to the rest dialog for starting breathing after a break
 self.close_and_breathing_qpb = QtWidgets.QPushButton("Start Breathing")
 hbox.addWidget(self.close_and_breathing_qpb)
 ALT: checkbox
@@ -16,6 +16,7 @@ bold for important actions
 
 
 Low prio:
+[ ] when switching on the breathing notification, show the notification
 [ ] add some extra space after having paused
 [ ] if the user only breathes in then the in breath will be removed
 

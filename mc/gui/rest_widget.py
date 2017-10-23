@@ -11,7 +11,7 @@ import mc.gui.unused_insights_cw
 IMAGE_GOAL_WIDTH_INT = 240
 IMAGE_GOAL_HEIGHT_INT = IMAGE_GOAL_WIDTH_INT
 CLOSED_RESULT_INT = -1
-
+CLOSED_WITH_BREATHING_RESULT_INT = -2
 
 class RestComposite(QtWidgets.QWidget):
     result_signal = QtCore.pyqtSignal(int)
@@ -77,6 +77,9 @@ class RestComposite(QtWidgets.QWidget):
         self.close_qpb.setFont(mc_global.get_font_large())
         hbox_l3.addStretch(1)
 
+        self.start_breathing_qcb = QtWidgets.QCheckBox("Start breathing automatically")
+        vbox_l2.addWidget(self.start_breathing_qcb)
+
     def on_wait_clicked(self):
         # minutes_int = self.wait_qsb.value()
         # self.dialog_outcome_int = minutes_int
@@ -86,7 +89,10 @@ class RestComposite(QtWidgets.QWidget):
     def on_close_button_clicked(self):
         # self.dialog_outcome_int = CLOSED_RESULT_INT
         # self.accept()
-        self.result_signal.emit(CLOSED_RESULT_INT)
+        if self.start_breathing_qcb.isChecked():
+            self.result_signal.emit(CLOSED_WITH_BREATHING_RESULT_INT)
+        else:
+            self.result_signal.emit(CLOSED_RESULT_INT)
 
     def resize_image(self):
         if self.image_qll.pixmap() is None:
