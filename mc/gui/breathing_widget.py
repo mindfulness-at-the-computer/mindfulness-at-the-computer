@@ -172,8 +172,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         mc_global.breathing_state = mc_global.BreathingState.inactive
         self.stop_breathing_in_timer()
         self.stop_breathing_out_timer()
-        self.breathing_in_qfont.setUnderline(False)
-        self.breathing_out_qfont.setUnderline(False)
+        self.update_gui()
 
     def start_breathing_in_timer(self):
         self.breath_counter_int += 1
@@ -330,6 +329,9 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
                 # ob_formatted_str += " ←"
                 self.bi_text_qll.setFont(mc_global.get_font_large())
                 self.bo_text_qll.setFont(mc_global.get_font_large(i_underscore=True))
+            elif mc_global.breathing_state == mc_global.BreathingState.inactive:
+                self.bi_text_qll.setFont(mc_global.get_font_large())
+                self.bo_text_qll.setFont(mc_global.get_font_large())
             self.bi_text_qll.setText(ib_formatted_str)
             self.bo_text_qll.setText(ob_formatted_str)
             if ob_formatted_str:
