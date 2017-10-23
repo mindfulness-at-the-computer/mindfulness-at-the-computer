@@ -1,24 +1,23 @@
 # Getting started for developers
 
-### Forums for interactions with other developers
+## Forums for interactions with other developers
 
 * [gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby) - for real-time text chat
 * Github - for code reviews and for commenting on issues.
 
 ## How to report bugs
 
-TBD: Template for reporting bugs
+Please use the [bug report template](docs/templates/bug-report.md)
 
 ## Decision process
 
-* Overall design and architecture is determined by SunyataZero (Tord). In other words the project uses a so-called "benevolent dictatorship" structure. (Of course since this is free and open source software, anyone can - and are encouraged - to create a fork and create their own Mindfulness application which meets their needs❣)
-* We want discussions about all decisions to be very open in the project and therefore, conversations that have started out as private can be made public without asking the participants (unless of course the conversation has been of a very personal nature)
+Overall design and architecture is determined by SunyataZero (Tord). In other words the project uses a so-called "benevolent dictatorship" structure. (Of course since this is free and open source software, anyone can - and are encouraged - to create a fork and create their own Mindfulness application which meets their needs❣)
 
-People:
-* Tord
+We want discussions about all decisions to be open in the project and therefore, conversations that have started out as private can be made public without asking the participants (unless of course the conversation has been of a very personal nature)
 
-Money:
-* People contributing to the project are unpaid
+## Contributor money
+
+People contributing to the project are unpaid, it's entirely a volunteer effort
 
 ## Contributor responsibility
 
@@ -54,7 +53,7 @@ If you're unsure of some details while you're making edits, you can discuss them
 
 It's possible to work on two or more different patches (and therefore multiple branches) at one time, but it's recommended that beginners only work on one patch at a time.
 
-### Syncing ###
+### Syncing
 Periodically, you'll need the sync your repo with mine (the upstream). GitHub has instructions for doing this
 
 1. [Configuring a remote for a fork](https://help.github.com/articles/configuring-a-remote-for-a-fork/)
