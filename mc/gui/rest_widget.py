@@ -21,6 +21,8 @@ class RestComposite(QtWidgets.QWidget):
         super().__init__()
         self.show()
 
+        self.updating_gui_bool = False
+
         self.rest_actions_qbg = QtWidgets.QButtonGroup()
 
         # self.setWindowTitle("Please take care of yourself")
@@ -109,6 +111,7 @@ class RestComposite(QtWidgets.QWidget):
     def update_gui(self):
         if mc_global.active_rest_action_id_it == mc_global.NO_REST_ACTION_SELECTED_INT:
             return
+        self.updating_gui_bool = True
 
         rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
         if rest_action.image_path_str and os.path.isfile(rest_action.image_path_str):
@@ -127,4 +130,4 @@ class RestComposite(QtWidgets.QWidget):
         self.title_qll.setFont(mc_global.get_font_large())
         self.title_qll.setWordWrap(True)
 
-
+        self.updating_gui_bool = False

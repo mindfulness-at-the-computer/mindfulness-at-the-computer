@@ -63,10 +63,7 @@ class RestActionsComposite(QtWidgets.QWidget):
         self.delete_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("trash-2x.png")))
         self.delete_qpb.clicked.connect(self.on_delete_clicked)
 
-
-
         self.update_gui()
-
 
     def on_edit_texts_clicked(self):
         edit_dialog_result_tuple = EditDialog.get_edit_dialog()

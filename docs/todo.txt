@@ -1,5 +1,5 @@
 
-[ ] storing fonts in mcglobal
+[x] storing fonts in mcglobal
 
 [ ] standardize a naming system for handler methods (maybe ending with _m if they update the model?)
 

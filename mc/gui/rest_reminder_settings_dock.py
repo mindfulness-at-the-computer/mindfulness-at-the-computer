@@ -85,6 +85,8 @@ class RestSettingsComposite(QtWidgets.QWidget):
         self.update_gui()
 
     def on_rest_reminder_slider_value_changed(self, i_new_value: int):
+        if self.updating_gui_bool:
+            return
         mc.mc_global.rest_reminder_minutes_passed_int = i_new_value
         self.rest_settings_updated_signal.emit()
 

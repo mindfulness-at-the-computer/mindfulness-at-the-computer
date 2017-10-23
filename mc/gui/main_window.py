@@ -411,8 +411,6 @@ class MbMainWindow(QtWidgets.QMainWindow):
         sys.exit()
 
     def update_gui(self, i_event_source=mc.mc_global.EventSource.undefined):
-        settings = mc.model.SettingsM.get()
-
         self.breathing_widget.update_gui()
         self.rest_widget.update_gui()
 
@@ -424,24 +422,27 @@ class MbMainWindow(QtWidgets.QMainWindow):
             self.phrase_list_widget.update_gui()
             self.rest_actions_widget.update_gui()
 
-        self.update_systray_icon()
-        # TODO: update systray menu
+        self.update_systray()
 
+    def update_systray(self):
+        if self.tray_icon is None:
+            return
+        settings = mc.model.SettingsM.get()
+
+        # Icon
+        icon_path_str = mc.model.get_app_systray_icon_path()
+        logging.debug("icon_path_str = " + icon_path_str)
+        self.tray_icon.setIcon(QtGui.QIcon(icon_path_str))
+        # -TODO: Do this in another place?
+        self.tray_icon.show()
+
+        # Menu
         self.system_tray.update_tray_breathing_checked(settings.breathing_reminder_active_bool)
         self.system_tray.update_tray_rest_checked(settings.rest_reminder_active_bool)
         self.system_tray.update_tray_rest_progress_bar(
             mc.mc_global.rest_reminder_minutes_passed_int,
             mc.model.SettingsM.get().rest_reminder_interval_int
         )
-
-    def update_systray_icon(self):
-        if self.tray_icon is None:
-            return
-        icon_path_str = mc.model.get_app_systray_icon_path()
-        logging.debug("icon_path_str = " + icon_path_str)
-        self.tray_icon.setIcon(QtGui.QIcon(icon_path_str))
-        # -TODO: Do this in another place?
-        self.tray_icon.show()
 
 
 class SystemTray:

@@ -23,6 +23,8 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         self.setLayout(vbox)
         self.setMinimumWidth(180)
 
+        self.updating_gui_bool = False
+
         self.list_widget = QtWidgets.QListWidget()
         # self.list_widget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         vbox.addWidget(self.list_widget)
@@ -176,6 +178,8 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         # asdf
 
     def on_selection_changed(self):
+        if self.updating_gui_bool:
+            return
         selected_modelindexlist = self.list_widget.selectedIndexes()
         active_selected_bool = len(selected_modelindexlist) >= 1
         if active_selected_bool:
@@ -203,6 +207,8 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
                 return
 
     def update_gui(self):
+        self.updating_gui_bool = True
+
         # List
         self.list_widget.clear()
         for l_phrase in mc.model.PhrasesM.get_all():
@@ -211,6 +217,8 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
             list_item = QtWidgets.QListWidgetItem()
             self.list_widget.addItem(list_item)
             self.list_widget.setItemWidget(list_item, custom_label)
+
+        self.updating_gui_bool = False
 
 
 class CustomQLabel(QtWidgets.QLabel):

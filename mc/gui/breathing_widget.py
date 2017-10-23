@@ -324,16 +324,14 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
             ob_formatted_str = active_phrase.ob_str
             if mc_global.breathing_state == mc_global.BreathingState.breathing_in:
                 # ib_formatted_str += " ←"
-                self.breathing_in_qfont.setUnderline(True)
-                self.breathing_out_qfont.setUnderline(False)
+                self.bi_text_qll.setFont(mc_global.get_font_large(i_underscore=True))
+                self.bo_text_qll.setFont(mc_global.get_font_large())
             elif mc_global.breathing_state == mc_global.BreathingState.breathing_out:
                 # ob_formatted_str += " ←"
-                self.breathing_in_qfont.setUnderline(False)
-                self.breathing_out_qfont.setUnderline(True)
+                self.bi_text_qll.setFont(mc_global.get_font_large())
+                self.bo_text_qll.setFont(mc_global.get_font_large(i_underscore=True))
             self.bi_text_qll.setText(ib_formatted_str)
-            self.bi_text_qll.setFont(self.breathing_in_qfont)
             self.bo_text_qll.setText(ob_formatted_str)
-            self.bo_text_qll.setFont(self.breathing_out_qfont)
             if ob_formatted_str:
                 self.bo_text_qll.show()
             else:
