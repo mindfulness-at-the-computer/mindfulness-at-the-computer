@@ -1,19 +1,48 @@
 
+Also see the [technical research](https://github.com/SunyataZero/mindfulness-at-the-computer/wiki/Technical-Research) page on the wiki
 
 # Tech architecture
 
-Python version: 3.5
+## Dependencies
+
+### Python 3.5
+
+We are not using any special features so probably it would be possible to run the application from source using any Python 3.x version
+
+### Qt and PyQt 5.9
+
+The Qt and PyQt versions seems to almost always be the same
+
+Can be installed in different ways (pip on all systems, apt-get on Debian based systems, (install .exe file on Windows?))
+
+## Python modules
+(Part of the standard library)
+
+### sqlite3
+
+
+## Application structure
+
+update_gui() function
+model and database
+
+### Back-end
+
+### Front-end
+
+## Code Conventions
+
+one class per file (plus minor supporting classes)
+120 chars max per line
+PyQt specials:
+*
 
 
 
-### Example projects
 
-**https://github.com/altendky/graham**
+### Continuous Integration
 
-https://github.com/search?l=Python&q=stars%3A%3E1&s=stars&type=Repositories
-
-
-### Packaging, testing, Travis
+Travis
 
 https://blog.ionelmc.ro/2014/05/25/python-packaging/
 
@@ -28,16 +57,13 @@ we need to have an __init__.py file for each directory/package
 https://github.com/audreyr/how-to/blob/master/python/use_coverage_with_unittest.rst
 
 
-### Application structure
-
-update_gui() function
-model and database
 
 
 ### Tests
 
 http://johnnado.com/pyqt-qtest-example/
 https://bitbucket.org/jmcgeheeiv/pyqttestexample/src/
+Testing: https://stackoverflow.com/questions/1616228/pyqt-gui-testing/46208135#46208135
 
 #### Travis CI
 
@@ -56,16 +82,4 @@ https://docs.travis-ci.com/user/gui-and-headless-browsers/#Using-xvfb-to-Run-Tes
 
 
 ***
-
-
-Examples of other projects using PyQt:
-https://github.com/altendky/st
-
-
-Dependencies:
-Python 3.5
-PyQt ___
-
-
-Testing: https://stackoverflow.com/questions/1616228/pyqt-gui-testing/46208135#46208135
 
