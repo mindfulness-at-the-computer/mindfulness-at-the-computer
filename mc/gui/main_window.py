@@ -349,6 +349,10 @@ class MbMainWindow(QtWidgets.QMainWindow):
         breathing_fullscreen_action = QtWidgets.QAction("Breathing widget fullscreen", self)
         debug_menu.addAction(breathing_fullscreen_action)
         breathing_fullscreen_action.triggered.connect(self.showFullScreen)
+        show_breathing_notification_action = QtWidgets.QAction("Show breathing notification", self)
+        debug_menu.addAction(show_breathing_notification_action)
+        show_breathing_notification_action.triggered.connect(self.show_breathing_notification)
+
         # -"Calling this function only affects windows"
         # -showNormal
 

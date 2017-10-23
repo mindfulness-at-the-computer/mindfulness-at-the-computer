@@ -1,13 +1,16 @@
 
 
 [ ] Adding a button to the rest dialog for starting breathing after a break
-        self.close_and_breathing_qpb = QtWidgets.QPushButton("Start Breathing")
-        hbox.addWidget(self.close_and_breathing_qpb)
+self.close_and_breathing_qpb = QtWidgets.QPushButton("Start Breathing")
+hbox.addWidget(self.close_and_breathing_qpb)
+ALT: checkbox
 
 [ ] update icon to show if we are taking a break
 (how to do this? should be pretty clear and easy to see)
 
 [ ] bold for: take break now, close and reset timer,
+bold for important actions
+
 
 =========
 
