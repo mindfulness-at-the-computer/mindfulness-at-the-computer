@@ -41,12 +41,19 @@ class RestSettingsComposite(QtWidgets.QWidget):
         self.rest_reminder_interval_qsb.setMinimum(MIN_REST_REMINDER_INT)
         self.rest_reminder_interval_qsb.setMaximum(MAX_REST_REMINDER_INT)
         self.rest_reminder_interval_qsb.valueChanged.connect(self.on_rest_interval_value_changed)
-        vbox.addWidget(QtWidgets.QLabel("Remaining time until next break"))
+        vbox.addWidget(QtWidgets.QLabel("Time until next break:"))
+
+        hbox = QtWidgets.QHBoxLayout()
+        vbox.addLayout(hbox)
         self.rest_reminder_qsr = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)  # .QProgressBar()
-        vbox.addWidget(self.rest_reminder_qsr)
+        hbox.addWidget(self.rest_reminder_qsr)
         self.rest_reminder_qsr.setTickPosition(QtWidgets.QSlider.NoTicks)
         self.rest_reminder_qsr.valueChanged.connect(self.on_rest_reminder_slider_value_changed)
         self.rest_reminder_qsr.setPageStep(5)
+        self.rest_reminder_reset_qpb = QtWidgets.QPushButton()  # -"Reset timer"
+        hbox.addWidget(self.rest_reminder_reset_qpb)
+        self.rest_reminder_reset_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("reload-2x.png")))
+        self.rest_reminder_reset_qpb.clicked.connect(self.on_rest_reset_clicked)
 
         """
         self.slider = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)
@@ -65,11 +72,6 @@ class RestSettingsComposite(QtWidgets.QWidget):
         """
         ### self.rest_reminder_qprb.setStyleSheet("background-color: #f4fde7;")
 
-        # hbox = QtWidgets.QHBoxLayout()
-        # vbox.addLayout(hbox)
-        self.rest_reminder_reset_qpb = QtWidgets.QPushButton("Reset timer")
-        vbox.addWidget(self.rest_reminder_reset_qpb)
-        self.rest_reminder_reset_qpb.clicked.connect(self.on_rest_reset_clicked)
 
         # Take break button
         # vbox.addWidget(CustomFrame())
