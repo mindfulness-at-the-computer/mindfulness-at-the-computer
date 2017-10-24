@@ -14,7 +14,7 @@ while sitting at the computer, and helps you concentrate on breathing
 in and out when you need a breathing pause.
 
 The [**application website**](https://sunyatazero.github.io/mindfulness-at-the-computer/)
-includes more information (Downloads, screenshots, mailing list).
+includes more information (Downloads, screenshots, newsletter).
 
 The application is written in Python and uses Qt/PyQt for the front-end.
 
