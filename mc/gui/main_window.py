@@ -261,11 +261,10 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
     def on_rest_reminder_widget_closed(self, i_wait_minutes: int):
         if i_wait_minutes >= 0:  # mc.gui.rest_widget.CLOSED_RESULT_INT
-            if i_wait_minutes != unused_rest_reminder_dlg.CLOSED_RESULT_INT:
-                mc.mc_global.rest_reminder_minutes_passed_int = (
-                    mc.model.SettingsM.get().rest_reminder_interval_int
-                    - i_wait_minutes
-                )
+            mc.mc_global.rest_reminder_minutes_passed_int = (
+                mc.model.SettingsM.get().rest_reminder_interval_int
+                - i_wait_minutes
+            )
         else:
             mc.mc_global.rest_reminder_minutes_passed_int = 0
 
