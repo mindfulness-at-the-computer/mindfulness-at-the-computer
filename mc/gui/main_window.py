@@ -205,8 +205,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
     def on_systray_activated(self, i_reason):
         # QtWidgets.QSystemTrayIcon.
         logging.debug("entered on_systray_activated. i_reason = " + str(i_reason))
-        self.tray_icon.contextMenu().popup()
+        # self.tray_icon.contextMenu().popup(QtGui.QCursor.pos())
         # self.tray_icon.show()
+        self.showNormal()
 
     def on_breathing_list_row_changed(self, i_details_enabled: bool):
         self.change_timer_state()
@@ -357,6 +358,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
         show_breathing_notification_action = QtWidgets.QAction("Show breathing notification", self)
         debug_menu.addAction(show_breathing_notification_action)
         show_breathing_notification_action.triggered.connect(self.show_breathing_notification)
+        show_systray_menu_action = QtWidgets.QAction("Show systray menu", self)
+        debug_menu.addAction(show_systray_menu_action)
+        show_systray_menu_action.triggered.connect(self.debug_show_systray_menu)
 
         # -"Calling this function only affects windows"
         # -showNormal
@@ -378,6 +382,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
         online_help_action = QtWidgets.QAction("Online help", self)
         help_menu.addAction(online_help_action)
         online_help_action.triggered.connect(self.show_online_help)
+
+    def debug_show_systray_menu(self):
+        self.tray_icon.contextMenu().popup(QtGui.QCursor.pos())
 
     def debug_clear_rest_action_selection(self):
         self.rest_actions_qlw.clearSelection()

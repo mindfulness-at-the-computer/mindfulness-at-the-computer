@@ -1,4 +1,6 @@
 
+[ ] close and minimize to tray
+as an option to close and start breathing
 
 [x] adding a windows icon (.ico)
 
