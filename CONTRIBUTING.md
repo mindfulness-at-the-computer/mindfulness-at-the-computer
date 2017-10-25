@@ -1,9 +1,16 @@
 # Getting started for developers
 
-## Forums for interactions with other developers
+## Interactions with other developers
 
-* [gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby) - for real-time text chat
-* Github - for code reviews and for commenting on issues.
+[gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby) - real-time text chat about anything related to the project
+
+### Open conversation policy
+
+Unless conversations are clearly of a private nature, we can choose to share them with other team members. The reason for this policy is so that it does not take too long to relay information to others (otherwise the person who wants to relay information would need to wait for an email/chat response from the person she has been in conversation with).
+
+### Conversations about issues in the gitter chat
+
+Please use [the gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby) rather than issue comments for conversations about issues. The goal is that the issue has almost no comments and that a person new to an issue is easily able to grasp what the issue is about. If new information is gained it may be better to update the first issue comment
 
 ## How to report bugs
 
@@ -15,13 +22,13 @@ Overall design and architecture is determined by SunyataZero (Tord). In other wo
 
 We want discussions about all decisions to be open in the project and therefore, conversations that have started out as private can be made public without asking the participants (unless of course the conversation has been of a very personal nature)
 
-## Contributor money
-
-People contributing to the project are unpaid, it's entirely a volunteer effort
-
-## Contributor responsibility
+## Contributor responsibility, money and license
 
 No responsibility for any financial or other damage.
+
+People contributing to the project are unpaid, it's entirely a volunteer effort. No money is made from this application at the time of writing (and there are no plans for this to change)
+
+This application is Free Libre Open Source Software. The software license is GPLv3
 
 ## How do I get an overview of the project?
 
@@ -71,12 +78,6 @@ the _gh-pages_ branch doesn't exist.
   2. Create the branch and set tracking information: `git checkout -b gh-pages origin/gh-pages`
 That tracks the branch from your fork on GitHub.
   3. To sync the branch, use the steps outlined in [Syncing](#syncing), replacing instances of _master_ with _gh-pages_.
-
-----------
-
-## Open conversation policy
-
-Unless conversations are clearly of a private nature, we can choose to share them with other team members. The reason for this policy is so that it does not take too long to relay information to others (otherwise the person who wants to relay information would need to wait for an email response from the person she has been in conversation with).
 
 
 ***
