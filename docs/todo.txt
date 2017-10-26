@@ -1,5 +1,7 @@
 
-[x] fix wait button
+[x] bugfix: updating the checkmarks in the systray when state changes
+
+[ ] fullscreen of breathing area when breathing
 
 [ ] close and minimize to tray
 as an option to close and start breathing
@@ -7,7 +9,9 @@ as an option to close and start breathing
 [x] adding a windows icon (.ico)
 
 [ ] store checkbox state in db
+[ ] store active breathing in db, alt: use topmost
 
+[ ] draw a state diagram for the documentation
 [ ] update icon to show if we are taking a break
 (how to do this? should be pretty clear and easy to see)
 
@@ -28,8 +32,6 @@ top three / five
 [ ] setting the log level when starting the application, using a command line argument
 [ ] testing
  * add different test setups (no list items for example)
-[ ] when breathing starts, everything else is grayed out
-[ ] standardize a naming system for handler methods (maybe ending with _m if they update the model?)
 [ ] don't change the current time until
 1. the user presses the "reset timer" button
 or

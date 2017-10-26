@@ -139,16 +139,16 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
         self.tray_menu = QtWidgets.QMenu(self)
 
-        mc.mc_global.tray_rest_enabled_qaction = QtWidgets.QAction("Enable Rest Reminder")
-        self.tray_menu.addAction(mc.mc_global.tray_rest_enabled_qaction)
-        mc.mc_global.tray_rest_enabled_qaction.setCheckable(True)
-        mc.mc_global.tray_rest_enabled_qaction.toggled.connect(
+        self.system_tray.tray_rest_enabled_qaction = QtWidgets.QAction("Enable Rest Reminder")
+        self.tray_menu.addAction(self.system_tray.tray_rest_enabled_qaction)
+        self.system_tray.tray_rest_enabled_qaction.setCheckable(True)
+        self.system_tray.tray_rest_enabled_qaction.toggled.connect(
             self.rest_settings_dw.on_switch_toggled
         )
-        mc.mc_global.tray_rest_enabled_qaction.setChecked(settings.rest_reminder_active_bool)
-        mc.mc_global.tray_rest_progress_qaction = QtWidgets.QAction("")
-        self.tray_menu.addAction(mc.mc_global.tray_rest_progress_qaction)
-        mc.mc_global.tray_rest_progress_qaction.setDisabled(True)
+        self.system_tray.tray_rest_enabled_qaction.setChecked(settings.rest_reminder_active_bool)
+        self.system_tray.tray_rest_progress_qaction = QtWidgets.QAction("")
+        self.tray_menu.addAction(self.system_tray.tray_rest_progress_qaction)
+        self.system_tray.tray_rest_progress_qaction.setDisabled(True)
         self.system_tray.update_tray_rest_progress_bar(0, 1)
         self.tray_rest_now_qaction = QtWidgets.QAction("Take a Break Now")
         self.tray_menu.addAction(self.tray_rest_now_qaction)
@@ -156,14 +156,14 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
         self.tray_menu.addSeparator()
 
-        mc.mc_global.tray_breathing_enabled_qaction = QtWidgets.QAction("Enable Breathing Reminder")
-        self.tray_menu.addAction(mc.mc_global.tray_breathing_enabled_qaction)
-        mc.mc_global.tray_breathing_enabled_qaction.setCheckable(True)
-        mc.mc_global.tray_breathing_enabled_qaction.setChecked(settings.breathing_reminder_active_bool)
-        mc.mc_global.tray_breathing_enabled_qaction.toggled.connect(
+        self.system_tray.tray_breathing_enabled_qaction = QtWidgets.QAction("Enable Breathing Reminder")
+        self.tray_menu.addAction(self.system_tray.tray_breathing_enabled_qaction)
+        self.system_tray.tray_breathing_enabled_qaction.setCheckable(True)
+        self.system_tray.tray_breathing_enabled_qaction.setChecked(settings.breathing_reminder_active_bool)
+        self.system_tray.tray_breathing_enabled_qaction.toggled.connect(
             self.breathing_settings_dw.on_switch_toggled
         )
-        mc.mc_global.tray_breathing_enabled_qaction.setDisabled(True)
+        self.system_tray.tray_breathing_enabled_qaction.setDisabled(True)
 
         count_int = 0
         self.system_tray.tray_phrase_qaction_list.clear()
@@ -212,14 +212,14 @@ class MbMainWindow(QtWidgets.QMainWindow):
     def on_breathing_list_row_changed(self, i_details_enabled: bool):
         self.change_timer_state()
         self.breathing_settings_dw.setEnabled(i_details_enabled)
-        mc.mc_global.tray_breathing_enabled_qaction.setEnabled(i_details_enabled)
+        self.system_tray.tray_breathing_enabled_qaction.setEnabled(i_details_enabled)
 
         self.update_gui(mc.mc_global.EventSource.breathing_list_selection_changed)
 
     def on_breathing_phrase_changed(self, i_details_enabled):
         self.change_timer_state()
         self.breathing_settings_dw.setEnabled(i_details_enabled)
-        mc.mc_global.tray_breathing_enabled_qaction.setEnabled(i_details_enabled)
+        self.system_tray.tray_breathing_enabled_qaction.setEnabled(i_details_enabled)
 
         self.update_gui(mc.mc_global.EventSource.breathing_list_phrase_updated)
 
