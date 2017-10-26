@@ -12,6 +12,8 @@ Unless conversations are clearly of a private nature, we can choose to share the
 
 Please use [the gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby) rather than issue comments for conversations about issues. The goal is that the issue has almost no comments and that a person new to an issue is easily able to grasp what the issue is about. If new information is gained it may be better to update the first issue comment
 
+If you use comments to discuss issues please be aware that comments are removed now and then, and the description (first comment) is updated with information relevant to the issue
+
 ## How to report bugs
 
 Please use the [bug report template](docs/templates/bug-report.md)
