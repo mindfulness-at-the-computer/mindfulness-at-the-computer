@@ -69,7 +69,7 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         self.breathing_reminder_test_qpb.clicked.connect(self.on_breathing_test_clicked)
         """
 
-        #vbox.addStretch(1)
+        vbox.addStretch(1)
 
 
         # self.breathing_reminder_qgb.setDisabled(True)  # -disabled until a phrase has been selected
