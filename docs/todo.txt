@@ -1,4 +1,6 @@
 
+[ ] auto expand docks with lists (vertically)
+
 [x] bugfix: updating the checkmarks in the systray when state changes
 
 [ ] fullscreen of breathing area when breathing

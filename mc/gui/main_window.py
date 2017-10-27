@@ -74,6 +74,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.breathing_phrase_dock.setFeatures(QtWidgets.QDockWidget.NoDockWidgetFeatures)
         self.phrase_list_widget = mc.gui.breathing_phrase_list_dock.PhraseListCompositeWidget()
         self.breathing_phrase_dock.setWidget(self.phrase_list_widget)
+        self.breathing_phrase_dock.setSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding)
         self.phrase_list_widget.list_selection_changed_signal.connect(self.on_breathing_list_row_changed)
         self.phrase_list_widget.phrase_updated_signal.connect(self.on_breathing_phrase_changed)
 
@@ -84,6 +86,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.breathing_settings_dock.setWidget(self.breathing_settings_dw)
         self.breathing_settings_dw.breathing_settings_updated_signal.connect(self.on_breathing_settings_changed)
         self.breathing_settings_dw.breathing_test_button_clicked_signal.connect(self.show_breathing_notification)
+        self.breathing_settings_dock.setSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
 
         self.rest_settings_dock = QtWidgets.QDockWidget("Rest Reminders")
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.rest_settings_dock)
@@ -94,7 +98,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.rest_settings_dw.rest_test_button_clicked_signal.connect(self.show_rest_reminder)
         self.rest_settings_dw.rest_reset_button_clicked_signal.connect(self.on_rest_settings_changed)
         self.rest_settings_dw.rest_slider_value_changed_signal.connect(self.on_rest_slider_value_changed)
-
+        self.rest_settings_dock.setSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         self.rest_actions_dock = QtWidgets.QDockWidget("Rest Actions")
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.rest_actions_dock)
         self.rest_actions_dock.setFeatures(QtWidgets.QDockWidget.NoDockWidgetFeatures)
@@ -102,9 +107,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.rest_actions_widget = mc.gui.rest_action_list_dock.RestActionsComposite()
         self.rest_actions_dock.setWidget(self.rest_actions_widget)
         self.rest_actions_widget.update_signal.connect(self.on_rest_actions_updated)
-        size_policy = self.rest_actions_dock.sizePolicy()
-        size_policy.setVerticalPolicy(QtWidgets.QSizePolicy.Maximum)
-        self.rest_actions_dock.setSizePolicy(size_policy)
+        self.rest_actions_dock.setSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding)
 
         self.breathing_phrase_dock.raise_()
 
