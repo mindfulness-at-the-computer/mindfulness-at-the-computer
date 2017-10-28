@@ -2,7 +2,7 @@
 
 ## Interactions with other developers
 
-[gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby) - real-time text chat about anything related to the project
+[**Gitter chat**](https://gitter.im/mindfulness-at-the-computer/Lobby) - real-time text chat about anything related to the project
 
 ### Open conversation policy
 
