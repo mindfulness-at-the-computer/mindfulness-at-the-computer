@@ -1,10 +1,7 @@
-import os
-
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 
-# import mc.gui.safe_delete_dialog
 import mc.gui.toggle_switch_widget
 import mc.model
 import mc.mc_global
@@ -63,15 +60,14 @@ class RestSettingsComposite(QtWidgets.QWidget):
         self.slider.setValue(20)
         """
         # self.rest_reminder_qprb.set
-        ### self.rest_reminder_qprb.setTextVisible(False)
+        # self.rest_reminder_qprb.setTextVisible(False)
         """
         base_qcolor = QtGui.QColor(41, 163, 41, 0)
         base_qpalette = QtGui.QPalette()
         base_qpalette.setColor(QtGui.QPalette.Base, base_qcolor)
         self.rest_reminder_qprb.setPalette(base_qpalette)
         """
-        ### self.rest_reminder_qprb.setStyleSheet("background-color: #f4fde7;")
-
+        # self.rest_reminder_qprb.setStyleSheet("background-color: #f4fde7;")
 
         # Take break button
         # vbox.addWidget(CustomFrame())
@@ -108,14 +104,13 @@ class RestSettingsComposite(QtWidgets.QWidget):
         # (there is no problem when running normally, that is without debug)
         if self.updating_gui_bool:
             return
-        #mc_global.rest_reminder_minutes_remaining_int = i_new_value
+        # mc_global.rest_reminder_minutes_remaining_int = i_new_value
         mc.model.SettingsM.update_rest_reminder_interval(i_new_value)
 
         rest_reminder_interval_minutes_int = mc.model.SettingsM.get().rest_reminder_interval_int
         self.rest_reminder_qsr.setMinimum(0)
         self.rest_reminder_qsr.setMaximum(rest_reminder_interval_minutes_int)
         self.rest_reminder_qsr.setValue(mc.mc_global.rest_reminder_minutes_passed_int)
-
 
         self.rest_settings_updated_signal.emit()
 
