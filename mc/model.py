@@ -461,7 +461,7 @@ def populate_db_with_setup_data():
     )
     RestActionsM.add(
         "Eating a healthy snack",
-        mc.mc_global.get_user_images_path("organes-with-flower.png")
+        mc.mc_global.get_user_images_path("oranges-with-flower.png")
     )
     RestActionsM.add(
         "Slow Mindful walking inside",
@@ -520,7 +520,7 @@ def populate_db_with_test_data():
 
 
 def breathing_reminder_active():
-    settings = mc.model.SettingsM.get()
+    settings = SettingsM.get()
     ret_value_bool = (
         (mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT)
         and
@@ -533,7 +533,7 @@ def breathing_reminder_active():
 def get_app_systray_icon_path():
     # TODO: Separate the systray icon from the window icon
     icon_file_name_str = ""
-    settings = mc.model.SettingsM.get()
+    settings = SettingsM.get()
     b_active = breathing_reminder_active()
     if b_active and settings.rest_reminder_active_bool:
         icon_file_name_str = "icon-br.png"
@@ -544,7 +544,6 @@ def get_app_systray_icon_path():
     else:
         icon_file_name_str = "icon.png"
 
-    logging.debug("icon_file_name_str = " + icon_file_name_str)
     ret_icon_path_str = os.path.join(mc.mc_global.get_base_dir(), mc.mc_global.ICONS_DIR_STR, icon_file_name_str)
     return ret_icon_path_str
 
