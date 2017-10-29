@@ -1,25 +1,15 @@
 
-[ ] auto expand docks with lists (vertically)
-
-[x] bugfix: updating the checkmarks in the systray when state changes
-
-[ ] fullscreen of breathing area when breathing
+[x] auto expand docks with lists (vertically)
 
 [ ] close and minimize to tray
 as an option to close and start breathing
 
 [x] adding a windows icon (.ico)
 
-[ ] store checkbox state in db
+[ ] store checkbox state in db for auto-start breathing after break
 [ ] store active breathing in db, alt: use topmost
 
 [ ] draw a state diagram for the documentation
-[ ] update icon to show if we are taking a break
-(how to do this? should be pretty clear and easy to see)
-
-[ ] bold for: take break now, close and reset timer,
-bold for important actions
-
 
 [ ] add some extra space after having paused
 [ ] if the user only breathes in then the in breath will be removed
@@ -29,13 +19,9 @@ bold for important actions
 
 Low prio:
 [ ] indicate which breathing phrase is active in the sys tray. Please note: This means that we
-may also need to include another value here, since the user may not have chosen one of the
+may also want to include another value here, since the user may not have chosen one of the
 top three / five
 [ ] setting the log level when starting the application, using a command line argument
 [ ] testing
  * add different test setups (no list items for example)
-[ ] don't change the current time until
-1. the user presses the "reset timer" button
-or
-2. the current time has run out
 
