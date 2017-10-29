@@ -38,6 +38,11 @@ class RestComposite(QtWidgets.QWidget):
         vbox_l2.addWidget(title_qll)
         vbox_l2.addStretch(1)
 
+        # Help text
+        self.help_text_qll = QtWidgets.QLabel("Please select a row from the list to the left")
+        vbox_l2.addWidget(self.help_text_qll)
+        self.help_text_qll.setFont(mc_global.get_font_medium(i_italics=True))
+
         # Image (or text if image is missing)
         self.image_qll = QtWidgets.QLabel()
         vbox_l2.addWidget(self.image_qll)
@@ -113,25 +118,28 @@ class RestComposite(QtWidgets.QWidget):
         self.image_qll.setFixedHeight(scaled_height_int)
 
     def update_gui(self):
-        if mc_global.active_rest_action_id_it == mc_global.NO_REST_ACTION_SELECTED_INT:
-            return
         self.updating_gui_bool = True
-
-        rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
-        if rest_action.image_path_str and os.path.isfile(rest_action.image_path_str):
-            self.image_qll.show()
-            self.image_qll.setPixmap(
-                QtGui.QPixmap(
-                    rest_action.image_path_str
-                )
-            )
-            self.resize_image()
+        if mc_global.active_rest_action_id_it == mc_global.NO_REST_ACTION_SELECTED_INT:
+            self.help_text_qll.show()
         else:
-            self.image_qll.hide()
-            self.image_qll.clear()
+            self.help_text_qll.hide()
 
-        self.title_qll.setText(rest_action.title_str)
-        self.title_qll.setFont(mc_global.get_font_large())
-        self.title_qll.setWordWrap(True)
+            rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
+            if rest_action.image_path_str and os.path.isfile(rest_action.image_path_str):
+                self.image_qll.show()
+                self.image_qll.setPixmap(
+                    QtGui.QPixmap(
+                        rest_action.image_path_str
+                    )
+                )
+                self.resize_image()
+            else:
+                self.image_qll.hide()
+                self.image_qll.clear()
 
-        self.updating_gui_bool = False
+            self.title_qll.setText(rest_action.title_str)
+            self.title_qll.setFont(mc_global.get_font_large())
+            self.title_qll.setWordWrap(True)
+
+            self.updating_gui_bool = False
+
