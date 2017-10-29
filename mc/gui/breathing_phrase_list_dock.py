@@ -1,10 +1,7 @@
-
 import logging
-
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
-
 import mc.gui.safe_delete_dialog
 import mc.model
 import mc.mc_global
@@ -21,7 +18,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         super().__init__()
         vbox = QtWidgets.QVBoxLayout()
         self.setLayout(vbox)
-        self.setMinimumWidth(180)
+        # self.setMinimumWidth(180)
 
         self.updating_gui_bool = False
 
@@ -34,50 +31,20 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         vbox.addLayout(hbox)
         self.add_to_list_qle = QtWidgets.QLineEdit()
         hbox.addWidget(self.add_to_list_qle)
-        # self.add_to_list_qle.setsho
+        self.add_to_list_qle.setPlaceholderText("New item")
         QtWidgets.QShortcut(
             QtGui.QKeySequence(QtCore.Qt.Key_Return),
             self.add_to_list_qle,
             member=self.add_new_phrase_button_clicked,
             context=QtCore.Qt.WidgetShortcut
         )
-        # QtCore.QObject.connec
         self.add_new_phrase_qpb = QtWidgets.QPushButton("Add")
         self.add_new_phrase_qpb.clicked.connect(self.add_new_phrase_button_clicked)
         hbox.addWidget(self.add_new_phrase_qpb)
 
-        """
-        # Details
-        details_vbox = QtWidgets.QVBoxLayout()
-        self.details_qgb = QtWidgets.QGroupBox("Details")
-        vbox.addWidget(self.details_qgb)
-        self.details_qgb.setLayout(details_vbox)
-        self.details_qgb.setDisabled(True)
-
-        self.breath_title_qle = QtWidgets.QLineEdit()
-        details_vbox.addWidget(QtWidgets.QLabel("Title"))
-        details_vbox.addWidget(self.breath_title_qle)
-        self.breath_title_qle.textChanged.connect(self.details_title_text_changed)
-        self.in_breath_phrase_qle = QtWidgets.QLineEdit()
-        details_vbox.addWidget(QtWidgets.QLabel("In breath phrase"))
-        details_vbox.addWidget(self.in_breath_phrase_qle)
-        self.in_breath_phrase_qle.textChanged.connect(self.details_in_breath_text_changed)
-        self.out_breath_phrase_qle = QtWidgets.QLineEdit()
-        details_vbox.addWidget(QtWidgets.QLabel("Out breath phrase"))
-        details_vbox.addWidget(self.out_breath_phrase_qle)
-        self.out_breath_phrase_qle.textChanged.connect(self.details_out_breath_text_changed)
-        """
-
-
         hbox = QtWidgets.QHBoxLayout()
         vbox.addLayout(hbox)
 
-        """
-        self.add_new_texts_qpb = QtWidgets.QPushButton()
-        hbox.addWidget(self.add_new_texts_qpb)
-        self.add_new_texts_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("plus-2x.png")))
-        self.add_new_texts_qpb.clicked.connect(self.on_edit_texts_clicked)
-        """
         self.edit_texts_qpb = QtWidgets.QPushButton()
         hbox.addWidget(self.edit_texts_qpb)
         self.edit_texts_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("pencil-2x.png")))
@@ -95,16 +62,12 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         self.move_down_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("arrow-bottom-2x.png")))
         self.move_down_qpb.clicked.connect(self.on_move_down_clicked)
 
-
         hbox.addStretch(1)
 
         self.delete_phrase_qpb = QtWidgets.QPushButton()
         hbox.addWidget(self.delete_phrase_qpb)
         self.delete_phrase_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("trash-2x.png")))
         self.delete_phrase_qpb.clicked.connect(self.on_delete_clicked)
-
-
-        # self.list_widget.selectAll()
 
         self.update_gui()
 
@@ -133,16 +96,8 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         self.update_selected()
 
     def on_edit_texts_clicked(self):
-        edit_dialog_result_tuple = EditDialog.get_edit_dialog()
+        EditDialog.launch_edit_dialog()
         self.phrase_updated_signal.emit(True)
-
-        """
-        text_str = QtWidgets.QInputDialog.getText(
-            self,
-            "title",
-            "label"
-        )
-        """
 
     def on_return_shortcut_triggered(self):
         logging.debug("the return key has been pressed")
@@ -173,9 +128,8 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         # self.in_breath_phrase_qle.setFocus()
 
         # if dialog_result == QtWidgets.QDialog.Accepted:
-        dialog_result = EditDialog.get_edit_dialog()
+        dialog_result = EditDialog.launch_edit_dialog()
         self.phrase_updated_signal.emit(True)
-        # asdf
 
     def on_selection_changed(self):
         if self.updating_gui_bool:
@@ -244,7 +198,7 @@ class EditDialog(QtWidgets.QDialog):
     Inspiration: Answer by lou here:
     https://stackoverflow.com/questions/18196799/how-can-i-show-a-pyqt-modal-dialog-and-get-data-out-of-its-controls-once-its-clo
     """
-    def __init__(self, i_parent = None):
+    def __init__(self, i_parent=None):
         super(EditDialog, self).__init__(i_parent)
 
         assert mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
@@ -273,7 +227,7 @@ class EditDialog(QtWidgets.QDialog):
         # -accept and reject are "slots" built into Qt
 
     @staticmethod
-    def get_edit_dialog():
+    def launch_edit_dialog():
         dialog = EditDialog()
         dialog_result = dialog.exec_()
 
