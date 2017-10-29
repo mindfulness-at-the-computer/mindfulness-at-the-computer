@@ -1,4 +1,3 @@
-import logging
 import os
 
 from PyQt5 import QtCore
@@ -6,7 +5,6 @@ from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 
 from mc import model, mc_global
-import mc.gui.unused_insights_cw
 
 IMAGE_GOAL_WIDTH_INT = 240
 IMAGE_GOAL_HEIGHT_INT = IMAGE_GOAL_WIDTH_INT
