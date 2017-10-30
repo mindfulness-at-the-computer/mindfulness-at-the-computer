@@ -244,6 +244,18 @@ class RestActionsM:
         return ret_reminder_list
 
     @staticmethod
+    def update_title(i_id: int, i_new_title: str):
+        db_connection = db.Helper.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + db.Schema.RestActionsTable.name
+            + " SET " + db.Schema.RestActionsTable.Cols.title + " = ?"
+            + " WHERE " + db.Schema.RestActionsTable.Cols.id + " = ?",
+            (i_new_title, str(i_id))
+        )
+        db_connection.commit()
+
+    @staticmethod
     def update_rest_action_image_path(i_id: int, i_new_image_path: str):
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()

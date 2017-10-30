@@ -107,6 +107,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.rest_actions_widget = mc.gui.rest_action_list_dock.RestActionsComposite()
         self.rest_actions_dock.setWidget(self.rest_actions_widget)
         self.rest_actions_widget.update_signal.connect(self.on_rest_actions_updated)
+        self.rest_actions_widget.list_selection_changed_signal.connect(self.on_rest_action_list_row_changed)
         self.rest_actions_dock.setSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding)
 
@@ -220,6 +221,12 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
         self.update_gui(mc.mc_global.EventSource.breathing_list_selection_changed)
 
+    def on_rest_action_list_row_changed(self):
+        # self.change_timer_state()
+        # self.system_tray.tray_breathing_enabled_qaction.setEnabled(i_details_enabled)
+
+        self.update_gui(mc.mc_global.EventSource.rest_list_selection_changed)
+
     def on_breathing_phrase_changed(self, i_details_enabled):
         self.change_timer_state()
         self.breathing_settings_dw.setEnabled(i_details_enabled)
@@ -301,7 +308,6 @@ class MbMainWindow(QtWidgets.QMainWindow):
             self.start_breathing_timer()
         else:
             self.stop_breathing_timer()
-
 
     def stop_breathing_timer(self):
         if self.breathing_qtimer is not None and self.breathing_qtimer.isActive():
@@ -443,7 +449,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.breathing_settings_dw.update_gui()
 
         if (i_event_source != mc.mc_global.EventSource.breathing_list_selection_changed
-        and i_event_source != mc.mc_global.EventSource.rest_action_changed):
+        and i_event_source != mc.mc_global.EventSource.rest_list_selection_changed):
             self.phrase_list_widget.update_gui()
             self.rest_actions_widget.update_gui()
 

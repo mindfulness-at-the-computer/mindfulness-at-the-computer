@@ -13,6 +13,7 @@ from mc import model, mc_global
 
 class RestActionsComposite(QtWidgets.QWidget):
     update_signal = QtCore.pyqtSignal()
+    list_selection_changed_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -66,20 +67,9 @@ class RestActionsComposite(QtWidgets.QWidget):
         self.update_gui()
 
     def on_edit_texts_clicked(self):
-        edit_dialog_result_tuple = EditDialog.get_edit_dialog()
-        if edit_dialog_result_tuple[0]:
-            assert mc_global.active_rest_action_id_it != mc_global.NO_REST_ACTION_SELECTED_INT
-            model.RestActionsM.update_title(
-                mc_global.active_rest_action_id_it,
-                self.breath_title_qle.text()
-            )
-            model.RestActionsM.update(
-                mc_global.active_rest_action_id_it,
-                self.in_breath_phrase_qle.text()
-            )
-            # TODO: self.phrases_updated_signal.emit(self.details_qgb.isEnabled())
-        else:
-            pass
+        EditDialog.launch_edit_dialog()
+        # TODO: self.phrases_updated_signal.emit(self.details_qgb.isEnabled())
+        self.update_signal.emit()
         """
         text_str = QtWidgets.QInputDialog.getText(
             self,
@@ -162,7 +152,7 @@ class RestActionsComposite(QtWidgets.QWidget):
         # self.update_gui_details()
         #### self.row_changed_signal.emit()
 
-        self.update_signal.emit()
+        self.list_selection_changed_signal.emit()
 
     def update_gui(self):
         self.updating_gui_bool = True
@@ -241,21 +231,19 @@ class EditDialog(QtWidgets.QDialog):
                 self.details_image_path_qll.setText("(no image set)")
 
     @staticmethod
-    def get_edit_dialog():
+    def launch_edit_dialog():
         dialog = EditDialog()
         dialog_result = dialog.exec_()
 
-        confirmation_result_bool = False
         if dialog_result == QtWidgets.QDialog.Accepted:
-            confirmation_result_bool = True
-        edit_tuple = (
-            dialog.breath_title_qle.text(),
-            dialog.in_breath_phrase_qle.text(),
-            dialog.out_breath_phrase_qle.text()
-        )
+            model.RestActionsM.update_title(
+                mc_global.active_rest_action_id_it,
+                dialog.rest_action_title_qle.text()
+            )
+        else:
+            pass
 
-        ret_tuple = (confirmation_result_bool, edit_tuple)
-        return ret_tuple
+        return dialog_result
 
     def on_select_image_clicked(self):
         image_file_result_tuple = QtWidgets.QFileDialog.getOpenFileName(

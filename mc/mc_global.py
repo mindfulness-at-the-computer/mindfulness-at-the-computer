@@ -115,7 +115,8 @@ def get_font_xlarge():
 
 class EventSource(enum.Enum):
     undefined = 0
-    rest_action_changed = 1
+    rest_action_changed = 11
+    rest_list_selection_changed = 12
     breathing_list_phrase_updated = 21
     breathing_list_selection_changed = 22
     rest_settings_changed = 31
