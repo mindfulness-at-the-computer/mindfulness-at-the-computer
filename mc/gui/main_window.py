@@ -137,8 +137,23 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.tray_icon.activated.connect(self.on_systray_activated)
         self.tray_icon.show()
         # self.update_tray_menu()
-        if not self.tray_icon.supportsMessages():
-            logging.warning("Your system doesn't support notifications. If you are using MacOS please install growl")
+
+        logging.info("##### System Information #####")
+        systray_available_str = "No"
+        if self.tray_icon.isSystemTrayAvailable():
+            systray_available_str = "Yes"
+        logging.info("System tray available: " + systray_available_str)
+        notifications_supported_str = "No"
+        if self.tray_icon.supportsMessages():
+            notifications_supported_str = "Yes"
+        logging.info("System tray notifications supported: " + notifications_supported_str)
+        sysinfo = QtCore.QSysInfo()
+        logging.info("buildCpuArchitecture: " + sysinfo.buildCpuArchitecture())
+        logging.info("currentCpuArchitecture: " + sysinfo.currentCpuArchitecture())
+        logging.info("kernel type and version: " + sysinfo.kernelType() + " " + sysinfo.kernelVersion())
+        logging.info("product name and version: " + sysinfo.prettyProductName())
+        logging.info("#####")
+
 
         settings = mc.model.SettingsM.get()
 
