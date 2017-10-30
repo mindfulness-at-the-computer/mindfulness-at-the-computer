@@ -1,13 +1,10 @@
 
 import logging
 import os
-
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
-
 import mc.gui.safe_delete_dialog
-# import mc.gui.toggle_switch_widget
 from mc import model, mc_global
 
 
@@ -137,20 +134,15 @@ class RestActionsComposite(QtWidgets.QWidget):
     def on_selection_changed(self):
         if self.updating_gui_bool:
             return
-        selected_modelindexlist = self.list_widget.selectedIndexes()
-        # current_row_int = self.rest_actions_qlw.currentRow()
-        if len(selected_modelindexlist) >= 1:
-            selected_row_int = selected_modelindexlist[0].row()
-            # self.details_qgb.setDisabled(False)
-            current_rest_action_qli = self.list_widget.item(selected_row_int)
-            customqlabel_widget = self.list_widget.itemWidget(current_rest_action_qli)
-            mc_global.active_rest_action_id_it = customqlabel_widget.question_entry_id
+        selected_model_index_list = self.list_widget.selectedIndexes()
+        if len(selected_model_index_list) >= 1:
+            selected_row_int = selected_model_index_list[0].row()
+            selected_rest_action_qli = self.list_widget.item(selected_row_int)
+            row_label_cll = self.list_widget.itemWidget(selected_rest_action_qli)
+            mc_global.active_rest_action_id_it = row_label_cll.question_entry_id
         else:
-            self.details_qgb.setDisabled(True)
-            #### mc_global.act= mc_global.NO_PHRASE_SELECTED_INT
-
-        # self.update_gui_details()
-        #### self.row_changed_signal.emit()
+            pass
+            # mc_global.act= mc_global.NO_PHRASE_SELECTED_INT
 
         self.list_selection_changed_signal.emit()
 
@@ -171,7 +163,6 @@ class RestActionsComposite(QtWidgets.QWidget):
 
 class RestQLabel(QtWidgets.QLabel):
     question_entry_id = mc_global.NO_PHRASE_SELECTED_INT  # -"static"
-    #mouse_pressed_signal = QtCore.pyqtSignal(QtGui.QMouseEvent, int)
 
     def __init__(self, i_text: str, i_diary_entry_id: int=mc_global.NO_PHRASE_SELECTED_INT):
         super().__init__(i_text)
@@ -183,7 +174,7 @@ class EditDialog(QtWidgets.QDialog):
     Inspiration: Answer by lou here:
     https://stackoverflow.com/questions/18196799/how-can-i-show-a-pyqt-modal-dialog-and-get-data-out-of-its-controls-once-its-clo
     """
-    def __init__(self, i_parent = None):
+    def __init__(self, i_parent=None):
         super(EditDialog, self).__init__(i_parent)
 
         self.temporary_image_file_path_str = ""
@@ -206,7 +197,7 @@ class EditDialog(QtWidgets.QDialog):
         vbox.addWidget(image_qgb)
         image_vbox = QtWidgets.QVBoxLayout()
         image_qgb.setLayout(image_vbox)
-        self.select_image_qpb = QtWidgets.QPushButton(" Select image")  # "Select image"
+        self.select_image_qpb = QtWidgets.QPushButton(" Select image")
         image_vbox.addWidget(self.select_image_qpb)
         self.select_image_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("image-2x.png")))
         self.select_image_qpb.clicked.connect(self.on_select_image_clicked)
@@ -275,5 +266,3 @@ class EditDialog(QtWidgets.QDialog):
             self.update_gui_details()
         else:
             pass
-
-
