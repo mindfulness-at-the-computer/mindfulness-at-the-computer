@@ -126,15 +126,15 @@ class PhrasesM:
         db_connection.commit()
 
     @staticmethod
-    def update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> None:
+    def update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
         main_id_int = i_id
         main_sort_order_int = PhrasesM.get(i_id).vert_order_int
         if i_move_direction == MoveDirectionEnum.up:
             if main_sort_order_int == 0 or main_sort_order_int > len(PhrasesM.get_all()):
-                return
+                return False
         elif i_move_direction == MoveDirectionEnum.down:
             if main_sort_order_int < 0 or main_sort_order_int >= len(PhrasesM.get_all()):
-                return
+                return False
         else:
             pass
         other = PhrasesM.get_by_vert_order(main_sort_order_int, i_move_direction)
@@ -156,6 +156,7 @@ class PhrasesM:
             (str(main_sort_order_int), str(other_id_int))
         )
         db_connection.commit()
+        return True
 
     @staticmethod
     def get_by_vert_order(i_sort_order: int, i_move_direction: MoveDirectionEnum):

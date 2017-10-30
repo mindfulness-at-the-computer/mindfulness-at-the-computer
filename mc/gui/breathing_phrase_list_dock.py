@@ -78,22 +78,32 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         self.move_up_down(mc.model.MoveDirectionEnum.down)
 
     def move_up_down(self, i_up_down: mc.model.MoveDirectionEnum):
-        id_int = mc.mc_global.active_rest_action_id_it
-        mc.model.RestActionsM.update_sort_order_move_up_down(id_int, i_up_down)
+        mc.model.PhrasesM.update_sort_order_move_up_down(
+            mc.mc_global.active_phrase_id_it,
+            i_up_down
+        )
         self.update_gui()
         self.update_selected()
 
     def on_move_to_top_clicked(self):
-        id_int = mc.mc_global.active_rest_action_id_it
         while True:
-            result_bool = mc.model.RestActionsM.update_sort_order_move_up_down(
-                id_int,
+            result_bool = mc.model.PhrasesM.update_sort_order_move_up_down(
+                mc.mc_global.active_phrase_id_it,
                 mc.model.MoveDirectionEnum.up
             )
             if not result_bool:
                 break
         self.update_gui()
         self.update_selected()
+
+    def update_selected(self):
+        for i in range(0, self.list_widget.count()):
+            item = self.list_widget.item(i)
+            phrase_qll = self.list_widget.itemWidget(item)
+            logging.debug("custom_qll.entry_id = " + str(phrase_qll.entry_id))
+            if phrase_qll.entry_id == mc.mc_global.active_phrase_id_it:
+                item.setSelected(True)
+                return
 
     def on_edit_texts_clicked(self):
         EditDialog.launch_edit_dialog()
@@ -142,7 +152,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
             # TODO: setDisabled for other
             current_question_qli = self.list_widget.item(selected_row_int)
             customqlabel_widget = self.list_widget.itemWidget(current_question_qli)
-            mc.mc_global.active_phrase_id_it = customqlabel_widget.question_entry_id
+            mc.mc_global.active_phrase_id_it = customqlabel_widget.entry_id
         else:
             mc.mc_global.active_phrase_id_it = mc.mc_global.NO_PHRASE_SELECTED_INT
 
@@ -155,8 +165,8 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         for i in range(0, self.list_widget.count()):
             item = self.list_widget.item(i)
             phrase_cqll = self.list_widget.itemWidget(item)
-            logging.debug("phrase_cqll.question_entry_id = " + str(phrase_cqll.question_entry_id))
-            if phrase_cqll.question_entry_id == mc.mc_global.active_phrase_id_it:
+            logging.debug("phrase_cqll.entry_id = " + str(phrase_cqll.entry_id))
+            if phrase_cqll.entry_id == mc.mc_global.active_phrase_id_it:
                 item.setSelected(True)
                 return
 
@@ -176,12 +186,12 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
 
 
 class CustomQLabel(QtWidgets.QLabel):
-    question_entry_id = mc.mc_global.NO_PHRASE_SELECTED_INT  # -"static"
+    entry_id = mc.mc_global.NO_PHRASE_SELECTED_INT  # -"static"
     # mouse_pressed_signal = QtCore.pyqtSignal(QtGui.QMouseEvent, int)
 
-    def __init__(self, i_text_sg, i_diary_entry_id=mc.mc_global.NO_PHRASE_SELECTED_INT):
+    def __init__(self, i_text_sg, i_entry_id=mc.mc_global.NO_PHRASE_SELECTED_INT):
         super().__init__(i_text_sg)
-        self.question_entry_id = i_diary_entry_id
+        self.entry_id = i_entry_id
 
     """
     # Overridden
@@ -189,7 +199,7 @@ class CustomQLabel(QtWidgets.QLabel):
     def mousePressEvent(self, i_qmouseevent):
         super(CustomQLabel, self).mousePressEvent(i_qmouseevent)
         # -self is automatically sent as the 1st argument
-        #self.mouse_pressed_signal.emit(i_qmouseevent, self.question_entry_id)
+        #self.mouse_pressed_signal.emit(i_qmouseevent, self.entry_id)
     """
 
 
