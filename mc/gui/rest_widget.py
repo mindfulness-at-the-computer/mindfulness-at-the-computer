@@ -11,6 +11,7 @@ IMAGE_GOAL_HEIGHT_INT = IMAGE_GOAL_WIDTH_INT
 CLOSED_RESULT_INT = -1
 CLOSED_WITH_BREATHING_RESULT_INT = -2
 
+
 class RestComposite(QtWidgets.QWidget):
     result_signal = QtCore.pyqtSignal(int)
     # -used both for wait and for closing
@@ -32,16 +33,18 @@ class RestComposite(QtWidgets.QWidget):
         vbox_l2 = QtWidgets.QVBoxLayout()
         self.setLayout(vbox_l2)
 
-        # Main area
-
-        title_qll = QtWidgets.QLabel("Please take good care of yourself")
-        vbox_l2.addWidget(title_qll)
-        vbox_l2.addStretch(1)
-
         # Help text
         self.help_text_qll = QtWidgets.QLabel("Please select a row from the list to the left")
         vbox_l2.addWidget(self.help_text_qll)
         self.help_text_qll.setFont(mc_global.get_font_medium(i_italics=True))
+
+        vbox_l2.addStretch(1)
+
+        # Main area
+
+        title_qll = QtWidgets.QLabel("Please take good care of yourself")
+        vbox_l2.addWidget(title_qll)
+
 
         # Image (or text if image is missing)
         self.image_qll = QtWidgets.QLabel()
