@@ -193,20 +193,26 @@ class EditDialog(QtWidgets.QDialog):
 
         vbox = QtWidgets.QVBoxLayout(self)
 
+        # Title
+        title_qgb = QtWidgets.QGroupBox("Title")
+        vbox.addWidget(title_qgb)
+        title_vbox = QtWidgets.QVBoxLayout()
+        title_qgb.setLayout(title_vbox)
         self.rest_action_title_qle = QtWidgets.QLineEdit(active_rest_action.title_str)
-        vbox.addWidget(QtWidgets.QLabel("Title"))
-        vbox.addWidget(self.rest_action_title_qle)
+        title_vbox.addWidget(self.rest_action_title_qle)
 
-        image_hbox = QtWidgets.QHBoxLayout()
-        vbox.addLayout(image_hbox)
-        self.select_image_qpb = QtWidgets.QPushButton()  # "Select image"
-        image_hbox.addWidget(self.select_image_qpb)
+        # Image
+        image_qgb = QtWidgets.QGroupBox("Image")
+        vbox.addWidget(image_qgb)
+        image_vbox = QtWidgets.QVBoxLayout()
+        image_qgb.setLayout(image_vbox)
+        self.select_image_qpb = QtWidgets.QPushButton(" Select image")  # "Select image"
+        image_vbox.addWidget(self.select_image_qpb)
         self.select_image_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("image-2x.png")))
         self.select_image_qpb.clicked.connect(self.on_select_image_clicked)
         self.details_image_path_qll = QtWidgets.QLabel()
-        image_hbox.addWidget(self.details_image_path_qll)
+        image_vbox.addWidget(self.details_image_path_qll)
         self.details_image_path_qll.setWordWrap(True)
-        image_hbox.addStretch(1)
 
         self.update_gui_details()
 
