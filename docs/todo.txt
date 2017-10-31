@@ -1,13 +1,16 @@
 
 [x] auto expand docks with lists (vertically)
 
+[ ] always have a breathing phrase selected
+[ ] store checkbox state in db for auto-start breathing after break
+[ ] store active breathing in db, alt: use topmost
+Q: What about rest action?
+
 [ ] close and minimize to tray
 as an option to close and start breathing
 
 [x] adding a windows icon (.ico)
 
-[ ] store checkbox state in db for auto-start breathing after break
-[ ] store active breathing in db, alt: use topmost
 
 [ ] draw a state diagram for the documentation
 

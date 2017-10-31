@@ -167,6 +167,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.in_breath_graphics_qgri_list.clear()
         self.out_breath_graphics_qgri_list.clear()
         self.breathing_graphicsscene.clear()
+        self.breath_counter_int = 0
 
     def pause(self):
         mc_global.breathing_state = mc_global.BreathingState.inactive
