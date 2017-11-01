@@ -3,6 +3,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 import mc.mc_global
+import mc.model
 
 
 class ExpNotificationWidget(QtWidgets.QWidget):
@@ -23,10 +24,17 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         # (left, right, top, bottom) = vbox.getContentsMargins()
         # vbox.setContentsMargins(0, 0, 5, 5)
 
-        self.cll_one = CustomLabel("Testing exp notification widget --- 1")
+        in_str = "--------"
+        out_str = "-"
+        if mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT:
+            breathing_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+            in_str = breathing_phrase.ib_str
+            out_str = breathing_phrase.ob_str
+
+        self.cll_one = CustomLabel(in_str)
         vbox.addWidget(self.cll_one)
         #self.qll_one.mouse.connect(self.on_mouse_over_one)
-        self.qll_two = QtWidgets.QLabel("Testing exp notification widget")
+        self.qll_two = QtWidgets.QLabel(out_str)
         vbox.addWidget(self.qll_two)
 
         self.show()  # -done after all the widget have been added so that the right size is set
@@ -36,6 +44,8 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         xpos_int = screen_qrect.left() + (screen_qrect.width() - self.sizeHint().width()) // 2
         ypos_int = screen_qrect.bottom() - self.sizeHint().height() - 50
         self.move(xpos_int, ypos_int)
+
+
 
     """
     # overridden
