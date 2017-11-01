@@ -16,6 +16,7 @@ import mc.gui.breathing_reminder_settings_dock
 import mc.gui.breathing_phrase_list_dock
 import mc.gui.rest_reminder_settings_dock
 import mc.gui.rest_widget
+import mc.gui.experimental_notification_widget
 
 
 class MbMainWindow(QtWidgets.QMainWindow):
@@ -385,6 +386,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
         show_systray_menu_action = QtWidgets.QAction("Show systray menu", self)
         debug_menu.addAction(show_systray_menu_action)
         show_systray_menu_action.triggered.connect(self.debug_show_systray_menu)
+        show_exp_notification_action = QtWidgets.QAction("Show experimental notification", self)
+        debug_menu.addAction(show_exp_notification_action)
+        show_exp_notification_action.triggered.connect(self.debug_show_exp_notification)
 
         # -"Calling this function only affects windows"
         # -showNormal
@@ -406,6 +410,26 @@ class MbMainWindow(QtWidgets.QMainWindow):
         online_help_action = QtWidgets.QAction("Online help", self)
         help_menu.addAction(online_help_action)
         online_help_action.triggered.connect(self.show_online_help)
+
+    def debug_show_exp_notification(self):
+        self.exp_notification = mc.gui.experimental_notification_widget.ExpNotificationWidget()
+        self.exp_notification.show()
+
+        """
+        self.exp_two = mc.gui.rest_widget.RestComposite()
+        self.exp_two.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowStaysOnTopHint | QtCore.Qt.X11BypassWindowManagerHint)
+        self.exp_two.show()
+        """
+        # -TODO: sometimes the window closes --- why???
+
+        """
+            | QtCore.Qt.FramelessWindowHint
+            | QtCore.Qt.WindowStaysOnTopHint
+            | QtCore.Qt.X11BypassWindowManagerHint
+            QtCore.Qt.Popup
+            QtCore.Qt.Window
+            QtCore.Qt.Dialog
+        """
 
     def debug_show_systray_menu(self):
         self.tray_icon.contextMenu().popup(QtGui.QCursor.pos())
