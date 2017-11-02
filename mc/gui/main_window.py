@@ -292,6 +292,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
                 mc.model.SettingsM.get().rest_reminder_interval_int
                 - i_wait_minutes
             )
+            self.minimize_to_tray()
         else:
             mc.mc_global.rest_reminder_minutes_passed_int = 0
 
