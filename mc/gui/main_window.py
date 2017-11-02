@@ -295,6 +295,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
             self.minimize_to_tray()
         else:
             mc.mc_global.rest_reminder_minutes_passed_int = 0
+            if i_wait_minutes == mc.gui.rest_widget.CLOSED_RESULT_INT:
+                self.minimize_to_tray()
 
         self.main_area_stacked_widget.setCurrentIndex(self.bcw_sw_id_int)
         if i_wait_minutes == mc.gui.rest_widget.CLOSED_WITH_BREATHING_RESULT_INT:

@@ -1,25 +1,19 @@
 
-[ ] instead of cb have two buttons
-
+[x] instead of cb have two buttons
 
 [ ] color change when the user moves the mouse or types, this is during the short breaks
 - it's not possible to detect mouse outside of a widget in a cross-platform way,
 but activity can be detected inside of the widget of course, and this is something that we
 may (or not) want to use
 
-
-[x] auto expand docks with lists (vertically)
-
 [ ] always have a breathing phrase selected
-[ ] store checkbox state in db for auto-start breathing after break
 [ ] store active breathing in db, alt: use topmost
 Q: What about rest action?
 
-[ ] close and minimize to tray
+[x] close and minimize to tray
 as an option to close and start breathing
 
 [x] adding a windows icon (.ico)
-
 
 [ ] draw a state diagram for the documentation
 

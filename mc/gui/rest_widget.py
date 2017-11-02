@@ -65,6 +65,18 @@ class RestComposite(QtWidgets.QWidget):
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
 
+        self.close_qpb = QtWidgets.QPushButton("Close")
+        hbox_l3.addWidget(self.close_qpb)
+        self.close_qpb.clicked.connect(self.on_close_button_clicked)
+        self.close_qpb.setFont(mc_global.get_font_large())
+
+        self.close_and_breathe_qpb = QtWidgets.QPushButton("Breathe")
+        hbox_l3.addWidget(self.close_and_breathe_qpb)
+        self.close_and_breathe_qpb.clicked.connect(self.on_close_and_breathe_button_clicked)
+        self.close_and_breathe_qpb.setFont(mc_global.get_font_large())
+
+        hbox_l3.addStretch(1)
+
         wait_qpb = QtWidgets.QPushButton("Wait")
         hbox_l3.addWidget(wait_qpb)
         wait_qpb.clicked.connect(self.on_wait_clicked)
@@ -73,18 +85,6 @@ class RestComposite(QtWidgets.QWidget):
         self.wait_qsb.setMinimum(1)
         hbox_l3.addWidget(self.wait_qsb)
         hbox_l3.addWidget(QtWidgets.QLabel("minutes"))
-        hbox_l3.addStretch(1)
-
-        self.close_qpb = QtWidgets.QPushButton("Close and Reset Rest Timer")
-        hbox_l3 = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(hbox_l3)
-        hbox_l3.addWidget(self.close_qpb)
-        self.close_qpb.clicked.connect(self.on_close_button_clicked)
-        self.close_qpb.setFont(mc_global.get_font_large())
-        hbox_l3.addStretch(1)
-
-        self.start_breathing_qcb = QtWidgets.QCheckBox("Start breathing automatically")
-        vbox_l2.addWidget(self.start_breathing_qcb)
 
     def on_wait_clicked(self):
         # minutes_int = self.wait_qsb.value()
@@ -92,13 +92,11 @@ class RestComposite(QtWidgets.QWidget):
         # self.accept()
         self.result_signal.emit(self.wait_qsb.value())
 
+    def on_close_and_breathe_button_clicked(self):
+        self.result_signal.emit(CLOSED_WITH_BREATHING_RESULT_INT)
+
     def on_close_button_clicked(self):
-        # self.dialog_outcome_int = CLOSED_RESULT_INT
-        # self.accept()
-        if self.start_breathing_qcb.isChecked():
-            self.result_signal.emit(CLOSED_WITH_BREATHING_RESULT_INT)
-        else:
-            self.result_signal.emit(CLOSED_RESULT_INT)
+        self.result_signal.emit(CLOSED_RESULT_INT)
 
     def resize_image(self):
         if self.image_qll.pixmap() is None:
