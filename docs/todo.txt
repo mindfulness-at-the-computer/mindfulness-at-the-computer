@@ -20,7 +20,7 @@ Q: What about rest action?
 
 [ ] draw a state diagram for the documentation
 
-[ ] add some extra space after having paused
+[x] add some extra space after having paused
 [ ] if the user only breathes in then the in breath will be removed
 
 

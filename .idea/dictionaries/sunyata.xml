@@ -1,11 +1,17 @@
 <component name="ProjectDictionaryState">
   <dictionary name="sunyata">
     <words>
+      <w>drawrect</w>
+      <w>graphicsview</w>
       <w>prio</w>
       <w>qaction</w>
+      <w>qevent</w>
+      <w>qkeyevent</w>
+      <w>qpointf</w>
       <w>qrect</w>
       <w>systray</w>
       <w>versioning</w>
+      <w>xpos</w>
     </words>
   </dictionary>
 </component>
