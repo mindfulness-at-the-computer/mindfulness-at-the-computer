@@ -207,8 +207,8 @@ class RestActionsM:
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor_result = db_cursor.execute(
-            "SELECT MAX(" + mc.db.Schema.PhrasesTable.Cols.vertical_order + ")"
-            + " FROM " + mc.db.Schema.PhrasesTable.name
+            "SELECT MAX(" + mc.db.Schema.RestActionsTable.Cols.vertical_order + ")"
+            + " FROM " + mc.db.Schema.RestActionsTable.name
         )
         return_value_int = db_cursor_result.fetchone()[0]
         # -0 has to be added here even though there can only be one value
@@ -219,8 +219,8 @@ class RestActionsM:
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor_result = db_cursor.execute(
-            "SELECT MIN(" + mc.db.Schema.PhrasesTable.Cols.vertical_order + ")"
-            + " FROM " + mc.db.Schema.PhrasesTable.name
+            "SELECT MIN(" + mc.db.Schema.RestActionsTable.Cols.vertical_order + ")"
+            + " FROM " + mc.db.Schema.RestActionsTable.name
         )
         return_value_int = db_cursor_result.fetchone()[0]
         # -0 has to be added here even though there can only be one value
@@ -307,16 +307,19 @@ class RestActionsM:
     def update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
         main_id_int = i_id
         main_sort_order_int = RestActionsM.get(i_id).vert_order_int
+        logging.debug("main_sort_order_int = " + str(main_sort_order_int))
+        logging.debug("RestActionsM.get_highest_sort_value() = " + str(RestActionsM.get_highest_sort_value()))
+        logging.debug("RestActionsM.get_lowest_sort_value() = " + str(RestActionsM.get_lowest_sort_value()))
         if i_move_direction == MoveDirectionEnum.up:
             if (main_sort_order_int == RestActionsM.get_lowest_sort_value()
-            or main_sort_order_int > PhrasesM.get_highest_sort_value()):
+            or main_sort_order_int > RestActionsM.get_highest_sort_value()):
+                logging.debug("Exiting update_sort_order_move_up_down [up]")
                 return False
         elif i_move_direction == MoveDirectionEnum.down:
             if (main_sort_order_int < RestActionsM.get_lowest_sort_value()
-            or main_sort_order_int >= PhrasesM.get_highest_sort_value()):
+            or main_sort_order_int >= RestActionsM.get_highest_sort_value()):
+                logging.debug("Exiting update_sort_order_move_up_down [down]")
                 return False
-        else:
-            pass
         other = RestActionsM.get_by_vert_order(main_sort_order_int, i_move_direction)
         other_id_int = other.id_int
         other_sort_order_int = other.vert_order_int
