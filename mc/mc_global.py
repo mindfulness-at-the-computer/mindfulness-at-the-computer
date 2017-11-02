@@ -102,14 +102,23 @@ def get_font_medium(i_italics: bool=False, i_bold: bool=False):
     return font
 
 
-def get_font_large(i_underscore: bool=False):
+def get_font_large(i_underscore: bool=False, i_italics: bool=False):
     font = QtGui.QFont()
-    font.setPointSize(16)
+    font.setPointSize(13)
     font.setUnderline(i_underscore)
+    font.setItalic(i_italics)
     return font
 
 
-def get_font_xlarge():
+def get_font_xlarge(i_underscore: bool=False, i_italics: bool=False):
+    font = QtGui.QFont()
+    font.setPointSize(16)
+    font.setUnderline(i_underscore)
+    font.setItalic(i_italics)
+    return font
+
+
+def get_font_xxlarge():
     font = QtGui.QFont()
     font.setPointSize(24)
     return font

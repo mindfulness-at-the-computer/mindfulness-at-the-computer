@@ -30,16 +30,16 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         vbox_l2 = QtWidgets.QVBoxLayout()
         self.setLayout(vbox_l2)
 
-        self.help_text_qll = QtWidgets.QLabel("Please select a row from the list to the left")
+        self.help_text_qll = QtWidgets.QLabel("Please select a breathing phrase from the list to the left")
         vbox_l2.addWidget(self.help_text_qll)
-        self.help_text_qll.setFont(mc_global.get_font_medium(i_italics=True))
+        self.help_text_qll.setFont(mc_global.get_font_large(i_italics=True))
 
         self.bi_text_qll = QtWidgets.QLabel()
         self.bo_text_qll = QtWidgets.QLabel()
         vbox_l2.addWidget(self.bi_text_qll)
         vbox_l2.addWidget(self.bo_text_qll)
-        self.bi_text_qll.setFont(mc_global.get_font_large())
-        self.bo_text_qll.setFont(mc_global.get_font_large())
+        self.bi_text_qll.setFont(mc_global.get_font_xlarge())
+        self.bo_text_qll.setFont(mc_global.get_font_xlarge())
         self.bi_text_qll.setWordWrap(True)
         self.bo_text_qll.setWordWrap(True)
 
@@ -305,15 +305,15 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
             ob_formatted_str = active_phrase.ob_str
             if mc_global.breathing_state == mc_global.BreathingState.breathing_in:
                 # ib_formatted_str += " ←"
-                self.bi_text_qll.setFont(mc_global.get_font_large(i_underscore=True))
-                self.bo_text_qll.setFont(mc_global.get_font_large())
+                self.bi_text_qll.setFont(mc_global.get_font_xlarge(i_underscore=True))
+                self.bo_text_qll.setFont(mc_global.get_font_xlarge())
             elif mc_global.breathing_state == mc_global.BreathingState.breathing_out:
                 # ob_formatted_str += " ←"
-                self.bi_text_qll.setFont(mc_global.get_font_large())
-                self.bo_text_qll.setFont(mc_global.get_font_large(i_underscore=True))
+                self.bi_text_qll.setFont(mc_global.get_font_xlarge())
+                self.bo_text_qll.setFont(mc_global.get_font_xlarge(i_underscore=True))
             elif mc_global.breathing_state == mc_global.BreathingState.inactive:
-                self.bi_text_qll.setFont(mc_global.get_font_large())
-                self.bo_text_qll.setFont(mc_global.get_font_large())
+                self.bi_text_qll.setFont(mc_global.get_font_xlarge())
+                self.bo_text_qll.setFont(mc_global.get_font_xlarge())
             self.bi_text_qll.setText(ib_formatted_str)
             self.bo_text_qll.setText(ob_formatted_str)
             if ob_formatted_str:

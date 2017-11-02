@@ -34,9 +34,9 @@ class RestComposite(QtWidgets.QWidget):
         self.setLayout(vbox_l2)
 
         # Help text
-        self.help_text_qll = QtWidgets.QLabel("Please select a row from the list to the left")
+        self.help_text_qll = QtWidgets.QLabel("Please select a rest action from the list to the left")
         vbox_l2.addWidget(self.help_text_qll)
-        self.help_text_qll.setFont(mc_global.get_font_medium(i_italics=True))
+        self.help_text_qll.setFont(mc_global.get_font_large(i_italics=True))
 
         # Main area
 
@@ -80,12 +80,12 @@ class RestComposite(QtWidgets.QWidget):
         self.close_qpb = QtWidgets.QPushButton("Close")
         hbox_l3.addWidget(self.close_qpb)
         self.close_qpb.clicked.connect(self.on_close_button_clicked)
-        self.close_qpb.setFont(mc_global.get_font_large())
+        self.close_qpb.setFont(mc_global.get_font_xlarge())
 
         self.close_and_breathe_qpb = QtWidgets.QPushButton("Breathe")
         hbox_l3.addWidget(self.close_and_breathe_qpb)
         self.close_and_breathe_qpb.clicked.connect(self.on_close_and_breathe_button_clicked)
-        self.close_and_breathe_qpb.setFont(mc_global.get_font_large())
+        self.close_and_breathe_qpb.setFont(mc_global.get_font_xlarge())
 
         hbox_l3.addStretch(1)
 
@@ -151,7 +151,7 @@ class RestComposite(QtWidgets.QWidget):
                 self.image_qll.clear()
 
             self.title_qll.setText(rest_action.title_str)
-            self.title_qll.setFont(mc_global.get_font_large())
+            self.title_qll.setFont(mc_global.get_font_xlarge())
             self.title_qll.setWordWrap(True)
 
             self.updating_gui_bool = False

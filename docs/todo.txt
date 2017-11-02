@@ -1,36 +1,30 @@
 
-[ ] show the active breathing phrase in the systray menu
-DESIGN: Deciding how to display (latest, top, something else?)
-- another option is to show the entry with the surrounding entries (2 above and 2 below for example)
-
-
-
-[x] instead of cb have two buttons
-
-[ ] color change when the user moves the mouse or types, this is during the short breaks
-- it's not possible to detect mouse outside of a widget in a cross-platform way,
-but activity can be detected inside of the widget of course, and this is something that we
-may (or not) want to use
-
 [ ] always have a breathing phrase selected
 [ ] store active breathing in db, alt: use topmost
 Q: What about rest action?
 
 [x] adding a windows icon (.ico)
 
-[ ] draw a state diagram for the documentation
 
-[x] add some extra space after having paused
-[ ] if the user only breathes in then the in breath will be removed
 
 
 =========
 
+
 Low prio:
-[ ] indicate which breathing phrase is active in the sys tray. Please note: This means that we
-may also want to include another value here, since the user may not have chosen one of the
-top three / five
+[ ] draw a state diagram for the documentation
+[ ] if the user only breathes in then the in breath will be removed
 [ ] setting the log level when starting the application, using a command line argument
 [ ] testing
  * add different test setups (no list items for example)
+[ ] show the active breathing phrase in the systray menu
+DESIGN: Deciding how to display (latest, top, something else?)
+- another option is to show the entry with the surrounding entries (2 above and 2 below for example)
+duplicate: [ ] indicate which breathing phrase is active in the sys tray. Please note: This means that we
+may also want to include another value here, since the user may not have chosen one of the
+top three / five
+[ ] color change when the user moves the mouse or types, this is during the short breaks
+- it's not possible to detect mouse outside of a widget in a cross-platform way,
+but activity can be detected inside of the widget of course, and this is something that we
+may (or not) want to use
 
