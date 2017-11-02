@@ -38,13 +38,10 @@ class RestComposite(QtWidgets.QWidget):
         vbox_l2.addWidget(self.help_text_qll)
         self.help_text_qll.setFont(mc_global.get_font_medium(i_italics=True))
 
-        vbox_l2.addStretch(1)
-
         # Main area
 
-        title_qll = QtWidgets.QLabel("Please take good care of yourself")
-        vbox_l2.addWidget(title_qll)
-
+        self.title_qll = QtWidgets.QLabel()
+        vbox_l2.addWidget(self.title_qll)
 
         # Image (or text if image is missing)
         self.image_qll = QtWidgets.QLabel()
@@ -53,17 +50,32 @@ class RestComposite(QtWidgets.QWidget):
         self.image_qll.setMinimumWidth(IMAGE_GOAL_WIDTH_INT)
         self.image_qll.setMinimumHeight(IMAGE_GOAL_HEIGHT_INT)
 
-        self.title_qll = QtWidgets.QLabel()
-        vbox_l2.addWidget(self.title_qll)
+        # TODO: Quote here?
 
         # self.image_qll.setPixmap(QtGui.QPixmap(mc_global.active_rest_image_full_path_str))
         # self.resize_image()
 
+        """
+        self.qpb = QtWidgets.QProgressBar()
+        vbox_l2.addWidget(self.qpb)
+        self.qpb.setMinimum(0)
+        self.qpb.setMaximum(0)
+        """
+
         vbox_l2.addStretch(1)
+        title_qll = QtWidgets.QLabel("Please take good care of yourself")
+        vbox_l2.addWidget(title_qll)
+        vbox_l2.addStretch(1)
+
+        # TODO: Wait interface here to indicate that the user should take a break
+        # For example we could use a progressbar "without end" (it's possible to set this)
+
 
         # Line of buttons (and widgets) at the bottom of the widget
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
+
+        # TODO: Reset timer and .. close / breathe
 
         self.close_qpb = QtWidgets.QPushButton("Close")
         hbox_l3.addWidget(self.close_qpb)
