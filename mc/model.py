@@ -34,6 +34,18 @@ class PhrasesM:
         return return_value_int
 
     @staticmethod
+    def get_lowest_sort_value() -> int:
+        db_connection = db.Helper.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor_result = db_cursor.execute(
+            "SELECT MIN(" + mc.db.Schema.PhrasesTable.Cols.vertical_order + ")"
+            + " FROM " + mc.db.Schema.PhrasesTable.name
+        )
+        return_value_int = db_cursor_result.fetchone()[0]
+        # -0 has to be added here even though there can only be one value
+        return return_value_int
+
+    @staticmethod
     def add(i_title: str, i_ib: str, i_ob: str) -> None:
         # vertical_order_last_pos_int = len(PhrasesM.get_all())
         vertical_order_last_pos_int = PhrasesM.get_highest_sort_value() + 1
@@ -129,14 +141,14 @@ class PhrasesM:
     def update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
         main_id_int = i_id
         main_sort_order_int = PhrasesM.get(i_id).vert_order_int
+        logging.debug("main_sort_order_int = " + str(main_sort_order_int))
+        logging.debug("PhrasesM.get_highest_sort_value() = " + str(PhrasesM.get_highest_sort_value()))
         if i_move_direction == MoveDirectionEnum.up:
-            if main_sort_order_int == 0 or main_sort_order_int > len(PhrasesM.get_all()):
+            if main_sort_order_int <= PhrasesM.get_lowest_sort_value() or main_sort_order_int > PhrasesM.get_highest_sort_value():
                 return False
         elif i_move_direction == MoveDirectionEnum.down:
-            if main_sort_order_int < 0 or main_sort_order_int >= len(PhrasesM.get_all()):
+            if main_sort_order_int < PhrasesM.get_lowest_sort_value() or main_sort_order_int >= PhrasesM.get_highest_sort_value():
                 return False
-        else:
-            pass
         other = PhrasesM.get_by_vert_order(main_sort_order_int, i_move_direction)
         other_id_int = other.id_int
         other_sort_order_int = other.vert_order_int
@@ -189,6 +201,30 @@ class RestActionsM:
         self.title_str = i_title
         self.image_path_str = i_image_path
         self.vert_order_int = i_vertical_order
+
+    @staticmethod
+    def get_highest_sort_value() -> int:
+        db_connection = db.Helper.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor_result = db_cursor.execute(
+            "SELECT MAX(" + mc.db.Schema.PhrasesTable.Cols.vertical_order + ")"
+            + " FROM " + mc.db.Schema.PhrasesTable.name
+        )
+        return_value_int = db_cursor_result.fetchone()[0]
+        # -0 has to be added here even though there can only be one value
+        return return_value_int
+
+    @staticmethod
+    def get_lowest_sort_value() -> int:
+        db_connection = db.Helper.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor_result = db_cursor.execute(
+            "SELECT MIN(" + mc.db.Schema.PhrasesTable.Cols.vertical_order + ")"
+            + " FROM " + mc.db.Schema.PhrasesTable.name
+        )
+        return_value_int = db_cursor_result.fetchone()[0]
+        # -0 has to be added here even though there can only be one value
+        return return_value_int
 
     @staticmethod
     def add(i_title: str, i_image_path: str) -> None:
@@ -272,10 +308,12 @@ class RestActionsM:
         main_id_int = i_id
         main_sort_order_int = RestActionsM.get(i_id).vert_order_int
         if i_move_direction == MoveDirectionEnum.up:
-            if main_sort_order_int == 0 or main_sort_order_int > len(RestActionsM.get_all()):
+            if (main_sort_order_int == RestActionsM.get_lowest_sort_value()
+            or main_sort_order_int > PhrasesM.get_highest_sort_value()):
                 return False
         elif i_move_direction == MoveDirectionEnum.down:
-            if main_sort_order_int < 0 or main_sort_order_int >= len(RestActionsM.get_all()):
+            if (main_sort_order_int < RestActionsM.get_lowest_sort_value()
+            or main_sort_order_int >= PhrasesM.get_highest_sort_value()):
                 return False
         else:
             pass
