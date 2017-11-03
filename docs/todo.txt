@@ -6,7 +6,7 @@ Q: What about rest action?
 [x] adding a windows icon (.ico)
 
 
-
+[x] adding hover over io labels, and extend labels to end of line
 
 =========
 

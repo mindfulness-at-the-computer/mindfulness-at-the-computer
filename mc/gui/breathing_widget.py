@@ -34,14 +34,16 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         vbox_l2.addWidget(self.help_text_qll)
         self.help_text_qll.setFont(mc_global.get_font_large(i_italics=True))
 
-        self.bi_text_qll = QtWidgets.QLabel()
-        self.bo_text_qll = QtWidgets.QLabel()
+        self.bi_text_qll = CustomLabel(mc_global.BreathingState.breathing_in)
+        self.bo_text_qll = CustomLabel(mc_global.BreathingState.breathing_out)
         vbox_l2.addWidget(self.bi_text_qll)
         vbox_l2.addWidget(self.bo_text_qll)
         self.bi_text_qll.setFont(mc_global.get_font_xlarge())
         self.bo_text_qll.setFont(mc_global.get_font_xlarge())
         self.bi_text_qll.setWordWrap(True)
         self.bo_text_qll.setWordWrap(True)
+        self.bi_text_qll.widget_entered_signal.connect(self.on_io_widget_entered)
+        self.bo_text_qll.widget_entered_signal.connect(self.on_io_widget_entered)
 
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
@@ -77,18 +79,18 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
 
         vbox_l5 = QtWidgets.QVBoxLayout()
         hbox_l4.addLayout(vbox_l5)
-        self.ib_icon_cqll = CustomIconLabel(
+        self.ib_icon_cqll = CustomLabel(
             mc_global.BreathingState.breathing_in,
             mc_global.get_icon_path("arrow-circle-top-4x.png")
         )
         vbox_l5.addWidget(self.ib_icon_cqll)
-        self.ib_icon_cqll.widget_entered_signal.connect(self.on_icon_widget_entered)
-        self.ob_icon_cqll = CustomIconLabel(
+        self.ib_icon_cqll.widget_entered_signal.connect(self.on_io_widget_entered)
+        self.ob_icon_cqll = CustomLabel(
             mc_global.BreathingState.breathing_out,
             mc_global.get_icon_path("arrow-circle-bottom-4x.png")
         )
         vbox_l5.addWidget(self.ob_icon_cqll)
-        self.ob_icon_cqll.widget_entered_signal.connect(self.on_icon_widget_entered)
+        self.ob_icon_cqll.widget_entered_signal.connect(self.on_io_widget_entered)
 
         """
         start_stop_vbox = QtWidgets.QVBoxLayout()
@@ -106,7 +108,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
 
         self.update_gui()
 
-    def on_icon_widget_entered(self, i_io_as_int: int):
+    def on_io_widget_entered(self, i_io_as_int: int):
         # -breathing state is used in two different variables in this function
         if mc_global.breathing_state == mc_global.BreathingState.inactive:
             return
@@ -358,19 +360,21 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
             pass
 
 
-class CustomIconLabel(QtWidgets.QLabel):
+class CustomLabel(QtWidgets.QLabel):
     widget_entered_signal = QtCore.pyqtSignal(int)  # -using mb_global.BreathingState with value
 
-    def __init__(self, i_io: mc_global.BreathingState, i_icon_image_path: str):
+    def __init__(self, i_io: mc_global.BreathingState, i_icon_image_path: str=None):
         super().__init__()
         self.io_enum = i_io
 
-        self.setPixmap(QtGui.QPixmap(i_icon_image_path))
+        if i_icon_image_path:
+            self.setPixmap(QtGui.QPixmap(i_icon_image_path))
 
     # Overridden
     def enterEvent(self, i_qevent):
         self.widget_entered_signal.emit(self.io_enum.value)
         logging.debug("entered " + self.io_enum.name)
+
 
 """
         t_rounded_qgi = RoundedRectGraphicsItem(0, 0, 30, 30)
