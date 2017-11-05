@@ -8,10 +8,9 @@
 
 # Mindfulness at the Computer
 
-This application reminds you to take breaks from the computer, helps you
-remember to stay in touch with and be mindful of your breathing and body
-while sitting at the computer, and helps you concentrate on breathing
-in and out when you need a breathing pause.
+This application reminds you to take breaks from the computer, and helps you maintain
+a correct posture and breathing pattern while working to ensure that you remain 
+productive without bearing the cost of ill health.
 
 **The [application website](https://sunyatazero.github.io/mindfulness-at-the-computer/)
 has more information** (including screenshots and downloads).
