@@ -45,6 +45,10 @@ The resulting exe and dll files will be in the `./dist` directory.
 
 As a last step you can create a zip file
 
+#### Windows 7 and 10
+
+It seems to be better to build on Windows 7. The Windows 10 build binary file has failed to start for us, but the Windows 7 has always worked once the build has been completed
+
 ### Building on Mac
 
 TBD
