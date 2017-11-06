@@ -105,6 +105,8 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.breathing_graphicsscene = QtWidgets.QGraphicsScene()
         self.breathing_graphicsview.setScene(self.breathing_graphicsscene)
         # self.breathing_graphicsview.centerOn(QtCore.Qt.AlignRight)
+        # alignment can be set with "setAlignment"
+        self.breathing_graphicsview.setDragMode(QtWidgets.QGraphicsView.ScrollHandDrag)
 
         self.update_gui()
 
