@@ -412,8 +412,10 @@ class MbMainWindow(QtWidgets.QMainWindow):
         online_help_action.triggered.connect(self.show_online_help)
 
     def debug_show_exp_notification(self):
-        self.exp_notification = mc.gui.experimental_notification_widget.ExpNotificationWidget()
-        self.exp_notification.show()
+        logging.debug("debug_show_exp_notification")
+        if not self.isActiveWindow():
+            self.exp_notification = mc.gui.experimental_notification_widget.ExpNotificationWidget()
+            self.exp_notification.show()
 
         """
         self.exp_two = mc.gui.rest_widget.RestComposite()
