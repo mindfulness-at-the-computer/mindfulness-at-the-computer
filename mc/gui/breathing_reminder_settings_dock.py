@@ -42,7 +42,7 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         self.breathing_reminder_interval_qsb.valueChanged.connect(
             self.on_breathing_interval_value_changed
         )
-        hbox.addWidget(QtWidgets.QLabel("seconds"))
+        hbox.addWidget(QtWidgets.QLabel("minutes"))
         hbox.addStretch(1)
 
         hbox = QtWidgets.QHBoxLayout()

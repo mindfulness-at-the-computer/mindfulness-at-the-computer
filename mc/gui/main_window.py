@@ -1,13 +1,9 @@
 import logging
 import sys
-import webbrowser
 import functools
-
 from PyQt5 import QtCore
 from PyQt5 import QtGui
-from PyQt5 import QtTest
 from PyQt5 import QtWidgets
-
 import mc.gui.rest_action_list_dock
 import mc.model
 import mc.mc_global
@@ -29,7 +25,6 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon(mc.mc_global.get_app_icon_path()))
 
         self.system_tray = SystemTray()
-
 
         if mc.mc_global.testing_bool:
             data_storage_str = "{Testing - data stored in memory}"
@@ -86,7 +81,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.breathing_settings_dw = mc.gui.breathing_reminder_settings_dock.BreathingSettingsComposite()
         self.breathing_settings_dock.setWidget(self.breathing_settings_dw)
         self.breathing_settings_dw.breathing_settings_updated_signal.connect(self.on_breathing_settings_changed)
-        self.breathing_settings_dw.breathing_test_button_clicked_signal.connect(self.show_breathing_notification)
+        self.breathing_settings_dw.breathing_test_button_clicked_signal.connect(self.debug_show_exp_notification)
+        # -self.show_breathing_notification
         self.breathing_settings_dock.setSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
 
@@ -336,8 +332,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.stop_breathing_timer()
         settings = mc.model.SettingsM.get()
         self.breathing_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
-        self.breathing_qtimer.timeout.connect(self.show_breathing_notification)
-        self.breathing_qtimer.start(settings.breathing_reminder_interval_int * 1000)
+        self.breathing_qtimer.timeout.connect(self.debug_show_exp_notification)
+        # -show_breathing_notification
+        self.breathing_qtimer.start(settings.breathing_reminder_interval_int * 60 * 1000)
 
     def show_breathing_notification(self):
         if mc.mc_global.breathing_state != mc.mc_global.BreathingState.inactive \
@@ -351,7 +348,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
             "Mindful breathing",
             reminder_str.strip(),
             icon=QtWidgets.QSystemTrayIcon.NoIcon,
-            msecs=settings.breathing_reminder_length_int * 1000
+            msecs=settings.breathing_reminder_length_int * 60 * 1000
         )
         # TODO: The title (now "application title string") and the icon
         # could be used to show if the message is a mindfulness of breathing message

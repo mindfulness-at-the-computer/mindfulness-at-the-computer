@@ -2,8 +2,24 @@
 [ ] always have a breathing phrase selected
 [ ] store active breathing in db, alt: use topmost
 Q: What about rest action?
+? Using "breathing in i know i am breathing in, ..." as default when nothing is chosen?
 
-[x] adding a windows icon (.ico)
+[ ] adding the short breathing phrases to the breathing view "history"
+* one advantage of doing this is that it encourages the user to breathe a full in and out breath mindfully
+? do we want to show the short pause breathing stats with the half-width breathing bar?
+
+? change to one button (rather than three?), but also giving the option to exit in a discrete way
+in, out, close
+
+[ ] show date and/or time in the breathing graphics view
+
+[ ] increasing the timer from 30 secords to something better for the new breathing notifications
+? do we want to keep the old breathing notificaiotn (non-interactive) pop-ups?
+
+if we only have the new notification we could maybe allow no breathing phrase set
+(or we could just use a default breathing phrase text)
+
+Idea: using pop-up system tray notifications for taking a rest
 
 horizontal breathing popup
 hovering over the left and right areas
@@ -11,6 +27,10 @@ hovering over the left and right areas
 [x] adding hover over io labels, and extend labels to end of line
 
 =========
+
+types of notifications:
+space (blocking or not),
+how to close (and how "persistent")
 
 
 Low prio:

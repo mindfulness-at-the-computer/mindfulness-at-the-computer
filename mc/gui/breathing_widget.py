@@ -9,6 +9,8 @@ BAR_WIDTH_FT = 32.0
 LARGE_MARGIN_FT = 10.0
 SMALL_MARGIN_FT = 2.0
 POINT_SIZE_INT = 16
+GRADIENT_IN_FT = 120.0
+GRADIENT_OUT_FT = 150.0
 
 
 class BreathingCompositeWidget(QtWidgets.QWidget):
@@ -189,7 +191,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         )
         t_drawrect = QtCore.QRectF(xpos, 0.0, BAR_WIDTH_FT, 1.0)
 
-        t_start_qpointf = QtCore.QPointF(t_drawrect.x(), t_drawrect.y() - 120.0)
+        t_start_qpointf = QtCore.QPointF(t_drawrect.x(), t_drawrect.y() - GRADIENT_IN_FT)
         t_stop_qpointf = t_drawrect.bottomLeft()  # QtCore.QPointF(0.0, 50.0)
         t_linear_gradient = QtGui.QLinearGradient(t_start_qpointf, t_stop_qpointf)
         t_linear_gradient.setColorAt(0.0, QtGui.QColor(204, 255, 77))
@@ -235,7 +237,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         )
         t_drawrect = QtCore.QRectF(xpos, 0.0, BAR_WIDTH_FT, 1.0)
 
-        t_start_qpointf = QtCore.QPointF(t_drawrect.x(), t_drawrect.y() + 150.0)
+        t_start_qpointf = QtCore.QPointF(t_drawrect.x(), t_drawrect.y() + GRADIENT_OUT_FT)
         t_stop_qpointf = t_drawrect.bottomLeft()  # QtCore.QPointF(0.0, 50.0)
         t_linear_gradient = QtGui.QLinearGradient(t_start_qpointf, t_stop_qpointf)
         # t_linear_gradient.setColorAt(0.0, QtGui.QColor(230, 230, 230))
