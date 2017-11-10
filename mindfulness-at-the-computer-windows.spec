@@ -13,7 +13,7 @@ cwd_str = os.getcwd()
 a = Analysis(['mindfulness-at-the-computer.py'],
              pathex=[cwd_str],
              binaries=[],
-             datas=[('.\\README.md', '.')],
+             datas=[('.\\README.md', '.'), ('.\\LICENSE.txt', '.')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -23,6 +23,7 @@ a = Analysis(['mindfulness-at-the-computer.py'],
              cipher=block_cipher)
              
 # Adding the user_files and icons directories
+# Please note that when adding individual files this is done above - inside "Analysis"
 user_files_dir_str = "user_files"
 a.datas += Tree('.\\' + user_files_dir_str, prefix=user_files_dir_str, excludes=['*.db'])
 # -documentation: https://pythonhosted.org/PyInstaller/advanced-topics.html#the-tree-class
