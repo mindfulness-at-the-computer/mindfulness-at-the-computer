@@ -8,7 +8,7 @@ cwd_str = os.getcwd()
 a = Analysis(['mindfulness-at-the-computer.py'],
              pathex=[cwd_str],
              binaries=[],
-             datas=[],
+             datas=[('./README.md', '.')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -23,6 +23,7 @@ a.datas += Tree('./' + user_files_dir_str, prefix=user_files_dir_str, excludes=[
 # -documentation: https://pythonhosted.org/PyInstaller/advanced-topics.html#the-tree-class
 icons_dir_str = "icons"
 a.datas += Tree('./' + icons_dir_str, prefix=icons_dir_str)
+# a.datas += [('./README.md', '.')]
 
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
