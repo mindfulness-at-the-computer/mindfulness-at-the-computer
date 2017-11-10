@@ -19,6 +19,7 @@ class ExpNotificationWidget(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
 
+        self.state = mc.mc_global.BreathingState.inactive
         self.ib_qtimer = None
         self.ob_qtimer = None
 
@@ -86,23 +87,22 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         cursor.setPos(xpos_int + self.width() // 2, ypos_int + self.height() // 2)
         self.setCursor(cursor)
 
-
     def breathing_in(self):
-        mc.mc_global.breathing_state = mc.mc_global.BreathingState.breathing_in
+        self.state = mc.mc_global.BreathingState.breathing_in
         self.stop_breathing_out_timer()
         self.start_breathing_in_timer()
 
     def breathing_out(self):
-        mc.mc_global.breathing_state = mc.mc_global.BreathingState.breathing_out
+        self.state = mc.mc_global.BreathingState.breathing_out
         self.stop_breathing_in_timer()
         self.start_breathing_out_timer()
 
     def on_in_button_clicked(self):
-        if mc.mc_global.breathing_state == mc.mc_global.BreathingState.inactive:
+        if self.state == mc.mc_global.BreathingState.inactive:
             self.breathing_in()
 
     def on_out_button_clicked(self):
-        if mc.mc_global.breathing_state == mc.mc_global.BreathingState.breathing_in:
+        if self.state == mc.mc_global.BreathingState.breathing_in:
             self.breathing_out()
 
     def on_close_button_clicked(self):

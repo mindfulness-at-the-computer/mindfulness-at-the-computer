@@ -573,7 +573,7 @@ def populate_db_with_test_data():
     """
 
 
-def breathing_reminder_active():
+def breathing_reminder_active() -> bool:
     settings = SettingsM.get()
     ret_value_bool = (
         (mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT)

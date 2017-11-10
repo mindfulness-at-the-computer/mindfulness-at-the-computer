@@ -12,7 +12,7 @@ import mc.gui.breathing_reminder_settings_dock
 import mc.gui.breathing_phrase_list_dock
 import mc.gui.rest_reminder_settings_dock
 import mc.gui.rest_widget
-import mc.gui.experimental_notification_widget
+import mc.gui.notification_widget
 
 
 class MbMainWindow(QtWidgets.QMainWindow):
@@ -81,7 +81,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.breathing_settings_dw = mc.gui.breathing_reminder_settings_dock.BreathingSettingsComposite()
         self.breathing_settings_dock.setWidget(self.breathing_settings_dw)
         self.breathing_settings_dw.breathing_settings_updated_signal.connect(self.on_breathing_settings_changed)
-        self.breathing_settings_dw.breathing_test_button_clicked_signal.connect(self.debug_show_exp_notification)
+        self.breathing_settings_dw.breathing_test_button_clicked_signal.connect(self.show_exp_notification_if_condititons_met)
         # -self.show_breathing_notification
         self.breathing_settings_dock.setSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
@@ -332,7 +332,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.stop_breathing_timer()
         settings = mc.model.SettingsM.get()
         self.breathing_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
-        self.breathing_qtimer.timeout.connect(self.debug_show_exp_notification)
+        self.breathing_qtimer.timeout.connect(self.show_exp_notification_if_condititons_met)
         # -show_breathing_notification
         self.breathing_qtimer.start(settings.breathing_reminder_interval_int * 60 * 1000)
 
@@ -388,7 +388,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         show_systray_menu_action.triggered.connect(self.debug_show_systray_menu)
         show_exp_notification_action = QtWidgets.QAction("Show experimental notification", self)
         debug_menu.addAction(show_exp_notification_action)
-        show_exp_notification_action.triggered.connect(self.debug_show_exp_notification)
+        show_exp_notification_action.triggered.connect(self.show_exp_notification)
 
         # -"Calling this function only affects windows"
         # -showNormal
@@ -411,11 +411,14 @@ class MbMainWindow(QtWidgets.QMainWindow):
         help_menu.addAction(online_help_action)
         online_help_action.triggered.connect(self.show_online_help)
 
-    def debug_show_exp_notification(self):
-        logging.debug("debug_show_exp_notification")
-        if not self.isActiveWindow():
-            self.exp_notification = mc.gui.experimental_notification_widget.ExpNotificationWidget()
-            self.exp_notification.show()
+    def show_exp_notification_if_condititons_met(self):
+        if not self.isActiveWindow() and mc.model.breathing_reminder_active():
+            self.show_exp_notification()
+
+    def show_exp_notification(self):
+        logging.debug("show_exp_notification")
+        self.exp_notification = mc.gui.notification_widget.ExpNotificationWidget()
+        self.exp_notification.show()
 
         """
         self.exp_two = mc.gui.rest_widget.RestComposite()

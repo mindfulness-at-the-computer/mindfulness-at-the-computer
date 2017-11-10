@@ -2,13 +2,16 @@
   <dictionary name="sunyata">
     <words>
       <w>drawrect</w>
+      <w>graphicsscene</w>
       <w>graphicsview</w>
       <w>prio</w>
       <w>qaction</w>
       <w>qevent</w>
+      <w>qgri</w>
       <w>qkeyevent</w>
       <w>qpointf</w>
       <w>qrect</w>
+      <w>qtimer</w>
       <w>systray</w>
       <w>versioning</w>
       <w>xpos</w>
