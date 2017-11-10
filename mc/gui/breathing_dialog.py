@@ -112,6 +112,10 @@ class ExpNotificationWidget(QtWidgets.QWidget):
                 last_ib_rect.width(),
                 last_ob_rect.width()
             )
+            # TODO: send all to the main window --- assuming that we want to allow more than
+            # one breath in this dialog. The alternative would be to allow the user to open
+            # the main breathing dialog if she wanted to follow the breath for more than one
+            # breathing cycle
 
         self.close()
 

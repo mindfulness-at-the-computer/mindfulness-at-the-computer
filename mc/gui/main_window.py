@@ -12,7 +12,7 @@ import mc.gui.breathing_reminder_settings_dock
 import mc.gui.breathing_phrase_list_dock
 import mc.gui.rest_reminder_settings_dock
 import mc.gui.rest_widget
-import mc.gui.notification_widget
+import mc.gui.breathing_dialog
 
 
 class MbMainWindow(QtWidgets.QMainWindow):
@@ -417,7 +417,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
     def show_exp_notification(self):
         logging.debug("show_exp_notification")
-        self.exp_notification = mc.gui.notification_widget.ExpNotificationWidget()
+        self.exp_notification = mc.gui.breathing_dialog.ExpNotificationWidget()
         self.exp_notification.breathing_cycle_completed_signal.connect(
             self.on_notification_breathing_cycle_completed)
         self.exp_notification.show()
