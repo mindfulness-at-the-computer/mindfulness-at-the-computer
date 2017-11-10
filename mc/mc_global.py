@@ -37,14 +37,18 @@ db_file_exists_at_application_startup_bl = False
 display_inline_help_texts_bool = True  # -TODO
 
 
-
-
 class BreathingState(enum.Enum):
     inactive = 0
     breathing_in = 1
     breathing_out = 2
 
+
 breathing_state = BreathingState.inactive
+
+
+class BreathingVisType(enum.Enum):
+    mainwindow_widget = 0
+    popup_dialog = 1
 
 
 def get_base_dir():

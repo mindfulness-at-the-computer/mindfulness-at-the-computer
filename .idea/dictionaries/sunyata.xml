@@ -4,6 +4,7 @@
       <w>drawrect</w>
       <w>graphicsscene</w>
       <w>graphicsview</w>
+      <w>mainwindow</w>
       <w>prio</w>
       <w>qaction</w>
       <w>qevent</w>

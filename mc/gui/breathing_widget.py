@@ -4,6 +4,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 from mc import model, mc_global
+import mc.gui.notification_widget
 
 BAR_WIDTH_FT = 32.0
 LARGE_MARGIN_FT = 10.0
@@ -207,6 +208,56 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         )
         self.in_breath_graphics_qgri_list.append(t_graphics_rect_item)
 
+    def add_new_breathing_rect(
+        self,
+        i_io: mc_global.BreathingState,
+        i_length: int,
+        i_vis_type: mc_global.BreathingVisType=mc_global.BreathingVisType.mainwindow_widget,
+        i_margin: int=SMALL_MARGIN_FT
+    ):
+
+        if i_io == mc_global.BreathingState.breathing_in:
+            self.breath_counter_int += 1
+
+        # Rectangle
+        xpos = 0
+        if len(self.in_breath_graphics_qgri_list) > 0:
+            last_graphics_rect_item = self.in_breath_graphics_qgri_list[-1]
+            xpos = float(last_graphics_rect_item.rect().right() + i_margin)
+            if i_io == mc_global.BreathingState.breathing_out:
+                xpos = float(last_graphics_rect_item.rect().left())
+        width_int = BAR_WIDTH_FT
+        if i_vis_type == mc_global.BreathingVisType.popup_dialog:
+            width_int = mc.gui.notification_widget.BAR_HEIGHT_FT
+        ypos = -i_length
+        if i_io == mc_global.BreathingState.breathing_out:
+            ypos = 0.0
+        t_drawrect = QtCore.QRectF(xpos, ypos, width_int, i_length)
+
+        # Gradient
+        y_gradient = t_drawrect.y() - GRADIENT_IN_FT
+        if i_io == mc_global.BreathingState.breathing_out:
+            y_gradient = t_drawrect.y() + GRADIENT_OUT_FT
+        t_start_qpointf = QtCore.QPointF(t_drawrect.x(), y_gradient)
+        t_stop_qpointf = t_drawrect.bottomLeft()  # QtCore.QPointF(0.0, 50.0)
+        t_linear_gradient = QtGui.QLinearGradient(t_start_qpointf, t_stop_qpointf)
+        if i_io == mc_global.BreathingState.breathing_in:
+            t_linear_gradient.setColorAt(0.0, QtGui.QColor(204, 255, 77))
+            t_linear_gradient.setColorAt(1.0, QtGui.QColor(164, 230, 0))
+        else:
+            t_linear_gradient.setColorAt(0.0, QtGui.QColor(219, 255, 128))
+            t_linear_gradient.setColorAt(1.0, QtGui.QColor(183, 255, 0))
+
+        # Adding rectangle with gradient
+        t_graphics_rect_item = self.breathing_graphicsscene.addRect(
+            t_drawrect,
+            pen = QtGui.QPen(QtCore.Qt.NoPen),
+            brush = QtGui.QBrush(t_linear_gradient)
+        )
+        self.in_breath_graphics_qgri_list.append(t_graphics_rect_item)
+        # -an alternative to storing this separately might be to use ".items" and check for type
+        #  as there is a QGraphicsRectItem
+
     def stop_breathing_in_timer(self):
         if self.ib_qtimer is None:
             return
@@ -240,8 +291,6 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         t_start_qpointf = QtCore.QPointF(t_drawrect.x(), t_drawrect.y() + GRADIENT_OUT_FT)
         t_stop_qpointf = t_drawrect.bottomLeft()  # QtCore.QPointF(0.0, 50.0)
         t_linear_gradient = QtGui.QLinearGradient(t_start_qpointf, t_stop_qpointf)
-        # t_linear_gradient.setColorAt(0.0, QtGui.QColor(230, 230, 230))
-        # t_linear_gradient.setColorAt(1.0, QtGui.QColor(190, 190, 190))
         t_linear_gradient.setColorAt(0.0, QtGui.QColor(219, 255, 128))
         t_linear_gradient.setColorAt(1.0, QtGui.QColor(183, 255, 0))
         t_brush = QtGui.QBrush(t_linear_gradient)

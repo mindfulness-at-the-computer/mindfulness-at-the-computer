@@ -418,7 +418,10 @@ class MbMainWindow(QtWidgets.QMainWindow):
     def show_exp_notification(self):
         logging.debug("show_exp_notification")
         self.exp_notification = mc.gui.notification_widget.ExpNotificationWidget()
+        self.exp_notification.breathing_cycle_completed_signal.connect(
+            self.on_notification_breathing_cycle_completed)
         self.exp_notification.show()
+
 
         """
         self.exp_two = mc.gui.rest_widget.RestComposite()
@@ -435,6 +438,20 @@ class MbMainWindow(QtWidgets.QMainWindow):
             QtCore.Qt.Window
             QtCore.Qt.Dialog
         """
+
+    def on_notification_breathing_cycle_completed(self, i_ib_length: int, i_ob_length: int):
+        self.breathing_widget.add_new_breathing_rect(
+            mc.mc_global.BreathingState.breathing_in,
+            i_ib_length,
+            mc.mc_global.BreathingVisType.popup_dialog,
+            mc.gui.breathing_widget.LARGE_MARGIN_FT
+        )
+        self.breathing_widget.add_new_breathing_rect(
+            mc.mc_global.BreathingState.breathing_out,
+            i_ob_length,
+            mc.mc_global.BreathingVisType.popup_dialog,
+            mc.gui.breathing_widget.LARGE_MARGIN_FT
+        )
 
     def debug_show_systray_menu(self):
         self.tray_icon.contextMenu().popup(QtGui.QCursor.pos())

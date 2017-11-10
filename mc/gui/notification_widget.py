@@ -7,14 +7,13 @@ import mc.mc_global
 import mc.model
 
 BAR_HEIGHT_FT = 16.0
-LARGE_MARGIN_FT = 10.0
-SMALL_MARGIN_FT = 2.0
 POINT_SIZE_INT = 16
 GRADIENT_IN_FT = 120.0
 GRADIENT_OUT_FT = 150.0
 
 
 class ExpNotificationWidget(QtWidgets.QWidget):
+    breathing_cycle_completed_signal = QtCore.pyqtSignal(int, int)
 
     def __init__(self):
         super().__init__()
@@ -106,6 +105,14 @@ class ExpNotificationWidget(QtWidgets.QWidget):
             self.breathing_out()
 
     def on_close_button_clicked(self):
+        if len(self.in_breath_graphics_qgri_list) > 0:
+            last_ib_rect = self.in_breath_graphics_qgri_list[-1].rect()
+            last_ob_rect = self.out_breath_graphics_qgri_list[-1].rect()
+            self.breathing_cycle_completed_signal.emit(
+                last_ib_rect.width(),
+                last_ob_rect.width()
+            )
+
         self.close()
 
     def start_breathing_in_timer(self):
