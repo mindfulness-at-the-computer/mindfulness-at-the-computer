@@ -60,10 +60,12 @@ class ToggleSwitchComposite(QtWidgets.QWidget):
             self.on_qpb.setChecked(True)
             self.off_qpb.setChecked(False)
             self.state_qll.setText("Enabled")
+            self.state_qll.setFont(mc.mc_global.get_font_medium(i_bold=True))
         else:
             self.on_qpb.setChecked(False)
             self.off_qpb.setChecked(True)
             self.state_qll.setText("Disabled")
+            self.state_qll.setFont(mc.mc_global.get_font_medium(i_bold=False))
 
         self.updating_gui_bool = False
 
