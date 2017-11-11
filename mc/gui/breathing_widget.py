@@ -24,8 +24,9 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.ib_qtimer = None
         self.ob_qtimer = None
         self.updating_gui_bool = False
-        self.breathing_rest_counter_int = 0
-        self.breath_counter_int = 0
+        # self.breathing_rest_counter_int = 0
+        # self.breath_counter_int = 0
+        self.new_cycle_bool = True
 
         self.in_breath_graphics_qgri_list = []
         self.out_breath_graphics_qgri_list = []
@@ -166,18 +167,20 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.in_breath_graphics_qgri_list.clear()
         self.out_breath_graphics_qgri_list.clear()
         self.breathing_graphicsscene.clear()
-        self.breath_counter_int = 0
-        self.breathing_rest_counter_int = 0
+        # self.breath_counter_int = 0
+        # self.breathing_rest_counter_int = 0
+        self.new_cycle_bool = True
 
     def pause(self):
-        self.breathing_rest_counter_int += 1
+        # self.breathing_rest_counter_int += 1
+        self.new_cycle_bool = True
         mc_global.breathing_state = mc_global.BreathingState.inactive
         self.stop_breathing_in_timer()
         self.stop_breathing_out_timer()
         self.update_gui()
 
     def start_breathing_in_timer(self):
-        self.breath_counter_int += 1
+        # self.breath_counter_int += 1
 
         self.ib_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
         self.ib_qtimer.timeout.connect(self.breathing_in_timer_timeout)
@@ -188,46 +191,38 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
 
         self.add_new_breathing_rect(mc_global.BreathingState.breathing_in)
 
-        """
-        xpos = float(
-            (self.breathing_rest_counter_int - 1) * LARGE_MARGIN_FT
-            + (self.breath_counter_int - 1) * (BAR_WIDTH_FT + SMALL_MARGIN_FT)
+    def add_from_dialog(self, i_ib_length, i_ob_length):
+        self.new_cycle_bool = True
+        self.add_new_breathing_rect(
+            mc.mc_global.BreathingState.breathing_in,
+            i_ib_length,
+            mc.mc_global.BreathingVisType.popup_dialog
         )
-        t_drawrect = QtCore.QRectF(xpos, 0.0, BAR_WIDTH_FT, 1.0)
-
-        t_start_qpointf = QtCore.QPointF(t_drawrect.x(), t_drawrect.y() - GRADIENT_IN_FT)
-        t_stop_qpointf = t_drawrect.bottomLeft()  # QtCore.QPointF(0.0, 50.0)
-        t_linear_gradient = QtGui.QLinearGradient(t_start_qpointf, t_stop_qpointf)
-        t_linear_gradient.setColorAt(0.0, QtGui.QColor(204, 255, 77))
-        t_linear_gradient.setColorAt(1.0, QtGui.QColor(164, 230, 0))
-        t_brush = QtGui.QBrush(t_linear_gradient)
-
-        t_pen = QtGui.QPen(QtCore.Qt.NoPen)
-
-        t_graphics_rect_item = self.breathing_graphicsscene.addRect(
-            t_drawrect,
-            pen=t_pen,
-            brush=t_brush
+        self.add_new_breathing_rect(
+            mc.mc_global.BreathingState.breathing_out,
+            i_ob_length,
+            mc.mc_global.BreathingVisType.popup_dialog
         )
-        self.in_breath_graphics_qgri_list.append(t_graphics_rect_item)
-        """
+        self.new_cycle_bool = True
 
     def add_new_breathing_rect(
         self,
         i_io: mc_global.BreathingState,
         i_length: int=1,
         i_vis_type: mc_global.BreathingVisType=mc_global.BreathingVisType.mainwindow_widget,
-        i_margin: int=SMALL_MARGIN_FT
     ):
 
-        if i_io == mc_global.BreathingState.breathing_in:
-            self.breath_counter_int += 1
+        if i_io == mc_global.BreathingState.breathing_out:
+            self.new_cycle_bool = False
 
         # Rectangle
         xpos = 0
         if len(self.in_breath_graphics_qgri_list) > 0:
+            margin_int = SMALL_MARGIN_FT
+            if self.new_cycle_bool:
+                margin_int = LARGE_MARGIN_FT
             last_graphics_rect_item = self.in_breath_graphics_qgri_list[-1]
-            xpos = float(last_graphics_rect_item.rect().right() + i_margin)
+            xpos = float(last_graphics_rect_item.rect().right() + margin_int)
             if i_io == mc_global.BreathingState.breathing_out:
                 xpos = float(last_graphics_rect_item.rect().left())
         width_int = BAR_WIDTH_FT

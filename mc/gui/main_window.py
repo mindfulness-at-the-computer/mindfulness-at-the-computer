@@ -440,18 +440,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         """
 
     def on_notification_breathing_cycle_completed(self, i_ib_length: int, i_ob_length: int):
-        self.breathing_widget.add_new_breathing_rect(
-            mc.mc_global.BreathingState.breathing_in,
-            i_ib_length,
-            mc.mc_global.BreathingVisType.popup_dialog,
-            mc.gui.breathing_widget.LARGE_MARGIN_FT
-        )
-        self.breathing_widget.add_new_breathing_rect(
-            mc.mc_global.BreathingState.breathing_out,
-            i_ob_length,
-            mc.mc_global.BreathingVisType.popup_dialog,
-            mc.gui.breathing_widget.LARGE_MARGIN_FT
-        )
+        self.breathing_widget.add_from_dialog(i_ib_length, i_ob_length)
 
     def debug_show_systray_menu(self):
         self.tray_icon.contextMenu().popup(QtGui.QCursor.pos())
