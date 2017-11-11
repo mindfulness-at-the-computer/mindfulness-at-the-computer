@@ -87,16 +87,17 @@ class RestComposite(QtWidgets.QWidget):
         self.close_and_breathe_qpb.clicked.connect(self.on_close_and_breathe_button_clicked)
         self.close_and_breathe_qpb.setFont(mc_global.get_font_xlarge())
 
-        hbox_l3.addStretch(1)
-
-        wait_qpb = QtWidgets.QPushButton("Wait")
-        hbox_l3.addWidget(wait_qpb)
-        wait_qpb.clicked.connect(self.on_wait_clicked)
+        self.wait_qpb = QtWidgets.QPushButton("Wait")
+        hbox_l3.addWidget(self.wait_qpb)
+        self.wait_qpb.clicked.connect(self.on_wait_clicked)
+        self.wait_qpb.setFont(mc_global.get_font_xlarge())
         hbox_l3.addWidget(QtWidgets.QLabel("for"))
         self.wait_qsb = QtWidgets.QSpinBox()
         self.wait_qsb.setMinimum(1)
+        self.wait_qsb.setFont(mc_global.get_font_xlarge())
         hbox_l3.addWidget(self.wait_qsb)
         hbox_l3.addWidget(QtWidgets.QLabel("minutes"))
+        hbox_l3.addStretch(1)
 
     def on_wait_clicked(self):
         # minutes_int = self.wait_qsb.value()
