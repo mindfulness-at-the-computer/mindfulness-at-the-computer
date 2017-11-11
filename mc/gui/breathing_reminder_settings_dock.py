@@ -45,6 +45,7 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         hbox.addWidget(QtWidgets.QLabel("minutes"))
         hbox.addStretch(1)
 
+        """
         hbox = QtWidgets.QHBoxLayout()
         vbox.addLayout(hbox)
         self.breathing_reminder_length_qll = QtWidgets.QLabel("Length:")
@@ -57,20 +58,8 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         hbox.addWidget(QtWidgets.QLabel("seconds"))
         hbox.addStretch(1)
         """
-        self.presets_qcb = QtWidgets.QComboBox()
-        self.presets_qcb.addItems(["30", "45", "60", "90"])
-        hbox.addWidget(self.presets_qcb)
-        """
-
-
-        """
-        self.breathing_reminder_test_qpb = QtWidgets.QPushButton("Test")
-        vbox.addWidget(self.breathing_reminder_test_qpb)
-        self.breathing_reminder_test_qpb.clicked.connect(self.on_breathing_test_clicked)
-        """
 
         vbox.addStretch(1)
-
 
         # self.breathing_reminder_qgb.setDisabled(True)  # -disabled until a phrase has been selected
         self.setDisabled(True)
@@ -92,11 +81,13 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         model.SettingsM.update_breathing_reminder_interval(i_new_value)
         self.breathing_settings_updated_signal.emit()
 
+    """
     def on_breathing_length_value_changed(self, i_new_value: int):
         if self.updating_gui_bool:
             return
         model.SettingsM.update_breathing_reminder_length(i_new_value)
         self.breathing_settings_updated_signal.emit()
+    """
 
     def update_gui(self):
         self.updating_gui_bool = True
@@ -112,8 +103,10 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
 
         breathing_reminder_interval_minutes_int = model.SettingsM.get().breathing_reminder_interval_int
         self.breathing_reminder_interval_qsb.setValue(breathing_reminder_interval_minutes_int)
+        """
         breathing_reminder_length_minutes_int = model.SettingsM.get().breathing_reminder_length_int
         self.breathing_reminder_length_qsb.setValue(breathing_reminder_length_minutes_int)
+        """
 
         self.updating_gui_bool = False
 
