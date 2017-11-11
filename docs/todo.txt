@@ -7,19 +7,11 @@ Q: What about rest action?
 ? change to one button (rather than three?), but also giving the option to exit in a discrete way
 in, out, close
 
-[ ] increasing the timer from 30 secords to something better for the new breathing notifications
-? do we want to keep the old breathing notificaiotn (non-interactive) pop-ups?
-
 if we only have the new notification we could maybe allow no breathing phrase set
 (or we could just use a default breathing phrase text)
 
-hovering over the left and right areas
+hovering over the left and right areas in the breathing dialog
 
-[x] adding hover over io labels, and extend labels to end of line
-
-[x] adding the short breathing phrases to the breathing view "history"
-* one advantage of doing this is that it encourages the user to breathe a full in and out breath mindfully
-? do we want to show the short pause breathing stats with the half-width breathing bar?
 
 
 =========

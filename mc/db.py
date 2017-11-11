@@ -14,8 +14,8 @@ NO_REFERENCE_INT = -1
 NO_REST_REMINDER_INT = -1
 NO_BREATHING_REMINDER_INT = -1
 DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT = 20
-DEFAULT_BREATHING_REMINDER_INTERVAL_SECONDS_INT = 90
-DEFAULT_BREATHING_REMINDER_LENGTH_SECONDS_INT = 10
+DEFAULT_BREATHING_REMINDER_INTERVAL_MINUTES_INT = 5
+DEFAULT_BREATHING_REMINDER_LENGTH_SECONDS_INT = 10  # -unused now, kept in case we want to reuse
 SINGLE_SETTINGS_ID_INT = 0
 
 
@@ -61,7 +61,7 @@ def initial_schema_and_setup(i_db_conn):
         + Schema.SettingsTable.Cols.breathing_reminder_active + " INTEGER NOT NULL"
         + " DEFAULT " + str(SQLITE_TRUE_INT) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_interval + " INTEGER NOT NULL"
-        + " DEFAULT " + str(DEFAULT_BREATHING_REMINDER_INTERVAL_SECONDS_INT) + ", "
+        + " DEFAULT " + str(DEFAULT_BREATHING_REMINDER_INTERVAL_MINUTES_INT) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_length + " INTEGER NOT NULL"
         + " DEFAULT " + str(DEFAULT_BREATHING_REMINDER_LENGTH_SECONDS_INT)
         + ")"
