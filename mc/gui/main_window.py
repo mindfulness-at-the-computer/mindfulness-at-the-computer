@@ -461,12 +461,15 @@ class MbMainWindow(QtWidgets.QMainWindow):
             self,
             "About Mindfulness at the Computer",
             (
-                '<html>Concept and programming by Tord Dellsén<br>'
+                '<html>'
+                'Concept and programming by Tord Dellsén <a href="https://sunyatazero.github.io/">Github website</a><br>'
+                '<a href="https://github.com/SunyataZero/mindfulness-at-the-computer/graphs/contributors">All contributors</a><br>'
                 'Photography for application icon by Torgny Dellsén <a href="http://torgnydellsen.zenfolio.com">torgnydellsen.zenfolio.com</a><br>'
                 'Other icons from Open Iconic - useiconic.com<br>'
                 'Other images (for the rest actions) have been released into the public domain (CC0)<br>'
                 'Audio files have been released into the public domain (CC0)<br>'
-                'Software License: GPLv3</html>'
+                'Software License: GPLv3 (license text available in the install directory)'
+                '</html>'
             )
         )
 
