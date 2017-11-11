@@ -100,6 +100,9 @@ class RestComposite(QtWidgets.QWidget):
         self.wait_qsb.setFont(mc_global.get_font_xlarge())
         hbox_l4.addWidget(self.wait_qsb)
         hbox_l4.addWidget(QtWidgets.QLabel("minutes"))
+
+        hbox_l4.addStretch(1)
+
         self.close_qpb = QtWidgets.QPushButton("Close")
         hbox_l4.addWidget(self.close_qpb)
         self.close_qpb.clicked.connect(self.on_close_button_clicked)

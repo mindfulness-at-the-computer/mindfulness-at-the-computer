@@ -259,6 +259,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
             self.out_breath_graphics_qgri_list.append(t_graphics_rect_item)
         # -an alternative to storing this separately might be to use ".items" and check for type
         #  as there is a QGraphicsRectItem
+        # -another alternative: **http://doc.qt.io/qt-5/qgraphicsitem.html#type**
 
     def stop_breathing_in_timer(self):
         if self.ib_qtimer is None:
