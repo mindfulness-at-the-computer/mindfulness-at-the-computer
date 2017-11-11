@@ -17,7 +17,7 @@ Documentation:
 *Please choose a fairly early version*, 16.04 or earlier. The reason is that pyinstaller does not bundle libc into the resulting package so the resulting package may not (will not?) work with earlier versions of libc and Linux:
 https://pyinstaller.readthedocs.io/en/stable/usage.html#making-linux-apps-forward-compatible
 
-1. Install version 3.5 of Python (PyInstaller now works with version 3.6 of Python)
+1. Install Python (PyInstaller now works with version 3.6 of Python)
 2. `pip3 install pyinstaller`
 3. `pip3 install pyqt5`
 3. Go to the base application directory
