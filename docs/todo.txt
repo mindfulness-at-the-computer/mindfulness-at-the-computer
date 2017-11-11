@@ -1,5 +1,11 @@
 
 [ ] always have a breathing phrase selected
+[ ] set the top breathing phrase as the default
+this approach is better than having a special case since if we have a special case we would
+have to have a button for deselection if the user wanted to restore the special case. For
+example, if the user speaks another language than english she may want to change to her own
+language, or the user may simply prefer another phrase
+
 [ ] store active breathing in db, alt: use topmost
 Q: What about rest action?
 ? Using "breathing in i know i am breathing in, ..." as default when nothing is chosen?
@@ -12,6 +18,10 @@ if we only have the new notification we could maybe allow no breathing phrase se
 
 hovering over the left and right areas in the breathing dialog
 
+checkboxes:
+1. please select a rest activity from the list
+2. walk mindfully and do the activity
+3. when coming back you can choose to breathe with the interface
 
 
 =========

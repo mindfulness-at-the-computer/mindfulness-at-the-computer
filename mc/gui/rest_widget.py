@@ -36,7 +36,7 @@ class RestComposite(QtWidgets.QWidget):
         # Help text
         self.help_text_qll = QtWidgets.QLabel("Please select a rest action from the list to the left")
         vbox_l2.addWidget(self.help_text_qll)
-        self.help_text_qll.setFont(mc_global.get_font_large(i_italics=True))
+        self.help_text_qll.setFont(mc_global.get_font_xlarge(i_italics=True))
 
         # Main area
 
@@ -63,8 +63,9 @@ class RestComposite(QtWidgets.QWidget):
         """
 
         vbox_l2.addStretch(1)
-        title_qll = QtWidgets.QLabel("Please take good care of yourself")
-        vbox_l2.addWidget(title_qll)
+        self.title_qll = QtWidgets.QLabel("Please take good care of yourself")
+        self.title_qll.setFont(mc_global.get_font_xlarge())
+        vbox_l2.addWidget(self.title_qll)
         vbox_l2.addStretch(1)
 
         # TODO: Wait interface here to indicate that the user should take a break
@@ -77,27 +78,32 @@ class RestComposite(QtWidgets.QWidget):
 
         # TODO: Reset timer and .. close / breathe
 
-        self.close_qpb = QtWidgets.QPushButton("Close")
-        hbox_l3.addWidget(self.close_qpb)
-        self.close_qpb.clicked.connect(self.on_close_button_clicked)
-        self.close_qpb.setFont(mc_global.get_font_xlarge())
+        close_qgb = QtWidgets.QGroupBox()
+        hbox_l3.addWidget(close_qgb)
+        hbox_l4 = QtWidgets.QHBoxLayout()
+        close_qgb.setLayout(hbox_l4)
 
         self.close_and_breathe_qpb = QtWidgets.QPushButton("Breathe")
-        hbox_l3.addWidget(self.close_and_breathe_qpb)
+        hbox_l4.addWidget(self.close_and_breathe_qpb)
         self.close_and_breathe_qpb.clicked.connect(self.on_close_and_breathe_button_clicked)
-        self.close_and_breathe_qpb.setFont(mc_global.get_font_xlarge())
+        self.close_and_breathe_qpb.setFont(mc_global.get_font_xlarge(i_bold=True))
+
+        hbox_l4.addStretch(1)
 
         self.wait_qpb = QtWidgets.QPushButton("Wait")
-        hbox_l3.addWidget(self.wait_qpb)
+        hbox_l4.addWidget(self.wait_qpb)
         self.wait_qpb.clicked.connect(self.on_wait_clicked)
         self.wait_qpb.setFont(mc_global.get_font_xlarge())
-        hbox_l3.addWidget(QtWidgets.QLabel("for"))
+        hbox_l4.addWidget(QtWidgets.QLabel("for"))
         self.wait_qsb = QtWidgets.QSpinBox()
         self.wait_qsb.setMinimum(1)
         self.wait_qsb.setFont(mc_global.get_font_xlarge())
-        hbox_l3.addWidget(self.wait_qsb)
-        hbox_l3.addWidget(QtWidgets.QLabel("minutes"))
-        hbox_l3.addStretch(1)
+        hbox_l4.addWidget(self.wait_qsb)
+        hbox_l4.addWidget(QtWidgets.QLabel("minutes"))
+        self.close_qpb = QtWidgets.QPushButton("Close")
+        hbox_l4.addWidget(self.close_qpb)
+        self.close_qpb.clicked.connect(self.on_close_button_clicked)
+        self.close_qpb.setFont(mc_global.get_font_xlarge())
 
     def on_wait_clicked(self):
         # minutes_int = self.wait_qsb.value()

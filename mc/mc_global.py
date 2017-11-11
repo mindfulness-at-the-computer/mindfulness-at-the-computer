@@ -114,11 +114,12 @@ def get_font_large(i_underscore: bool=False, i_italics: bool=False):
     return font
 
 
-def get_font_xlarge(i_underscore: bool=False, i_italics: bool=False):
+def get_font_xlarge(i_underscore: bool=False, i_italics: bool=False, i_bold: bool=False):
     font = QtGui.QFont()
     font.setPointSize(16)
     font.setUnderline(i_underscore)
     font.setItalic(i_italics)
+    font.setBold(i_bold)
     return font
 
 
