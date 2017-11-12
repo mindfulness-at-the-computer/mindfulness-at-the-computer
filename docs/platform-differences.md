@@ -1,5 +1,5 @@
 
-### Behaviour at application error
+### Behavior at application error
 
 Windows: When an error is encountered the application will crash
 
