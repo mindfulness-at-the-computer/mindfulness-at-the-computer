@@ -5,9 +5,9 @@ Also see the [technical research](https://github.com/SunyataZero/mindfulness-at-
 
 ## Dependencies
 
-### Python 3.5
+### Python 3
 
-We are not using any special features so probably it would be possible to run the application from source using any Python 3.x version
+At the time of writing we are using Python 3.6
 
 ### Qt and PyQt 5.9
 
@@ -20,24 +20,20 @@ Can be installed in different ways (pip on all systems, apt-get on Debian based 
 
 ### sqlite3
 
-
 ## Application structure
 
-update_gui() function
-model and database
+### update_gui() function
 
-### Back-end
-
-### Front-end
+### model and database
 
 ## Code Conventions
 
-one class per file (plus minor supporting classes)
-120 chars max per line
-PyQt specials:
-*
+Here are some things that are different from PEP8:
+* one class per file (plus minor supporting classes)
+* 120 chars max per line
+* PyQt special: Upper case characters in some places
 
-
+If you are using Pycharm you will get some
 
 
 ### Continuous Integration
@@ -49,7 +45,7 @@ https://blog.ionelmc.ro/2014/05/25/python-packaging/
 https://github.com/codecov/example-python
 
 
-### Code coverage
+### Code coverage --- Not relevant at the moment
 
 for coverage.py to discover the subdirectories of the root dir specified with --source
 we need to have an __init__.py file for each directory/package
@@ -57,9 +53,7 @@ we need to have an __init__.py file for each directory/package
 https://github.com/audreyr/how-to/blob/master/python/use_coverage_with_unittest.rst
 
 
-
-
-### Tests
+### Tests --- Not relevant at the moment
 
 http://johnnado.com/pyqt-qtest-example/
 https://bitbucket.org/jmcgeheeiv/pyqttestexample/src/
