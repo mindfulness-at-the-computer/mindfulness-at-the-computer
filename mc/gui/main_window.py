@@ -292,6 +292,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
         else:
             mc.mc_global.rest_reminder_minutes_passed_int = 0
             if i_wait_minutes == mc.gui.rest_widget.CLOSED_RESULT_INT:
+                settings = mc.model.SettingsM.get()
+                settings.update_rest_reminder_active(False)
                 self.minimize_to_tray()
 
         self.main_area_stacked_widget.setCurrentIndex(self.bcw_sw_id_int)
@@ -371,22 +373,13 @@ class MbMainWindow(QtWidgets.QMainWindow):
         update_gui_action = QtWidgets.QAction("Update GUI", self)
         debug_menu.addAction(update_gui_action)
         update_gui_action.triggered.connect(self.update_gui)
-        clear_rest_selection_action = QtWidgets.QAction("Clear Rest Action", self)
-        debug_menu.addAction(clear_rest_selection_action)
-        clear_rest_selection_action.triggered.connect(self.debug_clear_rest_action_selection)
         clear_phrase_selection_action = QtWidgets.QAction("Clear Breathing Phrase", self)
         debug_menu.addAction(clear_phrase_selection_action)
         clear_phrase_selection_action.triggered.connect(self.debug_clear_breathing_phrase_selection)
-        breathing_fullscreen_action = QtWidgets.QAction("Breathing widget fullscreen", self)
+        breathing_fullscreen_action = QtWidgets.QAction("Breathing widget fullscreen (warning: no way to reset implemented right now)", self)
         debug_menu.addAction(breathing_fullscreen_action)
         breathing_fullscreen_action.triggered.connect(self.showFullScreen)
-        show_breathing_notification_action = QtWidgets.QAction("Show breathing notification", self)
-        debug_menu.addAction(show_breathing_notification_action)
-        show_breathing_notification_action.triggered.connect(self.show_breathing_notification)
-        show_systray_menu_action = QtWidgets.QAction("Show systray menu", self)
-        debug_menu.addAction(show_systray_menu_action)
-        show_systray_menu_action.triggered.connect(self.debug_show_systray_menu)
-        show_exp_notification_action = QtWidgets.QAction("Show experimental notification", self)
+        show_exp_notification_action = QtWidgets.QAction("Show breathing dialog", self)
         debug_menu.addAction(show_exp_notification_action)
         show_exp_notification_action.triggered.connect(self.show_exp_notification)
 
@@ -441,12 +434,6 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
     def on_notification_breathing_cycle_completed(self, i_ib_length: int, i_ob_length: int):
         self.breathing_widget.add_from_dialog(i_ib_length, i_ob_length)
-
-    def debug_show_systray_menu(self):
-        self.tray_icon.contextMenu().popup(QtGui.QCursor.pos())
-
-    def debug_clear_rest_action_selection(self):
-        self.rest_actions_qlw.clearSelection()
 
     def debug_clear_breathing_phrase_selection(self):
         self.phrase_list_widget.list_widget.clearSelection()
