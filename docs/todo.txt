@@ -1,4 +1,8 @@
 
+
+[ ] remove an image
+
+
 [ ] always have a breathing phrase selected
 [ ] set the top breathing phrase as the default
 this approach is better than having a special case since if we have a special case we would
