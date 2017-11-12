@@ -3,7 +3,7 @@
 [ ] set the top breathing phrase as the default
 this approach is better than having a special case since if we have a special case we would
 have to have a button for deselection if the user wanted to restore the special case. For
-example, if the user speaks another language than english she may want to change to her own
+example, if the user speaks another language than English she may want to change to her own
 language, or the user may simply prefer another phrase
 
 [ ] store active breathing in db, alt: use topmost
@@ -31,7 +31,7 @@ space (blocking or not),
 how to close (and how "persistent")
 
 
-Low prio:
+Low priority:
 [ ] draw a state diagram for the documentation
 [ ] if the user only breathes in then the in breath will be removed
 [ ] setting the log level when starting the application, using a command line argument
