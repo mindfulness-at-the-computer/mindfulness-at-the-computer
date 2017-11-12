@@ -177,7 +177,8 @@ class EditDialog(QtWidgets.QDialog):
     def __init__(self, i_parent=None):
         super(EditDialog, self).__init__(i_parent)
 
-        self.temporary_image_file_path_str = ""
+        rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
+        self.temporary_image_file_path_str = rest_action.image_path_str
 
         assert mc_global.active_rest_action_id_it != mc_global.NO_REST_ACTION_SELECTED_INT
         active_rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
@@ -205,6 +206,11 @@ class EditDialog(QtWidgets.QDialog):
         image_vbox.addWidget(self.details_image_path_qll)
         self.details_image_path_qll.setWordWrap(True)
 
+        self.remove_image_qpb = QtWidgets.QPushButton()
+        image_vbox.addWidget(self.remove_image_qpb)
+        self.remove_image_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("x-2x.png")))
+        self.remove_image_qpb.clicked.connect(self.on_remove_image_clicked)
+
         self.update_gui_details()
 
         self.button_box = QtWidgets.QDialogButtonBox(
@@ -218,19 +224,17 @@ class EditDialog(QtWidgets.QDialog):
         # -accept and reject are "slots" built into Qt
 
     def update_gui_details(self):
-        if mc_global.active_rest_action_id_it != mc_global.NO_REST_ACTION_SELECTED_INT:
-            rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
-            # self.details_name_qle.setText(rest_action.title_str)
-            image_path_str = rest_action.image_path_str
-            if self.temporary_image_file_path_str:
-                image_path_str = self.temporary_image_file_path_str
-            if image_path_str:
-                if os.path.isfile(image_path_str):
-                    self.details_image_path_qll.setText(os.path.basename(image_path_str))
-                else:
-                    self.details_image_path_qll.setText("image does not exist")
+        assert mc_global.active_rest_action_id_it != mc_global.NO_REST_ACTION_SELECTED_INT
+
+        if self.temporary_image_file_path_str:
+            if os.path.isfile(self.temporary_image_file_path_str):
+                self.details_image_path_qll.setText(os.path.basename(
+                    self.temporary_image_file_path_str)
+                )
             else:
-                self.details_image_path_qll.setText("(no image set)")
+                self.details_image_path_qll.setText("image does not exist")
+        else:
+            self.details_image_path_qll.setText("(no image set)")
 
     @staticmethod
     def launch_edit_dialog():
@@ -242,11 +246,10 @@ class EditDialog(QtWidgets.QDialog):
                 mc_global.active_rest_action_id_it,
                 dialog.rest_action_title_qle.text()
             )
-            if dialog.temporary_image_file_path_str:
-                model.RestActionsM.update_rest_action_image_path(
-                    mc_global.active_rest_action_id_it,
-                    dialog.temporary_image_file_path_str
-                )
+            model.RestActionsM.update_rest_action_image_path(
+                mc_global.active_rest_action_id_it,
+                dialog.temporary_image_file_path_str
+            )
         else:
             pass
 
@@ -266,3 +269,7 @@ class EditDialog(QtWidgets.QDialog):
             self.update_gui_details()
         else:
             pass
+
+    def on_remove_image_clicked(self):
+        self.temporary_image_file_path_str = ""
+        self.update_gui_details()
