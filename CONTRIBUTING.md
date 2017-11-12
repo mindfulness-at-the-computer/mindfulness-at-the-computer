@@ -34,8 +34,8 @@ This application is Free Libre Open Source Software. The software license is GPL
 
 ## How do I get an overview of the project?
 
-* Read about the [tech architecture](tech-architecture.md) for the application
-* Read the [advertisement for new people](misc/advertisement-for-devs.md)
+* Read about the [tech architecture](docs/tech-architecture.md) for the application
+* Read the [advertisement for new people at code4socialgood](https://app.code4socialgood.org/project/view/932)
 * If things are unclear, please ask in the [gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby)
 
 ## What can I do right now?
