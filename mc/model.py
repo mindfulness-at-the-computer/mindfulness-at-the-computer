@@ -48,7 +48,10 @@ class PhrasesM:
     @staticmethod
     def add(i_title: str, i_ib: str, i_ob: str) -> None:
         # vertical_order_last_pos_int = len(PhrasesM.get_all())
-        vertical_order_last_pos_int = PhrasesM.get_highest_sort_value() + 1
+        if mc.mc_global.db_file_exists_at_application_startup_bl:
+            vertical_order_last_pos_int = PhrasesM.get_highest_sort_value() + 1
+        else:
+            vertical_order_last_pos_int = 0
         logging.debug("vertical_order_last_pos_int = " + str(vertical_order_last_pos_int))
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
