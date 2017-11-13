@@ -1,4 +1,36 @@
 
+
+
+    def show_breathing_notification(self):
+        if mc.mc_global.breathing_state != mc.mc_global.BreathingState.inactive \
+                or mc.mc_global.active_phrase_id_it == -1:
+            return  # -TODO: Alternatively we can stop and start timers when the state changes
+        settings = mc.model.SettingsM.get()
+        # TODO: assert mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
+        active_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+        reminder_str = active_phrase.ib_str + "\n" + active_phrase.ob_str
+        self.tray_icon.showMessage(
+            "Mindful breathing",
+            reminder_str.strip(),
+            icon=QtWidgets.QSystemTrayIcon.NoIcon,
+            msecs=settings.breathing_reminder_length_int * 60 * 1000
+        )
+        # TODO: The title (now "application title string") and the icon
+        # could be used to show if the message is a mindfulness of breathing message
+
+
+
+
+
+
+
+===============================
+
+
+
+
+
+
 import os
 
 from PyQt5 import QtCore
