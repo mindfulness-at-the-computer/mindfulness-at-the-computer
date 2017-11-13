@@ -13,7 +13,7 @@ GRADIENT_OUT_FT = 150.0
 
 
 class ExpNotificationWidget(QtWidgets.QWidget):
-    breathing_cycle_completed_signal = QtCore.pyqtSignal(int, int)
+    close_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -78,8 +78,9 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         ypos_int = screen_qrect.bottom() - self.sizeHint().height() - 50
         self.move(xpos_int, ypos_int)
 
-        self.in_breath_graphics_qgri_list = []
-        self.out_breath_graphics_qgri_list = []
+        mc.mc_global.ib_qgri_list = []
+        mc.mc_global.ob_qgri_list = []
+
         # self.start_breathing_in_timer()
 
         cursor = QtGui.QCursor()
@@ -97,7 +98,12 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         self.start_breathing_out_timer()
 
     def on_in_button_clicked(self):
-        if self.state == mc.mc_global.BreathingState.inactive:
+        if (self.state == mc.mc_global.BreathingState.inactive
+        or self.state == mc.mc_global.BreathingState.breathing_out):
+            if len(mc.mc_global.ob_qgri_list) > 0:
+                mc.mc_global.ib_length_int_list.append(mc.mc_global.ib_qgri_list[-1].rect().width())
+                mc.mc_global.ob_length_int_list.append(mc.mc_global.ob_qgri_list[-1].rect().width())
+            self.breathing_graphicsscene_l4.clear()
             self.breathing_in()
 
     def on_out_button_clicked(self):
@@ -105,18 +111,14 @@ class ExpNotificationWidget(QtWidgets.QWidget):
             self.breathing_out()
 
     def on_close_button_clicked(self):
-        if len(self.in_breath_graphics_qgri_list) > 0:
-            last_ib_rect = self.in_breath_graphics_qgri_list[-1].rect()
-            last_ob_rect = self.out_breath_graphics_qgri_list[-1].rect()
-            self.breathing_cycle_completed_signal.emit(
-                last_ib_rect.width(),
-                last_ob_rect.width()
-            )
-            # TODO: send all to the main window --- assuming that we want to allow more than
-            # one breath in this dialog. The alternative would be to allow the user to open
-            # the main breathing dialog if she wanted to follow the breath for more than one
-            # breathing cycle
-
+        if len(mc.mc_global.ob_qgri_list) > 0:
+            mc.mc_global.ib_length_int_list.append(mc.mc_global.ib_qgri_list[-1].rect().width())
+            mc.mc_global.ob_length_int_list.append(mc.mc_global.ob_qgri_list[-1].rect().width())
+        self.close_signal.emit()
+        # TODO: send all to the main window --- assuming that we want to allow more than
+        # one breath in this dialog. The alternative would be to allow the user to open
+        # the main breathing dialog if she wanted to follow the breath for more than one
+        # breathing cycle
         self.close()
 
     def start_breathing_in_timer(self):
@@ -141,10 +143,10 @@ class ExpNotificationWidget(QtWidgets.QWidget):
             pen=t_pen,
             brush=t_brush
         )
-        self.in_breath_graphics_qgri_list.append(t_graphics_rect_item)
+        mc.mc_global.ib_qgri_list.append(t_graphics_rect_item)
 
     def breathing_in_timer_timeout(self):
-        t_graphics_rect_item = self.in_breath_graphics_qgri_list[-1]
+        t_graphics_rect_item = mc.mc_global.ib_qgri_list[-1]
         new_rect = t_graphics_rect_item.rect()
         new_rect.setLeft(new_rect.left() - 1)
         t_graphics_rect_item.setRect(new_rect)
@@ -182,7 +184,7 @@ class ExpNotificationWidget(QtWidgets.QWidget):
             pen=t_pen
         )
 
-        self.out_breath_graphics_qgri_list.append(t_graphics_rect_item)
+        mc.mc_global.ob_qgri_list.append(t_graphics_rect_item)
 
     def stop_breathing_out_timer(self):
         if self.ob_qtimer is None:
@@ -191,7 +193,7 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         logging.debug("Timer stopped at " + str(time.time()))
 
     def breathing_out_timer_timeout(self):
-        t_graphics_rect_item = self.out_breath_graphics_qgri_list[-1]
+        t_graphics_rect_item = mc.mc_global.ob_qgri_list[-1]
         new_rect = t_graphics_rect_item.rect()
         new_rect.setRight(new_rect.right() + 1)
         t_graphics_rect_item.setRect(new_rect)

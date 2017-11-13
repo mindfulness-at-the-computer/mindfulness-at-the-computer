@@ -411,8 +411,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
     def show_exp_notification(self):
         logging.debug("show_exp_notification")
         self.exp_notification = mc.gui.breathing_dialog.ExpNotificationWidget()
-        self.exp_notification.breathing_cycle_completed_signal.connect(
-            self.on_notification_breathing_cycle_completed)
+        self.exp_notification.close_signal.connect(
+            self.on_breathing_dialog_closed)
         self.exp_notification.show()
 
 
@@ -432,8 +432,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
             QtCore.Qt.Dialog
         """
 
-    def on_notification_breathing_cycle_completed(self, i_ib_length: int, i_ob_length: int):
-        self.breathing_widget.add_from_dialog(i_ib_length, i_ob_length)
+    def on_breathing_dialog_closed(self):
+        self.breathing_widget.add_from_dialog()
 
     def debug_clear_breathing_phrase_selection(self):
         self.phrase_list_widget.list_widget.clearSelection()
