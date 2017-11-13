@@ -34,7 +34,7 @@ Creating the tar.gz file: `tar -czvf mindfulness-at-the-computer.tar.gz mindfuln
 
 ### Building on Windows
 
-1. Install version 3.5 of Python (PyInstaller doesn't work with 3.6 at the time of writing). Use these settings:
+1. Install Python (PyInstaller works with 3.6 which is the latest Python version at the time of writing). Use these settings:
   * Install Python only for the current user (otherwise there may be problems with permissions later on)
   * Add the path (you have to restart to get the path working)
 2. `pip install pyinstaller`
