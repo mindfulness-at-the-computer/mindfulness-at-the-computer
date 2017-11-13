@@ -96,6 +96,12 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         vbox_l5.addWidget(self.ob_icon_cqll)
         self.ob_icon_cqll.widget_entered_signal.connect(self.on_io_widget_entered)
 
+        vbox_l5 = QtWidgets.QVBoxLayout()
+        hbox_l4.addLayout(vbox_l5)
+        vbox_l5.addWidget(QtWidgets.QLabel("shift key down"))
+        hbox_l4.addLayout(vbox_l5)
+        vbox_l5.addWidget(QtWidgets.QLabel("shift key up"))
+
         """
         start_stop_vbox = QtWidgets.QVBoxLayout()
         hbox.addLayout(start_stop_vbox)
