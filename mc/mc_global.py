@@ -141,9 +141,3 @@ class EventSource(enum.Enum):
     rest_opened = 5
     rest_closed = 6
 
-
-ib_qgri_list = []
-ob_qgri_list = []
-
-ib_length_int_list = []
-ob_length_int_list = []

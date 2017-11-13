@@ -13,7 +13,7 @@ GRADIENT_OUT_FT = 150.0
 
 
 class ExpNotificationWidget(QtWidgets.QWidget):
-    close_signal = QtCore.pyqtSignal()
+    close_signal = QtCore.pyqtSignal(list, list)
 
     def __init__(self):
         super().__init__()
@@ -78,8 +78,12 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         ypos_int = screen_qrect.bottom() - self.sizeHint().height() - 50
         self.move(xpos_int, ypos_int)
 
-        mc.mc_global.ib_qgri_list = []
-        mc.mc_global.ob_qgri_list = []
+        self.ib_qgri_list = []
+        self.ob_qgri_list = []
+        self.ib_length_int_list = []
+        self.ob_length_int_list = []
+        # -the lengths have to be stored separately since the qgri items are removed once
+        #  they are no longer visible
 
         # self.start_breathing_in_timer()
 
@@ -100,9 +104,9 @@ class ExpNotificationWidget(QtWidgets.QWidget):
     def on_in_button_clicked(self):
         if (self.state == mc.mc_global.BreathingState.inactive
         or self.state == mc.mc_global.BreathingState.breathing_out):
-            if len(mc.mc_global.ob_qgri_list) > 0:
-                mc.mc_global.ib_length_int_list.append(mc.mc_global.ib_qgri_list[-1].rect().width())
-                mc.mc_global.ob_length_int_list.append(mc.mc_global.ob_qgri_list[-1].rect().width())
+            if len(self.ob_qgri_list) > 0:
+                self.ib_length_int_list.append(self.ib_qgri_list[-1].rect().width())
+                self.ob_length_int_list.append(self.ob_qgri_list[-1].rect().width())
             self.breathing_graphicsscene_l4.clear()
             self.breathing_in()
 
@@ -111,10 +115,13 @@ class ExpNotificationWidget(QtWidgets.QWidget):
             self.breathing_out()
 
     def on_close_button_clicked(self):
-        if len(mc.mc_global.ob_qgri_list) > 0:
-            mc.mc_global.ib_length_int_list.append(mc.mc_global.ib_qgri_list[-1].rect().width())
-            mc.mc_global.ob_length_int_list.append(mc.mc_global.ob_qgri_list[-1].rect().width())
-        self.close_signal.emit()
+        if len(self.ob_qgri_list) > 0:
+            self.ib_length_int_list.append(self.ib_qgri_list[-1].rect().width())
+            self.ob_length_int_list.append(self.ob_qgri_list[-1].rect().width())
+        self.close_signal.emit(
+            self.ib_length_int_list,
+            self.ob_length_int_list
+        )
         # TODO: send all to the main window --- assuming that we want to allow more than
         # one breath in this dialog. The alternative would be to allow the user to open
         # the main breathing dialog if she wanted to follow the breath for more than one
@@ -143,10 +150,10 @@ class ExpNotificationWidget(QtWidgets.QWidget):
             pen=t_pen,
             brush=t_brush
         )
-        mc.mc_global.ib_qgri_list.append(t_graphics_rect_item)
+        self.ib_qgri_list.append(t_graphics_rect_item)
 
     def breathing_in_timer_timeout(self):
-        t_graphics_rect_item = mc.mc_global.ib_qgri_list[-1]
+        t_graphics_rect_item = self.ib_qgri_list[-1]
         new_rect = t_graphics_rect_item.rect()
         new_rect.setLeft(new_rect.left() - 1)
         t_graphics_rect_item.setRect(new_rect)
@@ -184,7 +191,7 @@ class ExpNotificationWidget(QtWidgets.QWidget):
             pen=t_pen
         )
 
-        mc.mc_global.ob_qgri_list.append(t_graphics_rect_item)
+        self.ob_qgri_list.append(t_graphics_rect_item)
 
     def stop_breathing_out_timer(self):
         if self.ob_qtimer is None:
@@ -193,7 +200,7 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         logging.debug("Timer stopped at " + str(time.time()))
 
     def breathing_out_timer_timeout(self):
-        t_graphics_rect_item = mc.mc_global.ob_qgri_list[-1]
+        t_graphics_rect_item = self.ob_qgri_list[-1]
         new_rect = t_graphics_rect_item.rect()
         new_rect.setRight(new_rect.right() + 1)
         t_graphics_rect_item.setRect(new_rect)

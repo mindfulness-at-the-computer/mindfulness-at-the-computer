@@ -191,19 +191,19 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
 
         self.add_new_breathing_rect(mc_global.BreathingState.breathing_in)
 
-    def add_from_dialog(self):
+    def add_from_dialog(self, i_ilist, i_olist):
         self.new_cycle_bool = True
         counter_int = 0
-        while len(mc.mc_global.ib_length_int_list) > counter_int:
+        while len(i_olist) > counter_int:
             # -using ob here ensures that we only add when there are complete breathing cycles
             self.add_new_breathing_rect(
                 mc.mc_global.BreathingState.breathing_in,
-                mc.mc_global.ib_length_int_list[counter_int],
+                i_ilist[counter_int],
                 mc.mc_global.BreathingVisType.popup_dialog
             )
             self.add_new_breathing_rect(
                 mc.mc_global.BreathingState.breathing_out,
-                mc.mc_global.ob_length_int_list[counter_int],
+                i_olist[counter_int],
                 mc.mc_global.BreathingVisType.popup_dialog
             )
             counter_int += 1

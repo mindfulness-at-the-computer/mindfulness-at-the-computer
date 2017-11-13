@@ -432,8 +432,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
             QtCore.Qt.Dialog
         """
 
-    def on_breathing_dialog_closed(self):
-        self.breathing_widget.add_from_dialog()
+    def on_breathing_dialog_closed(self, i_ilist, i_olist):
+        self.breathing_widget.add_from_dialog(i_ilist, i_olist)
 
     def debug_clear_breathing_phrase_selection(self):
         self.phrase_list_widget.list_widget.clearSelection()
