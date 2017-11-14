@@ -71,7 +71,8 @@ class PhrasesM:
         db_cursor = db_connection.cursor()
         db_cursor_result = db_cursor.execute(
             "SELECT * FROM " + db.Schema.PhrasesTable.name
-            + " WHERE " + db.Schema.PhrasesTable.Cols.id + "=" + str(i_id)
+            + " WHERE " + db.Schema.PhrasesTable.Cols.id + "=?",
+            (str(i_id),)
         )
         reminder_db_te = db_cursor_result.fetchone()
         db_connection.commit()
@@ -100,7 +101,8 @@ class PhrasesM:
         db_cursor = db_connection.cursor()
         db_cursor.execute(
             "DELETE FROM " + db.Schema.PhrasesTable.name
-            + " WHERE " + db.Schema.PhrasesTable.Cols.id + "=" + str(i_id_int)
+            + " WHERE " + db.Schema.PhrasesTable.Cols.id + "=?",
+            (str(i_id_int),)
         )
         db_connection.commit()
 
@@ -251,7 +253,8 @@ class RestActionsM:
         db_cursor = db_connection.cursor()
         db_cursor_result = db_cursor.execute(
             "SELECT * FROM " + db.Schema.RestActionsTable.name
-            + " WHERE " + db.Schema.RestActionsTable.Cols.id + "=" + str(i_id)
+            + " WHERE " + db.Schema.RestActionsTable.Cols.id + "=?",
+            (str(i_id), )
         )
         rest_action_db_te = db_cursor_result.fetchone()
         db_connection.commit()
@@ -265,7 +268,8 @@ class RestActionsM:
         db_cursor = db_connection.cursor()
         db_cursor.execute(
             "DELETE FROM " + db.Schema.RestActionsTable.name
-            + " WHERE " + db.Schema.RestActionsTable.Cols.id + "=" + str(i_id_int)
+            + " WHERE " + db.Schema.RestActionsTable.Cols.id + "=?",
+            (str(i_id_int), )
         )
         db_connection.commit()
 
@@ -373,6 +377,7 @@ class RestActionsM:
 
 
 class SettingsM:
+    # noinspection PyUnusedLocal
     def __init__(
         self,
         i_id: int,
@@ -395,7 +400,8 @@ class SettingsM:
         db_cursor = db_connection.cursor()
         db_cursor_result = db_cursor.execute(
             "SELECT * FROM " + db.Schema.SettingsTable.name
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + "=" + str(db.SINGLE_SETTINGS_ID_INT)
+            + " WHERE " + db.Schema.SettingsTable.Cols.id + "=?",
+            (str(db.SINGLE_SETTINGS_ID_INT),)
         )
         reminder_db_te = db_cursor_result.fetchone()
         db_connection.commit()
