@@ -65,15 +65,7 @@ class RestActionsComposite(QtWidgets.QWidget):
 
     def on_edit_texts_clicked(self):
         EditDialog.launch_edit_dialog()
-        # TODO: self.phrases_updated_signal.emit(self.details_qgb.isEnabled())
         self.update_signal.emit()
-        """
-        text_str = QtWidgets.QInputDialog.getText(
-            self,
-            "title",
-            "label"
-        )
-        """
 
     def on_move_up_clicked(self):
         self.move_up_down(model.MoveDirectionEnum.up)
@@ -256,6 +248,7 @@ class EditDialog(QtWidgets.QDialog):
         return dialog_result
 
     def on_select_image_clicked(self):
+        # noinspection PyCallByClass
         image_file_result_tuple = QtWidgets.QFileDialog.getOpenFileName(
             self,
             "Please choose an image",

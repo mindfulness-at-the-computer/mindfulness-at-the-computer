@@ -201,7 +201,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
         self.tray_restore_action = QtWidgets.QAction("Restore")
         self.tray_menu.addAction(self.tray_restore_action)
-        self.tray_restore_action.triggered.connect(self.showNormal)
+        self.tray_restore_action.triggered.connect(self.restore_window)
         self.tray_quit_action = QtWidgets.QAction("Quit")
         self.tray_menu.addAction(self.tray_quit_action)
         self.tray_quit_action.triggered.connect(self.exit_application)
@@ -213,7 +213,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
     def on_systray_activated(self, i_reason):
         logging.debug("entered on_systray_activated. i_reason = " + str(i_reason))
-        self.showNormal()
+        self.restore_window()
 
     def on_breathing_list_row_changed(self, i_details_enabled: bool):
         self.change_timer_state()
@@ -286,12 +286,13 @@ class MbMainWindow(QtWidgets.QMainWindow):
         # http://www.qtcentre.org/threads/21362-Setting-the-active-tab-with-tabified-docking-windows
         self.update_gui(mc.mc_global.EventSource.rest_closed)
 
-    def show_rest_reminder(self):
+    def restore_window(self):
         self.raise_()
         self.showNormal()
-        # -TODO: Do we want to use this for the systray as well so we are more consistent?
         # another alternative (from an SO answer): self.setWindowState(QtCore.Qt.WindowActive)
 
+    def show_rest_reminder(self):
+        self.restore_window()
         self.main_area_stacked_widget_l4.setCurrentIndex(self.rrcw_sw_id_int)
         self.rest_actions_dock.raise_()
         self.update_gui(mc.mc_global.EventSource.rest_opened)
@@ -340,7 +341,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         clear_phrase_selection_action = QtWidgets.QAction("Clear Breathing Phrase", self)
         debug_menu.addAction(clear_phrase_selection_action)
         clear_phrase_selection_action.triggered.connect(self.debug_clear_breathing_phrase_selection)
-        breathing_full_screen_action = QtWidgets.QAction("Breathing widget full screen",self)
+        breathing_full_screen_action = QtWidgets.QAction("Breathing widget full screen", self)
         debug_menu.addAction(breathing_full_screen_action)
         breathing_full_screen_action.triggered.connect(self.showFullScreen)
         show_exp_notification_action = QtWidgets.QAction("Show breathing dialog", self)
@@ -385,10 +386,12 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
     def show_online_help(self):
         url_str = "https://sunyatazero.github.io/mindfulness-at-the-computer/user-guide.html"
+        # noinspection PyCallByClass
         QtGui.QDesktopServices.openUrl(QtCore.QUrl(url_str))
         # Python: webbrowser.get(url_str) --- doesn't work
 
     def show_about_box(self):
+        # noinspection PyCallByClass
         QtWidgets.QMessageBox.about(
             self,
             "About Mindfulness at the Computer",

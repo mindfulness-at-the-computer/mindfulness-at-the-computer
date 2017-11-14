@@ -1,7 +1,5 @@
 import enum
 import os
-import logging
-from PyQt5 import QtCore
 from PyQt5 import QtGui
 
 #############################################
@@ -88,6 +86,7 @@ def get_app_icon_path():
 def get_user_files_path(i_file_name: str):
     return os.path.join(get_base_dir(), USER_FILES_DIR_STR, i_file_name)
 
+
 """
 def does_database_exist_started() -> bool:
     if os.path.isfile(DATABASE_FILE_NAME):
@@ -106,11 +105,12 @@ def get_font_medium(i_italics: bool=False, i_bold: bool=False):
     return font
 
 
-def get_font_large(i_underscore: bool=False, i_italics: bool=False):
+def get_font_large(i_underscore: bool=False, i_italics: bool=False, i_bold: bool=False):
     font = QtGui.QFont()
     font.setPointSize(13)
     font.setUnderline(i_underscore)
     font.setItalic(i_italics)
+    font.setBold(i_bold)
     return font
 
 
@@ -140,4 +140,3 @@ class EventSource(enum.Enum):
     breathing_settings_changed = 4
     rest_opened = 5
     rest_closed = 6
-

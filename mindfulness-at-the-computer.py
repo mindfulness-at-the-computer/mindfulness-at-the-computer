@@ -3,13 +3,12 @@ import logging
 import os
 import sqlite3
 import sys
-
 import PyQt5.Qt
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
-
 import mc.gui.main_window
 from mc import mc_global
+import mc.db
 
 if __name__ == "__main__":
     mc_global.db_file_exists_at_application_startup_bl = os.path.isfile(mc_global.get_database_filename())
@@ -18,7 +17,8 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)  # -by default only warnings and higher are shown
 
     # Application information
-    logging.info("===== Starting "
+    logging.info(
+        "===== Starting "
         + mc_global.APPLICATION_TITLE_STR + " - "
         + mc_global.APPLICATION_VERSION_STR + " ====="
     )
@@ -26,19 +26,24 @@ if __name__ == "__main__":
     logging.info("SQLite version: " + str(sqlite3.sqlite_version))
     logging.info("PySQLite (Python module) version: " + str(sqlite3.version))
     logging.info("Qt version: " + str(QtCore.qVersion()))
+    # noinspection PyUnresolvedReferences
     logging.info("PyQt (Python module) version: " + str(PyQt5.Qt.PYQT_VERSION_STR))
-    logging.info(mc_global.APPLICATION_TITLE_STR + " Application version: " + str(mc_global.APPLICATION_VERSION_STR))
+    logging.info(
+        mc_global.APPLICATION_TITLE_STR
+        + " - Application version: " + str(mc_global.APPLICATION_VERSION_STR)
+    )
     db_conn = mc.db.Helper.get_db_connection()
-    logging.info(mc_global.APPLICATION_TITLE_STR + " Database schema version: " + str(mc.db.get_schema_version(db_conn)))
+    logging.info(
+        mc_global.APPLICATION_TITLE_STR
+        + " - Database schema version: " + str(mc.db.get_schema_version(db_conn))
+    )
     logging.info("=====")
-
 
     matc_qapplication = QtWidgets.QApplication(sys.argv)
     matc_qapplication.setQuitOnLastWindowClosed(False)
     matc_main_window = mc.gui.main_window.MbMainWindow()
     matc_main_window.show()
     sys.exit(matc_qapplication.exec_())
-
 
     """
     argument_parser = argparse.ArgumentParser()

@@ -1,6 +1,5 @@
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
-from PyQt5 import QtGui
 import mc.mc_global
 
 
@@ -14,7 +13,7 @@ class ToggleSwitchComposite(QtWidgets.QWidget):
 
         vbox = QtWidgets.QVBoxLayout()
         self.setLayout(vbox)
-        (left, right, top, bottom) = vbox.getContentsMargins()
+        # (left, right, top, bottom) = vbox.getContentsMargins()
         vbox.setContentsMargins(0, 0, 5, 5)
 
         hbox = QtWidgets.QHBoxLayout()
@@ -68,4 +67,3 @@ class ToggleSwitchComposite(QtWidgets.QWidget):
             self.state_qll.setFont(mc.mc_global.get_font_medium(i_bold=False))
 
         self.updating_gui_bool = False
-

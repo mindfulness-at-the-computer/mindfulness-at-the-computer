@@ -147,10 +147,12 @@ class PhrasesM:
         logging.debug("main_sort_order_int = " + str(main_sort_order_int))
         logging.debug("PhrasesM.get_highest_sort_value() = " + str(PhrasesM.get_highest_sort_value()))
         if i_move_direction == MoveDirectionEnum.up:
-            if main_sort_order_int <= PhrasesM.get_lowest_sort_value() or main_sort_order_int > PhrasesM.get_highest_sort_value():
+            if (main_sort_order_int <= PhrasesM.get_lowest_sort_value()
+            or main_sort_order_int > PhrasesM.get_highest_sort_value()):
                 return False
         elif i_move_direction == MoveDirectionEnum.down:
-            if main_sort_order_int < PhrasesM.get_lowest_sort_value() or main_sort_order_int >= PhrasesM.get_highest_sort_value():
+            if (main_sort_order_int < PhrasesM.get_lowest_sort_value()
+            or main_sort_order_int >= PhrasesM.get_highest_sort_value()):
                 return False
         other = PhrasesM.get_by_vert_order(main_sort_order_int, i_move_direction)
         other_id_int = other.id_int
@@ -530,50 +532,8 @@ def populate_db_with_setup_data():
     )
 
 
-    """
-    movement_qpb = QtWidgets.QPushButton("Movement exercise")
-    rest_kindness_alternatives_qbb.addButton(movement_qpb, QtWidgets.QDialogButtonBox.YesRole)
-    walk_qpb = QtWidgets.QPushButton("Taking a walk")
-    rest_kindness_alternatives_qbb.addButton(walk_qpb, QtWidgets.QDialogButtonBox.YesRole)
-
-    "letting in some fresh air",
-    "sitting meditation",
-
-    "Aware of painful feeling",
-    "Confidence, peace",
-    """
-
-
 def populate_db_with_test_data():
     populate_db_with_setup_data()
-
-    """
-    PhrasesM.add(
-        "Test - In, out",
-        "Breathing in, i know i am breathing in",
-        "Breathing out, i know i am breathing out",
-    )
-    PhrasesM.add(
-        "Test - Happy, safe",
-        "Breathing in, may i be peaceful, happy, and safe",
-        "Breathing out, may i be free from fear, hatred, and delusion",
-    )
-    PhrasesM.add(
-        "Test - Aware of Body",
-        "Aware of my body, i breathe in",
-        "Aware of my feelings, i breathe out",
-    )
-    PhrasesM.add(
-        "Test - Caring for Body",
-        "Breathing in, i care for my body",
-        "Breathing out, i care for my body",
-    )
-    PhrasesM.add(
-        "Test - Aware of painful feeling",
-        "Breathing in, i am aware of a painful feeling",
-        "Breathing out, i am aware of a painful feeling",
-    )
-    """
 
 
 def breathing_reminder_active() -> bool:
@@ -588,8 +548,7 @@ def breathing_reminder_active() -> bool:
 
 
 def get_app_systray_icon_path():
-    # TODO: Separate the systray icon from the window icon
-    icon_file_name_str = ""
+    icon_file_name_str = "icon.png"
     settings = SettingsM.get()
     b_active = breathing_reminder_active()
     if b_active and settings.rest_reminder_active_bool:
@@ -598,11 +557,6 @@ def get_app_systray_icon_path():
         icon_file_name_str = "icon-b.png"
     elif settings.rest_reminder_active_bool:
         icon_file_name_str = "icon-r.png"
-    else:
-        icon_file_name_str = "icon.png"
 
     ret_icon_path_str = os.path.join(mc.mc_global.get_base_dir(), mc.mc_global.ICONS_DIR_STR, icon_file_name_str)
     return ret_icon_path_str
-
-
-

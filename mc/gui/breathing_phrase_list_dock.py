@@ -138,16 +138,16 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
         # self.in_breath_phrase_qle.setFocus()
 
         # if dialog_result == QtWidgets.QDialog.Accepted:
-        dialog_result = EditDialog.launch_edit_dialog()
+        EditDialog.launch_edit_dialog()
         self.phrase_updated_signal.emit(True)
 
     def on_selection_changed(self):
         if self.updating_gui_bool:
             return
-        selected_modelindexlist = self.list_widget.selectedIndexes()
-        active_selected_bool = len(selected_modelindexlist) >= 1
+        selected_model_index_list = self.list_widget.selectedIndexes()
+        active_selected_bool = len(selected_model_index_list) >= 1
         if active_selected_bool:
-            selected_row_int = selected_modelindexlist[0].row()
+            selected_row_int = selected_model_index_list[0].row()
             # self.details_qgb.setDisabled(False)
             # TODO: setDisabled for other
             current_question_qli = self.list_widget.item(selected_row_int)
@@ -158,7 +158,6 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
 
         # self.update_gui_details()
         self.list_selection_changed_signal.emit(active_selected_bool)
-        # TODO:
 
     def on_new_row_selected_from_system_tray(self, i_id_of_selected_item: int):
         mc.mc_global.active_phrase_id_it = i_id_of_selected_item

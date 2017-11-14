@@ -1,9 +1,6 @@
-
 import datetime
 import shutil
 import sqlite3
-import os
-
 from mc import mc_global
 from mc import model
 
@@ -169,6 +166,3 @@ def backup_db_file():
     date_sg = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     new_file_name_sg = mc_global.get_database_filename() + "_" + date_sg
     shutil.copyfile(mc_global.get_database_filename(), new_file_name_sg)
-
-
-

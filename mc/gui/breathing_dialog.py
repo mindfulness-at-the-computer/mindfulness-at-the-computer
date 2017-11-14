@@ -44,11 +44,11 @@ class ExpNotificationWidget(QtWidgets.QWidget):
             in_str = breathing_phrase.ib_str
             out_str = breathing_phrase.ob_str
 
-        self.cll_one = CustomLabel(in_str)
-        vbox_l2.addWidget(self.cll_one)
-        #self.qll_one.mouse.connect(self.on_mouse_over_one)
-        self.qll_two = QtWidgets.QLabel(out_str)
-        vbox_l2.addWidget(self.qll_two)
+        self.ib_cll = CustomLabel(in_str)
+        vbox_l2.addWidget(self.ib_cll)
+        # self.qll_one.mouse.connect(self.on_mouse_over_one)
+        self.ob_qll = QtWidgets.QLabel(out_str)
+        vbox_l2.addWidget(self.ob_qll)
 
         self.breathing_graphicsview_l3 = QtWidgets.QGraphicsView()  # QGraphicsScene
         vbox_l2.addWidget(self.breathing_graphicsview_l3)
@@ -104,9 +104,7 @@ class ExpNotificationWidget(QtWidgets.QWidget):
     def on_in_button_clicked(self):
         if (self.state == mc.mc_global.BreathingState.inactive
         or self.state == mc.mc_global.BreathingState.breathing_out):
-            if len(self.ob_qgri_list) > 0:
-                self.ib_length_int_list.append(self.ib_qgri_list[-1].rect().width())
-                self.ob_length_int_list.append(self.ob_qgri_list[-1].rect().width())
+            self.update_io_length_lists()
             self.breathing_graphicsscene_l4.clear()
             self.breathing_in()
 
@@ -116,17 +114,17 @@ class ExpNotificationWidget(QtWidgets.QWidget):
 
     def on_close_button_clicked(self):
         if len(self.ob_qgri_list) > 0:
-            self.ib_length_int_list.append(self.ib_qgri_list[-1].rect().width())
-            self.ob_length_int_list.append(self.ob_qgri_list[-1].rect().width())
+            self.update_io_length_lists()
         self.close_signal.emit(
             self.ib_length_int_list,
             self.ob_length_int_list
         )
-        # TODO: send all to the main window --- assuming that we want to allow more than
-        # one breath in this dialog. The alternative would be to allow the user to open
-        # the main breathing dialog if she wanted to follow the breath for more than one
-        # breathing cycle
         self.close()
+
+    def update_io_length_lists(self):
+        if len(self.ob_qgri_list) > 0:
+            self.ib_length_int_list.append(self.ib_qgri_list[-1].rect().width())
+            self.ob_length_int_list.append(self.ob_qgri_list[-1].rect().width())
 
     def start_breathing_in_timer(self):
         self.ib_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer

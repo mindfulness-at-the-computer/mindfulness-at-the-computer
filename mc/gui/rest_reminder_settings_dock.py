@@ -134,4 +134,3 @@ class CustomFrame(QtWidgets.QFrame):
         super().__init__()
         self.setFrameShape(QtWidgets.QFrame.HLine)
         self.setFrameShadow(QtWidgets.QFrame.Sunken)
-

@@ -58,7 +58,6 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         sps_qgb.setLayout(vbox_l4)
         self.start_pause_qpb = QtWidgets.QPushButton("Start")
         vbox_l4.addWidget(self.start_pause_qpb)
-        # TODO: Change font
         self.start_pause_qpb.clicked.connect(self.on_start_pause_clicked)
         self.stop_qpb = QtWidgets.QPushButton("Stop/Clear")
         vbox_l4.addWidget(self.stop_qpb)

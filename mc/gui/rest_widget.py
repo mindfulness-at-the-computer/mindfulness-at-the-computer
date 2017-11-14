@@ -68,7 +68,6 @@ class RestComposite(QtWidgets.QWidget):
 
         # Breathe
         vbox_l2.addWidget(QtWidgets.QLabel("After taking a break:"))
-        # TODO: select a new breathing phrase? From a combobox?
         self.close_and_breathe_qpb = QtWidgets.QPushButton("Breathe")
         vbox_l2.addWidget(self.close_and_breathe_qpb)
         self.close_and_breathe_qpb.clicked.connect(self.on_close_and_breathe_button_clicked)
@@ -129,4 +128,3 @@ class RestComposite(QtWidgets.QWidget):
             self.title_qll.setWordWrap(True)
 
             self.updating_gui_bool = False
-
