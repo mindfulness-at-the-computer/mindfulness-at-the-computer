@@ -35,6 +35,10 @@ Here are some things that are different from PEP8:
 
 If you are using Pycharm you will get some
 
+### Variable naming
+
+`_lx` where `x` describes the level of the widget or layout
+
 
 ### Continuous Integration
 

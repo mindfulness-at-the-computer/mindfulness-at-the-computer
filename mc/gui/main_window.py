@@ -260,12 +260,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
         if (mc.mc_global.rest_reminder_minutes_passed_int
                 >= mc.model.SettingsM.get().rest_reminder_interval_int):
             self.show_rest_reminder()
-        # self.rest_settings_widget.updating_gui_bool = True
         self.rest_settings_dw.rest_reminder_qsr.setValue(
             mc.mc_global.rest_reminder_minutes_passed_int
         )
-        # self.rest_settings_widget.updating_gui_bool = False
-        # self.update_tray_menu(1, 1)
 
     def on_rest_widget_closed(self, i_wait_minutes: int):
         if i_wait_minutes >= 0:  # mc.gui.rest_widget.CLOSED_RESULT_INT
@@ -343,9 +340,9 @@ class MbMainWindow(QtWidgets.QMainWindow):
         clear_phrase_selection_action = QtWidgets.QAction("Clear Breathing Phrase", self)
         debug_menu.addAction(clear_phrase_selection_action)
         clear_phrase_selection_action.triggered.connect(self.debug_clear_breathing_phrase_selection)
-        breathing_fullscreen_action = QtWidgets.QAction("Breathing widget full screen",self)
-        debug_menu.addAction(breathing_fullscreen_action)
-        breathing_fullscreen_action.triggered.connect(self.showFullScreen)
+        breathing_full_screen_action = QtWidgets.QAction("Breathing widget full screen",self)
+        debug_menu.addAction(breathing_full_screen_action)
+        breathing_full_screen_action.triggered.connect(self.showFullScreen)
         show_exp_notification_action = QtWidgets.QAction("Show breathing dialog", self)
         debug_menu.addAction(show_exp_notification_action)
         show_exp_notification_action.triggered.connect(self.show_exp_notification)

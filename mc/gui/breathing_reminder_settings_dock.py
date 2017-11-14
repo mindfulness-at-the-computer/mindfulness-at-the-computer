@@ -1,15 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
-from PyQt5 import QtGui
-
 from mc import model, mc_global
-
 import mc.gui.toggle_switch_widget
-
-# Here we place settings for the application, for example the time between notifications,
-# as well as if there is audio as well as the notification
-# Perhaps we want to hide some of these settings?
-# All intervals are in minutes
 
 MIN_REST_REMINDER_INT = 1  # -in minutes
 
@@ -26,40 +18,26 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
 
         self.updating_gui_bool = False
 
-        vbox = QtWidgets.QVBoxLayout()
-        self.setLayout(vbox)
+        vbox_l2 = QtWidgets.QVBoxLayout()
+        self.setLayout(vbox_l2)
 
         self.toggle_switch = mc.gui.toggle_switch_widget.ToggleSwitchComposite()
-        vbox.addWidget(self.toggle_switch)
+        vbox_l2.addWidget(self.toggle_switch)
         self.toggle_switch.toggled_signal.connect(self.on_switch_toggled)
 
-        hbox = QtWidgets.QHBoxLayout()
-        vbox.addLayout(hbox)
+        hbox_l3 = QtWidgets.QHBoxLayout()
+        vbox_l2.addLayout(hbox_l3)
         self.breathing_reminder_interval_qll = QtWidgets.QLabel("Interval:")
-        hbox.addWidget(self.breathing_reminder_interval_qll)
+        hbox_l3.addWidget(self.breathing_reminder_interval_qll)
         self.breathing_reminder_interval_qsb = QtWidgets.QSpinBox()
-        hbox.addWidget(self.breathing_reminder_interval_qsb)
+        hbox_l3.addWidget(self.breathing_reminder_interval_qsb)
         self.breathing_reminder_interval_qsb.valueChanged.connect(
             self.on_breathing_interval_value_changed
         )
-        hbox.addWidget(QtWidgets.QLabel("minutes"))
-        hbox.addStretch(1)
+        hbox_l3.addWidget(QtWidgets.QLabel("minutes"))
+        hbox_l3.addStretch(1)
 
-        """
-        hbox = QtWidgets.QHBoxLayout()
-        vbox.addLayout(hbox)
-        self.breathing_reminder_length_qll = QtWidgets.QLabel("Length:")
-        hbox.addWidget(self.breathing_reminder_length_qll)
-        self.breathing_reminder_length_qsb = QtWidgets.QSpinBox()
-        hbox.addWidget(self.breathing_reminder_length_qsb)
-        self.breathing_reminder_length_qsb.valueChanged.connect(
-            self.on_breathing_length_value_changed
-        )
-        hbox.addWidget(QtWidgets.QLabel("seconds"))
-        hbox.addStretch(1)
-        """
-
-        vbox.addStretch(1)
+        vbox_l2.addStretch(1)
 
         # self.breathing_reminder_qgb.setDisabled(True)  # -disabled until a phrase has been selected
         self.setDisabled(True)
@@ -81,14 +59,6 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         model.SettingsM.update_breathing_reminder_interval(i_new_value)
         self.breathing_settings_updated_signal.emit()
 
-    """
-    def on_breathing_length_value_changed(self, i_new_value: int):
-        if self.updating_gui_bool:
-            return
-        model.SettingsM.update_breathing_reminder_length(i_new_value)
-        self.breathing_settings_updated_signal.emit()
-    """
-
     def update_gui(self):
         self.updating_gui_bool = True
 
@@ -109,4 +79,3 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         """
 
         self.updating_gui_bool = False
-
