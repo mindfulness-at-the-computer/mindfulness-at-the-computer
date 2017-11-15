@@ -46,8 +46,8 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
         self.bo_text_qll.setFont(mc_global.get_font_xlarge())
         self.bi_text_qll.setWordWrap(True)
         self.bo_text_qll.setWordWrap(True)
-        self.bi_text_qll.widget_entered_signal.connect(self.on_io_widget_entered)
-        self.bo_text_qll.widget_entered_signal.connect(self.on_io_widget_entered)
+        # self.bi_text_qll.widget_entered_signal.connect(self.on_io_widget_entered)
+        # self.bo_text_qll.widget_entered_signal.connect(self.on_io_widget_entered)
 
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
