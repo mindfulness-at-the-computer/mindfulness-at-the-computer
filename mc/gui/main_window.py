@@ -117,12 +117,12 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
     # noinspection PyAttributeOutsideInit
     def setup_systray(self):
-	"""
+        """
         System tray
         Please note: We cannot move the update code into another function, even in
        	this file (very strange). If we do, we won't see the texts, only the separators,
         don't know why, potential bug.
-	"""
+        """
         self.tray_icon = QtWidgets.QSystemTrayIcon(
             QtGui.QIcon(mc.model.get_app_systray_icon_path()),
             self
