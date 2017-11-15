@@ -1,12 +1,6 @@
 
-
-
-
 [ ] add hover for the breathing dialog
 [ ] add "test"/breathe now as an option both in the main user interface and in the systray menu
-
-[x] remove an image
-
 
 [ ] always have a breathing phrase selected
 [ ] set the top breathing phrase as the default
@@ -34,6 +28,7 @@ checkboxes:
 
 
 =========
+
 
 types of notifications:
 space (blocking or not),

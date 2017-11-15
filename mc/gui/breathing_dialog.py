@@ -18,6 +18,7 @@ class ExpNotificationWidget(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
 
+        self.hover_and_kb_active_bool = False
         self.state = mc.mc_global.BreathingState.inactive
         self.ib_qtimer = None
         self.ob_qtimer = None
@@ -60,15 +61,27 @@ class ExpNotificationWidget(QtWidgets.QWidget):
 
         hbox = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox)
-        self.in_qpb = CustomButton("In")
+        self.in_and_activate_qpb = CustomButton(
+            "In + activate"
+        )
+        hbox.addWidget(self.in_and_activate_qpb)
+        self.in_and_activate_qpb.clicked.connect(self.on_in_and_activate_button_clicked)
+        self.in_qpb = CustomButton(
+            "In"
+        )
         hbox.addWidget(self.in_qpb)
         self.in_qpb.clicked.connect(self.on_in_button_clicked)
-        self.out_qpb = CustomButton("Out")
+        self.in_qpb.entered_signal.connect(self.on_in_button_hover)
+        self.out_qpb = CustomButton(
+            "Out"
+        )
         hbox.addWidget(self.out_qpb)
         self.out_qpb.clicked.connect(self.on_out_button_clicked)
+        self.out_qpb.entered_signal.connect(self.on_out_button_hover)
         self.close_qpb = CustomButton("Close")
         hbox.addWidget(self.close_qpb)
         self.close_qpb.clicked.connect(self.on_close_button_clicked)
+        self.close_qpb.entered_signal.connect(self.on_close_button_hover)
 
         self.show()  # -done after all the widget have been added so that the right size is set
 
@@ -100,6 +113,24 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         self.state = mc.mc_global.BreathingState.breathing_out
         self.stop_breathing_in_timer()
         self.start_breathing_out_timer()
+
+    def on_in_and_activate_button_clicked(self):
+        self.hover_and_kb_active_bool = True
+        self.on_in_button_clicked()
+
+    def on_in_button_hover(self):
+        # if (i_io == mc.mc_global.BreathingState.breathing_in
+        # and self.state == mc.mc_global_.BreathingState.breathing_out):
+        if self.hover_and_kb_active_bool:
+            self.on_in_button_clicked()
+
+    def on_out_button_hover(self):
+        if self.hover_and_kb_active_bool:
+            self.on_out_button_clicked()
+
+    def on_close_button_hover(self):
+        if self.hover_and_kb_active_bool:
+            self.on_close_button_clicked()
 
     def on_in_button_clicked(self):
         if (self.state == mc.mc_global.BreathingState.inactive
@@ -224,10 +255,13 @@ class CustomLabel(QtWidgets.QLabel):
 
 
 class CustomButton(QtWidgets.QPushButton):
+    entered_signal = QtCore.pyqtSignal()
+
     def __init__(self, i_title: str):
         super().__init__(i_title)
 
     # Overridden
     def enterEvent(self, i_QEvent):
+        self.entered_signal.emit()
         logging.debug("CustomButton: enterEvent")
 
