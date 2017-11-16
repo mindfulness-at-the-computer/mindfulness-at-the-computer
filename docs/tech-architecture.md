@@ -5,6 +5,14 @@ Also see the [technical research](https://github.com/SunyataZero/mindfulness-at-
 
 ## Dependencies
 
+Software | Version | Docs | Support
+--- | --- | --- | ---
+PyInstaller | - | [link](pyinstaller.readthedocs.io) | -
+Python | 3.x | [link](https://docs.python.org/3/) | [SO](https://stackoverflow.com/questions/tagged/python)
+Qt + PyQt | 5.9 | [Qt](http://doc.qt.io/qt-5/) | #pyqt @ freenode IRC, [list](http://wiki.qt.io/Online_Communities)
+SQLite + sqlite3 | - | [py module](https://docs.python.org/3/library/sqlite3.html), [official](https://www.sqlite.org/docs.html) | -
+
+
 ### Python 3
 
 At the time of writing we are using Python 3.6
