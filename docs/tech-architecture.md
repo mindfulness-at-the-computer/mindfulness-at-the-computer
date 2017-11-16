@@ -5,7 +5,7 @@ Also see the [technical research](https://github.com/SunyataZero/mindfulness-at-
 
 Software | Version | Docs | Support
 --- | --- | --- | ---
-PyInstaller | - | [link](pyinstaller.readthedocs.io) | -
+PyInstaller | - | [link](http://pyinstaller.readthedocs.io/en/stable/) | -
 [Python](#python) | 3.x | [link](https://docs.python.org/3/) | [SO](https://stackoverflow.com/questions/tagged/python)
 [Qt through PyQt](qt-and-pyqt) | 5.9 | [Qt](http://doc.qt.io/qt-5/) | #pyqt @ freenode IRC, [list](http://wiki.qt.io/Online_Communities)
 SQLite through sqlite3 | - | [py module](https://docs.python.org/3/library/sqlite3.html), [official](https://www.sqlite.org/docs.html) | -
