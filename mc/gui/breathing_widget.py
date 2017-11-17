@@ -199,7 +199,8 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
     def add_from_dialog(self, i_ilist, i_olist):
         self.new_cycle_bool = True
         counter_int = 0
-        while len(i_olist) > counter_int:
+        #Here I tried to modify code
+        for (counter_int, value_i_olist) in enumerate(i_olist):
             # -using ob here ensures that we only add when there are complete breathing cycles
             self.add_new_breathing_rect(
                 mc.mc_global.BreathingState.breathing_in,
@@ -208,10 +209,9 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
             )
             self.add_new_breathing_rect(
                 mc.mc_global.BreathingState.breathing_out,
-                i_olist[counter_int],
+                value_i_olist,
                 mc.mc_global.BreathingVisType.popup_dialog
             )
-            counter_int += 1
         self.new_cycle_bool = True
 
     def add_new_breathing_rect(
