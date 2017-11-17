@@ -9,7 +9,7 @@ PyInstaller | - | [link](http://pyinstaller.readthedocs.io/en/stable/) | -
 [Python](#python) | 3.x | [link](https://docs.python.org/3/) | [SO](https://stackoverflow.com/questions/tagged/python)
 [Qt through PyQt](qt-and-pyqt) | 5.9 | [Qt](http://doc.qt.io/qt-5/) | #pyqt @ freenode IRC, [list](http://wiki.qt.io/Online_Communities)
 SQLite through sqlite3 | - | [py module](https://docs.python.org/3/library/sqlite3.html), [official](https://www.sqlite.org/docs.html) | -
-unittest + qttest |
+[unittest + qttest](unittest-and-qttest) | [unittest](https://docs.python.org/3/library/unittest.html) [qttest](http://doc.qt.io/qt-5/qtest.html)| -
 
 
 ## Dependencies
@@ -69,7 +69,7 @@ we need to have an __init__.py file for each directory/package
 https://github.com/audreyr/how-to/blob/master/python/use_coverage_with_unittest.rst
 
 
-### Tests
+## unittest and qttest
 
 http://johnnado.com/pyqt-qtest-example/
 https://bitbucket.org/jmcgeheeiv/pyqttestexample/src/
