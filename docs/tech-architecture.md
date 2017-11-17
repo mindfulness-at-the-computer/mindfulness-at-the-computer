@@ -3,15 +3,25 @@ Also see the [technical research](https://github.com/SunyataZero/mindfulness-at-
 
 # Tech architecture
 
+Software | Version | Docs | Support
+--- | --- | --- | ---
+PyInstaller | - | [link](http://pyinstaller.readthedocs.io/en/stable/) | -
+[Python](#python) | 3.x | [link](https://docs.python.org/3/) | [SO](https://stackoverflow.com/questions/tagged/python)
+[Qt through PyQt](qt-and-pyqt) | 5.9 | [Qt](http://doc.qt.io/qt-5/) | #pyqt @ freenode IRC, [list](http://wiki.qt.io/Online_Communities)
+SQLite through sqlite3 | - | [py module](https://docs.python.org/3/library/sqlite3.html), [official](https://www.sqlite.org/docs.html) | -
+unittest + qttest |
+
+
 ## Dependencies
 
-### Python 3
+
+### Python
 
 At the time of writing we are using Python 3.6
 
-### Qt and PyQt 5.9
+### Qt and PyQt
 
-The Qt and PyQt versions seems to almost always be the same
+The Qt and PyQt versions almost always seem to be the same.
 
 Can be installed in different ways (pip on all systems, apt-get on Debian based systems, (install .exe file on Windows?))
 
@@ -51,7 +61,7 @@ https://github.com/codecov/example-python
 
 ### Code coverage --- Not relevant at the moment
 
-for coverage.py to discover the subdirectories of the root dir specified with --source
+For coverage.py to discover the subdirectories of the root dir specified with --source
 we need to have an __init__.py file for each directory/package
 
 https://github.com/audreyr/how-to/blob/master/python/use_coverage_with_unittest.rst

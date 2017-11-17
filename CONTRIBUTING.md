@@ -10,7 +10,7 @@ Unless conversations are clearly of a private nature, we can choose to share the
 
 ### Conversations about issues in the gitter chat
 
-Please use [the gitter chat /issues]https://gitter.im/mindfulness-at-the-computer/issues) rather than issue comments for conversations about issues. The goal is that the issue has almost no comments and that a person new to an issue is easily able to grasp what the issue is about. If new information is gained it may be better to update the first issue comment
+Please use [the gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby) rather than issue comments for conversations about issues. The goal is that the issue has almost no comments and that a person new to an issue is easily able to grasp what the issue is about. If new information is gained it may be better to update the first issue comment
 
 If you use comments to discuss issues please be aware that comments are removed now and then, and the description (first comment) is updated with information relevant to the issue
 
@@ -58,7 +58,7 @@ This application is Free Libre Open Source Software. The software license is GPL
 8. If any further changes need to be made, comments will be made on the pull request.
 
 
-If you're unsure of some details while you're making edits, you can discuss them on the ticket or in the [Gitter chat room](https://gitter.im/mindfulness-at-the-computer/Lobby).
+If you're unsure of some details while you're making edits, you can discuss them in the [Gitter chat room](https://gitter.im/mindfulness-at-the-computer/Lobby).
 
 It's possible to work on two or more different patches (and therefore multiple branches) at one time, but it's recommended that beginners only work on one patch at a time.
 
