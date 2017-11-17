@@ -61,20 +61,14 @@ class ExpNotificationWidget(QtWidgets.QWidget):
 
         hbox = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox)
-        self.in_and_activate_qpb = CustomButton(
-            "In + activate"
-        )
+        self.in_and_activate_qpb = CustomButton("In + activate")
         hbox.addWidget(self.in_and_activate_qpb)
         self.in_and_activate_qpb.clicked.connect(self.on_in_and_activate_button_clicked)
-        self.in_qpb = CustomButton(
-            "In"
-        )
+        self.in_qpb = CustomButton("In")
         hbox.addWidget(self.in_qpb)
         self.in_qpb.clicked.connect(self.on_in_button_clicked)
         self.in_qpb.entered_signal.connect(self.on_in_button_hover)
-        self.out_qpb = CustomButton(
-            "Out"
-        )
+        self.out_qpb = CustomButton("Out")
         hbox.addWidget(self.out_qpb)
         self.out_qpb.clicked.connect(self.on_out_button_clicked)
         self.out_qpb.entered_signal.connect(self.on_out_button_hover)
@@ -119,8 +113,6 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         self.on_in_button_clicked()
 
     def on_in_button_hover(self):
-        # if (i_io == mc.mc_global.BreathingState.breathing_in
-        # and self.state == mc.mc_global_.BreathingState.breathing_out):
         if self.hover_and_kb_active_bool:
             self.on_in_button_clicked()
 
@@ -137,6 +129,9 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         or self.state == mc.mc_global.BreathingState.breathing_out):
             self.update_io_length_lists()
             self.breathing_graphicsscene_l4.clear()
+            # self.breathing_graphicsview_l3.centerOn(0, 0)
+            # = QtWidgets.QGraphicsView()
+            # self.breathing_graphicsview_l3.resetCachedContent()
             self.breathing_in()
 
     def on_out_button_clicked(self):
@@ -153,9 +148,10 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         self.close()
 
     def update_io_length_lists(self):
-        if len(self.ob_qgri_list) > 0:
-            self.ib_length_int_list.append(self.ib_qgri_list[-1].rect().width())
-            self.ob_length_int_list.append(self.ob_qgri_list[-1].rect().width())
+        if self.state == mc.mc_global.BreathingState.breathing_out and len(self.ob_qgri_list) > 0:
+            if len(self.ob_qgri_list) > 0:
+                self.ib_length_int_list.append(self.ib_qgri_list[-1].rect().width())
+                self.ob_length_int_list.append(self.ob_qgri_list[-1].rect().width())
 
     def start_breathing_in_timer(self):
         self.ib_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
@@ -235,21 +231,12 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         t_graphics_rect_item.setRect(new_rect)
 
 
-    """
-    # overridden
-    def show(self):
-        screen_qrect = QtWidgets.QApplication.desktop().availableGeometry()
-        xpos_int = screen_qrect.left() + (screen_qrect.width() - self.sizeHint().width()) // 2
-        ypos_int = screen_qrect.bottom() - self.sizeHint().height() - 50
-        super().show()
-    """
-
-
 class CustomLabel(QtWidgets.QLabel):
     def __init__(self, i_title: str):
         super().__init__(i_title)
 
     # Overridden
+    # noinspection PyPep8Naming
     def enterEvent(self, i_QEvent):
         logging.debug("enterEvent")
 
@@ -261,6 +248,7 @@ class CustomButton(QtWidgets.QPushButton):
         super().__init__(i_title)
 
     # Overridden
+    # noinspection PyPep8Naming
     def enterEvent(self, i_QEvent):
         self.entered_signal.emit()
         logging.debug("CustomButton: enterEvent")
