@@ -38,16 +38,18 @@ Can be installed in different ways (pip on all systems, apt-get on Debian based 
 
 ## Code Conventions
 
-Here are some things that are different from PEP8:
+Here are some things that are different from PEP8 or standard Python recommendations:
 * one class per file (plus minor supporting classes)
 * 120 chars max per line
-* PyQt special: Upper case characters in some places
-
-If you are using Pycharm you will get some
 
 ### Variable naming
 
-`_lx` where `x` describes the level of the widget or layout
+Prefixes: None used at the moment
+
+Suffixes:
+* `_l[x]` where `[x]` is a number which describes the level of the widget or layout --- this helps us understand the structure of the application in places where there are nested layouts
+  * can also sometimes be `_w[x]` for "layout widgets"
+* `_[type]`, for example `_int`
 
 
 ### Continuous Integration
@@ -59,7 +61,7 @@ https://blog.ionelmc.ro/2014/05/25/python-packaging/
 https://github.com/codecov/example-python
 
 
-### Code coverage --- Not relevant at the moment
+### Code coverage
 
 For coverage.py to discover the subdirectories of the root dir specified with --source
 we need to have an __init__.py file for each directory/package
@@ -67,7 +69,7 @@ we need to have an __init__.py file for each directory/package
 https://github.com/audreyr/how-to/blob/master/python/use_coverage_with_unittest.rst
 
 
-### Tests --- Not relevant at the moment
+### Tests
 
 http://johnnado.com/pyqt-qtest-example/
 https://bitbucket.org/jmcgeheeiv/pyqttestexample/src/
