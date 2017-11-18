@@ -37,6 +37,9 @@ class MainTest(unittest.TestCase):
         self.assertFalse(ts_widget.on_qpb.isChecked())
         self.assertTrue(ts_widget.off_qpb.isChecked())
 
+    def test_main_window(self):
+        main_window = mc.gui.main_window.MbMainWindow()
+
     def est_adding_breathing_phrase(self):
         pl_widget = mc.gui.breathing_phrase_list_dock.PhraseListCompositeWidget()
 
