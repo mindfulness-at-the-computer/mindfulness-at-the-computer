@@ -5,9 +5,17 @@ from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 import mc.mc_global
 import mc.gui.toggle_switch_widget
+import mc.gui.breathing_dialog
 import mc.gui.breathing_phrase_list_dock
-import mc.gui.main_window
+import mc.gui.breathing_reminder_settings_dock
 import mc.gui.breathing_widget
+import mc.gui.main_window
+import mc.gui.rest_action_list_dock
+import mc.gui.rest_reminder_settings_dock
+import mc.gui.rest_widget
+import mc.gui.safe_delete_dialog
+import mc.gui.toggle_switch_widget
+
 
 test_app = QtWidgets.QApplication(sys.argv)
 # -has to be set here (rather than in __main__) to avoid an error
@@ -39,6 +47,32 @@ class MainTest(unittest.TestCase):
 
     def test_main_window(self):
         main_window = mc.gui.main_window.MbMainWindow()
+
+    def test_breathing_dialog(self):
+        breathing_dialog = mc.gui.breathing_dialog.ExpNotificationWidget()
+
+    def test_breathing_phrase_list_dock(self):
+        breathing_phrase_list_dock = mc.gui.breathing_phrase_list_dock.PhraseListCompositeWidget()
+
+    def test_reminder_settings_dock(self):
+        breathing_reminder_settings_dock = mc.gui.breathing_reminder_settings_dock.BreathingSettingsComposite()
+
+    def test_breathing_widget(self):
+        breathing_widget = mc.gui.breathing_widget.BreathingCompositeWidget()
+
+    def test_rest_action_list_dock(self):
+        rest_action_list_dock = mc.gui.rest_action_list_dock.RestActionsComposite()
+
+    def test_rest_reminder_settings_dock(self):
+        rest_reminder_settings_dock = mc.gui.rest_reminder_settings_dock.RestSettingsComposite()
+
+    def test_rest_widget(self):
+        rest_widget = mc.gui.rest_widget.RestComposite()
+
+    """
+    def test_safe_delete_dialog(self):
+        safe_delete_dialog = mc.gui.safe_delete_dialog.SafeDeleteDialog()
+    """
 
     def est_adding_breathing_phrase(self):
         pl_widget = mc.gui.breathing_phrase_list_dock.PhraseListCompositeWidget()
