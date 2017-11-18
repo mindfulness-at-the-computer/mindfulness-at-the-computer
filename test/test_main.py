@@ -69,10 +69,10 @@ class MainTest(unittest.TestCase):
     def test_rest_widget(self):
         rest_widget = mc.gui.rest_widget.RestComposite()
 
-    """
     def test_safe_delete_dialog(self):
-        safe_delete_dialog = mc.gui.safe_delete_dialog.SafeDeleteDialog()
-    """
+        safe_delete_dialog = mc.gui.safe_delete_dialog.SafeDeleteDialog("testing")
+        ok_dialog_button = safe_delete_dialog.button_box.button(QtWidgets.QDialogButtonBox.Ok)
+        QtTest.QTest.mouseClick(ok_dialog_button, QtCore.Qt.LeftButton)
 
     def est_adding_breathing_phrase(self):
         pl_widget = mc.gui.breathing_phrase_list_dock.PhraseListCompositeWidget()
