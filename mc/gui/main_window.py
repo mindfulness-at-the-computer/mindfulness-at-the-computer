@@ -177,24 +177,25 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.system_tray.tray_breathing_enabled_qaction.setDisabled(True)
 
         self.system_tray.tray_phrase_qaction_list.clear()
-        for count in enumerate(range(5)):
-            for l_phrase in mc.model.PhrasesM.get_all():
-                INDENTATION_STR = "  "
-                ACTIVE_MARKER_STR = "•"
-                INACTIVE_MARKER_STR = " "
-                active_or_inactive_str = INACTIVE_MARKER_STR
-                if l_phrase.id_int == mc.mc_global.active_phrase_id_it:
-                    active_or_inactive_str = ACTIVE_MARKER_STR
-                tray_phrase_qaction = QtWidgets.QAction(active_or_inactive_str + INDENTATION_STR + l_phrase.title_str)
-                tray_phrase_qaction.triggered.connect(
-                    functools.partial(
-                        self.phrase_list_widget.on_new_row_selected_from_system_tray,
-                        l_phrase.id_int
-                    )
+        for (count, l_phrase) in enumerate(mc.model.PhrasesM.get_all()):
+            INDENTATION_STR = "  "
+            ACTIVE_MARKER_STR = "•"
+            INACTIVE_MARKER_STR = " "
+            active_or_inactive_str = INACTIVE_MARKER_STR
+            if l_phrase.id_int == mc.mc_global.active_phrase_id_it:
+                active_or_inactive_str = ACTIVE_MARKER_STR
+            tray_phrase_qaction = QtWidgets.QAction(active_or_inactive_str + INDENTATION_STR + l_phrase.title_str)
+            tray_phrase_qaction.triggered.connect(
+                functools.partial(
+                    self.phrase_list_widget.on_new_row_selected_from_system_tray,
+                    l_phrase.id_int
                 )
-                self.system_tray.tray_phrase_qaction_list.append(tray_phrase_qaction)
-                # self.tray_phrase_qaction = QtWidgets.QAction(l_phrase.title_str)
-                self.tray_menu.addAction(tray_phrase_qaction)
+            )
+            self.system_tray.tray_phrase_qaction_list.append(tray_phrase_qaction)
+            # self.tray_phrase_qaction = QtWidgets.QAction(l_phrase.title_str)
+            self.tray_menu.addAction(tray_phrase_qaction)
+            if count >= 4:
+                break
 
         self.tray_menu.addSeparator()
 
