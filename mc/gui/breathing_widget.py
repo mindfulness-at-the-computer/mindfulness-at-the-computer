@@ -199,7 +199,7 @@ class BreathingCompositeWidget(QtWidgets.QWidget):
     def add_from_dialog(self, i_ilist, i_olist):
         self.new_cycle_bool = True
 
-        for _ , (in_length_ft, out_length_ft) in enumerate(zip(i_ilist, i_olist)):
+        for in_length_ft, out_length_ft in zip(i_ilist, i_olist):
             # -using ob here ensures that we only add when there are complete breathing cycles
             self.add_new_breathing_rect(
                 mc.mc_global.BreathingState.breathing_in,
