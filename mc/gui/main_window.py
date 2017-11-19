@@ -176,9 +176,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
         )
         self.system_tray.tray_breathing_enabled_qaction.setDisabled(True)
 
-        count_int = 0
         self.system_tray.tray_phrase_qaction_list.clear()
-        for l_phrase in mc.model.PhrasesM.get_all():
+        for (count, l_phrase) in enumerate(mc.model.PhrasesM.get_all()):
             INDENTATION_STR = "  "
             ACTIVE_MARKER_STR = "•"
             INACTIVE_MARKER_STR = " "
@@ -195,8 +194,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
             self.system_tray.tray_phrase_qaction_list.append(tray_phrase_qaction)
             # self.tray_phrase_qaction = QtWidgets.QAction(l_phrase.title_str)
             self.tray_menu.addAction(tray_phrase_qaction)
-            count_int += 1
-            if count_int >= 5:
+            if count >= 4:
                 break
 
         self.tray_menu.addSeparator()
