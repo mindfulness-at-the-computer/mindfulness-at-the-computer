@@ -49,12 +49,12 @@ class BreathingVisType(enum.Enum):
     popup_dialog = 1
 
 
-def get_base_dir():
+def get_base_dir() -> str:
     base_dir_str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     return base_dir_str
 
 
-def get_database_filename():
+def get_database_filename() -> str:
     if testing_bool:
         return ":memory:"
     else:
@@ -62,7 +62,7 @@ def get_database_filename():
         return ret_path_str
 
 
-def get_user_images_path(i_file_name: str=""):
+def get_user_images_path(i_file_name: str="") -> str:
     if i_file_name:
         user_images_path_str = os.path.join(get_base_dir(), USER_FILES_DIR_STR, IMAGES_DIR_STR, i_file_name)
     else:
@@ -72,18 +72,18 @@ def get_user_images_path(i_file_name: str=""):
     # return QtCore.QDir.toNativeSeparators(user_dir_path_str)
 
 
-def get_icon_path(i_file_name: str):
+def get_icon_path(i_file_name: str) -> str:
     ret_icon_path_str = os.path.join(get_base_dir(), ICONS_DIR_STR, i_file_name)
     return ret_icon_path_str
 
 
-def get_app_icon_path():
+def get_app_icon_path() -> str:
     icon_file_name_str = "icon.png"
     ret_icon_path_str = os.path.join(get_base_dir(), ICONS_DIR_STR, icon_file_name_str)
     return ret_icon_path_str
 
 
-def get_user_files_path(i_file_name: str):
+def get_user_files_path(i_file_name: str) -> str:
     return os.path.join(get_base_dir(), USER_FILES_DIR_STR, i_file_name)
 
 
@@ -98,14 +98,14 @@ def does_database_exist_started() -> bool:
 # Standard font size is (on almost all systems) 12
 
 
-def get_font_medium(i_italics: bool=False, i_bold: bool=False):
+def get_font_medium(i_italics: bool=False, i_bold: bool=False) -> QFont:
     font = QtGui.QFont()
     font.setItalic(i_italics)
     font.setBold(i_bold)
     return font
 
 
-def get_font_large(i_underscore: bool=False, i_italics: bool=False, i_bold: bool=False):
+def get_font_large(i_underscore: bool=False, i_italics: bool=False, i_bold: bool=False) -> QFont:
     font = QtGui.QFont()
     font.setPointSize(13)
     font.setUnderline(i_underscore)
@@ -114,7 +114,7 @@ def get_font_large(i_underscore: bool=False, i_italics: bool=False, i_bold: bool
     return font
 
 
-def get_font_xlarge(i_underscore: bool=False, i_italics: bool=False, i_bold: bool=False):
+def get_font_xlarge(i_underscore: bool=False, i_italics: bool=False, i_bold: bool=False) -> QFont:
     font = QtGui.QFont()
     font.setPointSize(16)
     font.setUnderline(i_underscore)
@@ -123,7 +123,7 @@ def get_font_xlarge(i_underscore: bool=False, i_italics: bool=False, i_bold: boo
     return font
 
 
-def get_font_xxlarge():
+def get_font_xxlarge() -> QFont:
     font = QtGui.QFont()
     font.setPointSize(24)
     return font
