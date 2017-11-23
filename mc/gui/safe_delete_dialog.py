@@ -7,7 +7,7 @@ class SafeDeleteDialog(QtWidgets.QDialog):
     Inspiration: Answer by lou here:
     https://stackoverflow.com/questions/18196799/how-can-i-show-a-pyqt-modal-dialog-and-get-data-out-of-its-controls-once-its-clo
     """
-    def __init__(self, i_description_str, i_parent=None):
+    def __init__(self, i_description_str: str, i_parent=None):
         super(SafeDeleteDialog, self).__init__(i_parent)
 
         vbox = QtWidgets.QVBoxLayout(self)
