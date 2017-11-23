@@ -98,14 +98,14 @@ def does_database_exist_started() -> bool:
 # Standard font size is (on almost all systems) 12
 
 
-def get_font_medium(i_italics: bool=False, i_bold: bool=False) -> QFont:
+def get_font_medium(i_italics: bool=False, i_bold: bool=False) -> QtGui.QFont:
     font = QtGui.QFont()
     font.setItalic(i_italics)
     font.setBold(i_bold)
     return font
 
 
-def get_font_large(i_underscore: bool=False, i_italics: bool=False, i_bold: bool=False) -> QFont:
+def get_font_large(i_underscore: bool=False, i_italics: bool=False, i_bold: bool=False) -> QtGui.QFont:
     font = QtGui.QFont()
     font.setPointSize(13)
     font.setUnderline(i_underscore)
@@ -114,7 +114,7 @@ def get_font_large(i_underscore: bool=False, i_italics: bool=False, i_bold: bool
     return font
 
 
-def get_font_xlarge(i_underscore: bool=False, i_italics: bool=False, i_bold: bool=False) -> QFont:
+def get_font_xlarge(i_underscore: bool=False, i_italics: bool=False, i_bold: bool=False) -> QtGui.QFont:
     font = QtGui.QFont()
     font.setPointSize(16)
     font.setUnderline(i_underscore)
@@ -123,7 +123,7 @@ def get_font_xlarge(i_underscore: bool=False, i_italics: bool=False, i_bold: boo
     return font
 
 
-def get_font_xxlarge() -> QFont:
+def get_font_xxlarge() -> QtGui.QFont:
     font = QtGui.QFont()
     font.setPointSize(24)
     return font
