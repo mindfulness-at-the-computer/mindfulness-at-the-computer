@@ -31,6 +31,10 @@ class PhrasesM:
         )
         return_value_int = db_cursor_result.fetchone()[0]
         # -0 has to be added here even though there can only be one value
+
+        #to prevent error when the tables are empty
+        if return_value_int == None:
+            return 0
         return return_value_int
 
     @staticmethod
@@ -43,6 +47,10 @@ class PhrasesM:
         )
         return_value_int = db_cursor_result.fetchone()[0]
         # -0 has to be added here even though there can only be one value
+
+        #to prevent error when the tables are empty
+        if return_value_int == None:
+            return 0
         return return_value_int
 
     @staticmethod
