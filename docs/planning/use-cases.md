@@ -1,6 +1,4 @@
 
-For discussions about features: https://gitter.im/mindfulness-at-the-computer/features
-
 List of feature ideas: https://github.com/SunyataZero/mindfulness-at-the-computer/wiki/Feature-Ideas
 
 
