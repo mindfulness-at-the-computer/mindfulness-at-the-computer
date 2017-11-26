@@ -210,7 +210,8 @@ class EditDialog(QtWidgets.QDialog):
     def __init__(self, i_parent=None):
         super(EditDialog, self).__init__(i_parent)
 
-        assert mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
+        if mc.mc_global.active_phrase_id_it == mc.mc_global.NO_PHRASE_SELECTED_INT:
+            mc.mc_global.active_phrase_id_it = 1   
         active_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
 
         vbox = QtWidgets.QVBoxLayout(self)
