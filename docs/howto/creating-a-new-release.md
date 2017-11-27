@@ -14,9 +14,6 @@ Documentation:
 
 ### Building on Ubuntu
 
-*Please choose a fairly early version*, 16.04 or earlier. The reason is that pyinstaller does not bundle *libc* into the resulting package so the resulting package may not (will not?) work with earlier versions of libc and Linux:
-https://pyinstaller.readthedocs.io/en/stable/usage.html#making-linux-apps-forward-compatible
-
 1. Install Python (PyInstaller now works with version 3.6 of Python): `sudo apt-get install python3`
 2. `pip3 install pyinstaller`
 3. `pip3 install pyqt5`
@@ -28,6 +25,14 @@ This process will create an executable file with supporting .so files
 The .spec file has been customized to include the user_files and icons directories
 
 Creating the tar.gz file: `tar -czvf mindfulness-at-the-computer.tar.gz mindfulness-at-the-computer/`
+
+#### glibc
+
+*Please choose a fairly early version*, 16.04 or earlier. The reason is that pyinstaller does not bundle *libc* into the resulting package so the resulting package may not (will not?) work with earlier versions of libc and Linux:
+https://pyinstaller.readthedocs.io/en/stable/usage.html#making-linux-apps-forward-compatible
+
+glibc is also specific for 32 or 64 bit so builds will only work for that architecture. Because of how common 64 bit systems are nowadays this is the priority
+
 
 ### Building on MacOS
 
@@ -51,6 +56,8 @@ As a last step you can create a zip file
 #### Windows 7 and 10
 
 It seems to be better to build on Windows 7. The Windows 10 build binary file has failed to start for us, but the Windows 7 has always worked once the build has been completed
+
+More info here: http://pyinstaller.readthedocs.io/en/stable/usage.html#windows
 
 ### Building on Mac
 
