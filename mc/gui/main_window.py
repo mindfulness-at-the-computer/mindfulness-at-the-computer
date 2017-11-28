@@ -274,8 +274,8 @@ class MbMainWindow(QtWidgets.QMainWindow):
         else:
             mc.mc_global.rest_reminder_minutes_passed_int = 0
             if i_wait_minutes == mc.gui.rest_widget.CLOSED_RESULT_INT:
-                settings = mc.model.SettingsM.get()
-                settings.update_rest_reminder_active(False)
+                # settings = mc.model.SettingsM.get()
+                # settings.update_rest_reminder_active(False)
                 self.minimize_to_tray()
 
         self.main_area_stacked_widget_l4.setCurrentIndex(self.bcw_sw_id_int)

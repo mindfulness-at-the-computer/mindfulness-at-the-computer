@@ -55,14 +55,12 @@ class RestComposite(QtWidgets.QWidget):
         hbox_l4.addWidget(QtWidgets.QLabel("minutes"))
         hbox_l4.addStretch(1)
 
-        hbox_l4 = QtWidgets.QHBoxLayout()
-        vbox_l3.addLayout(hbox_l4)
-        self.close_qpb = QtWidgets.QPushButton("Close")
+        self.close_qpb = QtWidgets.QPushButton("Skip")
         hbox_l4.addWidget(self.close_qpb)
-        self.close_qpb.clicked.connect(self.on_close_button_clicked)
+        self.close_qpb.clicked.connect(self.on_skip_button_clicked)
         self.close_qpb.setFont(mc_global.get_font_xlarge())
-        hbox_l4.addWidget(QtWidgets.QLabel("and disable reminders"))
-        hbox_l4.addStretch(1)
+        # hbox_l4.addWidget(QtWidgets.QLabel("this rest"))
+        # hbox_l4.addStretch(1)
 
         vbox_l2.addStretch(1)
 
@@ -82,7 +80,7 @@ class RestComposite(QtWidgets.QWidget):
     def on_close_and_breathe_button_clicked(self):
         self.result_signal.emit(CLOSED_WITH_BREATHING_RESULT_INT)
 
-    def on_close_button_clicked(self):
+    def on_skip_button_clicked(self):
         self.result_signal.emit(CLOSED_RESULT_INT)
 
     def resize_image(self):

@@ -1,4 +1,8 @@
 
+[ ] starting a 2nd program - same, in other words only one instance can be run
+
+[ ] skip break (same as wait for same nr of minutes as with "restart")
+
 [ ] add hover for the breathing dialog
 [ ] add "test"/breathe now as an option both in the main user interface and in the systray menu
 
