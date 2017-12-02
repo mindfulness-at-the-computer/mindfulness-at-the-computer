@@ -26,7 +26,7 @@ class SafeDeleteDialog(QtWidgets.QDialog):
         # -accept and reject are "slots" built into Qt
 
     @staticmethod
-    def get_safe_confirmation_dialog(i_description_str):
+    def get_safe_confirmation_dialog(i_description_str: str):
         dialog = SafeDeleteDialog(i_description_str)
         dialog_result = dialog.exec_()
         confirmation_result_bool = False
