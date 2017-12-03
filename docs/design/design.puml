@@ -1,0 +1,30 @@
+@startuml
+(*)  --> "Rest timer timeout"
+--> "Rest notification popup"
+If "User clicks" then
+--> [Skip] "Timer is reset"
+--> "Rest timer timeout"
+else
+--> [Wait] "Timer waits for a time specified in settings"
+--> "Rest timer timeout"
+else
+--> [8 sec.] "Ignore"
+--> "Timer waits for a time specified in settings"
+else
+--> [Rest] "User sees resting dialog"
+    If "Finds rest action"
+    --> [yes] "Gets up from chair"
+    --> "Mindful walking or rest action"
+    --> "User returns to computer"
+    --> "User sees breathing widget"
+    --> "User continues working at the computer"
+    -->(*)
+    else
+        If "User knows what to do"
+        --> [no] (*)
+        else
+        --> [yes] "Action is not in the list"
+        --> (*)
+        Endif
+Endif
+@enduml
