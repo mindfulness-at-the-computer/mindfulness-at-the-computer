@@ -6,12 +6,12 @@ from PyQt5 import QtWidgets
 import mc.mc_global
 import mc.gui.toggle_switch_widget
 import mc.gui.breathing_dialog
-import mc.gui.breathing_phrase_list_dock
-import mc.gui.breathing_reminder_settings_dock
-import mc.gui.breathing_widget
+import mc.gui.breathing_phrase_list_widget
+import mc.gui.breathing_settings
+import mc.gui.breathing_history_widget
 import mc.gui.main_window
-import mc.gui.rest_action_list_dock
-import mc.gui.rest_reminder_settings_dock
+import mc.gui.rest_action_list_widget
+import mc.gui.rest_settings_widget
 import mc.gui.rest_widget
 import mc.gui.safe_delete_dialog
 import mc.gui.toggle_switch_widget
@@ -46,25 +46,25 @@ class MainTest(unittest.TestCase):
         self.assertTrue(ts_widget.off_qpb.isChecked())
 
     def test_main_window(self):
-        main_window = mc.gui.main_window.MbMainWindow()
+        main_window = mc.gui.main_window.MatcMainWindow()
 
     def test_breathing_dialog(self):
         breathing_dialog = mc.gui.breathing_dialog.ExpNotificationWidget()
 
     def test_breathing_phrase_list_dock(self):
-        breathing_phrase_list_dock = mc.gui.breathing_phrase_list_dock.PhraseListCompositeWidget()
+        breathing_phrase_list_dock = mc.gui.breathing_phrase_list_widget.PhraseListCompositeWidget()
 
     def test_reminder_settings_dock(self):
-        breathing_reminder_settings_dock = mc.gui.breathing_reminder_settings_dock.BreathingSettingsComposite()
+        breathing_reminder_settings_dock = mc.gui.breathing_settings.BreathingSettingsComposite()
 
     def test_breathing_widget(self):
-        breathing_widget = mc.gui.breathing_widget.BreathingCompositeWidget()
+        breathing_widget = mc.gui.breathing_history_widget.BreathingCompositeWidget()
 
     def test_rest_action_list_dock(self):
-        rest_action_list_dock = mc.gui.rest_action_list_dock.RestActionsComposite()
+        rest_action_list_dock = mc.gui.rest_action_list_widget.RestActionsComposite()
 
     def test_rest_reminder_settings_dock(self):
-        rest_reminder_settings_dock = mc.gui.rest_reminder_settings_dock.RestSettingsComposite()
+        rest_reminder_settings_dock = mc.gui.rest_settings_widget.RestSettingsComposite()
 
     def test_rest_widget(self):
         rest_widget = mc.gui.rest_widget.RestComposite()
@@ -75,7 +75,7 @@ class MainTest(unittest.TestCase):
         QtTest.QTest.mouseClick(ok_dialog_button, QtCore.Qt.LeftButton)
 
     def est_adding_breathing_phrase(self):
-        pl_widget = mc.gui.breathing_phrase_list_dock.PhraseListCompositeWidget()
+        pl_widget = mc.gui.breathing_phrase_list_widget.PhraseListCompositeWidget()
 
         TEST_TEXT_STR = "testing 1"
         QtTest.QTest.keyClicks(pl_widget.add_to_list_qle, TEST_TEXT_STR)
@@ -97,9 +97,9 @@ class MainTest(unittest.TestCase):
     def est_selecting_breathing_phrase(self):
 
         # pl_widget = self.matc_main_obj.main_window.phrase_list_widget
-        pl_widget = mc.gui.breathing_phrase_list_dock.PhraseListCompositeWidget()
+        pl_widget = mc.gui.breathing_phrase_list_widget.PhraseListCompositeWidget()
         # breathing_widget = self.matc_main_obj.main_window.breathing_composite_widget
-        breathing_widget = mc.gui.breathing_widget.BreathingCompositeWidget()
+        breathing_widget = mc.gui.breathing_history_widget.BreathingCompositeWidget()
         print("breathing_widget.bi_text_qll.text() = " + breathing_widget.bi_text_qll.text())
 
         # mc.gui.main_win.MbMainWindow()
@@ -126,13 +126,13 @@ class MainTest(unittest.TestCase):
 
         print("breathing_widget.bi_text_qll.text() = " + breathing_widget.bi_text_qll.text())
         print("mc.gui.phrase_list_cw.BREATHING_IN_DEFAULT_PHRASE = "
-            + mc.gui.breathing_phrase_list_dock.BREATHING_IN_DEFAULT_PHRASE)
-        is_true = breathing_widget.bi_text_qll.text() == mc.gui.breathing_phrase_list_dock.BREATHING_IN_DEFAULT_PHRASE
+              + mc.gui.breathing_phrase_list_widget.BREATHING_IN_DEFAULT_PHRASE)
+        is_true = breathing_widget.bi_text_qll.text() == mc.gui.breathing_phrase_list_widget.BREATHING_IN_DEFAULT_PHRASE
 
         self.assertTrue(is_true)
 
         self.assertTrue(
-            breathing_widget.bo_text_qll.text() == mc.gui.breathing_phrase_list_dock.BREATHING_OUT_DEFAULT_PHRASE
+            breathing_widget.bo_text_qll.text() == mc.gui.breathing_phrase_list_widget.BREATHING_OUT_DEFAULT_PHRASE
         )
 
     @staticmethod

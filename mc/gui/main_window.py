@@ -4,24 +4,24 @@ import functools
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
-import mc.gui.rest_action_list_dock
+import mc.gui.rest_action_list_widget
 import mc.model
 import mc.mc_global
-import mc.gui.breathing_widget
-import mc.gui.breathing_reminder_settings_dock
-import mc.gui.breathing_phrase_list_dock
-import mc.gui.rest_reminder_settings_dock
+import mc.gui.breathing_history_widget
+import mc.gui.breathing_settings
+import mc.gui.breathing_phrase_list_widget
+import mc.gui.rest_settings_widget
 import mc.gui.rest_widget
 import mc.gui.breathing_dialog
+import mc.gui.rest_reminder_dialog
+import mc.gui.rest_widget
 
 
-class MbMainWindow(QtWidgets.QMainWindow):
+class MatcMainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
         self.setGeometry(100, 100, 900, 600)
-        self.setCorner(QtCore.Qt.BottomLeftCorner, QtCore.Qt.LeftDockWidgetArea)
-        self.setCorner(QtCore.Qt.BottomRightCorner, QtCore.Qt.RightDockWidgetArea)
         self.setWindowIcon(QtGui.QIcon(mc.mc_global.get_app_icon_path()))
 
         self.system_tray = SystemTray()
@@ -40,69 +40,42 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.setStyleSheet("selection-background-color:#bfef7f; selection-color:#000000;")
 
         self.rest_reminder_dialog = None
+        self.rest_widget = None
         self.tray_icon = None
         self.rest_reminder_qtimer = None
         self.breathing_qtimer = None
 
         central_widget_l2 = QtWidgets.QWidget()
         self.setCentralWidget(central_widget_l2)
-        vbox_l3 = QtWidgets.QVBoxLayout()
-        central_widget_l2.setLayout(vbox_l3)
+        hbox_l3 = QtWidgets.QHBoxLayout()
+        central_widget_l2.setLayout(hbox_l3)
+        vbox_l4 = QtWidgets.QVBoxLayout()
+        hbox_l3.addLayout(vbox_l4)
 
-        self.main_area_stacked_widget_l4 = QtWidgets.QStackedWidget()
-        vbox_l3.addWidget(self.main_area_stacked_widget_l4)
-
-        self.breathing_widget = mc.gui.breathing_widget.BreathingCompositeWidget()
-        self.bcw_sw_id_int = self.main_area_stacked_widget_l4.addWidget(self.breathing_widget)
-
-        self.rest_widget = mc.gui.rest_widget.RestComposite()
-        self.rrcw_sw_id_int = self.main_area_stacked_widget_l4.addWidget(self.rest_widget)
-        self.rest_widget.result_signal.connect(self.on_rest_widget_closed)
-
-        self.main_area_stacked_widget_l4.setCurrentIndex(self.bcw_sw_id_int)
-
-        self.breathing_phrase_dock = QtWidgets.QDockWidget("Breathing Phrases")
-        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.breathing_phrase_dock)
-        self.breathing_phrase_dock.setFeatures(QtWidgets.QDockWidget.NoDockWidgetFeatures)
-        self.phrase_list_widget = mc.gui.breathing_phrase_list_dock.PhraseListCompositeWidget()
-        self.breathing_phrase_dock.setWidget(self.phrase_list_widget)
-        self.breathing_phrase_dock.setSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding)
+        self.phrase_list_widget = mc.gui.breathing_phrase_list_widget.PhraseListCompositeWidget()
+        vbox_l4.addWidget(self.phrase_list_widget)
         self.phrase_list_widget.list_selection_changed_signal.connect(self.on_breathing_list_row_changed)
         self.phrase_list_widget.phrase_updated_signal.connect(self.on_breathing_phrase_changed)
 
-        self.breathing_settings_dock = QtWidgets.QDockWidget("Breathing Reminders")
-        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.breathing_settings_dock)
-        # settings_dock.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
-        self.breathing_settings_dw = mc.gui.breathing_reminder_settings_dock.BreathingSettingsComposite()
-        self.breathing_settings_dock.setWidget(self.breathing_settings_dw)
-        self.breathing_settings_dw.breathing_settings_updated_signal.connect(self.on_breathing_settings_changed)
-        self.breathing_settings_dw.breathing_test_button_clicked_signal.connect(self.show_breathing_dialog)
-        self.breathing_settings_dock.setSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        self.breathing_settings_widget = mc.gui.breathing_settings.BreathingSettingsComposite()
+        vbox_l4.addWidget(self.breathing_settings_widget)
+        self.breathing_settings_widget.breathing_settings_updated_signal.connect(self.on_breathing_settings_changed)
+        self.breathing_settings_widget.breathing_test_button_clicked_signal.connect(self.show_breathing_dialog)
 
-        self.rest_settings_dock = QtWidgets.QDockWidget("Rest Reminders")
-        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.rest_settings_dock)
-        # settings_dock.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
-        self.rest_settings_dw = mc.gui.rest_reminder_settings_dock.RestSettingsComposite()
-        self.rest_settings_dock.setWidget(self.rest_settings_dw)
-        self.rest_settings_dw.rest_settings_updated_signal.connect(self.on_rest_settings_changed)
-        self.rest_settings_dw.rest_test_button_clicked_signal.connect(self.show_rest_reminder)
-        self.rest_settings_dw.rest_reset_button_clicked_signal.connect(self.on_rest_settings_changed)
-        self.rest_settings_dw.rest_slider_value_changed_signal.connect(self.on_rest_slider_value_changed)
-        self.rest_settings_dock.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        vbox_l4 = QtWidgets.QVBoxLayout()
+        hbox_l3.addLayout(vbox_l4)
 
-        self.rest_actions_dock = QtWidgets.QDockWidget("Rest Actions")
-        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.rest_actions_dock)
-        self.rest_actions_dock.setFeatures(QtWidgets.QDockWidget.NoDockWidgetFeatures)
-        self.tabifyDockWidget(self.breathing_phrase_dock, self.rest_actions_dock)  # <------
-        self.rest_actions_widget = mc.gui.rest_action_list_dock.RestActionsComposite()
-        self.rest_actions_dock.setWidget(self.rest_actions_widget)
+        self.rest_actions_widget = mc.gui.rest_action_list_widget.RestActionsComposite()
+        vbox_l4.addWidget(self.rest_actions_widget)
         self.rest_actions_widget.update_signal.connect(self.on_rest_actions_updated)
         self.rest_actions_widget.list_selection_changed_signal.connect(self.on_rest_action_list_row_changed)
-        self.rest_actions_dock.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding)
 
-        self.breathing_phrase_dock.raise_()
+        self.rest_settings_widget = mc.gui.rest_settings_widget.RestSettingsComposite()
+        vbox_l4.addWidget(self.rest_settings_widget)
+        self.rest_settings_widget.rest_settings_updated_signal.connect(self.on_rest_settings_changed)
+        self.rest_settings_widget.rest_test_button_clicked_signal.connect(self.show_rest_reminder)
+        self.rest_settings_widget.rest_reset_button_clicked_signal.connect(self.on_rest_settings_changed)
+        self.rest_settings_widget.rest_slider_value_changed_signal.connect(self.on_rest_slider_value_changed)
 
         # Setup of Menu
         self.menu_bar = self.menuBar()
@@ -154,7 +127,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.tray_menu.addAction(self.system_tray.tray_rest_enabled_qaction)
         self.system_tray.tray_rest_enabled_qaction.setCheckable(True)
         self.system_tray.tray_rest_enabled_qaction.toggled.connect(
-            self.rest_settings_dw.on_switch_toggled
+            self.rest_settings_widget.on_switch_toggled
         )
         self.system_tray.tray_rest_enabled_qaction.setChecked(settings.rest_reminder_active_bool)
         self.system_tray.tray_rest_progress_qaction = QtWidgets.QAction("")
@@ -172,7 +145,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.system_tray.tray_breathing_enabled_qaction.setCheckable(True)
         self.system_tray.tray_breathing_enabled_qaction.setChecked(settings.breathing_reminder_active_bool)
         self.system_tray.tray_breathing_enabled_qaction.toggled.connect(
-            self.breathing_settings_dw.on_switch_toggled
+            self.breathing_settings_widget.on_switch_toggled
         )
         self.system_tray.tray_breathing_enabled_qaction.setDisabled(True)
 
@@ -217,7 +190,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
     def on_breathing_list_row_changed(self, i_details_enabled: bool):
         self.change_timer_state()
-        self.breathing_settings_dw.setEnabled(i_details_enabled)
+        self.breathing_settings_widget.setEnabled(i_details_enabled)
         self.system_tray.tray_breathing_enabled_qaction.setEnabled(i_details_enabled)
 
         self.update_gui(mc.mc_global.EventSource.breathing_list_selection_changed)
@@ -227,7 +200,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
 
     def on_breathing_phrase_changed(self, i_details_enabled):
         self.change_timer_state()
-        self.breathing_settings_dw.setEnabled(i_details_enabled)
+        self.breathing_settings_widget.setEnabled(i_details_enabled)
         self.system_tray.tray_breathing_enabled_qaction.setEnabled(i_details_enabled)
 
         self.update_gui(mc.mc_global.EventSource.breathing_list_phrase_updated)
@@ -246,7 +219,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
     def stop_rest_timer(self):
         if self.rest_reminder_qtimer is not None and self.rest_reminder_qtimer.isActive():
             self.rest_reminder_qtimer.stop()
-        self.rest_settings_dw.update_gui()  # -so that the progressbar is updated
+        self.rest_settings_widget.update_gui()  # -so that the progressbar is updated
 
     def start_rest_timer(self):
         mc.mc_global.rest_reminder_minutes_passed_int = 0
@@ -260,10 +233,15 @@ class MbMainWindow(QtWidgets.QMainWindow):
         if (mc.mc_global.rest_reminder_minutes_passed_int
                 >= mc.model.SettingsM.get().rest_reminder_interval_int):
             self.show_rest_reminder()
-        self.rest_settings_dw.rest_reminder_qsr.setValue(
+        self.rest_settings_widget.rest_reminder_qsr.setValue(
             mc.mc_global.rest_reminder_minutes_passed_int
         )
 
+    def on_rest_widget_closed(self):
+        mc.mc_global.rest_reminder_minutes_passed_int = 0
+        self.update_gui()
+
+    """
     def on_rest_widget_closed(self, i_wait_minutes: int):
         if i_wait_minutes >= 0:  # mc.gui.rest_widget.CLOSED_RESULT_INT
             mc.mc_global.rest_reminder_minutes_passed_int = (
@@ -285,6 +263,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         # -this may not work, info here:
         # http://www.qtcentre.org/threads/21362-Setting-the-active-tab-with-tabified-docking-windows
         self.update_gui(mc.mc_global.EventSource.rest_closed)
+    """
 
     def restore_window(self):
         self.raise_()
@@ -292,10 +271,26 @@ class MbMainWindow(QtWidgets.QMainWindow):
         # another alternative (from an SO answer): self.setWindowState(QtCore.Qt.WindowActive)
 
     def show_rest_reminder(self):
-        self.restore_window()
-        self.main_area_stacked_widget_l4.setCurrentIndex(self.rrcw_sw_id_int)
-        self.rest_actions_dock.raise_()
+        # self.restore_window()
+        # self.main_area_stacked_widget_l4.setCurrentIndex(self.rrcw_sw_id_int)
+        # self.rest_actions_dock.raise_()
+        self.rest_reminder_dialog = mc.gui.rest_reminder_dialog.RestNotificationWidget()
+        self.rest_reminder_dialog.rest_signal.connect(self.on_rest_rest)
+        self.rest_reminder_dialog.skip_signal.connect(self.on_rest_skip)
+        self.rest_reminder_dialog.wait_signal.connect(self.on_rest_wait)
         self.update_gui(mc.mc_global.EventSource.rest_opened)
+
+    def on_rest_wait(self):
+        mc.mc_global.rest_reminder_minutes_passed_int -= 2  # TODO
+        self.update_gui()
+
+    def on_rest_rest(self):
+        self.rest_widget = mc.gui.rest_widget.RestComposite()
+        self.rest_widget.closed_signal.connect(self.on_rest_widget_closed)
+
+    def on_rest_skip(self):
+        mc.mc_global.rest_reminder_minutes_passed_int = 0
+        self.update_gui()
 
     def on_breathing_settings_changed(self):
         self.change_timer_state()
@@ -316,7 +311,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         self.stop_breathing_timer()
         settings = mc.model.SettingsM.get()
         self.breathing_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
-        self.breathing_qtimer.timeout.connect(self.show_breathing_dialog)
+        self.breathing_qtimer.timeout.connect(self.show_breathing_dialog_if_conditions)
         # -show_breathing_notification
         self.breathing_qtimer.start(settings.breathing_reminder_interval_int * 60 * 1000)
 
@@ -346,17 +341,7 @@ class MbMainWindow(QtWidgets.QMainWindow):
         breathing_full_screen_action.triggered.connect(self.showFullScreen)
         show_exp_notification_action = QtWidgets.QAction("Show breathing dialog", self)
         debug_menu.addAction(show_exp_notification_action)
-        show_exp_notification_action.triggered.connect(self.show_exp_notification)
-
-        window_menu = self.menu_bar.addMenu("&Windows")
-        show_breathing_settings_window_action = self.breathing_settings_dock.toggleViewAction()
-        window_menu.addAction(show_breathing_settings_window_action)
-        show_rest_settings_window_action = self.rest_settings_dock.toggleViewAction()
-        window_menu.addAction(show_rest_settings_window_action)
-        # show_quotes_window_action = self.quotes_dock.toggleViewAction()
-        # window_menu.addAction(show_quotes_window_action)
-        show_rest_actions_window_action = self.rest_actions_dock.toggleViewAction()
-        window_menu.addAction(show_rest_actions_window_action)
+        show_exp_notification_action.triggered.connect(self.show_breathing_dialog)
 
         help_menu = self.menu_bar.addMenu("&Help")
         about_action = QtWidgets.QAction("About", self)
@@ -366,17 +351,17 @@ class MbMainWindow(QtWidgets.QMainWindow):
         help_menu.addAction(online_help_action)
         online_help_action.triggered.connect(self.show_online_help)
 
-    def show_breathing_dialog(self):
+    def show_breathing_dialog_if_conditions(self):
         if not self.isActiveWindow() and mc.model.breathing_reminder_active():
-            self.show_exp_notification()
+            self.show_breathing_dialog()
 
     # noinspection PyAttributeOutsideInit
-    def show_exp_notification(self):
+    def show_breathing_dialog(self):
         logging.debug("show_exp_notification")
-        self.exp_notification = mc.gui.breathing_dialog.ExpNotificationWidget()
-        self.exp_notification.close_signal.connect(
+        self.breathing_dialog = mc.gui.breathing_dialog.ExpNotificationWidget()
+        self.breathing_dialog.close_signal.connect(
             self.on_breathing_dialog_closed)
-        self.exp_notification.show()
+        self.breathing_dialog.show()
 
     def on_breathing_dialog_closed(self, i_ib_list, i_ob_list):
         self.breathing_widget.add_from_dialog(i_ib_list, i_ob_list)
@@ -425,12 +410,12 @@ class MbMainWindow(QtWidgets.QMainWindow):
         sys.exit()
 
     def update_gui(self, i_event_source=mc.mc_global.EventSource.undefined):
-        self.breathing_widget.update_gui()
-        self.rest_widget.update_gui()
+        # self.breathing_widget.update_gui()
+        # self.rest_widget.update_gui()
 
         if i_event_source != mc.mc_global.EventSource.rest_slider_value_changed:
-            self.rest_settings_dw.update_gui()
-        self.breathing_settings_dw.update_gui()
+            self.rest_settings_widget.update_gui()
+        self.breathing_settings_widget.update_gui()
 
         if (i_event_source != mc.mc_global.EventSource.breathing_list_selection_changed
         and i_event_source != mc.mc_global.EventSource.rest_list_selection_changed):

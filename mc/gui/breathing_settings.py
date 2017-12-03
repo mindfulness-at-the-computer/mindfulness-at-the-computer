@@ -37,6 +37,21 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         hbox_l3.addWidget(QtWidgets.QLabel("minutes"))
         hbox_l3.addStretch(1)
 
+        self.test_breathing_dialog_qpb = QtWidgets.QPushButton("Test breathing dialog")
+        vbox_l2.addWidget(self.test_breathing_dialog_qpb)
+        self.test_breathing_dialog_qpb.clicked.connect(self.on_test_breathing_dialog_button_clicked)
+
+        self.active_breathing_phrase_qgb = QtWidgets.QGroupBox("Active Breathing Phrase")
+        vbox_l2.addWidget(self.active_breathing_phrase_qgb)
+        vbox_l3 = QtWidgets.QVBoxLayout()
+        self.active_breathing_phrase_qgb.setLayout(vbox_l3)
+        self.title_text_qll = QtWidgets.QLabel("title")
+        vbox_l3.addWidget(self.title_text_qll)
+        self.in_text_qll = QtWidgets.QLabel("in")
+        vbox_l3.addWidget(self.in_text_qll)
+        self.out_text_qll = QtWidgets.QLabel("out")
+        vbox_l3.addWidget(self.out_text_qll)
+
         vbox_l2.addStretch(1)
 
         # self.breathing_reminder_qgb.setDisabled(True)  # -disabled until a phrase has been selected
@@ -44,7 +59,7 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
 
         self.update_gui()
 
-    def on_breathing_test_clicked(self):
+    def on_test_breathing_dialog_button_clicked(self):
         self.breathing_test_button_clicked_signal.emit()
 
     def on_switch_toggled(self, i_checked_bool):
@@ -65,6 +80,10 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         # Breathing reminder
         if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT:
             self.setDisabled(False)
+            breathing_phrase = mc.model.PhrasesM.get(mc_global.active_phrase_id_it)
+            self.title_text_qll.setText(breathing_phrase.title_str)
+            self.in_text_qll.setText(breathing_phrase.ib_str)
+            self.in_text_qll.setText(breathing_phrase.ob_str)
         else:
             self.setDisabled(True)
 

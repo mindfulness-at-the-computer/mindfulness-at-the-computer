@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     matc_qapplication = QtWidgets.QApplication(sys.argv)
     matc_qapplication.setQuitOnLastWindowClosed(False)
-    matc_main_window = mc.gui.main_window.MbMainWindow()
+    matc_main_window = mc.gui.main_window.MatcMainWindow()
     matc_main_window.show()
     sys.exit(matc_qapplication.exec_())
 
