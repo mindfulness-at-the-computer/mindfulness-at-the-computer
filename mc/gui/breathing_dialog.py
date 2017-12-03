@@ -94,9 +94,11 @@ class ExpNotificationWidget(QtWidgets.QWidget):
 
         # self.start_breathing_in_timer()
 
+        """
         cursor = QtGui.QCursor()
         cursor.setPos(xpos_int + self.width() // 2, ypos_int + self.height() // 2)
         self.setCursor(cursor)
+        """
 
     def breathing_in(self):
         self.state = mc.mc_global.BreathingState.breathing_in
