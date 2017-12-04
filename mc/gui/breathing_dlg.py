@@ -123,6 +123,8 @@ class BreathingDlg(QtWidgets.QFrame):
 
         self.ib_cll.setFont(mc.mc_global.get_font_large(i_underscore=True))
         self.ob_cll.setFont(mc.mc_global.get_font_large(i_underscore=False))
+        self.ib_cll.setStyleSheet("background-color: black; color: white")
+        self.ob_cll.setStyleSheet("background-color: black; color: gray")
 
     def breathing_out(self):
         self.state = mc.mc_global.BreathingState.breathing_out
@@ -131,6 +133,8 @@ class BreathingDlg(QtWidgets.QFrame):
 
         self.ib_cll.setFont(mc.mc_global.get_font_large(i_underscore=False))
         self.ob_cll.setFont(mc.mc_global.get_font_large(i_underscore=True))
+        self.ib_cll.setStyleSheet("background-color: black; color: gray")
+        self.ob_cll.setStyleSheet("background-color: black; color: white")
 
     def on_in_and_activate_button_clicked(self):
         self.hover_and_kb_active_bool = True
@@ -209,6 +213,7 @@ class BreathingDlg(QtWidgets.QFrame):
 
         # self.breathing_graphicsview_l3.centerOn(t_graphics_rect_item)
 
+        """
         hline_width_int = self.hline_frame.width()
         if hline_width_int < 400:
             self.hline_frame.setFixedWidth(hline_width_int + 2)
@@ -216,7 +221,7 @@ class BreathingDlg(QtWidgets.QFrame):
         point_size_ft = font.pointSizeF()
         font.setPointSizeF(point_size_ft + 0.15)
         self.ib_cll.setFont(font)
-        self.ib_cll.setStyleSheet("background-color: black; color: green")
+        """
 
     def stop_breathing_in_timer(self):
         if self.ib_qtimer is None:
@@ -263,6 +268,7 @@ class BreathingDlg(QtWidgets.QFrame):
         new_rect.setRight(new_rect.right() + 1)
         t_graphics_rect_item.setRect(new_rect)
 
+        """
         hline_width_int = self.hline_frame.width()
         if hline_width_int >= 1:
             self.hline_frame.setFixedWidth(hline_width_int - 1)
@@ -270,6 +276,7 @@ class BreathingDlg(QtWidgets.QFrame):
         point_size_ft = font.pointSizeF()
         font.setPointSizeF(point_size_ft + 0.05)
         self.ob_cll.setFont(font)
+        """
 
 
 class CustomLabel(QtWidgets.QLabel):
