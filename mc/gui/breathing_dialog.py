@@ -6,7 +6,7 @@ from PyQt5 import QtGui
 import mc.mc_global
 import mc.model
 
-BAR_HEIGHT_FT = 5.0
+BAR_HEIGHT_FT = 4.0
 POINT_SIZE_INT = 16
 GRADIENT_IN_FT = 120.0
 GRADIENT_OUT_FT = 150.0
@@ -49,6 +49,7 @@ class BreathingDialogWidget(QtWidgets.QFrame):
             out_str = breathing_phrase.ob_str
 
         self.ib_cll = CustomLabel(in_str)
+        self.ib_cll.entered_signal.connect(self.on_in_button_hover)
         vbox_l2.addWidget(self.ib_cll, alignment=QtCore.Qt.AlignHCenter)
         # self.qll_one.mouse.connect(self.on_mouse_over_one)
 
@@ -66,6 +67,7 @@ class BreathingDialogWidget(QtWidgets.QFrame):
         self.breathing_graphicsview_l3.setScene(self.breathing_graphicsscene_l4)
 
         self.ob_cll = CustomLabel(out_str)
+        self.ob_cll.entered_signal.connect(self.on_out_button_hover)
         vbox_l2.addWidget(self.ob_cll, alignment=QtCore.Qt.AlignHCenter)
 
         hbox = QtWidgets.QHBoxLayout()
@@ -249,13 +251,16 @@ class BreathingDialogWidget(QtWidgets.QFrame):
 
 
 class CustomLabel(QtWidgets.QLabel):
+    entered_signal = QtCore.pyqtSignal()
+
     def __init__(self, i_title: str):
         super().__init__(i_title)
 
     # Overridden
     # noinspection PyPep8Naming
     def enterEvent(self, i_QEvent):
-        logging.debug("enterEvent")
+        self.entered_signal.emit()
+        logging.debug("CustomLabel: enterEvent")
 
 
 class CustomButton(QtWidgets.QPushButton):
