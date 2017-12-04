@@ -26,8 +26,10 @@ class BreathingDlg(QtWidgets.QFrame):
         self.setWindowFlags(
             QtCore.Qt.Window
             | QtCore.Qt.WindowStaysOnTopHint
-            | QtCore.Qt.X11BypassWindowManagerHint
+            | QtCore.Qt.Dialog
+            | QtCore.Qt.FramelessWindowHint
         )
+
         # | QtCore.Qt.WindowStaysOnTopHint
         # | QtCore.Qt.X11BypassWindowManagerHint
 
