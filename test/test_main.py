@@ -58,7 +58,7 @@ class MainTest(unittest.TestCase):
         breathing_reminder_settings_dock = mc.gui.breathing_settings.BreathingSettingsComposite()
 
     def test_breathing_widget(self):
-        breathing_widget = mc.gui.breathing_history_widget.BreathingCompositeWidget()
+        breathing_widget = mc.gui.breathing_history_widget.BreathingHistory()
 
     def test_rest_action_list_dock(self):
         rest_action_list_dock = mc.gui.rest_action_list_widget.RestActionsComposite()
@@ -99,7 +99,7 @@ class MainTest(unittest.TestCase):
         # pl_widget = self.matc_main_obj.main_window.phrase_list_widget
         pl_widget = mc.gui.breathing_phrase_list_widget.PhraseListCompositeWidget()
         # breathing_widget = self.matc_main_obj.main_window.breathing_composite_widget
-        breathing_widget = mc.gui.breathing_history_widget.BreathingCompositeWidget()
+        breathing_widget = mc.gui.breathing_history_widget.BreathingHistory()
         print("breathing_widget.bi_text_qll.text() = " + breathing_widget.bi_text_qll.text())
 
         # mc.gui.main_win.MbMainWindow()

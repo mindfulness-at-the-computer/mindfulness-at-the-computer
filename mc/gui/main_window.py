@@ -77,6 +77,9 @@ class MatcMainWindow(QtWidgets.QMainWindow):
         self.rest_settings_widget.rest_reset_button_clicked_signal.connect(self.on_rest_settings_changed)
         self.rest_settings_widget.rest_slider_value_changed_signal.connect(self.on_rest_slider_value_changed)
 
+        self.breathing_widget = mc.gui.breathing_history_widget.BreathingHistory()
+        hbox_l3.addWidget(self.breathing_widget)
+
         # Setup of Menu
         self.menu_bar = self.menuBar()
         self.update_menu()

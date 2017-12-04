@@ -55,8 +55,9 @@ class BreathingDialogWidget(QtWidgets.QFrame):
 
         self.hline_frame = QtWidgets.QFrame()
         vbox_l2.addWidget(self.hline_frame, alignment=QtCore.Qt.AlignHCenter)
-        # self.hline_frame.setFrameShape(QtWidgets.QFrame.HLine)
-        # self.hline_frame.setFixedWidth(100)
+
+        self.hline_frame.setFrameShape(QtWidgets.QFrame.HLine)
+        self.hline_frame.setFixedWidth(100)
 
         self.breathing_graphicsview_l3 = QtWidgets.QGraphicsView()  # QGraphicsScene
         vbox_l2.addWidget(self.breathing_graphicsview_l3)
@@ -204,6 +205,14 @@ class BreathingDialogWidget(QtWidgets.QFrame):
 
         # self.breathing_graphicsview_l3.centerOn(t_graphics_rect_item)
 
+
+        self.hline_frame.setFixedWidth(self.hline_frame.width() + 2)
+        font = self.ib_cll.font()
+        point_size_ft = font.pointSizeF()
+        font.setPointSizeF(point_size_ft + 0.15)
+        self.ib_cll.setFont(font)
+        self.ib_cll.setStyleSheet("background-color: black; color: green")
+
     def stop_breathing_in_timer(self):
         if self.ib_qtimer is None:
             return
@@ -248,6 +257,13 @@ class BreathingDialogWidget(QtWidgets.QFrame):
         new_rect = t_graphics_rect_item.rect()
         new_rect.setRight(new_rect.right() + 1)
         t_graphics_rect_item.setRect(new_rect)
+
+
+        self.hline_frame.setFixedWidth(self.hline_frame.width() - 1)
+        font = self.ob_cll.font()
+        point_size_ft = font.pointSizeF()
+        font.setPointSizeF(point_size_ft + 0.05)
+        self.ob_cll.setFont(font)
 
 
 class CustomLabel(QtWidgets.QLabel):
