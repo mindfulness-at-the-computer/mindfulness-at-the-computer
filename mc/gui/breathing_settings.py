@@ -83,7 +83,7 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
             breathing_phrase = mc.model.PhrasesM.get(mc_global.active_phrase_id_it)
             self.title_text_qll.setText(breathing_phrase.title_str)
             self.in_text_qll.setText(breathing_phrase.ib_str)
-            self.in_text_qll.setText(breathing_phrase.ob_str)
+            self.out_text_qll.setText(breathing_phrase.ob_str)
         else:
             self.setDisabled(True)
 
