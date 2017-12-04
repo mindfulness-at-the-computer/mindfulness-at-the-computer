@@ -127,10 +127,3 @@ class RestSettingsWt(QtWidgets.QWidget):
         self.rest_reminder_qsr.setValue(mc.mc_global.rest_reminder_minutes_passed_int)
 
         self.updating_gui_bool = False
-
-
-class CustomFrame(QtWidgets.QFrame):
-    def __init__(self):
-        super().__init__()
-        self.setFrameShape(QtWidgets.QFrame.HLine)
-        self.setFrameShadow(QtWidgets.QFrame.Sunken)

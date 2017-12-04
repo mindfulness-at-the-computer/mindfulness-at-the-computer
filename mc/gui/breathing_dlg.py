@@ -207,8 +207,9 @@ class BreathingDlg(QtWidgets.QFrame):
 
         # self.breathing_graphicsview_l3.centerOn(t_graphics_rect_item)
 
-
-        self.hline_frame.setFixedWidth(self.hline_frame.width() + 2)
+        hline_width_int = self.hline_frame.width()
+        if hline_width_int < 400:
+            self.hline_frame.setFixedWidth(hline_width_int + 2)
         font = self.ib_cll.font()
         point_size_ft = font.pointSizeF()
         font.setPointSizeF(point_size_ft + 0.15)
@@ -260,8 +261,9 @@ class BreathingDlg(QtWidgets.QFrame):
         new_rect.setRight(new_rect.right() + 1)
         t_graphics_rect_item.setRect(new_rect)
 
-
-        self.hline_frame.setFixedWidth(self.hline_frame.width() - 1)
+        hline_width_int = self.hline_frame.width()
+        if hline_width_int >= 1:
+            self.hline_frame.setFixedWidth(hline_width_int - 1)
         font = self.ob_cll.font()
         point_size_ft = font.pointSizeF()
         font.setPointSizeF(point_size_ft + 0.05)
