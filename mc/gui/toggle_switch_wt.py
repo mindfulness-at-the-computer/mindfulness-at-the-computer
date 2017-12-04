@@ -3,7 +3,7 @@ from PyQt5 import QtWidgets
 import mc.mc_global
 
 
-class ToggleSwitchComposite(QtWidgets.QWidget):
+class ToggleSwitchWt(QtWidgets.QWidget):
     toggled_signal = QtCore.pyqtSignal(bool)
 
     def __init__(self):

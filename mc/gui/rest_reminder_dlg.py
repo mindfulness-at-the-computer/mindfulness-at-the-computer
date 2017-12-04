@@ -7,7 +7,7 @@ import mc.mc_global
 import mc.model
 
 
-class RestNotificationWidget(QtWidgets.QFrame):
+class RestReminderDlg(QtWidgets.QFrame):
     # close_signal = QtCore.pyqtSignal(list, list)
     rest_signal = QtCore.pyqtSignal()
     skip_signal = QtCore.pyqtSignal()

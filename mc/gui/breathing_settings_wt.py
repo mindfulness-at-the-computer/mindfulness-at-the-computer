@@ -1,15 +1,15 @@
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from mc import model, mc_global
-import mc.gui.toggle_switch_widget
+import mc.gui.toggle_switch_wt
 
 MIN_REST_REMINDER_INT = 1  # -in minutes
 
 
-class BreathingSettingsComposite(QtWidgets.QWidget):
+class BreathingSettingsWt(QtWidgets.QWidget):
     rest_settings_updated_signal = QtCore.pyqtSignal()
-    breathing_settings_updated_signal = QtCore.pyqtSignal()
-    breathing_test_button_clicked_signal = QtCore.pyqtSignal()
+    updated_signal = QtCore.pyqtSignal()
+    breathe_now_button_clicked_signal = QtCore.pyqtSignal()
     rest_test_button_clicked_signal = QtCore.pyqtSignal()
     rest_reset_button_clicked_signal = QtCore.pyqtSignal()
 
@@ -21,7 +21,7 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         vbox_l2 = QtWidgets.QVBoxLayout()
         self.setLayout(vbox_l2)
 
-        self.toggle_switch = mc.gui.toggle_switch_widget.ToggleSwitchComposite()
+        self.toggle_switch = mc.gui.toggle_switch_wt.ToggleSwitchWt()
         vbox_l2.addWidget(self.toggle_switch)
         self.toggle_switch.toggled_signal.connect(self.on_switch_toggled)
 
@@ -60,19 +60,19 @@ class BreathingSettingsComposite(QtWidgets.QWidget):
         self.update_gui()
 
     def on_test_breathing_dialog_button_clicked(self):
-        self.breathing_test_button_clicked_signal.emit()
+        self.breathe_now_button_clicked_signal.emit()
 
     def on_switch_toggled(self, i_checked_bool):
         if self.updating_gui_bool:
             return
         model.SettingsM.update_breathing_reminder_active(i_checked_bool)
-        self.breathing_settings_updated_signal.emit()
+        self.updated_signal.emit()
 
     def on_breathing_interval_value_changed(self, i_new_value: int):
         if self.updating_gui_bool:
             return
         model.SettingsM.update_breathing_reminder_interval(i_new_value)
-        self.breathing_settings_updated_signal.emit()
+        self.updated_signal.emit()
 
     def update_gui(self):
         self.updating_gui_bool = True

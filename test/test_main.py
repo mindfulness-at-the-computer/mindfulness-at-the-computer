@@ -4,17 +4,17 @@ from PyQt5 import QtTest
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 import mc.mc_global
-import mc.gui.toggle_switch_widget
-import mc.gui.breathing_dialog
-import mc.gui.breathing_phrase_list_widget
-import mc.gui.breathing_settings
-import mc.gui.breathing_history_widget
-import mc.gui.main_window
-import mc.gui.rest_action_list_widget
-import mc.gui.rest_settings_widget
-import mc.gui.rest_widget
-import mc.gui.safe_delete_dialog
-import mc.gui.toggle_switch_widget
+import mc.gui.toggle_switch_wt
+import mc.gui.breathing_dlg
+import mc.gui.breathing_phrase_list_wt
+import mc.gui.breathing_settings_wt
+import mc.gui.breathing_history_wt
+import mc.gui.main_win
+import mc.gui.rest_action_list_wt
+import mc.gui.rest_settings_wt
+import mc.gui.rest_dlg
+import mc.gui.safe_delete_dlg
+import mc.gui.toggle_switch_wt
 
 
 test_app = QtWidgets.QApplication(sys.argv)
@@ -31,7 +31,7 @@ class MainTest(unittest.TestCase):
         pass
 
     def test_toggle_switch(self):
-        ts_widget = mc.gui.toggle_switch_widget.ToggleSwitchComposite()
+        ts_widget = mc.gui.toggle_switch_wt.ToggleSwitchWt()
 
         QtTest.QTest.mouseClick(ts_widget.off_qpb, QtCore.Qt.LeftButton)
 
@@ -46,36 +46,36 @@ class MainTest(unittest.TestCase):
         self.assertTrue(ts_widget.off_qpb.isChecked())
 
     def test_main_window(self):
-        main_window = mc.gui.main_window.MatcMainWindow()
+        main_window = mc.gui.main_win.MainWin()
 
     def test_breathing_dialog(self):
-        breathing_dialog = mc.gui.breathing_dialog.BreathingDialogWidget()
+        breathing_dialog = mc.gui.breathing_dlg.BreathingDlg()
 
     def test_breathing_phrase_list_dock(self):
-        breathing_phrase_list_dock = mc.gui.breathing_phrase_list_widget.PhraseListCompositeWidget()
+        breathing_phrase_list_dock = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
 
     def test_reminder_settings_dock(self):
-        breathing_reminder_settings_dock = mc.gui.breathing_settings.BreathingSettingsComposite()
+        breathing_reminder_settings_dock = mc.gui.breathing_settings_wt.BreathingSettingsWt()
 
     def test_breathing_widget(self):
-        breathing_widget = mc.gui.breathing_history_widget.BreathingHistory()
+        breathing_widget = mc.gui.breathing_history_wt.BreathingHistoryWt()
 
     def test_rest_action_list_dock(self):
-        rest_action_list_dock = mc.gui.rest_action_list_widget.RestActionsComposite()
+        rest_action_list_dock = mc.gui.rest_action_list_wt.RestActionListWt()
 
     def test_rest_reminder_settings_dock(self):
-        rest_reminder_settings_dock = mc.gui.rest_settings_widget.RestSettingsComposite()
+        rest_reminder_settings_dock = mc.gui.rest_settings_wt.RestSettingsWt()
 
     def test_rest_widget(self):
-        rest_widget = mc.gui.rest_widget.RestComposite()
+        rest_widget = mc.gui.rest_dlg.RestDlg()
 
     def test_safe_delete_dialog(self):
-        safe_delete_dialog = mc.gui.safe_delete_dialog.SafeDeleteDialog("testing")
+        safe_delete_dialog = mc.gui.safe_delete_dlg.SafeDeleteDlg("testing")
         ok_dialog_button = safe_delete_dialog.button_box.button(QtWidgets.QDialogButtonBox.Ok)
         QtTest.QTest.mouseClick(ok_dialog_button, QtCore.Qt.LeftButton)
 
     def est_adding_breathing_phrase(self):
-        pl_widget = mc.gui.breathing_phrase_list_widget.PhraseListCompositeWidget()
+        pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
 
         TEST_TEXT_STR = "testing 1"
         QtTest.QTest.keyClicks(pl_widget.add_to_list_qle, TEST_TEXT_STR)
@@ -97,9 +97,9 @@ class MainTest(unittest.TestCase):
     def est_selecting_breathing_phrase(self):
 
         # pl_widget = self.matc_main_obj.main_window.phrase_list_widget
-        pl_widget = mc.gui.breathing_phrase_list_widget.PhraseListCompositeWidget()
+        pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
         # breathing_widget = self.matc_main_obj.main_window.breathing_composite_widget
-        breathing_widget = mc.gui.breathing_history_widget.BreathingHistory()
+        breathing_widget = mc.gui.breathing_history_wt.BreathingHistoryWt()
         print("breathing_widget.bi_text_qll.text() = " + breathing_widget.bi_text_qll.text())
 
         # mc.gui.main_win.MbMainWindow()
@@ -126,13 +126,13 @@ class MainTest(unittest.TestCase):
 
         print("breathing_widget.bi_text_qll.text() = " + breathing_widget.bi_text_qll.text())
         print("mc.gui.phrase_list_cw.BREATHING_IN_DEFAULT_PHRASE = "
-              + mc.gui.breathing_phrase_list_widget.BREATHING_IN_DEFAULT_PHRASE)
-        is_true = breathing_widget.bi_text_qll.text() == mc.gui.breathing_phrase_list_widget.BREATHING_IN_DEFAULT_PHRASE
+              + mc.gui.breathing_phrase_list_wt.BREATHING_IN_DEFAULT_PHRASE)
+        is_true = breathing_widget.bi_text_qll.text() == mc.gui.breathing_phrase_list_wt.BREATHING_IN_DEFAULT_PHRASE
 
         self.assertTrue(is_true)
 
         self.assertTrue(
-            breathing_widget.bo_text_qll.text() == mc.gui.breathing_phrase_list_widget.BREATHING_OUT_DEFAULT_PHRASE
+            breathing_widget.bo_text_qll.text() == mc.gui.breathing_phrase_list_wt.BREATHING_OUT_DEFAULT_PHRASE
         )
 
     @staticmethod

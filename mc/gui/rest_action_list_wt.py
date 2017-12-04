@@ -4,13 +4,13 @@ import os
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
-import mc.gui.safe_delete_dialog
+import mc.gui.safe_delete_dlg
 from mc import model, mc_global
 
 
-class RestActionsComposite(QtWidgets.QWidget):
+class RestActionListWt(QtWidgets.QWidget):
     update_signal = QtCore.pyqtSignal()
-    list_selection_changed_signal = QtCore.pyqtSignal()
+    selection_changed_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -112,7 +112,7 @@ class RestActionsComposite(QtWidgets.QWidget):
 
     def on_delete_clicked(self):
         # active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
-        conf_result_bool = mc.gui.safe_delete_dialog.SafeDeleteDialog.get_safe_confirmation_dialog(
+        conf_result_bool = mc.gui.safe_delete_dlg.SafeDeleteDlg.get_safe_confirmation_dialog(
             "Are you sure that you want to remove this entry?"
         )
         if conf_result_bool:
@@ -136,7 +136,7 @@ class RestActionsComposite(QtWidgets.QWidget):
             pass
             # mc_global.act= mc_global.NO_PHRASE_SELECTED_INT
 
-        self.list_selection_changed_signal.emit()
+        self.selection_changed_signal.emit()
 
     def update_gui(self):
         self.updating_gui_bool = True

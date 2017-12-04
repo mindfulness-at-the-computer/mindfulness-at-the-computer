@@ -4,7 +4,7 @@ import os
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
-import mc.gui.safe_delete_dialog
+import mc.gui.safe_delete_dlg
 from mc import model, mc_global
 
 

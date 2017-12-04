@@ -6,7 +6,7 @@ import sys
 import PyQt5.Qt
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
-import mc.gui.main_window
+import mc.gui.main_win
 from mc import mc_global
 import mc.db
 
@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     matc_qapplication = QtWidgets.QApplication(sys.argv)
     matc_qapplication.setQuitOnLastWindowClosed(False)
-    matc_main_window = mc.gui.main_window.MatcMainWindow()
+    matc_main_window = mc.gui.main_win.MainWin()
     matc_main_window.show()
     sys.exit(matc_qapplication.exec_())
 

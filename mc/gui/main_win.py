@@ -4,20 +4,20 @@ import functools
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
-import mc.gui.rest_action_list_widget
+import mc.gui.rest_action_list_wt
 import mc.model
 import mc.mc_global
-import mc.gui.breathing_history_widget
-import mc.gui.breathing_settings
-import mc.gui.breathing_phrase_list_widget
-import mc.gui.rest_settings_widget
-import mc.gui.rest_widget
-import mc.gui.breathing_dialog
-import mc.gui.rest_reminder_dialog
-import mc.gui.rest_widget
+import mc.gui.breathing_history_wt
+import mc.gui.breathing_settings_wt
+import mc.gui.breathing_phrase_list_wt
+import mc.gui.rest_settings_wt
+import mc.gui.rest_dlg
+import mc.gui.breathing_dlg
+import mc.gui.rest_reminder_dlg
+import mc.gui.rest_dlg
 
 
-class MatcMainWindow(QtWidgets.QMainWindow):
+class MainWin(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -45,40 +45,41 @@ class MatcMainWindow(QtWidgets.QMainWindow):
         self.rest_reminder_qtimer = None
         self.breathing_qtimer = None
 
-        central_widget_l2 = QtWidgets.QWidget()
-        self.setCentralWidget(central_widget_l2)
+        central_w2 = QtWidgets.QWidget()
+        self.setCentralWidget(central_w2)
         hbox_l3 = QtWidgets.QHBoxLayout()
-        central_widget_l2.setLayout(hbox_l3)
-        vbox_l4 = QtWidgets.QVBoxLayout()
-        hbox_l3.addLayout(vbox_l4)
-
-        self.phrase_list_widget = mc.gui.breathing_phrase_list_widget.PhraseListCompositeWidget()
-        vbox_l4.addWidget(self.phrase_list_widget)
-        self.phrase_list_widget.list_selection_changed_signal.connect(self.on_breathing_list_row_changed)
-        self.phrase_list_widget.phrase_updated_signal.connect(self.on_breathing_phrase_changed)
-
-        self.breathing_settings_widget = mc.gui.breathing_settings.BreathingSettingsComposite()
-        vbox_l4.addWidget(self.breathing_settings_widget)
-        self.breathing_settings_widget.breathing_settings_updated_signal.connect(self.on_breathing_settings_changed)
-        self.breathing_settings_widget.breathing_test_button_clicked_signal.connect(self.show_breathing_dialog)
+        central_w2.setLayout(hbox_l3)
 
         vbox_l4 = QtWidgets.QVBoxLayout()
         hbox_l3.addLayout(vbox_l4)
 
-        self.rest_actions_widget = mc.gui.rest_action_list_widget.RestActionsComposite()
-        vbox_l4.addWidget(self.rest_actions_widget)
-        self.rest_actions_widget.update_signal.connect(self.on_rest_actions_updated)
-        self.rest_actions_widget.list_selection_changed_signal.connect(self.on_rest_action_list_row_changed)
+        self.br_phrase_list_wt = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
+        vbox_l4.addWidget(self.br_phrase_list_wt)
+        self.br_phrase_list_wt.selection_changed_signal.connect(self.on_breathing_list_row_changed)
+        self.br_phrase_list_wt.phrase_changed_signal.connect(self.on_breathing_phrase_changed)
 
-        self.rest_settings_widget = mc.gui.rest_settings_widget.RestSettingsComposite()
-        vbox_l4.addWidget(self.rest_settings_widget)
-        self.rest_settings_widget.rest_settings_updated_signal.connect(self.on_rest_settings_changed)
-        self.rest_settings_widget.rest_test_button_clicked_signal.connect(self.show_rest_reminder)
-        self.rest_settings_widget.rest_reset_button_clicked_signal.connect(self.on_rest_settings_changed)
-        self.rest_settings_widget.rest_slider_value_changed_signal.connect(self.on_rest_slider_value_changed)
+        self.br_settings_wt = mc.gui.breathing_settings_wt.BreathingSettingsWt()
+        vbox_l4.addWidget(self.br_settings_wt)
+        self.br_settings_wt.updated_signal.connect(self.on_breathing_settings_changed)
+        self.br_settings_wt.breathe_now_button_clicked_signal.connect(self.show_breathing_dialog)
 
-        self.breathing_widget = mc.gui.breathing_history_widget.BreathingHistory()
-        hbox_l3.addWidget(self.breathing_widget)
+        vbox_l4 = QtWidgets.QVBoxLayout()
+        hbox_l3.addLayout(vbox_l4)
+
+        self.rest_action_list_wt = mc.gui.rest_action_list_wt.RestActionListWt()
+        vbox_l4.addWidget(self.rest_action_list_wt)
+        self.rest_action_list_wt.update_signal.connect(self.on_rest_action_list_updated)
+        self.rest_action_list_wt.selection_changed_signal.connect(self.on_rest_action_list_row_changed)
+
+        self.rest_settings_wt = mc.gui.rest_settings_wt.RestSettingsWt()
+        vbox_l4.addWidget(self.rest_settings_wt)
+        self.rest_settings_wt.settings_updated_signal.connect(self.on_rest_settings_changed)
+        self.rest_settings_wt.rest_test_button_clicked_signal.connect(self.show_rest_reminder)
+        self.rest_settings_wt.rest_reset_button_clicked_signal.connect(self.on_rest_settings_changed)
+        self.rest_settings_wt.rest_slider_value_changed_signal.connect(self.on_rest_slider_value_changed)
+
+        self.breathing_history_wt = mc.gui.breathing_history_wt.BreathingHistoryWt()
+        hbox_l3.addWidget(self.breathing_history_wt)
 
         # Setup of Menu
         self.menu_bar = self.menuBar()
@@ -130,7 +131,7 @@ class MatcMainWindow(QtWidgets.QMainWindow):
         self.tray_menu.addAction(self.system_tray.tray_rest_enabled_qaction)
         self.system_tray.tray_rest_enabled_qaction.setCheckable(True)
         self.system_tray.tray_rest_enabled_qaction.toggled.connect(
-            self.rest_settings_widget.on_switch_toggled
+            self.rest_settings_wt.on_switch_toggled
         )
         self.system_tray.tray_rest_enabled_qaction.setChecked(settings.rest_reminder_active_bool)
         self.system_tray.tray_rest_progress_qaction = QtWidgets.QAction("")
@@ -148,7 +149,7 @@ class MatcMainWindow(QtWidgets.QMainWindow):
         self.system_tray.tray_breathing_enabled_qaction.setCheckable(True)
         self.system_tray.tray_breathing_enabled_qaction.setChecked(settings.breathing_reminder_active_bool)
         self.system_tray.tray_breathing_enabled_qaction.toggled.connect(
-            self.breathing_settings_widget.on_switch_toggled
+            self.br_settings_wt.on_switch_toggled
         )
         self.system_tray.tray_breathing_enabled_qaction.setDisabled(True)
 
@@ -163,7 +164,7 @@ class MatcMainWindow(QtWidgets.QMainWindow):
             tray_phrase_qaction = QtWidgets.QAction(active_or_inactive_str + INDENTATION_STR + l_phrase.title_str)
             tray_phrase_qaction.triggered.connect(
                 functools.partial(
-                    self.phrase_list_widget.on_new_row_selected_from_system_tray,
+                    self.br_phrase_list_wt.on_new_row_selected_from_system_tray,
                     l_phrase.id_int
                 )
             )
@@ -184,7 +185,7 @@ class MatcMainWindow(QtWidgets.QMainWindow):
 
         self.tray_icon.setContextMenu(self.tray_menu)
 
-    def on_rest_actions_updated(self):
+    def on_rest_action_list_updated(self):
         self.update_gui(mc.mc_global.EventSource.rest_action_changed)
 
     def on_systray_activated(self, i_reason):
@@ -193,7 +194,7 @@ class MatcMainWindow(QtWidgets.QMainWindow):
 
     def on_breathing_list_row_changed(self, i_details_enabled: bool):
         self.change_timer_state()
-        self.breathing_settings_widget.setEnabled(i_details_enabled)
+        self.br_settings_wt.setEnabled(i_details_enabled)
         self.system_tray.tray_breathing_enabled_qaction.setEnabled(i_details_enabled)
 
         self.update_gui(mc.mc_global.EventSource.breathing_list_selection_changed)
@@ -203,7 +204,7 @@ class MatcMainWindow(QtWidgets.QMainWindow):
 
     def on_breathing_phrase_changed(self, i_details_enabled):
         self.change_timer_state()
-        self.breathing_settings_widget.setEnabled(i_details_enabled)
+        self.br_settings_wt.setEnabled(i_details_enabled)
         self.system_tray.tray_breathing_enabled_qaction.setEnabled(i_details_enabled)
 
         self.update_gui(mc.mc_global.EventSource.breathing_list_phrase_updated)
@@ -222,7 +223,7 @@ class MatcMainWindow(QtWidgets.QMainWindow):
     def stop_rest_timer(self):
         if self.rest_reminder_qtimer is not None and self.rest_reminder_qtimer.isActive():
             self.rest_reminder_qtimer.stop()
-        self.rest_settings_widget.update_gui()  # -so that the progressbar is updated
+        self.rest_settings_wt.update_gui()  # -so that the progressbar is updated
 
     def start_rest_timer(self):
         mc.mc_global.rest_reminder_minutes_passed_int = 0
@@ -236,7 +237,7 @@ class MatcMainWindow(QtWidgets.QMainWindow):
         if (mc.mc_global.rest_reminder_minutes_passed_int
                 >= mc.model.SettingsM.get().rest_reminder_interval_int):
             self.show_rest_reminder()
-        self.rest_settings_widget.rest_reminder_qsr.setValue(
+        self.rest_settings_wt.rest_reminder_qsr.setValue(
             mc.mc_global.rest_reminder_minutes_passed_int
         )
 
@@ -277,7 +278,7 @@ class MatcMainWindow(QtWidgets.QMainWindow):
         # self.restore_window()
         # self.main_area_stacked_widget_l4.setCurrentIndex(self.rrcw_sw_id_int)
         # self.rest_actions_dock.raise_()
-        self.rest_reminder_dialog = mc.gui.rest_reminder_dialog.RestNotificationWidget()
+        self.rest_reminder_dialog = mc.gui.rest_reminder_dlg.RestReminderDlg()
         self.rest_reminder_dialog.rest_signal.connect(self.on_rest_rest)
         self.rest_reminder_dialog.skip_signal.connect(self.on_rest_skip)
         self.rest_reminder_dialog.wait_signal.connect(self.on_rest_wait)
@@ -288,7 +289,7 @@ class MatcMainWindow(QtWidgets.QMainWindow):
         self.update_gui()
 
     def on_rest_rest(self):
-        self.rest_widget = mc.gui.rest_widget.RestComposite()
+        self.rest_widget = mc.gui.rest_dlg.RestDlg()
         self.rest_widget.closed_signal.connect(self.on_rest_widget_closed)
 
     def on_rest_skip(self):
@@ -361,16 +362,16 @@ class MatcMainWindow(QtWidgets.QMainWindow):
     # noinspection PyAttributeOutsideInit
     def show_breathing_dialog(self):
         logging.debug("show_exp_notification")
-        self.breathing_dialog = mc.gui.breathing_dialog.BreathingDialogWidget()
+        self.breathing_dialog = mc.gui.breathing_dlg.BreathingDlg()
         self.breathing_dialog.close_signal.connect(
             self.on_breathing_dialog_closed)
         self.breathing_dialog.show()
 
     def on_breathing_dialog_closed(self, i_ib_list, i_ob_list):
-        self.breathing_widget.add_from_dialog(i_ib_list, i_ob_list)
+        self.breathing_history_wt.add_from_dialog(i_ib_list, i_ob_list)
 
     def debug_clear_breathing_phrase_selection(self):
-        self.phrase_list_widget.list_widget.clearSelection()
+        self.br_phrase_list_wt.list_widget.clearSelection()
 
     def show_online_help(self):
         url_str = "https://sunyatazero.github.io/mindfulness-at-the-computer/user-guide.html"
@@ -417,13 +418,13 @@ class MatcMainWindow(QtWidgets.QMainWindow):
         # self.rest_widget.update_gui()
 
         if i_event_source != mc.mc_global.EventSource.rest_slider_value_changed:
-            self.rest_settings_widget.update_gui()
-        self.breathing_settings_widget.update_gui()
+            self.rest_settings_wt.update_gui()
+        self.br_settings_wt.update_gui()
 
         if (i_event_source != mc.mc_global.EventSource.breathing_list_selection_changed
         and i_event_source != mc.mc_global.EventSource.rest_list_selection_changed):
-            self.phrase_list_widget.update_gui()
-            self.rest_actions_widget.update_gui()
+            self.br_phrase_list_wt.update_gui()
+            self.rest_action_list_wt.update_gui()
 
         self.update_systray()
 

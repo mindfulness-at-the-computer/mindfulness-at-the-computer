@@ -12,7 +12,7 @@ GRADIENT_IN_FT = 120.0
 GRADIENT_OUT_FT = 150.0
 
 
-class BreathingDialogWidget(QtWidgets.QFrame):
+class BreathingDlg(QtWidgets.QFrame):
     close_signal = QtCore.pyqtSignal(list, list)
 
     def __init__(self):

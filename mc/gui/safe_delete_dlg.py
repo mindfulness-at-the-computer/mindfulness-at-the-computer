@@ -2,13 +2,13 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 
 
-class SafeDeleteDialog(QtWidgets.QDialog):
+class SafeDeleteDlg(QtWidgets.QDialog):
     """
     Inspiration: Answer by lou here:
     https://stackoverflow.com/questions/18196799/how-can-i-show-a-pyqt-modal-dialog-and-get-data-out-of-its-controls-once-its-clo
     """
     def __init__(self, i_description_str: str, i_parent=None):
-        super(SafeDeleteDialog, self).__init__(i_parent)
+        super(SafeDeleteDlg, self).__init__(i_parent)
 
         vbox = QtWidgets.QVBoxLayout(self)
 
@@ -27,7 +27,7 @@ class SafeDeleteDialog(QtWidgets.QDialog):
 
     @staticmethod
     def get_safe_confirmation_dialog(i_description_str: str):
-        dialog = SafeDeleteDialog(i_description_str)
+        dialog = SafeDeleteDlg(i_description_str)
         dialog_result = dialog.exec_()
         confirmation_result_bool = False
         if dialog_result == QtWidgets.QDialog.Accepted:

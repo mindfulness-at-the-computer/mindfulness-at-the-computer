@@ -7,7 +7,7 @@ from PyQt5 import QtWidgets
 from mc import model, mc_global
 
 
-class RestComposite(QtWidgets.QDialog):
+class RestDlg(QtWidgets.QDialog):
     # result_signal = QtCore.pyqtSignal(int)
     # -used both for wait and for closing
     closed_signal = QtCore.pyqtSignal()

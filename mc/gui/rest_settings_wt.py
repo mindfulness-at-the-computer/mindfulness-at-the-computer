@@ -2,7 +2,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 
-import mc.gui.toggle_switch_widget
+import mc.gui.toggle_switch_wt
 import mc.model
 import mc.mc_global
 
@@ -10,8 +10,8 @@ MIN_REST_REMINDER_INT = 1  # -in minutes
 MAX_REST_REMINDER_INT = 99
 
 
-class RestSettingsComposite(QtWidgets.QWidget):
-    rest_settings_updated_signal = QtCore.pyqtSignal()
+class RestSettingsWt(QtWidgets.QWidget):
+    settings_updated_signal = QtCore.pyqtSignal()
     rest_test_button_clicked_signal = QtCore.pyqtSignal()
     rest_reset_button_clicked_signal = QtCore.pyqtSignal()
     rest_slider_value_changed_signal = QtCore.pyqtSignal()
@@ -24,7 +24,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
         vbox = QtWidgets.QVBoxLayout()
         self.setLayout(vbox)
 
-        self.rest_reminder_switch = mc.gui.toggle_switch_widget.ToggleSwitchComposite()
+        self.rest_reminder_switch = mc.gui.toggle_switch_wt.ToggleSwitchWt()
         vbox.addWidget(self.rest_reminder_switch)
         self.rest_reminder_switch.toggled_signal.connect(self.on_switch_toggled)
 
@@ -97,7 +97,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
         if self.updating_gui_bool:
             return
         mc.model.SettingsM.update_rest_reminder_active(i_checked_bool)
-        self.rest_settings_updated_signal.emit()
+        self.settings_updated_signal.emit()
 
     def on_rest_interval_value_changed(self, i_new_value: int):
         # -PLEASE NOTE: During debug this event is fired twice, this must be a bug in Qt or PyQt
@@ -112,7 +112,7 @@ class RestSettingsComposite(QtWidgets.QWidget):
         self.rest_reminder_qsr.setMaximum(rest_reminder_interval_minutes_int)
         self.rest_reminder_qsr.setValue(mc.mc_global.rest_reminder_minutes_passed_int)
 
-        self.rest_settings_updated_signal.emit()
+        self.settings_updated_signal.emit()
 
     def update_gui(self):
         self.updating_gui_bool = True

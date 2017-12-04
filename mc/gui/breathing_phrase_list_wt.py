@@ -2,7 +2,7 @@ import logging
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
-import mc.gui.safe_delete_dialog
+import mc.gui.safe_delete_dlg
 import mc.model
 import mc.mc_global
 
@@ -10,9 +10,9 @@ BREATHING_IN_DEFAULT_PHRASE = "Breathing in"
 BREATHING_OUT_DEFAULT_PHRASE = "Breathing out"
 
 
-class PhraseListCompositeWidget(QtWidgets.QWidget):
-    phrase_updated_signal = QtCore.pyqtSignal(bool)
-    list_selection_changed_signal = QtCore.pyqtSignal(bool)
+class BreathingPhraseListWt(QtWidgets.QWidget):
+    phrase_changed_signal = QtCore.pyqtSignal(bool)
+    selection_changed_signal = QtCore.pyqtSignal(bool)
 
     def __init__(self):
         super().__init__()
@@ -107,14 +107,14 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
 
     def on_edit_texts_clicked(self):
         EditDialog.launch_edit_dialog()
-        self.phrase_updated_signal.emit(True)
+        self.phrase_changed_signal.emit(True)
 
     def on_return_shortcut_triggered(self):
         logging.debug("the return key has been pressed")
 
     def on_delete_clicked(self):
         # active_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-        conf_result_bool = mc.gui.safe_delete_dialog.SafeDeleteDialog.get_safe_confirmation_dialog(
+        conf_result_bool = mc.gui.safe_delete_dlg.SafeDeleteDlg.get_safe_confirmation_dialog(
             "Are you sure that you want to remove this entry?",
         )
         if conf_result_bool:
@@ -139,7 +139,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
 
         # if dialog_result == QtWidgets.QDialog.Accepted:
         EditDialog.launch_edit_dialog()
-        self.phrase_updated_signal.emit(True)
+        self.phrase_changed_signal.emit(True)
 
     def on_selection_changed(self):
         if self.updating_gui_bool:
@@ -157,7 +157,7 @@ class PhraseListCompositeWidget(QtWidgets.QWidget):
             mc.mc_global.active_phrase_id_it = mc.mc_global.NO_PHRASE_SELECTED_INT
 
         # self.update_gui_details()
-        self.list_selection_changed_signal.emit(active_selected_bool)
+        self.selection_changed_signal.emit(active_selected_bool)
 
     def on_new_row_selected_from_system_tray(self, i_id_of_selected_item: int):
         mc.mc_global.active_phrase_id_it = i_id_of_selected_item
