@@ -90,6 +90,8 @@ class BreathingDlg(QtWidgets.QFrame):
         self.close_qpb.entered_signal.connect(self.on_close_button_hover)
 
         self.show()  # -done after all the widget have been added so that the right size is set
+        self.raise_()
+        self.showNormal()
 
         # Set position - done after show to get the right size hint
         screen_qrect = QtWidgets.QApplication.desktop().availableGeometry()

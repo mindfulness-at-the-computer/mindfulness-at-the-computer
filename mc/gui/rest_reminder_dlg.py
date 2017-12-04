@@ -54,6 +54,8 @@ class RestReminderDlg(QtWidgets.QFrame):
         self.skip_qpb.clicked.connect(self.on_skip_button_clicked)
 
         self.show()  # -done after all the widget have been added so that the right size is set
+        self.raise_()
+        self.showNormal()
 
         # Set position - done after show to get the right size hint
         screen_qrect = QtWidgets.QApplication.desktop().availableGeometry()

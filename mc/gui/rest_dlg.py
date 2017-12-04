@@ -15,6 +15,8 @@ class RestDlg(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
         self.show()
+        self.raise_()
+        self.showNormal()
 
         self.updating_gui_bool = False
         # self.rest_actions_qbg = QtWidgets.QButtonGroup()
