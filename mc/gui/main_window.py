@@ -358,7 +358,7 @@ class MatcMainWindow(QtWidgets.QMainWindow):
     # noinspection PyAttributeOutsideInit
     def show_breathing_dialog(self):
         logging.debug("show_exp_notification")
-        self.breathing_dialog = mc.gui.breathing_dialog.ExpNotificationWidget()
+        self.breathing_dialog = mc.gui.breathing_dialog.BreathingDialogWidget()
         self.breathing_dialog.close_signal.connect(
             self.on_breathing_dialog_closed)
         self.breathing_dialog.show()

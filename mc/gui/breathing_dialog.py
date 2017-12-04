@@ -6,13 +6,13 @@ from PyQt5 import QtGui
 import mc.mc_global
 import mc.model
 
-BAR_HEIGHT_FT = 16.0
+BAR_HEIGHT_FT = 5.0
 POINT_SIZE_INT = 16
 GRADIENT_IN_FT = 120.0
 GRADIENT_OUT_FT = 150.0
 
 
-class ExpNotificationWidget(QtWidgets.QWidget):
+class BreathingDialogWidget(QtWidgets.QFrame):
     close_signal = QtCore.pyqtSignal(list, list)
 
     def __init__(self):
@@ -31,6 +31,9 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         # | QtCore.Qt.WindowStaysOnTopHint
         # | QtCore.Qt.X11BypassWindowManagerHint
 
+        self.setFrameStyle(QtWidgets.QFrame.Box | QtWidgets.QFrame.Plain)
+        self.setLineWidth(1)
+
         # self.setStyleSheet("background-color: rgba(0,0,0,0)")
 
         vbox_l2 = QtWidgets.QVBoxLayout()
@@ -46,10 +49,13 @@ class ExpNotificationWidget(QtWidgets.QWidget):
             out_str = breathing_phrase.ob_str
 
         self.ib_cll = CustomLabel(in_str)
-        vbox_l2.addWidget(self.ib_cll)
+        vbox_l2.addWidget(self.ib_cll, alignment=QtCore.Qt.AlignHCenter)
         # self.qll_one.mouse.connect(self.on_mouse_over_one)
-        self.ob_qll = QtWidgets.QLabel(out_str)
-        vbox_l2.addWidget(self.ob_qll)
+
+        self.hline_frame = QtWidgets.QFrame()
+        vbox_l2.addWidget(self.hline_frame, alignment=QtCore.Qt.AlignHCenter)
+        # self.hline_frame.setFrameShape(QtWidgets.QFrame.HLine)
+        # self.hline_frame.setFixedWidth(100)
 
         self.breathing_graphicsview_l3 = QtWidgets.QGraphicsView()  # QGraphicsScene
         vbox_l2.addWidget(self.breathing_graphicsview_l3)
@@ -58,6 +64,9 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         self.breathing_graphicsview_l3.setAlignment(QtCore.Qt.AlignAbsolute)
         self.breathing_graphicsscene_l4 = QtWidgets.QGraphicsScene()
         self.breathing_graphicsview_l3.setScene(self.breathing_graphicsscene_l4)
+
+        self.ob_cll = CustomLabel(out_str)
+        vbox_l2.addWidget(self.ob_cll, alignment=QtCore.Qt.AlignHCenter)
 
         hbox = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox)
@@ -105,10 +114,16 @@ class ExpNotificationWidget(QtWidgets.QWidget):
         self.stop_breathing_out_timer()
         self.start_breathing_in_timer()
 
+        self.ib_cll.setFont(mc.mc_global.get_font_large(i_underscore=True))
+        self.ob_cll.setFont(mc.mc_global.get_font_large(i_underscore=False))
+
     def breathing_out(self):
         self.state = mc.mc_global.BreathingState.breathing_out
         self.stop_breathing_in_timer()
         self.start_breathing_out_timer()
+
+        self.ib_cll.setFont(mc.mc_global.get_font_large(i_underscore=False))
+        self.ob_cll.setFont(mc.mc_global.get_font_large(i_underscore=True))
 
     def on_in_and_activate_button_clicked(self):
         self.hover_and_kb_active_bool = True

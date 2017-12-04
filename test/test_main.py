@@ -49,7 +49,7 @@ class MainTest(unittest.TestCase):
         main_window = mc.gui.main_window.MatcMainWindow()
 
     def test_breathing_dialog(self):
-        breathing_dialog = mc.gui.breathing_dialog.ExpNotificationWidget()
+        breathing_dialog = mc.gui.breathing_dialog.BreathingDialogWidget()
 
     def test_breathing_phrase_list_dock(self):
         breathing_phrase_list_dock = mc.gui.breathing_phrase_list_widget.PhraseListCompositeWidget()
