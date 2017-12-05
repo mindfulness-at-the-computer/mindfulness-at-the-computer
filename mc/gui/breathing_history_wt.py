@@ -1,9 +1,7 @@
-import logging
-import time
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
-from mc import model, mc_global
+import mc.mc_global
 import mc.gui.breathing_dlg
 
 BAR_HEIGHT_FT = 12.0
@@ -59,11 +57,11 @@ class BreathingHistoryWt(QtWidgets.QWidget):
 
     def add_new_breathing_rect(
         self,
-        i_io: mc_global.BreathingState,
+        i_io: mc.mc_global.BreathingState,
         i_length: int=1
     ):
 
-        if i_io == mc_global.BreathingState.breathing_out:
+        if i_io == mc.mc_global.BreathingState.breathing_out:
             self.new_cycle_bool = False
 
         # Rectangle
@@ -74,21 +72,21 @@ class BreathingHistoryWt(QtWidgets.QWidget):
                 margin_int = LARGE_MARGIN_FT
             last_graphics_rect_item = self.in_breath_graphics_qgri_list[-1]
             ypos_ft = float(last_graphics_rect_item.rect().bottom() + margin_int)
-            if i_io == mc_global.BreathingState.breathing_out:
+            if i_io == mc.mc_global.BreathingState.breathing_out:
                 ypos_ft = float(last_graphics_rect_item.rect().top())
         xpos_ft = -i_length
-        if i_io == mc_global.BreathingState.breathing_out:
+        if i_io == mc.mc_global.BreathingState.breathing_out:
             xpos_ft = 0.0
         t_drawrect = QtCore.QRectF(xpos_ft, ypos_ft, i_length, BAR_HEIGHT_FT)
 
         # Gradient
         y_gradient = t_drawrect.y() - GRADIENT_IN_FT
-        if i_io == mc_global.BreathingState.breathing_out:
+        if i_io == mc.mc_global.BreathingState.breathing_out:
             y_gradient = t_drawrect.y() + GRADIENT_OUT_FT
         t_start_qpointf = QtCore.QPointF(t_drawrect.x(), y_gradient)
         t_stop_qpointf = t_drawrect.bottomLeft()  # QtCore.QPointF(0.0, 50.0)
         t_linear_gradient = QtGui.QLinearGradient(t_start_qpointf, t_stop_qpointf)
-        if i_io == mc_global.BreathingState.breathing_in:
+        if i_io == mc.mc_global.BreathingState.breathing_in:
             t_linear_gradient.setColorAt(0.0, QtGui.QColor(204, 255, 77))
             t_linear_gradient.setColorAt(1.0, QtGui.QColor(164, 230, 0))
         else:
@@ -101,9 +99,9 @@ class BreathingHistoryWt(QtWidgets.QWidget):
             pen=QtGui.QPen(QtCore.Qt.NoPen),
             brush=QtGui.QBrush(t_linear_gradient)
         )
-        if i_io == mc_global.BreathingState.breathing_in:
+        if i_io == mc.mc_global.BreathingState.breathing_in:
             self.in_breath_graphics_qgri_list.append(t_graphics_rect_item)
-        elif i_io == mc_global.BreathingState.breathing_out:
+        elif i_io == mc.mc_global.BreathingState.breathing_out:
             self.out_breath_graphics_qgri_list.append(t_graphics_rect_item)
         # -an alternative to storing this separately might be to use ".items" and check for type
         #  as there is a QGraphicsRectItem

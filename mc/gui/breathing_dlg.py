@@ -29,7 +29,6 @@ class BreathingDlg(QtWidgets.QFrame):
             | QtCore.Qt.Dialog
             | QtCore.Qt.FramelessWindowHint
         )
-
         # | QtCore.Qt.WindowStaysOnTopHint
         # | QtCore.Qt.X11BypassWindowManagerHint
 
@@ -52,15 +51,15 @@ class BreathingDlg(QtWidgets.QFrame):
 
         self.ib_cll = CustomLabel(in_str)
         vbox_l2.addWidget(self.ib_cll, alignment=QtCore.Qt.AlignHCenter)
-        self.ib_cll.setFont(mc.mc_global.get_font_large(i_underscore=False))
         self.ib_cll.entered_signal.connect(self.on_in_button_hover)
         # self.qll_one.mouse.connect(self.on_mouse_over_one)
 
+        """
         self.hline_frame = QtWidgets.QFrame()
         vbox_l2.addWidget(self.hline_frame, alignment=QtCore.Qt.AlignHCenter)
-
         self.hline_frame.setFrameShape(QtWidgets.QFrame.HLine)
         self.hline_frame.setFixedWidth(100)
+        """
 
         self.breathing_graphicsview_l3 = QtWidgets.QGraphicsView()  # QGraphicsScene
         vbox_l2.addWidget(self.breathing_graphicsview_l3)
@@ -70,14 +69,15 @@ class BreathingDlg(QtWidgets.QFrame):
         self.breathing_graphicsscene_l4 = QtWidgets.QGraphicsScene()
         self.breathing_graphicsview_l3.setScene(self.breathing_graphicsscene_l4)
 
+        self.breathing_graphicsview_l3.hide()  # -this is removed for now
+
         self.ob_cll = CustomLabel(out_str)
         vbox_l2.addWidget(self.ob_cll, alignment=QtCore.Qt.AlignHCenter)
-        self.ob_cll.setFont(mc.mc_global.get_font_large(i_underscore=True))
         self.ob_cll.entered_signal.connect(self.on_out_button_hover)
 
         hbox = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox)
-        self.in_and_activate_qpb = CustomButton("In + activate")
+        self.in_and_activate_qpb = CustomButton("activate hover")
         hbox.addWidget(self.in_and_activate_qpb)
         self.in_and_activate_qpb.clicked.connect(self.on_in_and_activate_button_clicked)
         self.in_qpb = CustomButton("In")
@@ -123,20 +123,16 @@ class BreathingDlg(QtWidgets.QFrame):
         self.stop_breathing_out_timer()
         self.start_breathing_in_timer()
 
-        self.ib_cll.setFont(mc.mc_global.get_font_large(i_underscore=True))
-        self.ob_cll.setFont(mc.mc_global.get_font_large(i_underscore=False))
-        self.ib_cll.setStyleSheet("background-color: black; color: white")
-        self.ob_cll.setStyleSheet("background-color: black; color: gray")
+        self.ib_cll.set_active()
+        self.ob_cll.set_inactive()
 
     def breathing_out(self):
         self.state = mc.mc_global.BreathingState.breathing_out
         self.stop_breathing_in_timer()
         self.start_breathing_out_timer()
 
-        self.ib_cll.setFont(mc.mc_global.get_font_large(i_underscore=False))
-        self.ob_cll.setFont(mc.mc_global.get_font_large(i_underscore=True))
-        self.ib_cll.setStyleSheet("background-color: black; color: gray")
-        self.ob_cll.setStyleSheet("background-color: black; color: white")
+        self.ib_cll.set_inactive()
+        self.ob_cll.set_active()
 
     def on_in_and_activate_button_clicked(self):
         self.hover_and_kb_active_bool = True
@@ -213,6 +209,8 @@ class BreathingDlg(QtWidgets.QFrame):
         new_rect.setLeft(new_rect.left() - 1)
         t_graphics_rect_item.setRect(new_rect)
 
+        self.ib_cll.fade_in()
+        self.ob_cll.fade_out()
         # self.breathing_graphicsview_l3.centerOn(t_graphics_rect_item)
 
         """
@@ -270,6 +268,9 @@ class BreathingDlg(QtWidgets.QFrame):
         new_rect.setRight(new_rect.right() + 1)
         t_graphics_rect_item.setRect(new_rect)
 
+        self.ib_cll.fade_out()
+        self.ob_cll.fade_in()
+
         """
         hline_width_int = self.hline_frame.width()
         if hline_width_int >= 1:
@@ -281,11 +282,59 @@ class BreathingDlg(QtWidgets.QFrame):
         """
 
 
+BREATHING_LABEL_MARGIN_INT = 16
+DARK_INT = 64
+DIM_INT = 128
+BRIGHT_INT = 255
+
+
 class CustomLabel(QtWidgets.QLabel):
     entered_signal = QtCore.pyqtSignal()
 
     def __init__(self, i_title: str):
         super().__init__(i_title)
+
+        # self.color_te = (64, 64, 64)
+        self.bw_color_int = DARK_INT
+        self.update_stylesheet()
+
+        self.setFont(mc.mc_global.get_font_xlarge(i_underscore=False, i_bold=True))
+        self.setMargin(BREATHING_LABEL_MARGIN_INT)
+
+    def update_stylesheet(self):
+        self.setStyleSheet("background-color: black; color: rgb("
+            + str(self.bw_color_int) + ", "
+            + str(self.bw_color_int) + ", "
+            + str(self.bw_color_int)
+            + ")")
+
+    def set_active(self):
+        self.setFont(mc.mc_global.get_font_xlarge(i_underscore=True, i_bold=True))
+        # self.color_te =
+        self.bw_color_int = DIM_INT
+        self.update_stylesheet()
+
+    def set_inactive(self):
+        self.setFont(mc.mc_global.get_font_xlarge(i_underscore=False, i_bold=True))
+        # self.setStyleSheet("background-color: black; color: #404040")
+        # self.color_te = (64, 64, 64)
+        self.bw_color_int = DARK_INT
+        self.update_stylesheet()
+
+    def fade_in(self):
+        self.bw_color_int += 3
+        if self.bw_color_int > BRIGHT_INT:
+            self.bw_color_int = BRIGHT_INT
+        self.update_stylesheet()
+
+    def fade_out(self):
+        pass
+        """
+        self.bw_color_int -= 2
+        if self.bw_color_int < DARK_INT:
+            self.bw_color_int = DARK_INT
+        self.update_stylesheet()
+        """
 
     # Overridden
     # noinspection PyPep8Naming
