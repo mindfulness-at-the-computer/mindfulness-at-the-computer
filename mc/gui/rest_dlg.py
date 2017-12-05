@@ -24,7 +24,9 @@ class RestDlg(QtWidgets.QDialog):
         self.setLayout(vbox_l2)
 
         hbox_l3 = QtWidgets.QHBoxLayout()
+        vbox_l2.addStretch(1)
         vbox_l2.addLayout(hbox_l3)
+        vbox_l2.addStretch(1)
 
         # Main area
         self.main_area_qgb = QtWidgets.QGroupBox("Rest Actions")
@@ -33,7 +35,7 @@ class RestDlg(QtWidgets.QDialog):
         self.actions_list_vbox_l4 = QtWidgets.QVBoxLayout()
         self.main_area_qgb.setLayout(self.actions_list_vbox_l4)
 
-        vbox_l2.addStretch(1)
+
         self.close_qpb = QtWidgets.QPushButton("Close")
         vbox_l2.addWidget(self.close_qpb)
         self.close_qpb.clicked.connect(self.on_close_clicked)

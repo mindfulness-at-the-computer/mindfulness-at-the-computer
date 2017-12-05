@@ -18,8 +18,8 @@ class BreathingHistoryWt(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.show()
-        self.setMinimumHeight(270)
-        self.setMinimumWidth(400)
+        self.setMinimumHeight(300)
+        self.setMinimumWidth(270)
 
         self.ib_qtimer = None
         self.ob_qtimer = None

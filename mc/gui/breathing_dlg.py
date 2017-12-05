@@ -51,8 +51,9 @@ class BreathingDlg(QtWidgets.QFrame):
             out_str = breathing_phrase.ob_str
 
         self.ib_cll = CustomLabel(in_str)
-        self.ib_cll.entered_signal.connect(self.on_in_button_hover)
         vbox_l2.addWidget(self.ib_cll, alignment=QtCore.Qt.AlignHCenter)
+        self.ib_cll.setFont(mc.mc_global.get_font_large(i_underscore=False))
+        self.ib_cll.entered_signal.connect(self.on_in_button_hover)
         # self.qll_one.mouse.connect(self.on_mouse_over_one)
 
         self.hline_frame = QtWidgets.QFrame()
@@ -70,8 +71,9 @@ class BreathingDlg(QtWidgets.QFrame):
         self.breathing_graphicsview_l3.setScene(self.breathing_graphicsscene_l4)
 
         self.ob_cll = CustomLabel(out_str)
-        self.ob_cll.entered_signal.connect(self.on_out_button_hover)
         vbox_l2.addWidget(self.ob_cll, alignment=QtCore.Qt.AlignHCenter)
+        self.ob_cll.setFont(mc.mc_global.get_font_large(i_underscore=True))
+        self.ob_cll.entered_signal.connect(self.on_out_button_hover)
 
         hbox = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox)
