@@ -71,6 +71,8 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
 
         self.update_gui()
 
+        self.list_widget.setCurrentRow(0)  # -the first row
+
     def on_move_up_clicked(self):
         self.move_up_down(mc.model.MoveDirectionEnum.up)
 
