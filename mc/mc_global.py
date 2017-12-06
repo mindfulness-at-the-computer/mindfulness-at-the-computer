@@ -1,6 +1,7 @@
 import enum
 import os
 from PyQt5 import QtGui
+from PyQt5 import QtMultimedia
 
 #############################################
 # This file contains
@@ -47,6 +48,16 @@ breathing_state = BreathingState.inactive
 class BreathingVisType(enum.Enum):
     mainwindow_widget = 0
     popup_dialog = 1
+
+
+def play_audio(i_file_name: str) -> None:
+    """
+    Qt audio overview: http://doc.qt.io/qt-5/audiooverview.html
+    Please note that the audio file must be wav, if we want to play compressed audio files it will be
+    more complicated (see docs page above)
+    """
+    audio_path_str = os.path.join(get_base_dir(), USER_FILES_DIR_STR, AUDIO_DIR_STR, i_file_name)
+    QtMultimedia.QSound.play(audio_path_str)
 
 
 def get_base_dir() -> str:

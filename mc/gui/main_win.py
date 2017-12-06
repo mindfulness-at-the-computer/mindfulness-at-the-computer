@@ -342,6 +342,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.breathing_dialog.close_signal.connect(
             self.on_breathing_dialog_closed)
         self.breathing_dialog.show()
+        mc.mc_global.play_audio("390200__ganapataye__03-bells[cc0].wav")
 
     def on_breathing_dialog_closed(self, i_ib_list, i_ob_list):
         self.breathing_history_wt.add_from_dialog(i_ib_list, i_ob_list)
