@@ -59,15 +59,28 @@ class RestReminderDlg(QtWidgets.QFrame):
 
         # Set position - done after show to get the right size hint
         screen_qrect = QtWidgets.QApplication.desktop().availableGeometry()
-        xpos_int = screen_qrect.left() + (screen_qrect.width() - self.sizeHint().width()) // 2
-        ypos_int = screen_qrect.bottom() - self.sizeHint().height() - 50
-        self.move(xpos_int, ypos_int)
+        self.xpos_int = screen_qrect.left() + (screen_qrect.width() - self.sizeHint().width()) // 2
+        self.ypos_int = screen_qrect.bottom() - self.sizeHint().height() - 50
+        self.move(self.xpos_int, self.ypos_int)
 
-        """
+        self.start_cursor_timer()
+
+    def start_cursor_timer(self):
+        self.cursor_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
+        self.cursor_qtimer.setSingleShot(True)
+        self.cursor_qtimer.timeout.connect(self.cursor_timer_timeout)
+        self.cursor_qtimer.start(2500)
+
+    def cursor_timer_timeout(self):
         cursor = QtGui.QCursor()
-        cursor.setPos(xpos_int + self.width() // 2, ypos_int + self.height() // 2)
-        self.setCursor(cursor)
-        """
+        if self.geometry().contains(cursor.pos()):
+            pass
+        else:
+            cursor.setPos(
+                self.xpos_int + self.width() // 2,
+                self.ypos_int + self.height() // 2
+            )
+            self.setCursor(cursor)
 
     def on_rest_button_clicked(self):
         self.rest_signal.emit()
