@@ -185,5 +185,5 @@ class Schema:
 
 def backup_db_file():
     date_sg = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    new_file_name_sg = mc_global.get_database_filename() + "_" + date_sg
+    new_file_name_sg = date_sg + "_" + mc_global.get_database_filename()
     shutil.copyfile(mc_global.get_database_filename(), new_file_name_sg)
