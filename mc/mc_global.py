@@ -52,16 +52,18 @@ notification_type_list = [
     BreathingNotification("Audio", 1),
     BreathingNotification("Both", 2)
 ]
-class BreathingNotificationType(enum.Enum):
-    visual = 0
-    audio = 1
-    both = 2
-
 """
 
-BREATHING_REMINDER_NOTIFICATION_VISUAL_INT = 0
-BREATHING_REMINDER_NOTIFICATION_AUDIO_INT = 1
-BREATHING_REMINDER_NOTIFICATION_BOTH_INT = 2
+
+class BreathingNotificationType(enum.Enum):
+    Visual = 0
+    Audio = 1
+    Both = 2
+
+
+# BREATHING_REMINDER_NOTIFICATION_VISUAL_INT = 0
+# BREATHING_REMINDER_NOTIFICATION_AUDIO_INT = 1
+# BREATHING_REMINDER_NOTIFICATION_BOTH_INT = 2
 
 
 breathing_state = BreathingState.inactive

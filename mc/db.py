@@ -116,7 +116,7 @@ def upgrade_3_4(i_db_conn):
     i_db_conn.execute(
         "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
         + Schema.SettingsTable.Cols.breathing_reminder_notification_type
-        + " INTEGER DEFAULT " + str(mc_global.BREATHING_REMINDER_NOTIFICATION_BOTH_INT)
+        + " INTEGER DEFAULT " + str(mc_global.BreathingNotificationType.Both.value)
     )
 
 
