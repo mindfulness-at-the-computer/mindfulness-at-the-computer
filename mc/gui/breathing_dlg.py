@@ -182,12 +182,15 @@ class BreathingDlg(QtWidgets.QFrame):
             self.breathing_out()
 
     def on_close_button_clicked(self):
+        self.cursor_qtimer.stop()
+
         if len(self.ob_qgri_list) > 0:
             self.update_io_length_lists()
         self.close_signal.emit(
             self.ib_length_int_list,
             self.ob_length_int_list
         )
+
         self.close()
 
     def update_io_length_lists(self):
