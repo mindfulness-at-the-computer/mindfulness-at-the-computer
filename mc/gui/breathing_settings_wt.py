@@ -30,7 +30,11 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         self.toggle_switch.toggled_signal.connect(self.on_switch_toggled)
         self.notification_type_qcb = QtWidgets.QComboBox()
         hbox_l3.addWidget(self.notification_type_qcb)
-        self.notification_type_qcb.addItems(["Visual", "Audio", "Both"])
+        self.notification_type_qcb.addItems([
+            mc.mc_global.BreathingNotificationType.Visual.name,
+            mc.mc_global.BreathingNotificationType.Audio.name,
+            mc.mc_global.BreathingNotificationType.Both.name
+        ])
         self.notification_type_qcb.activated.connect(self.notification_type_activated)
 
         hbox_l3 = QtWidgets.QHBoxLayout()
@@ -165,8 +169,9 @@ class BreathingSettingsWt(QtWidgets.QWidget):
 
         self.update_gui_audio_details()
 
-        self.notification_type_qcb.setCurrentIndex(
+        breathing_notification_type_enum = mc.mc_global.BreathingNotificationType(
             settings.breathing_reminder_notification_type_int
         )
+        self.notification_type_qcb.setCurrentText(breathing_notification_type_enum.name)
 
         self.updating_gui_bool = False
