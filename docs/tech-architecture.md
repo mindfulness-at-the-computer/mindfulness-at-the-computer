@@ -71,4 +71,4 @@ For coverage.py to discover the subdirectories of the root dir specified with `-
 
 ***
 
-Also see the [technical research](https://github.com/SunyataZero/mindfulness-at-the-computer/wiki/Technical-Research) page on the wiki
+Also see the [technical research](https://github.com/SunyataZero/mindfulness-at-the-computer/wiki/Tech-Research) page on the wiki
