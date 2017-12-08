@@ -17,11 +17,11 @@ SQLite through sqlite3 | - | [py module](https://docs.python.org/3/library/sqlit
 1. User interacts with the application
 2. Qt sends signal
 3. Application catches the signal (through the `connect`ed function)
-  * Handler functions are named with the prefix `on_`
+   * Handler functions are named with the prefix `on_`
 4. Handler function checks the `updating_gui_bool` variable and exits if `True` 
 5. Handler function updates the model/database
 6. Handler function emits a custom signal (a `pyqtSignal` we have created ourselves)
-  * Custom signals are named with the prefix `_signal`
+   * Custom signals are named with the prefix `_signal`
 7. Custom signal arrives in `main_win.py`
 8. The `update_gui` function in `main_win.py` is called
 9. This `update_gui` function in `main_win.py` then calls `update_gui` functions for it's child objects
@@ -47,42 +47,26 @@ Suffixes:
 * `_[type]`, for example `_int` --- this helps us be aware of type
   * For Qt the suffixes start with a `q`, for example `qpb` is short for `qPushButton`
 
-### Continuous Integration
 
-Travis
+## Automatic testing
 
-https://blog.ionelmc.ro/2014/05/25/python-packaging/
+`unittest` and `QtTest` are used for auto-testing
 
-https://github.com/codecov/example-python
+* [Article about auto-testing with unittest+QtTest](http://johnnado.com/pyqt-qtest-example/)
+  * [Example code](https://bitbucket.org/jmcgeheeiv/pyqttestexample/src/)
+
+
+## Continuous Integration
 
 ### Code coverage
 
-For coverage.py to discover the subdirectories of the root dir specified with --source
-we need to have an __init__.py file for each directory/package
+For coverage.py to discover the subdirectories of the root dir specified with `--source` we need to have an `__init__.py` file for each directory/package
 
-https://github.com/audreyr/how-to/blob/master/python/use_coverage_with_unittest.rst
+### Travis CI
 
+[Python documentation](https://docs.travis-ci.com/user/languages/python/)
 
-## unittest and qttest
-
-http://johnnado.com/pyqt-qtest-example/
-https://bitbucket.org/jmcgeheeiv/pyqttestexample/src/
-Testing: https://stackoverflow.com/questions/1616228/pyqt-gui-testing/46208135#46208135
-
-#### Travis CI
-
-https://github.com/mikkeloscar/arch-travis/issues/14
-
-pyqt travis
-gui testing travis
-
-https://docs.travis-ci.com/user/languages/python/
-
-
-##### "qxcbconnection: could not connect to display"
-
-We need to enable xvfb to do GUI testing:
-https://docs.travis-ci.com/user/gui-and-headless-browsers/#Using-xvfb-to-Run-Tests-That-Require-a-GUI
+[We need to enable xvfb to do GUI auto-testing](https://docs.travis-ci.com/user/gui-and-headless-browsers/#Using-xvfb-to-Run-Tests-That-Require-a-GUI)
 
 
 ***
