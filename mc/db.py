@@ -94,8 +94,27 @@ def upgrade_1_2(i_db_conn):
     )
 """
 
+
+def upgrade_1_2(i_db_conn):
+    backup_db_file()
+    i_db_conn.execute(
+        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
+        + Schema.SettingsTable.Cols.breathing_reminder_audio_path + " TEXT DEFAULT ''"
+    )
+
+
+def upgrade_2_3(i_db_conn):
+    backup_db_file()
+    i_db_conn.execute(
+        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
+        + Schema.SettingsTable.Cols.breathing_reminder_volume + " INTEGER DEFAULT 100"
+    )
+
+
 upgrade_steps = {
     1: initial_schema_and_setup,
+    2: upgrade_1_2,
+    3: upgrade_2_3,
 }
 
 
@@ -160,6 +179,8 @@ class Schema:
             breathing_reminder_active = "breathing_reminder_active"
             breathing_reminder_interval = "breathing_reminder_interval"
             breathing_reminder_length = "breathing_reminder_length"
+            breathing_reminder_audio_path = "breathing_reminder_audio_path"
+            breathing_reminder_volume = "breathing_reminder_volume"
 
 
 def backup_db_file():

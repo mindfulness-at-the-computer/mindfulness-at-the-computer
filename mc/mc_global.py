@@ -1,7 +1,6 @@
 import enum
 import os
 from PyQt5 import QtGui
-from PyQt5 import QtMultimedia
 
 #############################################
 # This file contains
@@ -50,14 +49,17 @@ class BreathingVisType(enum.Enum):
     popup_dialog = 1
 
 
-def play_audio(i_file_name: str) -> None:
     """
-    Qt audio overview: http://doc.qt.io/qt-5/audiooverview.html
-    Please note that the audio file must be wav, if we want to play compressed audio files it will be
-    more complicated (see docs page above)
+    audio_player = QtMultimedia.QMediaPlayer()
+    audio_player.setMedia(
+        QtMultimedia.QMediaContent(
+            QtCore.QUrl.fromLocalFile(audio_path_str)
+        )
+    )
+    audio_player.setVolume(30)
+    audio_player.play()
+    # defaultServiceProvider::requestService(): no service found for - "org.qt-project.qt.mediaplayer"
     """
-    audio_path_str = os.path.join(get_base_dir(), USER_FILES_DIR_STR, AUDIO_DIR_STR, i_file_name)
-    QtMultimedia.QSound.play(audio_path_str)
 
 
 def get_base_dir() -> str:
@@ -81,6 +83,14 @@ def get_user_images_path(i_file_name: str="") -> str:
     return user_images_path_str
     # user_dir_path_str = QtCore.QDir.currentPath() + "/user_files/images/"
     # return QtCore.QDir.toNativeSeparators(user_dir_path_str)
+
+
+def get_user_audio_path(i_file_name: str="") -> str:
+    if i_file_name:
+        user_audio_path_str = os.path.join(get_base_dir(), USER_FILES_DIR_STR, AUDIO_DIR_STR, i_file_name)
+    else:
+        user_audio_path_str = os.path.join(get_base_dir(), USER_FILES_DIR_STR, AUDIO_DIR_STR)
+    return user_audio_path_str
 
 
 def get_icon_path(i_file_name: str) -> str:

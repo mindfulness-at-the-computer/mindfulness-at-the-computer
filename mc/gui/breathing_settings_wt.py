@@ -1,9 +1,11 @@
+import os
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from mc import model, mc_global
 import mc.gui.toggle_switch_wt
 
 MIN_REST_REMINDER_INT = 1  # -in minutes
+NO_AUDIO_SELECTED_STR = "No audio selected"
 
 
 class BreathingSettingsWt(QtWidgets.QWidget):
@@ -52,12 +54,64 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         self.out_text_qll = QtWidgets.QLabel("out")
         vbox_l3.addWidget(self.out_text_qll)
 
+        self.audio_qgb = QtWidgets.QGroupBox("Audio")
+        vbox_l2.addWidget(self.audio_qgb)
+        vbox_l3 = QtWidgets.QVBoxLayout()
+        self.audio_qgb.setLayout(vbox_l3)
+        self.select_audio_qpb = QtWidgets.QPushButton("Select audio")
+        vbox_l3.addWidget(self.select_audio_qpb)
+        self.select_audio_qpb.clicked.connect(self.on_select_audio_clicked)
+        self.audio_path_qll = QtWidgets.QLabel(NO_AUDIO_SELECTED_STR)
+        vbox_l3.addWidget(self.audio_path_qll)
+        self.audio_path_qll.setWordWrap(True)
+        self.volume_qsr = QtWidgets.QSlider()
+        vbox_l3.addWidget(self.volume_qsr)
+        self.volume_qsr.setOrientation(QtCore.Qt.Horizontal)
+        self.volume_qsr.setMinimum(0)
+        self.volume_qsr.setMaximum(100)
+        self.volume_qsr.valueChanged.connect(self.volume_changed)
+
         vbox_l2.addStretch(1)
 
         # self.breathing_reminder_qgb.setDisabled(True)  # -disabled until a phrase has been selected
         self.setDisabled(True)
 
         self.update_gui()
+
+    def volume_changed(self, i_value: int):
+        if self.updating_gui_bool:
+            return
+        mc.model.SettingsM.update_breathing_reminder_volume(i_value)
+
+    def on_select_audio_clicked(self):
+        # noinspection PyCallByClass
+        audio_file_result_tuple = QtWidgets.QFileDialog.getOpenFileName(
+            self,
+            "Please choose a wav audio file",
+            mc_global.get_user_audio_path(),
+            "Wav files (*.wav)"
+        )
+        new_file_path_str = audio_file_result_tuple[0]
+        if new_file_path_str:
+            mc.model.SettingsM.update_breathing_reminder_audio_path(new_file_path_str)
+        else:
+            pass
+        self.update_gui_audio_details()
+
+    def update_gui_audio_details(self):
+        self.updating_gui_bool = True
+        settings = mc.model.SettingsM.get()
+
+        audio_path_str = settings.breathing_reminder_audio_path_str
+        audio_file_name_str = os.path.basename(audio_path_str)
+        if audio_file_name_str:
+            self.audio_path_qll.setText(audio_file_name_str)
+        else:
+            self.audio_path_qll.setText(NO_AUDIO_SELECTED_STR)
+
+        self.volume_qsr.setValue(settings.breathing_reminder_volume_int)
+
+        self.updating_gui_bool = False
 
     def on_test_breathing_dialog_button_clicked(self):
         self.breathe_now_button_clicked_signal.emit()
@@ -96,5 +150,7 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         breathing_reminder_length_minutes_int = model.SettingsM.get().breathing_reminder_length_int
         self.breathing_reminder_length_qsb.setValue(breathing_reminder_length_minutes_int)
         """
+
+        self.update_gui_audio_details()
 
         self.updating_gui_bool = False

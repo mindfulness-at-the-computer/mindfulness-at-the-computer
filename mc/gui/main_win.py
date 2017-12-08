@@ -4,6 +4,7 @@ import functools
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
+from PyQt5 import QtMultimedia
 import mc.gui.rest_action_list_wt
 import mc.model
 import mc.mc_global
@@ -342,7 +343,26 @@ class MainWin(QtWidgets.QMainWindow):
         self.breathing_dialog.close_signal.connect(
             self.on_breathing_dialog_closed)
         self.breathing_dialog.show()
-        mc.mc_global.play_audio("390200__ganapataye__03-bells[cc0].wav")
+        self.play_audio()  # "390200__ganapataye__03-bells[cc0].wav"
+
+    def play_audio(self) -> None:
+        # , i_file_name: str
+        """
+        Qt audio overview: http://doc.qt.io/qt-5/audiooverview.html
+        Please note that the audio file must be wav, if we want to play compressed audio files it will be
+        more complicated (see docs page above)
+        """
+        settings = mc.model.SettingsM.get()
+        audio_path_str = settings.breathing_reminder_audio_path_str
+        # mc.mc_global.get_user_audio_path(settings.breathing_reminder_audio_path_str)
+        volume_int = settings.breathing_reminder_volume_int
+        # QtMultimedia.QSound.play(audio_path_str)
+
+        sound_effect = QtMultimedia.QSoundEffect(self)
+        # -PLEASE NOTE: A parent has to be given here, otherwise we will not hear anything
+        sound_effect.setSource(QtCore.QUrl.fromLocalFile(audio_path_str))
+        sound_effect.setVolume(float(volume_int / 100))
+        sound_effect.play()
 
     def on_breathing_dialog_closed(self, i_ib_list, i_ob_list):
         self.breathing_history_wt.add_from_dialog(i_ib_list, i_ob_list)
