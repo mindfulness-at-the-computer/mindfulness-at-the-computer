@@ -41,6 +41,29 @@ class BreathingState(enum.Enum):
     breathing_out = 2
 
 
+"""
+class BreathingNotification:
+    def __init__(self, i_name: str, i_value: int):
+        self.name_str = i_name
+        self.value_int = i_value
+
+notification_type_list = [
+    BreathingNotification("Visual", 0),
+    BreathingNotification("Audio", 1),
+    BreathingNotification("Both", 2)
+]
+class BreathingNotificationType(enum.Enum):
+    visual = 0
+    audio = 1
+    both = 2
+
+"""
+
+BREATHING_REMINDER_NOTIFICATION_VISUAL_INT = 0
+BREATHING_REMINDER_NOTIFICATION_AUDIO_INT = 1
+BREATHING_REMINDER_NOTIFICATION_BOTH_INT = 2
+
+
 breathing_state = BreathingState.inactive
 
 
@@ -67,11 +90,18 @@ def get_base_dir() -> str:
     return base_dir_str
 
 
-def get_database_filename() -> str:
+def get_database_filename(i_backup_timestamp: str = "") -> str:
     if testing_bool:
         return ":memory:"
     else:
-        ret_path_str = os.path.join(get_base_dir(), USER_FILES_DIR_STR, DATABASE_FILE_STR)
+        database_filename_str = DATABASE_FILE_STR
+        if i_backup_timestamp:
+            database_filename_str = i_backup_timestamp + "_" + DATABASE_FILE_STR
+        ret_path_str = os.path.join(
+            get_base_dir(),
+            USER_FILES_DIR_STR,
+            database_filename_str
+        )
         return ret_path_str
 
 

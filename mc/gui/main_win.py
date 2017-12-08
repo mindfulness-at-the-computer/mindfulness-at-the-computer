@@ -338,12 +338,18 @@ class MainWin(QtWidgets.QMainWindow):
 
     # noinspection PyAttributeOutsideInit
     def show_breathing_dialog(self):
-        logging.debug("show_exp_notification")
-        self.breathing_dialog = mc.gui.breathing_dlg.BreathingDlg()
-        self.breathing_dialog.close_signal.connect(
-            self.on_breathing_dialog_closed)
-        self.breathing_dialog.show()
-        self.play_audio()  # "390200__ganapataye__03-bells[cc0].wav"
+        notification_type_int = mc.model.SettingsM.get().breathing_reminder_notification_type_int
+
+        if (notification_type_int == mc.mc_global.BREATHING_REMINDER_NOTIFICATION_BOTH_INT
+        or notification_type_int == mc.mc_global.BREATHING_REMINDER_NOTIFICATION_VISUAL_INT):
+            self.breathing_dialog = mc.gui.breathing_dlg.BreathingDlg()
+            self.breathing_dialog.close_signal.connect(
+                self.on_breathing_dialog_closed)
+            self.breathing_dialog.show()
+
+        if(notification_type_int == mc.mc_global.BREATHING_REMINDER_NOTIFICATION_BOTH_INT
+        or notification_type_int == mc.mc_global.BREATHING_REMINDER_NOTIFICATION_AUDIO_INT):
+            self.play_audio()  # "390200__ganapataye__03-bells[cc0].wav"
 
     def play_audio(self) -> None:
         # , i_file_name: str

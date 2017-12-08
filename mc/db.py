@@ -111,10 +111,20 @@ def upgrade_2_3(i_db_conn):
     )
 
 
+def upgrade_3_4(i_db_conn):
+    backup_db_file()
+    i_db_conn.execute(
+        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
+        + Schema.SettingsTable.Cols.breathing_reminder_notification_type
+        + " INTEGER DEFAULT " + str(mc_global.BREATHING_REMINDER_NOTIFICATION_BOTH_INT)
+    )
+
+
 upgrade_steps = {
     1: initial_schema_and_setup,
     2: upgrade_1_2,
     3: upgrade_2_3,
+    4: upgrade_3_4
 }
 
 
@@ -181,9 +191,10 @@ class Schema:
             breathing_reminder_length = "breathing_reminder_length"
             breathing_reminder_audio_path = "breathing_reminder_audio_path"
             breathing_reminder_volume = "breathing_reminder_volume"
+            breathing_reminder_notification_type = "breathing_reminder_notification_type"
 
 
 def backup_db_file():
     date_sg = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    new_file_name_sg = date_sg + "_" + mc_global.get_database_filename()
+    new_file_name_sg = mc_global.get_database_filename(date_sg)
     shutil.copyfile(mc_global.get_database_filename(), new_file_name_sg)

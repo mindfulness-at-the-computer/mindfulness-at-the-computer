@@ -396,6 +396,7 @@ class SettingsM:
         i_breathing_reminder_length: int,
         i_breathing_reminder_audio_path: str,
         i_breathing_reminder_volume: int,
+        i_breathing_reminder_notification_type: int
     ) -> None:
         # (id is not used)
         self.rest_reminder_active_bool = True if i_rest_reminder_active else False
@@ -405,6 +406,7 @@ class SettingsM:
         self.breathing_reminder_length_int = i_breathing_reminder_length
         self.breathing_reminder_audio_path_str = i_breathing_reminder_audio_path
         self.breathing_reminder_volume_int = i_breathing_reminder_volume
+        self.breathing_reminder_notification_type_int = i_breathing_reminder_notification_type
 
     @staticmethod
     def get():
@@ -506,6 +508,18 @@ class SettingsM:
             + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_volume + " = ?"
             + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
             (i_new_volume, str(db.SINGLE_SETTINGS_ID_INT))
+        )
+        db_connection.commit()
+
+    @staticmethod
+    def update_breathing_reminder_notification_type(i_new_notification_type: int):
+        db_connection = db.Helper.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + db.Schema.SettingsTable.name
+            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_notification_type + " = ?"
+            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
+            (i_new_notification_type, str(db.SINGLE_SETTINGS_ID_INT))
         )
         db_connection.commit()
 

@@ -23,9 +23,15 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         vbox_l2 = QtWidgets.QVBoxLayout()
         self.setLayout(vbox_l2)
 
+        hbox_l3 = QtWidgets.QHBoxLayout()
+        vbox_l2.addLayout(hbox_l3)
         self.toggle_switch = mc.gui.toggle_switch_wt.ToggleSwitchWt()
-        vbox_l2.addWidget(self.toggle_switch)
+        hbox_l3.addWidget(self.toggle_switch)
         self.toggle_switch.toggled_signal.connect(self.on_switch_toggled)
+        self.notification_type_qcb = QtWidgets.QComboBox()
+        hbox_l3.addWidget(self.notification_type_qcb)
+        self.notification_type_qcb.addItems(["Visual", "Audio", "Both"])
+        self.notification_type_qcb.activated.connect(self.notification_type_activated)
 
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
@@ -77,6 +83,10 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         self.setDisabled(True)
 
         self.update_gui()
+
+    def notification_type_activated(self, i_index: int):
+        # -activated is only triggered on user action
+        mc.model.SettingsM.update_breathing_reminder_notification_type(i_index)
 
     def volume_changed(self, i_value: int):
         if self.updating_gui_bool:
@@ -131,6 +141,8 @@ class BreathingSettingsWt(QtWidgets.QWidget):
     def update_gui(self):
         self.updating_gui_bool = True
 
+        settings = mc.model.SettingsM.get()
+
         # Breathing reminder
         if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT:
             self.setDisabled(False)
@@ -141,10 +153,10 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         else:
             self.setDisabled(True)
 
-        br_enabled = model.SettingsM.get().breathing_reminder_active_bool
+        br_enabled = settings.breathing_reminder_active_bool
         self.toggle_switch.update_gui(br_enabled)
 
-        breathing_reminder_interval_minutes_int = model.SettingsM.get().breathing_reminder_interval_int
+        breathing_reminder_interval_minutes_int = settings.breathing_reminder_interval_int
         self.breathing_reminder_interval_qsb.setValue(breathing_reminder_interval_minutes_int)
         """
         breathing_reminder_length_minutes_int = model.SettingsM.get().breathing_reminder_length_int
@@ -152,5 +164,9 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         """
 
         self.update_gui_audio_details()
+
+        self.notification_type_qcb.setCurrentIndex(
+            settings.breathing_reminder_notification_type_int
+        )
 
         self.updating_gui_bool = False
