@@ -19,7 +19,7 @@ class BreathingDlg(QtWidgets.QFrame):
     def __init__(self):
         super().__init__()
 
-        self.hover_and_kb_active_bool = False
+        self.hover_active_bool = False
         self.state = mc.mc_global.BreathingState.inactive
         self.ib_qtimer = None
         self.ob_qtimer = None
@@ -52,7 +52,13 @@ class BreathingDlg(QtWidgets.QFrame):
         self.ib_cll = CustomLabel(in_str)
         vbox_l2.addWidget(self.ib_cll, alignment=QtCore.Qt.AlignHCenter)
         self.ib_cll.entered_signal.connect(self.on_in_button_hover)
+        self.ib_cll.pressed_signal.connect(self.on_in_label_pressed)
         # self.qll_one.mouse.connect(self.on_mouse_over_one)
+
+        self.ob_cll = CustomLabel(out_str)
+        vbox_l2.addWidget(self.ob_cll, alignment=QtCore.Qt.AlignHCenter)
+        self.ob_cll.entered_signal.connect(self.on_out_button_hover)
+        self.ob_cll.pressed_signal.connect(self.on_out_label_pressed)
 
         """
         self.hline_frame = QtWidgets.QFrame()
@@ -71,42 +77,39 @@ class BreathingDlg(QtWidgets.QFrame):
 
         self.breathing_graphicsview_l3.hide()  # -this is removed for now
 
-        self.ob_cll = CustomLabel(out_str)
-        vbox_l2.addWidget(self.ob_cll, alignment=QtCore.Qt.AlignHCenter)
-        self.ob_cll.entered_signal.connect(self.on_out_button_hover)
-
-        hbox = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(hbox)
-        self.in_and_activate_qpb = CustomButton("activate hover")
-        hbox.addWidget(self.in_and_activate_qpb)
-        self.in_and_activate_qpb.clicked.connect(self.on_in_and_activate_button_clicked)
+        hbox_l3 = QtWidgets.QHBoxLayout()
+        vbox_l2.addLayout(hbox_l3)
+        self.phrases_qcb = QtWidgets.QComboBox()
+        hbox_l3.addWidget(self.phrases_qcb)
+        for phrase in mc.model.PhrasesM.get_all():
+            self.phrases_qcb.addItem(phrase.title_str,phrase.id_int)
+        self.phrases_qcb.activated.connect(self.on_phrases_combo_activated)
+        self.activate_hover_qpb = QtWidgets.QPushButton("hover")
+        hbox_l3.addWidget(self.activate_hover_qpb)
+        self.activate_hover_qpb.clicked.connect(self.on_activate_hover_clicked)
+        self.activate_keyboard_qpb = QtWidgets.QPushButton("keyboard")
+        hbox_l3.addWidget(self.activate_keyboard_qpb)
+        self.activate_keyboard_qpb.clicked.connect(self.on_activate_keyboard_clicked)
         self.in_qpb = CustomButton("In")
-        hbox.addWidget(self.in_qpb)
+        hbox_l3.addWidget(self.in_qpb)
         self.in_qpb.clicked.connect(self.on_in_button_clicked)
         self.in_qpb.entered_signal.connect(self.on_in_button_hover)
-
+        self.in_qpb.hide()
         self.out_qpb = CustomButton("Out")
-        hbox.addWidget(self.out_qpb)
+        hbox_l3.addWidget(self.out_qpb)
         self.out_qpb.clicked.connect(self.on_out_button_clicked)
         self.out_qpb.entered_signal.connect(self.on_out_button_hover)
+        self.out_qpb.hide()
         self.close_qpb = CustomButton("Close")
-        hbox.addWidget(self.close_qpb)
+        hbox_l3.addWidget(self.close_qpb)
         self.close_qpb.clicked.connect(self.on_close_button_clicked)
         self.close_qpb.entered_signal.connect(self.on_close_button_hover)
 
-        self.phrases_qcb = QtWidgets.QComboBox()
-        hbox.addWidget(self.phrases_qcb)
-        for phrase in mc.model.PhrasesM.get_all():
-            self.phrases_qcb.addItem(
-                phrase.title_str,
-                phrase.id_int
-            )
-        """
-        self.phrases_qcb.addItems(
-            [p.title_str for p in mc.model.PhrasesM.get_all()]
-        )
-        """
-        self.phrases_qcb.activated.connect(self.on_phrases_combo_activated)
+        self.help_qll = QtWidgets.QLabel("Press the labels to start breathing")
+        vbox_l2.addWidget(self.help_qll, alignment=QtCore.Qt.AlignHCenter)
+        font = self.help_qll.font()
+        font.setItalic(True)
+        self.help_qll.setFont(font)
 
         self.show()  # -done after all the widget have been added so that the right size is set
         self.raise_()
@@ -200,20 +203,35 @@ class BreathingDlg(QtWidgets.QFrame):
         self.ib_cll.set_inactive()
         self.ob_cll.set_active()
 
-    def on_in_and_activate_button_clicked(self):
-        self.hover_and_kb_active_bool = True
-        self.on_in_button_clicked()
+    def on_activate_hover_clicked(self):
+        self.hover_active_bool = True
+        # self.on_in_button_clicked()
+        font = self.activate_hover_qpb.font()
+        font.setBold(True)
+        self.activate_hover_qpb.setFont(font)
+
+    def on_activate_keyboard_clicked(self):
+        self.keyboard_active_bool = True
+        font = self.activate_keyboard_qpb.font()
+        font.setBold(True)
+        self.activate_keyboard_qpb.setFont(font)
 
     def on_in_button_hover(self):
-        if self.hover_and_kb_active_bool:
+        if self.hover_active_bool:
             self.on_in_button_clicked()
 
     def on_out_button_hover(self):
-        if self.hover_and_kb_active_bool:
+        if self.hover_active_bool:
             self.on_out_button_clicked()
 
+    def on_in_label_pressed(self):
+        self.on_in_button_clicked()
+
+    def on_out_label_pressed(self):
+        self.on_out_button_clicked()
+
     def on_close_button_hover(self):
-        if self.hover_and_kb_active_bool:
+        if self.hover_active_bool:
             self.on_close_button_clicked()
 
     def on_in_button_clicked(self):
@@ -372,6 +390,7 @@ DARK_INT = 64
 
 class CustomLabel(QtWidgets.QLabel):
     entered_signal = QtCore.pyqtSignal()
+    pressed_signal = QtCore.pyqtSignal()
 
     def __init__(self, i_title: str):
         super().__init__(i_title)
@@ -414,6 +433,12 @@ class CustomLabel(QtWidgets.QLabel):
     def enterEvent(self, i_QEvent):
         self.entered_signal.emit()
         logging.debug("CustomLabel: enterEvent")
+
+    # Overridden
+    # noinspection PyPep8Naming
+    def mousePressEvent(self, i_QMouseEvent):
+        self.pressed_signal.emit()
+        logging.debug("CustomLabel: mousePressEvent")
 
 
 class CustomButton(QtWidgets.QPushButton):
