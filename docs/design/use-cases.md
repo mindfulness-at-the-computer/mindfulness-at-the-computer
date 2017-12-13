@@ -2,6 +2,13 @@
 List of feature ideas: https://github.com/SunyataZero/mindfulness-at-the-computer/wiki/Feature-Ideas
 
 
+# Users
+
+Users are stressed when using the computer
+
+Needs:
+
+
 # Scenarios / Use Cases
 
 
