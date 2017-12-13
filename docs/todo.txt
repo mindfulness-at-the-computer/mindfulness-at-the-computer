@@ -1,21 +1,8 @@
 
 
-[ ] design: recreate the systray menu
+[x] design: recreate the systray menu
 
-[x] design: add combobox to the breathing menu
-
-[ ] add "test"/breathe now as an option both in the main user interface and in the systray menu
-
-[x] skip break (same as wait for same nr of minutes as with "restart")
-
-[x] add hover for the breathing dialog
-
-[x] always have a breathing phrase selected
-[x] set the top breathing phrase as the default
-this approach is better than having a special case since if we have a special case we would
-have to have a button for deselection if the user wanted to restore the special case. For
-example, if the user speaks another language than English she may want to change to her own
-language, or the user may simply prefer another phrase
+[x] add "test"/breathe now as an option both in the main user interface and in the systray menu
 
 ? change to one button (rather than three?), but also giving the option to exit in a discrete way
 in, out, close
@@ -28,8 +15,6 @@ in, out, close
 
 Low priority:
 [ ] starting a 2nd program - same, in other words only one instance can be run
-[x] draw a state diagram for the documentation
-[x] if the user only breathes in then the in breath will be removed
 [ ] setting the log level when starting the application, using a command line argument
 [ ] add different test setups (no list items for example)
 [ ] show the active breathing phrase in the systray menu

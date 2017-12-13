@@ -152,8 +152,12 @@ class MainWin(QtWidgets.QMainWindow):
         self.sys_tray.breathing_enabled_qaction.toggled.connect(
             self.br_settings_wt.on_switch_toggled
         )
-        self.sys_tray.breathing_enabled_qaction.setDisabled(True)
 
+        self.tray_open_breathing_dialog_qaction = QtWidgets.QAction("Open Breathing Dialog")
+        self.tray_menu.addAction(self.tray_open_breathing_dialog_qaction)
+        self.tray_open_breathing_dialog_qaction.triggered.connect(self.show_breathing_dialog)
+
+        """
         self.sys_tray.phrase_qaction_list.clear()
         for (count, l_phrase) in enumerate(mc.model.PhrasesM.get_all()):
             INDENTATION_STR = "  "
@@ -174,10 +178,11 @@ class MainWin(QtWidgets.QMainWindow):
             self.tray_menu.addAction(tray_phrase_qaction)
             if count >= 4:
                 break
+        """
 
         self.tray_menu.addSeparator()
 
-        self.tray_restore_action = QtWidgets.QAction("Restore")
+        self.tray_restore_action = QtWidgets.QAction("Open Settings")
         self.tray_menu.addAction(self.tray_restore_action)
         self.tray_restore_action.triggered.connect(self.restore_window)
         self.tray_quit_action = QtWidgets.QAction("Quit")
