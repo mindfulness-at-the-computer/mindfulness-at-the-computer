@@ -1,6 +1,5 @@
 import logging
 import sys
-import functools
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
@@ -196,7 +195,10 @@ class MainWin(QtWidgets.QMainWindow):
 
     def on_systray_activated(self, i_reason):
         logging.debug("entered on_systray_activated. i_reason = " + str(i_reason))
-        self.restore_window()
+        if i_reason == QtWidgets.QSystemTrayIcon.Trigger:
+            self.restore_window()
+        else:
+            self.tray_icon.activated.emit(i_reason)
 
     def on_breathing_list_row_changed(self, i_details_enabled: bool):
         self.change_timer_state()
