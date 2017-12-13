@@ -84,6 +84,7 @@ class BreathingDlg(QtWidgets.QFrame):
         hbox.addWidget(self.in_qpb)
         self.in_qpb.clicked.connect(self.on_in_button_clicked)
         self.in_qpb.entered_signal.connect(self.on_in_button_hover)
+
         self.out_qpb = CustomButton("Out")
         hbox.addWidget(self.out_qpb)
         self.out_qpb.clicked.connect(self.on_out_button_clicked)
@@ -133,7 +134,30 @@ class BreathingDlg(QtWidgets.QFrame):
         """
         self.start_cursor_timer()
 
+        self.keyboard_active_bool = True
+
         self.update_gui()
+
+    # overridden
+    def keyPressEvent(self, i_qkeyevent):
+        if not self.keyboard_active_bool:
+            return
+        if i_qkeyevent.key() == QtCore.Qt.Key_Shift:
+            logging.info("shift key pressed")
+            self.in_qpb.click()
+        else:
+            pass
+            # super().keyPressEvent(self, iQKeyEvent)
+
+    # overridden
+    def keyReleaseEvent(self, i_qkeyevent):
+        if not self.keyboard_active_bool:
+            return
+        if i_qkeyevent.key() == QtCore.Qt.Key_Shift:
+            logging.info("shift key released")
+            self.out_qpb.click()
+        else:
+            pass
 
     def on_phrases_combo_activated(self, i_index: int):
         logging.debug("on_phrases_combo_activated, index = " + str(i_index))
@@ -403,4 +427,3 @@ class CustomButton(QtWidgets.QPushButton):
     def enterEvent(self, i_QEvent):
         self.entered_signal.emit()
         logging.debug("CustomButton: enterEvent")
-
