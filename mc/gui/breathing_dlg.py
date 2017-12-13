@@ -14,6 +14,7 @@ GRADIENT_OUT_FT = 150.0
 
 class BreathingDlg(QtWidgets.QFrame):
     close_signal = QtCore.pyqtSignal(list, list)
+    phrase_changed_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -48,7 +49,6 @@ class BreathingDlg(QtWidgets.QFrame):
             breathing_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
             in_str = breathing_phrase.ib_str
             out_str = breathing_phrase.ob_str
-
         self.ib_cll = CustomLabel(in_str)
         vbox_l2.addWidget(self.ib_cll, alignment=QtCore.Qt.AlignHCenter)
         self.ib_cll.entered_signal.connect(self.on_in_button_hover)
@@ -93,6 +93,20 @@ class BreathingDlg(QtWidgets.QFrame):
         self.close_qpb.clicked.connect(self.on_close_button_clicked)
         self.close_qpb.entered_signal.connect(self.on_close_button_hover)
 
+        self.phrases_qcb = QtWidgets.QComboBox()
+        hbox.addWidget(self.phrases_qcb)
+        for phrase in mc.model.PhrasesM.get_all():
+            self.phrases_qcb.addItem(
+                phrase.title_str,
+                phrase.id_int
+            )
+        """
+        self.phrases_qcb.addItems(
+            [p.title_str for p in mc.model.PhrasesM.get_all()]
+        )
+        """
+        self.phrases_qcb.activated.connect(self.on_phrases_combo_activated)
+
         self.show()  # -done after all the widget have been added so that the right size is set
         self.raise_()
         self.showNormal()
@@ -118,6 +132,16 @@ class BreathingDlg(QtWidgets.QFrame):
         self.setCursor(cursor)
         """
         self.start_cursor_timer()
+
+        self.update_gui()
+
+    def on_phrases_combo_activated(self, i_index: int):
+        logging.debug("on_phrases_combo_activated, index = " + str(i_index))
+        # for i in range(0, self.phrases_qcb.count() - 1):
+        db_id_int = self.phrases_qcb.itemData(i_index)
+        mc.mc_global.active_phrase_id_it = db_id_int
+        self.phrase_changed_signal.emit()
+        self.update_gui()
 
     def start_cursor_timer(self):
         self.cursor_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
@@ -299,6 +323,21 @@ class BreathingDlg(QtWidgets.QFrame):
         font.setPointSizeF(point_size_ft + 0.05)
         self.ob_cll.setFont(font)
         """
+
+    def update_gui(self):
+        in_str = "-----------------"
+        out_str = "-"
+        if mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT:
+            breathing_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+            in_str = breathing_phrase.ib_str
+            out_str = breathing_phrase.ob_str
+        self.ib_cll.setText(in_str)
+        self.ob_cll.setText(out_str)
+
+        for i in range(0, self.phrases_qcb.count()):
+            if self.phrases_qcb.itemData(i) == mc.mc_global.active_phrase_id_it:
+                self.phrases_qcb.setCurrentIndex(i)
+                break
 
 
 BREATHING_LABEL_MARGIN_INT = 16
