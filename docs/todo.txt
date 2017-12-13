@@ -1,9 +1,4 @@
 
-
-[x] design: recreate the systray menu
-
-[x] add "test"/breathe now as an option both in the main user interface and in the systray menu
-
 ? change to one button (rather than three?), but also giving the option to exit in a discrete way
 in, out, close
 
