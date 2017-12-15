@@ -1,7 +1,7 @@
 
 # Running from Source
 
-If you don't see a download option for the platform of your choice, or you just prefer running from source for other reasons you can follow these steps to start the application:
+If you don't see a download option for the platform of your choice, or you just prefer running from source for other reasons, you can follow these steps to start the application:
 
 1. Download the Python 3.x installation package for your platform: https://www.python.org/downloads/
 2. Install Python 3.x
@@ -28,6 +28,5 @@ For desktop systems that are compatible with the [freedesktop](https://www.freed
 To use this file:
 
 1. Edit the `mindfulness-at-the-computer.desktop` file (from the varia/ directory) and change the paths to match the path that you are using
-2. Copy the `mindfulness-at-the-computer.desktop` file to your desktop or any place where you want to be able to start the application from
+2. Copy the `mindfulness-at-the-computer.desktop` file to your desktop or to any place from where you want to be able to start the application
 3. Copy the `mindfulness-at-the-computer.desktop` file to `/usr/share/applications/` using `sudo`
-
