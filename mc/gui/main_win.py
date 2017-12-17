@@ -194,11 +194,22 @@ class MainWin(QtWidgets.QMainWindow):
         self.update_gui(mc.mc_global.EventSource.rest_action_changed)
 
     def on_systray_activated(self, i_reason):
-        logging.debug("entered on_systray_activated. i_reason = " + str(i_reason))
+        logging.debug("entered on_systray_activated")
+        logging.debug("i_reason = " + str(i_reason))
+        logging.debug("mouseButtons() = " + str(QtWidgets.QApplication.mouseButtons()))
+        if QtWidgets.QApplication.mouseButtons() & QtCore.Qt.RightButton:
+            # -http://doc.qt.io/qt-5/qguiapplication.html#mouseButtons
+            # -https://doc.qt.io/qt-5/qt.html#MouseButton-enum
+            logging.debug("Right button clicked, showing menu")
+            self.tray_icon.activated.emit(i_reason)
+        else:
+            logging.debug("Systray activated for other reason than right click, showing the main settings window")
+            self.restore_window()
+        """
         if i_reason == QtWidgets.QSystemTrayIcon.Trigger:
             self.restore_window()
         else:
-            self.tray_icon.activated.emit(i_reason)
+        """
 
     def on_breathing_list_row_changed(self, i_details_enabled: bool):
         self.change_timer_state()
