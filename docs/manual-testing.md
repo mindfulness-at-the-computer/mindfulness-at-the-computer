@@ -3,7 +3,7 @@
 
 This document contains test cases for manual testing
 
-For all the tests below: Please start the application in debug mode, or at least so that you can see the debug output (from the logging)
+For all the tests below: Please start the application in debug mode, or at least in such a way that you can see the debug output (from the logging)
 
 Test Record: Please use [the wiki](https://github.com/SunyataZero/mindfulness-at-the-computer/wiki)
 
@@ -33,10 +33,10 @@ TBD: Verify that only one rest dialog appears if multiple are "passed"
 2. Verify: In the main interface the remaining time is shown as 1.
 3. Verify: In the system tray menu the remaining time is almost nothing (might be shown as nothing because of rounding).
 4. Wait one minute for the dialog to be shown again.
-5. Verify: the dialog is shown.
+5. Verify: The dialog is shown.
 6. Change the wait time value to 5.
 7. Verify: In the main interface the remaining time is shown as 5.
-8. Verify: In the system tray menu the remaining time is shown as the percentage you would expect (ex: if rest interval is 20 minutes we expect 75% of the systray progress bar to be filled).
+8. Verify: In the system tray menu the remaining time is shown as the percentage you would expect (e.g. if rest interval is 20 minutes we would expect 75% of the systray progress bar to be filled).
 
 
 
@@ -48,13 +48,7 @@ TBD: Removing an image file to create a "broken link"
 ## Phrases
 
 1. Select a phrase from the list to the left.
-2. Verify: the breathing area text is changed.
+2. Verify: The breathing area text is changed.
 3. Enable breathing reminders.
 4. Click on "test" for the breathing reminders (or wait for the next reminder).
-5. Verify: the text has been changed from before.
-
-
-
-
-
-
+5. Verify: The text has been changed from before.

@@ -18,16 +18,16 @@ SQLite through sqlite3 | - | [py module](https://docs.python.org/3/library/sqlit
 2. Qt sends signal
 3. Application catches the signal (through the `connect`ed function)
    * Handler functions are named with the prefix `on_`
-4. Handler function checks the `updating_gui_bool` variable and exits if `True` 
+4. Handler function checks the `updating_gui_bool` variable and exits if `True`
 5. Handler function updates the model/database
 6. Handler function emits a custom signal (a `pyqtSignal` we have created ourselves)
    * Custom signals are named with the prefix `_signal`
 7. Custom signal arrives in `main_win.py`
 8. The `update_gui` function in `main_win.py` is called
-9. This `update_gui` function in `main_win.py` then calls `update_gui` functions for it's child objects
-10. The `update_gui` functions sets the `updating_gui_bool` variable to `True` at the start
-11. The `update_gui` functions update their respectice GUIs by reading data from the model/database
-10. The `update_gui` functions sets the `updating_gui_bool` variable to `False` at the end
+9. This `update_gui` function in `main_win.py` then calls `update_gui` functions for its child objects
+10. The `update_gui` functions set the `updating_gui_bool` variable to `True` at the start
+11. The `update_gui` functions update their respective GUIs by reading data from the model/database
+10. The `update_gui` functions set the `updating_gui_bool` variable to `False` at the end
 
 Some of Qt's signals are fired only at user interaction, but often they are also fired at a programmatic change. To avoid infinite loops we set a `updating_gui_bool` when needed
 
