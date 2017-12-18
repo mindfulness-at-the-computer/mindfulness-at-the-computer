@@ -6,11 +6,6 @@ from PyQt5 import QtGui
 import mc.mc_global
 import mc.model
 
-BAR_HEIGHT_FT = 4.0
-POINT_SIZE_INT = 16
-GRADIENT_IN_FT = 120.0
-GRADIENT_OUT_FT = 150.0
-
 
 class BreathingDlg(QtWidgets.QFrame):
     close_signal = QtCore.pyqtSignal(list, list)
@@ -18,12 +13,11 @@ class BreathingDlg(QtWidgets.QFrame):
 
     def __init__(self):
         super().__init__()
-
         self.hover_active_bool = False
+        self.keyboard_active_bool = False
         self.state = mc.mc_global.BreathingState.inactive
         self.ib_qtimer = None
         self.ob_qtimer = None
-
         self.setWindowFlags(
             QtCore.Qt.Tool
             | QtCore.Qt.WindowStaysOnTopHint
@@ -32,78 +26,30 @@ class BreathingDlg(QtWidgets.QFrame):
         # QtCore.Qt.Dialog
         # | QtCore.Qt.WindowStaysOnTopHint
         # | QtCore.Qt.X11BypassWindowManagerHint
-
         self.setFrameStyle(QtWidgets.QFrame.Box | QtWidgets.QFrame.Plain)
         self.setLineWidth(1)
-
         # self.setStyleSheet("background-color: rgba(0,0,0,0)")
-
         vbox_l2 = QtWidgets.QVBoxLayout()
         self.setLayout(vbox_l2)
         # (left, right, top, bottom) = vbox_l2.getContentsMargins()
         # vbox_l2.setContentsMargins(0, 0, 5, 5)
 
-        in_str = "-----------------"
-        out_str = "-"
-        if mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT:
-            breathing_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-            in_str = breathing_phrase.ib_str
-            out_str = breathing_phrase.ob_str
-        self.ib_cll = CustomLabel(in_str)
-        vbox_l2.addWidget(self.ib_cll, alignment=QtCore.Qt.AlignHCenter)
-        self.ib_cll.entered_signal.connect(self.on_in_button_hover)
-        self.ib_cll.pressed_signal.connect(self.on_in_label_pressed)
-        # self.qll_one.mouse.connect(self.on_mouse_over_one)
-
-        self.ob_cll = CustomLabel(out_str)
-        vbox_l2.addWidget(self.ob_cll, alignment=QtCore.Qt.AlignHCenter)
-        self.ob_cll.entered_signal.connect(self.on_out_button_hover)
-        self.ob_cll.pressed_signal.connect(self.on_out_label_pressed)
-
-        """
-        self.hline_frame = QtWidgets.QFrame()
-        vbox_l2.addWidget(self.hline_frame, alignment=QtCore.Qt.AlignHCenter)
-        self.hline_frame.setFrameShape(QtWidgets.QFrame.HLine)
-        self.hline_frame.setFixedWidth(100)
-        """
-
-        self.breathing_graphicsview_l3 = QtWidgets.QGraphicsView()  # QGraphicsScene
+        self.breathing_graphicsview_l3 = GraphicsView()
         vbox_l2.addWidget(self.breathing_graphicsview_l3)
-        self.breathing_graphicsview_l3.setFixedHeight(BAR_HEIGHT_FT)  # + 2 * SMALL_MARGIN_FT
-        self.breathing_graphicsview_l3.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.breathing_graphicsview_l3.setAlignment(QtCore.Qt.AlignAbsolute)
-        self.breathing_graphicsscene_l4 = QtWidgets.QGraphicsScene()
-        self.breathing_graphicsview_l3.setScene(self.breathing_graphicsscene_l4)
 
-        self.breathing_graphicsview_l3.hide()  # -this is removed for now
+        buttons_hbox_l3 = QtWidgets.QHBoxLayout()
+        vbox_l2.addLayout(buttons_hbox_l3)
 
-        hbox_l3 = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(hbox_l3)
         self.phrases_qcb = QtWidgets.QComboBox()
-        hbox_l3.addWidget(self.phrases_qcb)
+        buttons_hbox_l3.addWidget(self.phrases_qcb)
         for phrase in mc.model.PhrasesM.get_all():
             self.phrases_qcb.addItem(phrase.title_str,phrase.id_int)
         self.phrases_qcb.activated.connect(self.on_phrases_combo_activated)
-        self.activate_hover_qpb = QtWidgets.QPushButton("hover")
-        hbox_l3.addWidget(self.activate_hover_qpb)
-        self.activate_hover_qpb.clicked.connect(self.on_activate_hover_clicked)
-        self.activate_keyboard_qpb = QtWidgets.QPushButton("keyboard")
-        hbox_l3.addWidget(self.activate_keyboard_qpb)
-        self.activate_keyboard_qpb.clicked.connect(self.on_activate_keyboard_clicked)
-        self.in_qpb = CustomButton("In")
-        hbox_l3.addWidget(self.in_qpb)
-        self.in_qpb.clicked.connect(self.on_in_button_clicked)
-        self.in_qpb.entered_signal.connect(self.on_in_button_hover)
-        self.in_qpb.hide()
-        self.out_qpb = CustomButton("Out")
-        hbox_l3.addWidget(self.out_qpb)
-        self.out_qpb.clicked.connect(self.on_out_button_clicked)
-        self.out_qpb.entered_signal.connect(self.on_out_button_hover)
-        self.out_qpb.hide()
-        self.close_qpb = CustomButton("Close")
-        hbox_l3.addWidget(self.close_qpb)
+
+        self.close_qpb = QtWidgets.QPushButton("Close")
+        buttons_hbox_l3.addWidget(self.close_qpb)
         self.close_qpb.clicked.connect(self.on_close_button_clicked)
-        self.close_qpb.entered_signal.connect(self.on_close_button_hover)
+        # self.close_qpb.entered_signal.connect(self.on_close_button_hover)
 
         self.help_qll = QtWidgets.QLabel("Press the labels to start breathing")
         vbox_l2.addWidget(self.help_qll, alignment=QtCore.Qt.AlignHCenter)
@@ -121,23 +67,10 @@ class BreathingDlg(QtWidgets.QFrame):
         self.ypos_int = screen_qrect.bottom() - self.sizeHint().height() - 50
         self.move(self.xpos_int, self.ypos_int)
 
-        self.ib_qgri_list = []
-        self.ob_qgri_list = []
-        self.ib_length_int_list = []
+        self.ib_length_ft_list = []
         self.ob_length_int_list = []
-        # -the lengths have to be stored separately since the qgri items are removed once
-        #  they are no longer visible
 
-        # self.start_breathing_in_timer()
-
-        """
-        cursor = QtGui.QCursor()
-        cursor.setPos(xpos_int + self.width() // 2, ypos_int + self.height() // 2)
-        self.setCursor(cursor)
-        """
         self.start_cursor_timer()
-
-        self.keyboard_active_bool = True
 
         self.update_gui()
 
@@ -147,7 +80,7 @@ class BreathingDlg(QtWidgets.QFrame):
             return
         if i_qkeyevent.key() == QtCore.Qt.Key_Shift:
             logging.info("shift key pressed")
-            self.in_qpb.click()
+            # self.in_qpb.click()
         else:
             pass
             # super().keyPressEvent(self, iQKeyEvent)
@@ -158,7 +91,7 @@ class BreathingDlg(QtWidgets.QFrame):
             return
         if i_qkeyevent.key() == QtCore.Qt.Key_Shift:
             logging.info("shift key released")
-            self.out_qpb.click()
+            # self.out_qpb.click()
         else:
             pass
 
@@ -203,150 +136,46 @@ class BreathingDlg(QtWidgets.QFrame):
         self.ib_cll.set_inactive()
         self.ob_cll.set_active()
 
-    def on_activate_hover_clicked(self):
-        self.hover_active_bool = True
-        # self.on_in_button_clicked()
-        font = self.activate_hover_qpb.font()
-        font.setBold(True)
-        self.activate_hover_qpb.setFont(font)
-
-    def on_activate_keyboard_clicked(self):
-        self.keyboard_active_bool = True
-        font = self.activate_keyboard_qpb.font()
-        font.setBold(True)
-        self.activate_keyboard_qpb.setFont(font)
-
-    def on_in_button_hover(self):
-        if self.hover_active_bool:
-            self.on_in_button_clicked()
-
-    def on_out_button_hover(self):
-        if self.hover_active_bool:
-            self.on_out_button_clicked()
-
-    def on_in_label_pressed(self):
-        self.on_in_button_clicked()
-
-    def on_out_label_pressed(self):
-        self.on_out_button_clicked()
-
-    def on_close_button_hover(self):
-        if self.hover_active_bool:
-            self.on_close_button_clicked()
-
-    def on_in_button_clicked(self):
-        if (self.state == mc.mc_global.BreathingState.inactive
-        or self.state == mc.mc_global.BreathingState.breathing_out):
-            self.update_io_length_lists()
-            self.breathing_graphicsscene_l4.clear()
-            # self.breathing_graphicsview_l3.centerOn(0, 0)
-            # = QtWidgets.QGraphicsView()
-            # self.breathing_graphicsview_l3.resetCachedContent()
-            self.breathing_in()
-
-    def on_out_button_clicked(self):
-        if self.state == mc.mc_global.BreathingState.breathing_in:
-            self.breathing_out()
-
     def on_close_button_clicked(self):
+        self.stop_breathing_in_timer()
+        self.stop_breathing_out_timer()
         self.cursor_qtimer.stop()
-
-        if len(self.ob_qgri_list) > 0:
-            self.update_io_length_lists()
         self.close_signal.emit(
-            self.ib_length_int_list,
+            self.ib_length_ft_list,
             self.ob_length_int_list
         )
-
         self.close()
 
-    def update_io_length_lists(self):
-        if self.state == mc.mc_global.BreathingState.breathing_out and len(self.ob_qgri_list) > 0:
-            if len(self.ob_qgri_list) > 0:
-                self.ib_length_int_list.append(self.ib_qgri_list[-1].rect().width())
-                self.ob_length_int_list.append(self.ob_qgri_list[-1].rect().width())
-
     def start_breathing_in_timer(self):
+        logging.info("Timer started at " + str(time.time()))
         self.ib_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
         self.ib_qtimer.timeout.connect(self.breathing_in_timer_timeout)
         self.ib_qtimer.start(100)
-        logging.info("Timer started at " + str(time.time()))
-
-        t_drawrect = QtCore.QRectF(0.0, 0.0, 1.0, BAR_HEIGHT_FT)
-
-        t_start_qpointf = QtCore.QPointF(t_drawrect.left() - GRADIENT_IN_FT, t_drawrect.top())
-        t_stop_qpointf = t_drawrect.bottomRight()  # QtCore.QPointF(0.0, 50.0)
-        t_linear_gradient = QtGui.QLinearGradient(t_start_qpointf, t_stop_qpointf)
-        t_linear_gradient.setColorAt(0.0, QtGui.QColor(204, 255, 77))
-        t_linear_gradient.setColorAt(1.0, QtGui.QColor(164, 230, 0))
-        t_brush = QtGui.QBrush(t_linear_gradient)
-
-        t_pen = QtGui.QPen(QtCore.Qt.NoPen)
-
-        t_graphics_rect_item = self.breathing_graphicsscene_l4.addRect(
-            t_drawrect,
-            pen=t_pen,
-            brush=t_brush
-        )
-        self.ib_qgri_list.append(t_graphics_rect_item)
+        self.start_time_ft = time.time()
 
     def breathing_in_timer_timeout(self):
-        t_graphics_rect_item = self.ib_qgri_list[-1]
-        new_rect = t_graphics_rect_item.rect()
-        new_rect.setLeft(new_rect.left() - 1)
-        t_graphics_rect_item.setRect(new_rect)
-
-        self.ib_cll.fade_in(2)
-        # self.breathing_graphicsview_l3.centerOn(t_graphics_rect_item)
-
-        """
-        hline_width_int = self.hline_frame.width()
-        if hline_width_int < 400:
-            self.hline_frame.setFixedWidth(hline_width_int + 2)
-        font = self.ib_cll.font()
-        point_size_ft = font.pointSizeF()
-        font.setPointSizeF(point_size_ft + 0.15)
-        self.ib_cll.setFont(font)
-        """
+        pass
 
     def stop_breathing_in_timer(self):
+        logging.debug("Timer stopped at " + str(time.time()))
         if self.ib_qtimer is None:
             return
         self.ib_qtimer.stop()
-        logging.debug("Timer stopped at " + str(time.time()))
+        self.ib_length_ft_list.append(time.time() - self.start_time_ft)
 
     def start_breathing_out_timer(self):
         self.ob_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
         self.ob_qtimer.timeout.connect(self.breathing_out_timer_timeout)
         self.ob_qtimer.start(100)
         logging.info("Timer started at " + str(time.time()))
-
-        t_drawrect = QtCore.QRectF(0.0, 0.0, 1.0, BAR_HEIGHT_FT)
-
-        t_start_qpointf = QtCore.QPointF(t_drawrect.x() + GRADIENT_OUT_FT, t_drawrect.y())
-        t_stop_qpointf = t_drawrect.bottomLeft()  # QtCore.QPointF(0.0, 50.0)
-        t_linear_gradient = QtGui.QLinearGradient(t_start_qpointf, t_stop_qpointf)
-        # t_linear_gradient.setColorAt(0.0, QtGui.QColor(230, 230, 230))
-        # t_linear_gradient.setColorAt(1.0, QtGui.QColor(190, 190, 190))
-        t_linear_gradient.setColorAt(0.0, QtGui.QColor(219, 255, 128))
-        t_linear_gradient.setColorAt(1.0, QtGui.QColor(183, 255, 0))
-        t_brush = QtGui.QBrush(t_linear_gradient)
-
-        t_pen = QtGui.QPen(QtCore.Qt.NoPen)
-
-        t_graphics_rect_item = self.breathing_graphicsscene_l4.addRect(
-            t_drawrect,
-            brush=t_brush,
-            pen=t_pen
-        )
-
-        self.ob_qgri_list.append(t_graphics_rect_item)
+        self.start_time_ft = time.time()
 
     def stop_breathing_out_timer(self):
+        logging.debug("Timer stopped at " + str(time.time()))
         if self.ob_qtimer is None:
             return
         self.ob_qtimer.stop()
-        logging.debug("Timer stopped at " + str(time.time()))
+        self.ob_length_ft_list.append(time.time() - self.start_time_ft)
 
     def breathing_out_timer_timeout(self):
         t_graphics_rect_item = self.ob_qgri_list[-1]
@@ -354,27 +183,10 @@ class BreathingDlg(QtWidgets.QFrame):
         new_rect.setRight(new_rect.right() + 1)
         t_graphics_rect_item.setRect(new_rect)
 
-        self.ob_cll.fade_in(3)
-
-        """
-        hline_width_int = self.hline_frame.width()
-        if hline_width_int >= 1:
-            self.hline_frame.setFixedWidth(hline_width_int - 1)
-        font = self.ob_cll.font()
-        point_size_ft = font.pointSizeF()
-        font.setPointSizeF(point_size_ft + 0.05)
-        self.ob_cll.setFont(font)
-        """
-
     def update_gui(self):
-        in_str = "-----------------"
-        out_str = "-"
-        if mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT:
-            breathing_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-            in_str = breathing_phrase.ib_str
-            out_str = breathing_phrase.ob_str
-        self.ib_cll.setText(in_str)
-        self.ob_cll.setText(out_str)
+        breathing_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+        in_str = breathing_phrase.ib_str
+        out_str = breathing_phrase.ob_str
 
         for i in range(0, self.phrases_qcb.count()):
             if self.phrases_qcb.itemData(i) == mc.mc_global.active_phrase_id_it:
@@ -441,14 +253,147 @@ class CustomLabel(QtWidgets.QLabel):
         logging.debug("CustomLabel: mousePressEvent")
 
 
-class CustomButton(QtWidgets.QPushButton):
-    entered_signal = QtCore.pyqtSignal()
+class GraphicsView(QtWidgets.QGraphicsView):
+    # Also contains the graphics scene
+    def __init__(self):
+        super().__init__()
 
-    def __init__(self, i_title: str):
-        super().__init__(i_title)
+        self.setFixedWidth(300)
+        self.setFixedHeight(200)
+        t_brush = QtGui.QBrush(QtGui.QColor(20, 100, 10))
+        self.setBackgroundBrush(t_brush)
+        self.setRenderHints(
+            QtGui.QPainter.Antialiasing |
+            QtGui.QPainter.SmoothPixmapTransform
+        )
+        self.setAlignment(QtCore.Qt.AlignCenter)
+
+        self.graphics_scene = QtWidgets.QGraphicsScene()
+        self.setScene(self.graphics_scene)
+
+        t_pointf = QtCore.QPointF(0.0, 0.0)
+
+        # Ellipse
+        self.custom_gi = CustomGraphicsItem()
+        self.graphics_scene.addItem(self.custom_gi)
+        self.custom_gi.setPos(t_pointf)
+        t_brush = QtGui.QBrush(QtGui.QColor(200, 10, 100))
+        t_pen = QtGui.QPen(QtCore.Qt.NoPen)
+        t_rectf = QtCore.QRectF(0.0, 0.0, 100.0, 100.0)
+        # self.ellipse_gi.setRect(t_rectf)
+        # self.ellipse_gi.setPen(t_pen)
+        # self.ellipse_gi.setBrush(t_brush)
+        self.custom_gi.setAcceptHoverEvents(True)
+        # self.ellipse_gi.installSceneEventFilter(self.ellipse_gi)
+        self.custom_gi.enter_signal.connect(self.start_breathing_in)
+        self.custom_gi.leave_signal.connect(self.start_breathing_out)
+        self.custom_gi.setTransformOriginPoint(self.custom_gi.boundingRect().center())
+
+        # Text
+        self.text_gi = GraphicsTextItem()
+        self.text_gi.setPlainText("please breathe mindfully")
+        self.graphics_scene.addItem(self.text_gi)
+        self.text_gi.setPos(t_pointf)
+        self.text_gi.setDefaultTextColor(QtGui.QColor(200, 190, 10))
+        # self.setTextWidth(20)
+        self.text_gi.setTransformOriginPoint(self.text_gi.boundingRect().center())
+
+        self.ib_qtimeline = QtCore.QTimeLine(duration=4000)
+        self.ib_qtimeline.setFrameRange(1, 400)
+        self.ib_qtimeline.setCurveShape(QtCore.QTimeLine.EaseInOutCurve)
+        self.ib_qtimeline.frameChanged.connect(self.frame_change_breathing_in)
+        self.ob_qtimeline = QtCore.QTimeLine(duration=7000)
+        self.ob_qtimeline.setFrameRange(1, 400)
+        self.ob_qtimeline.setCurveShape(QtCore.QTimeLine.EaseInOutCurve)
+        self.ob_qtimeline.frameChanged.connect(self.frame_change_breathing_out)
+
+        self.peak_scale_ft = 1
+
+    def frame_change_breathing_in(self, i_frame_nr_int):
+        self.text_gi.setScale(1 + 0.001 * i_frame_nr_int)
+        # self.setTextWidth(self.textWidth() + 1)
+
+    def frame_change_breathing_out(self, i_frame_nr_int):
+        self.text_gi.setScale(self.peak_scale_ft - 0.001 * i_frame_nr_int)
+        # self.setTextWidth(self.textWidth() + 1)
+
+    def start_breathing_in(self):
+        self.ob_qtimeline.stop()
+
+        self.text_gi.setPlainText("breathing in")
+        self.text_gi.setTransformOriginPoint(self.text_gi.boundingRect().center())
+        self.ib_qtimeline.start()
+
+    def start_breathing_out(self):
+        self.ib_qtimeline.stop()
+        self.peak_scale_ft = self.text_gi.scale()
+
+        self.text_gi.setPlainText("breathing out")
+        self.text_gi.setTransformOriginPoint(self.text_gi.boundingRect().center())
+        self.ob_qtimeline.start()
+
+
+class GraphicsTextItem(QtWidgets.QGraphicsTextItem):
+    enter_signal = QtCore.pyqtSignal()
+    leave_signal = QtCore.pyqtSignal()
+
+    def __init__(self):
+        super().__init__()
+
+    def hoverEnterEvent(self, QGraphicsSceneHoverEvent):
+        logging.debug("hoverEnterEvent")
+        self.enter_signal.emit()
+        # super(GraphicsEllipseItem, self).hoverEnterEvent(i_QGraphicsSceneHoverEvent)
+
+    def hoverLeaveEvent(self, QGraphicsSceneHoverEvent):
+        logging.debug("hoverLeaveEvent")
+        self.leave_signal.emit()
+
+
+class GraphicsEllipseItem(QtWidgets.QGraphicsEllipseItem):
+    enter_signal = QtCore.pyqtSignal()
+
+    def __init__(self):
+        super(GraphicsEllipseItem, self).__init__()
+
+    def sceneEventFilter(self, i_QGraphicsItem, i_QEvent):
+        # logging.debug("sceneEventFilter i_QEvent.type() = " + str(i_QEvent.type()))
+        if i_QEvent.type() == QtCore.QEvent.GraphicsSceneHoverEnter:
+            self.enter_signal.emit()
+        return True
+
+
+class CustomGraphicsItem(QtWidgets.QGraphicsObject):
+    enter_signal = QtCore.pyqtSignal()
+    leave_signal = QtCore.pyqtSignal()
+
+    def __init__(self):
+        super().__init__()
+        self.xpos_ft = 0.0
+        self.ypos_ft = 0.0
+        self.width_ft = 50.0
+        self.height_ft = 50.0
+        self.setAcceptHoverEvents(True)
 
     # Overridden
-    # noinspection PyPep8Naming
-    def enterEvent(self, i_QEvent):
-        self.entered_signal.emit()
-        logging.debug("CustomButton: enterEvent")
+    def paint(self, i_QPainter, QStyleOptionGraphicsItem, widget=None):
+        t_rectf = QtCore.QRectF(0.0, 0.0, 50.0, 50.0)
+        t_brush = QtGui.QBrush(QtGui.QColor(200, 10, 100))
+        i_QPainter.fillRect(t_rectf, t_brush)
+
+    # Overridden
+    def boundingRect(self):
+        t_penwidth_int = 1
+        t_qrect = QtCore.QRectF(
+            self.xpos_ft - t_penwidth_int / 2,
+            self.ypos_ft - t_penwidth_int / 2,
+            self.width_ft + t_penwidth_int,
+            self.height_ft + t_penwidth_int
+        )
+        return t_qrect
+
+    def hoverEnterEvent(self, i_QGraphicsSceneHoverEvent):
+        self.enter_signal.emit()
+
+    def hoverLeaveEvent(self, QGraphicsSceneHoverEvent):
+        self.leave_signal.emit()
