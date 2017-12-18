@@ -51,7 +51,7 @@ class BreathingDlg(QtWidgets.QFrame):
         self.close_qpb.clicked.connect(self.on_close_button_clicked)
         # self.close_qpb.entered_signal.connect(self.on_close_button_hover)
 
-        self.help_qll = QtWidgets.QLabel("Press the labels to start breathing")
+        self.help_qll = QtWidgets.QLabel("Hover over the central area to breath in")
         vbox_l2.addWidget(self.help_qll, alignment=QtCore.Qt.AlignHCenter)
         font = self.help_qll.font()
         font.setItalic(True)
@@ -290,7 +290,7 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self.custom_gi.setTransformOriginPoint(self.custom_gi.boundingRect().center())
 
         # Text
-        self.text_gi = GraphicsTextItem()
+        self.text_gi = QtWidgets.QGraphicsTextItem()
         self.text_gi.setPlainText("please breathe mindfully")
         self.graphics_scene.addItem(self.text_gi)
         self.text_gi.setPos(t_pointf)
@@ -311,10 +311,12 @@ class GraphicsView(QtWidgets.QGraphicsView):
 
     def frame_change_breathing_in(self, i_frame_nr_int):
         self.text_gi.setScale(1 + 0.001 * i_frame_nr_int)
+        self.custom_gi.setScale(1 + 0.001 * i_frame_nr_int)
         # self.setTextWidth(self.textWidth() + 1)
 
     def frame_change_breathing_out(self, i_frame_nr_int):
         self.text_gi.setScale(self.peak_scale_ft - 0.001 * i_frame_nr_int)
+        self.custom_gi.setScale(self.peak_scale_ft - 0.001 * i_frame_nr_int)
         # self.setTextWidth(self.textWidth() + 1)
 
     def start_breathing_in(self):
@@ -331,36 +333,6 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self.text_gi.setPlainText("breathing out")
         self.text_gi.setTransformOriginPoint(self.text_gi.boundingRect().center())
         self.ob_qtimeline.start()
-
-
-class GraphicsTextItem(QtWidgets.QGraphicsTextItem):
-    enter_signal = QtCore.pyqtSignal()
-    leave_signal = QtCore.pyqtSignal()
-
-    def __init__(self):
-        super().__init__()
-
-    def hoverEnterEvent(self, QGraphicsSceneHoverEvent):
-        logging.debug("hoverEnterEvent")
-        self.enter_signal.emit()
-        # super(GraphicsEllipseItem, self).hoverEnterEvent(i_QGraphicsSceneHoverEvent)
-
-    def hoverLeaveEvent(self, QGraphicsSceneHoverEvent):
-        logging.debug("hoverLeaveEvent")
-        self.leave_signal.emit()
-
-
-class GraphicsEllipseItem(QtWidgets.QGraphicsEllipseItem):
-    enter_signal = QtCore.pyqtSignal()
-
-    def __init__(self):
-        super(GraphicsEllipseItem, self).__init__()
-
-    def sceneEventFilter(self, i_QGraphicsItem, i_QEvent):
-        # logging.debug("sceneEventFilter i_QEvent.type() = " + str(i_QEvent.type()))
-        if i_QEvent.type() == QtCore.QEvent.GraphicsSceneHoverEnter:
-            self.enter_signal.emit()
-        return True
 
 
 class CustomGraphicsItem(QtWidgets.QGraphicsObject):
@@ -383,12 +355,9 @@ class CustomGraphicsItem(QtWidgets.QGraphicsObject):
 
     # Overridden
     def boundingRect(self):
-        t_penwidth_int = 1
         t_qrect = QtCore.QRectF(
-            self.xpos_ft - t_penwidth_int / 2,
-            self.ypos_ft - t_penwidth_int / 2,
-            self.width_ft + t_penwidth_int,
-            self.height_ft + t_penwidth_int
+            self.xpos_ft, self.ypos_ft,
+            self.width_ft, self.height_ft
         )
         return t_qrect
 
