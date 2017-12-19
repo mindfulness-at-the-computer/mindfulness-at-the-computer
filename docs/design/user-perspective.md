@@ -36,7 +36,7 @@ RGPU | Low | *Not covered*, could be covered by using a breathing phrase |
 
 Showing messages/pop-ups for the user
 
-The user can easily switch between single phrases that are shown to the user
+The user can easily switch between single phrases that are shown to him
 (if the user can easily switch between them it's less important to have a list of several)
 
 ### RREM - Remembering to take a break
