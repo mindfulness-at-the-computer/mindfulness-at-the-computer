@@ -182,6 +182,11 @@ def get_font_xxlarge() -> QtGui.QFont:
     return font
 
 
+def get_html(i_text: str):
+    ret_str = '<p style="text-align:center">' + i_text + '</p>'
+    return ret_str
+
+
 class EventSource(enum.Enum):
     undefined = 0
     rest_action_changed = 11

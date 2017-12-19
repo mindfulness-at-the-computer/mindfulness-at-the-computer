@@ -599,7 +599,6 @@ def breathing_reminder_active() -> bool:
         and
         settings.breathing_reminder_active_bool
     )
-    logging.debug("ret_value_bool = " + str(ret_value_bool))
     return ret_value_bool
 
 
