@@ -51,11 +51,14 @@ class BreathingDlg(QtWidgets.QFrame):
         self.close_qpb.pressed.connect(self.on_close_button_clicked)
         # self.close_qpb.entered_signal.connect(self.on_close_button_hover)
 
-        self.help_qll = QtWidgets.QLabel("Hover over the central area to breath in")
+        self.help_qll = QtWidgets.QLabel(
+            "Hover over the central area breathing in and over the background breathing out"
+        )
         vbox_l2.addWidget(self.help_qll, alignment=QtCore.Qt.AlignHCenter)
         font = self.help_qll.font()
         font.setItalic(True)
         self.help_qll.setFont(font)
+        self.help_qll.setWordWrap(True)
 
         self.show()  # -done after all the widget have been added so that the right size is set
         self.raise_()
