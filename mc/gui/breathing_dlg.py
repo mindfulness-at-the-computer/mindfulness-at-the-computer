@@ -48,7 +48,7 @@ class BreathingDlg(QtWidgets.QFrame):
 
         self.close_qpb = QtWidgets.QPushButton("Close")
         buttons_hbox_l3.addWidget(self.close_qpb)
-        self.close_qpb.clicked.connect(self.on_close_button_clicked)
+        self.close_qpb.pressed.connect(self.on_close_button_clicked)
         # self.close_qpb.entered_signal.connect(self.on_close_button_hover)
 
         self.help_qll = QtWidgets.QLabel("Hover over the central area to breath in")
@@ -137,6 +137,13 @@ class BreathingDlg(QtWidgets.QFrame):
         self.ob_cll.set_active()
 
     def on_close_button_clicked(self):
+        if QtWidgets.QApplication.mouseButtons() & QtCore.Qt.LeftButton:
+            logging.debug("--------Left button--------")
+        elif QtWidgets.QApplication.mouseButtons() & QtCore.Qt.NoButton:
+            logging.debug("--------No button--------")
+        logging.debug("int(QtWidgets.QApplication.mouseButtons()) = " + str(int(QtWidgets.QApplication.mouseButtons())))
+        logging.debug("QtWidgets.QApplication.mouseButtons() = " + str(QtWidgets.QApplication.mouseButtons()))
+
         self.stop_breathing_in_timer()
         self.stop_breathing_out_timer()
         self.cursor_qtimer.stop()
@@ -258,8 +265,10 @@ class GraphicsView(QtWidgets.QGraphicsView):
     def __init__(self):
         super().__init__()
 
-        self.setFixedWidth(300)
-        self.setFixedHeight(200)
+        self.view_width_int = 300
+        self.view_height_int = 200
+        self.setFixedWidth(self.view_width_int)
+        self.setFixedHeight(self.view_height_int)
         t_brush = QtGui.QBrush(QtGui.QColor(20, 100, 10))
         self.setBackgroundBrush(t_brush)
         self.setRenderHints(
@@ -271,33 +280,26 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self.graphics_scene = QtWidgets.QGraphicsScene()
         self.setScene(self.graphics_scene)
 
-        t_pointf = QtCore.QPointF(0.0, 0.0)
-
-        # Ellipse
-        self.custom_gi = CustomGraphicsItem()
+        # Custom dynamic breathing graphic
+        self.custom_gi = BreathingGraphicsObject()
         self.graphics_scene.addItem(self.custom_gi)
-        self.custom_gi.setPos(t_pointf)
-        t_brush = QtGui.QBrush(QtGui.QColor(200, 10, 100))
-        t_pen = QtGui.QPen(QtCore.Qt.NoPen)
-        t_rectf = QtCore.QRectF(0.0, 0.0, 100.0, 100.0)
-        # self.ellipse_gi.setRect(t_rectf)
-        # self.ellipse_gi.setPen(t_pen)
-        # self.ellipse_gi.setBrush(t_brush)
-        self.custom_gi.setAcceptHoverEvents(True)
-        # self.ellipse_gi.installSceneEventFilter(self.ellipse_gi)
+        self.custom_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
         self.custom_gi.enter_signal.connect(self.start_breathing_in)
         self.custom_gi.leave_signal.connect(self.start_breathing_out)
-        self.custom_gi.setTransformOriginPoint(self.custom_gi.boundingRect().center())
 
         # Text
-        self.text_gi = QtWidgets.QGraphicsTextItem()
-        self.text_gi.setPlainText("please breathe mindfully")
+        self.text_gi = TextGraphicsItem()
         self.graphics_scene.addItem(self.text_gi)
-        self.text_gi.setPos(t_pointf)
+        self.text_gi.setAcceptHoverEvents(False)
+        # -so that the underlying item will not be disturbed
+        ib_str = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it).ib_str
+        # self.text_gi.setPlainText(ib_str)
+        self.text_gi.setHtml(mc.mc_global.get_html(ib_str))
+        self.text_gi.setTextWidth(200)
+        self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
         self.text_gi.setDefaultTextColor(QtGui.QColor(200, 190, 10))
-        # self.setTextWidth(20)
-        self.text_gi.setTransformOriginPoint(self.text_gi.boundingRect().center())
 
+        # Animation
         self.ib_qtimeline = QtCore.QTimeLine(duration=4000)
         self.ib_qtimeline.setFrameRange(1, 400)
         self.ib_qtimeline.setCurveShape(QtCore.QTimeLine.EaseInOutCurve)
@@ -322,47 +324,74 @@ class GraphicsView(QtWidgets.QGraphicsView):
     def start_breathing_in(self):
         self.ob_qtimeline.stop()
 
-        self.text_gi.setPlainText("breathing in")
-        self.text_gi.setTransformOriginPoint(self.text_gi.boundingRect().center())
+        ib_str = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it).ib_str
+        self.text_gi.setHtml(mc.mc_global.get_html(ib_str))
+        self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
+        self.custom_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
         self.ib_qtimeline.start()
 
     def start_breathing_out(self):
         self.ib_qtimeline.stop()
         self.peak_scale_ft = self.text_gi.scale()
 
-        self.text_gi.setPlainText("breathing out")
-        self.text_gi.setTransformOriginPoint(self.text_gi.boundingRect().center())
+        ob_str = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it).ob_str
+        self.text_gi.setHtml(mc.mc_global.get_html(ob_str))
+        self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
+        self.custom_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
         self.ob_qtimeline.start()
 
 
-class CustomGraphicsItem(QtWidgets.QGraphicsObject):
+class TextGraphicsItem(QtWidgets.QGraphicsTextItem):
+    def __init__(self):
+        super().__init__()
+
+    def update_pos_and_origin_point(self, i_view_width: int, i_view_height: int):
+        t_pointf = QtCore.QPointF(
+            i_view_width / 2 - self.boundingRect().width() / 2,
+            i_view_height / 2 - self.boundingRect().height() / 2
+        )
+        self.setPos(t_pointf)
+
+        self.setTransformOriginPoint(self.boundingRect().center())
+
+
+class BreathingGraphicsObject(QtWidgets.QGraphicsObject):
     enter_signal = QtCore.pyqtSignal()
     leave_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super().__init__()
-        self.xpos_ft = 0.0
-        self.ypos_ft = 0.0
-        self.width_ft = 50.0
-        self.height_ft = 50.0
+        self.rectf = QtCore.QRectF(0.0, 0.0, 50.0, 50.0)
         self.setAcceptHoverEvents(True)
 
     # Overridden
     def paint(self, i_QPainter, QStyleOptionGraphicsItem, widget=None):
-        t_rectf = QtCore.QRectF(0.0, 0.0, 50.0, 50.0)
         t_brush = QtGui.QBrush(QtGui.QColor(200, 10, 100))
-        i_QPainter.fillRect(t_rectf, t_brush)
+        i_QPainter.fillRect(self.rectf, t_brush)
 
     # Overridden
     def boundingRect(self):
-        t_qrect = QtCore.QRectF(
-            self.xpos_ft, self.ypos_ft,
-            self.width_ft, self.height_ft
-        )
-        return t_qrect
+        return self.rectf
 
+    # Overridden
     def hoverEnterEvent(self, i_QGraphicsSceneHoverEvent):
+        logging.debug("hoverEnterEvent")
         self.enter_signal.emit()
 
+    # Overridden
     def hoverLeaveEvent(self, QGraphicsSceneHoverEvent):
+        # Please note that this function is entered in case the user hovers over something on top of this graphics item
+        logging.debug("hoverLeaveEvent")
+
+        # TODO: Check to see if the mouse is outside the bounding rectangle
         self.leave_signal.emit()
+
+    def update_pos_and_origin_point(self, i_view_width: int, i_view_height: int):
+        t_pointf = QtCore.QPointF(
+            i_view_width / 2 - self.boundingRect().width() / 2,
+            i_view_height / 2 - self.boundingRect().height() / 2
+        )
+        self.setPos(t_pointf)
+
+        self.setTransformOriginPoint(self.boundingRect().center())
+
