@@ -221,12 +221,20 @@ class EditDialog(QtWidgets.QDialog):
         self.breath_title_qle = QtWidgets.QLineEdit(active_phrase.title_str)
         vbox.addWidget(QtWidgets.QLabel("Title"))
         vbox.addWidget(self.breath_title_qle)
+
         self.in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_str)
         vbox.addWidget(QtWidgets.QLabel("In breath phrase"))
         vbox.addWidget(self.in_breath_phrase_qle)
         self.out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_str)
         vbox.addWidget(QtWidgets.QLabel("Out breath phrase"))
         vbox.addWidget(self.out_breath_phrase_qle)
+
+        vbox.addWidget(QtWidgets.QLabel("Short in breath phrase"))
+        self.short_in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_short_str)
+        vbox.addWidget(self.short_in_breath_phrase_qle)
+        vbox.addWidget(QtWidgets.QLabel("Short out breath phrase"))
+        self.short_out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_short_str)
+        vbox.addWidget(self.short_out_breath_phrase_qle)
 
         self.button_box = QtWidgets.QDialogButtonBox(
             QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Cancel,
@@ -253,6 +261,12 @@ class EditDialog(QtWidgets.QDialog):
             )
             mc.model.PhrasesM.update_out_breath(
                 mc.mc_global.active_phrase_id_it, dialog.out_breath_phrase_qle.text()
+            )
+            mc.model.PhrasesM.update_short_ib_phrase(
+                mc.mc_global.active_phrase_id_it, dialog.short_in_breath_phrase_qle.text()
+            )
+            mc.model.PhrasesM.update_short_ob_phrase(
+                mc.mc_global.active_phrase_id_it, dialog.short_out_breath_phrase_qle.text()
             )
         else:
             pass

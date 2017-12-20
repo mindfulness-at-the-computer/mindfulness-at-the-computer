@@ -35,7 +35,9 @@ def initial_schema_and_setup(i_db_conn):
         + Schema.PhrasesTable.Cols.title + " TEXT NOT NULL, "
         + Schema.PhrasesTable.Cols.ib_phrase + " TEXT NOT NULL, "
         + Schema.PhrasesTable.Cols.ob_phrase + " TEXT NOT NULL, "
-        + Schema.PhrasesTable.Cols.vertical_order + " INTEGER NOT NULL"
+        + Schema.PhrasesTable.Cols.vertical_order + " INTEGER NOT NULL, "
+        + Schema.PhrasesTable.Cols.ib_short_phrase + " TEXT DEFAULT '', "
+        + Schema.PhrasesTable.Cols.ob_short_phrase + " TEXT DEFAULT ''"
         + ")"
     )
 
@@ -120,11 +122,26 @@ def upgrade_3_4(i_db_conn):
     )
 
 
+def upgrade_4_5(i_db_conn):
+    backup_db_file()
+    i_db_conn.execute(
+        "ALTER TABLE " + Schema.PhrasesTable.name + " ADD COLUMN "
+        + Schema.PhrasesTable.Cols.ib_short_phrase
+        + " TEXT DEFAULT ''"
+    )
+    i_db_conn.execute(
+        "ALTER TABLE " + Schema.PhrasesTable.name + " ADD COLUMN "
+        + Schema.PhrasesTable.Cols.ob_short_phrase
+        + " TEXT DEFAULT ''"
+    )
+
+
 upgrade_steps = {
     1: initial_schema_and_setup,
     2: upgrade_1_2,
     3: upgrade_2_3,
-    4: upgrade_3_4
+    4: upgrade_3_4,
+    5: upgrade_4_5
 }
 
 
@@ -167,8 +184,8 @@ class Schema:
             ib_phrase = "ib_phrase"
             ob_phrase = "ob_phrase"
             vertical_order = "vertical_order"
-            # ib_short_phrase = "ib_short_phrase"
-            # ob_short_phrase = "ob_short_phrase"
+            ib_short_phrase = "ib_short_phrase"
+            ob_short_phrase = "ob_short_phrase"
 
     class RestActionsTable:
         name = "rest_actions"

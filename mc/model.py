@@ -1,9 +1,7 @@
-
 import csv
 import os
 import enum
 import logging
-
 from mc import db
 import mc.mc_global
 
@@ -14,12 +12,14 @@ class MoveDirectionEnum(enum.Enum):
 
 
 class PhrasesM:
-    def __init__(self, i_id: int, i_title: str, i_ib: str, i_ob: str, i_vert_order: int) -> None:
+    def __init__(self, i_id: int, i_title: str, i_ib: str, i_ob: str, i_vert_order: int, i_ib_short: str, i_ob_short: str) -> None:
         self.id_int = i_id
         self.title_str = i_title
         self.ib_str = i_ib
         self.ob_str = i_ob
         self.vert_order_int = i_vert_order
+        self.ib_short_str = i_ib_short
+        self.ob_short_str = i_ob_short
 
     @staticmethod
     def get_highest_sort_value() -> int:
@@ -147,6 +147,30 @@ class PhrasesM:
             + " SET " + db.Schema.PhrasesTable.Cols.ob_phrase + " = ?"
             + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
             (i_new_out_breath, str(i_id))
+        )
+        db_connection.commit()
+
+    @staticmethod
+    def update_short_ib_phrase(i_id: int, i_shortened_ib_phrase: str):
+        db_connection = db.Helper.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + db.Schema.PhrasesTable.name
+            + " SET " + db.Schema.PhrasesTable.Cols.ib_short_phrase + " = ?"
+            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
+            (i_shortened_ib_phrase, str(i_id))
+        )
+        db_connection.commit()
+
+    @staticmethod
+    def update_short_ob_phrase(i_id: int, i_shortened_ob_phrase: str):
+        db_connection = db.Helper.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + db.Schema.PhrasesTable.name
+            + " SET " + db.Schema.PhrasesTable.Cols.ob_short_phrase + " = ?"
+            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
+            (i_shortened_ob_phrase, str(i_id))
         )
         db_connection.commit()
 
