@@ -12,7 +12,7 @@ MAX_REST_REMINDER_INT = 99
 
 class RestSettingsWt(QtWidgets.QWidget):
     settings_updated_signal = QtCore.pyqtSignal()
-    rest_test_button_clicked_signal = QtCore.pyqtSignal()
+    rest_now_button_clicked_signal = QtCore.pyqtSignal()
     rest_reset_button_clicked_signal = QtCore.pyqtSignal()
     rest_slider_value_changed_signal = QtCore.pyqtSignal()
 
@@ -91,7 +91,7 @@ class RestSettingsWt(QtWidgets.QWidget):
         self.rest_reset_button_clicked_signal.emit()
 
     def on_rest_test_clicked(self):
-        self.rest_test_button_clicked_signal.emit()
+        self.rest_now_button_clicked_signal.emit()
 
     def on_switch_toggled(self, i_checked_bool):
         if self.updating_gui_bool:

@@ -74,7 +74,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.rest_settings_wt = mc.gui.rest_settings_wt.RestSettingsWt()
         vbox_l4.addWidget(self.rest_settings_wt)
         self.rest_settings_wt.settings_updated_signal.connect(self.on_rest_settings_changed)
-        self.rest_settings_wt.rest_test_button_clicked_signal.connect(self.show_rest_reminder)
+        self.rest_settings_wt.rest_now_button_clicked_signal.connect(self.on_rest_rest)
         self.rest_settings_wt.rest_reset_button_clicked_signal.connect(self.on_rest_settings_changed)
         self.rest_settings_wt.rest_slider_value_changed_signal.connect(self.on_rest_slider_value_changed)
 
@@ -140,7 +140,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.sys_tray.update_rest_progress_bar(0, 1)
         self.tray_rest_now_qaction = QtWidgets.QAction("Take a Break Now")
         self.tray_menu.addAction(self.tray_rest_now_qaction)
-        self.tray_rest_now_qaction.triggered.connect(self.show_rest_reminder)
+        self.tray_rest_now_qaction.triggered.connect(self.on_rest_rest)
 
         self.tray_menu.addSeparator()
 
