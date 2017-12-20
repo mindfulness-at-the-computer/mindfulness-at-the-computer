@@ -54,7 +54,7 @@ class PhrasesM:
         return return_value_int
 
     @staticmethod
-    def add(i_title: str, i_ib: str, i_ob: str) -> None:
+    def add(i_title: str, i_ib: str, i_ob: str, ib_short: str, ob_short: str) -> None:
         # vertical_order_last_pos_int = len(PhrasesM.get_all())
         if mc.mc_global.db_file_exists_at_application_startup_bl:
             vertical_order_last_pos_int = PhrasesM.get_highest_sort_value() + 1
@@ -69,7 +69,8 @@ class PhrasesM:
             + db.Schema.PhrasesTable.Cols.ib_phrase + ", "
             + db.Schema.PhrasesTable.Cols.ob_phrase + ", "
             + db.Schema.PhrasesTable.Cols.vertical_order
-            + ") VALUES (?, ?, ?, ?)", (i_title, i_ib, i_ob, vertical_order_last_pos_int)
+            + ") VALUES (?, ?, ?, ?)",
+            (i_title, i_ib, i_ob, vertical_order_last_pos_int, ib_short, ob_short)
         )
         db_connection.commit()
 
@@ -561,21 +562,24 @@ def populate_db_with_setup_data():
         "In, Out",
         "Breathing in, I know I am breathing in",
         "Breathing out, I know I am breathing out",
+        "in", "out"
     )
     PhrasesM.add(
         "Happy, Safe",
         "May I be peaceful, happy, and safe",
-        ""
+        "happy", "safe"
     )
     PhrasesM.add(
         "Aware of Body",
         "Aware of my body, I breathe in",
         "Aware of my body, I breathe out",
+        "body", "body"
     )
     PhrasesM.add(
         "Caring, Relaxing",
         "Breathing in, I care for my body",
         "Breathing out, I relax my body",
+        "caring", "relaxing"
     )
 
     RestActionsM.add(

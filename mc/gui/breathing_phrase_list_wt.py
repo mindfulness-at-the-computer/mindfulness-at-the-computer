@@ -133,7 +133,12 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         text_sg = self.add_to_list_qle.text().strip()  # strip is needed to remove a newline at the end (why?)
         if not (text_sg and text_sg.strip()):
             return
-        mc.model.PhrasesM.add(text_sg, BREATHING_IN_DEFAULT_PHRASE, BREATHING_OUT_DEFAULT_PHRASE)
+        mc.model.PhrasesM.add(
+            text_sg,
+            BREATHING_IN_DEFAULT_PHRASE,
+            BREATHING_OUT_DEFAULT_PHRASE,
+            "", ""
+        )
         self.add_to_list_qle.clear()
         self.update_gui()
         self.list_widget.setCurrentRow(self.list_widget.count() - 1)
