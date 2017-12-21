@@ -35,6 +35,10 @@ class RestDlg(QtWidgets.QDialog):
         self.actions_list_vbox_l4 = QtWidgets.QVBoxLayout()
         self.main_area_qgb.setLayout(self.actions_list_vbox_l4)
 
+        walking_mindfully_qll = QtWidgets.QLabel("Please move and walk mindfully when leaving the computer")
+        walking_mindfully_qll.setFont(mc_global.get_font_medium())
+        vbox_l2.addWidget(walking_mindfully_qll)
+        vbox_l2.addStretch(1)
 
         self.close_qpb = QtWidgets.QPushButton("Close")
         vbox_l2.addWidget(self.close_qpb)

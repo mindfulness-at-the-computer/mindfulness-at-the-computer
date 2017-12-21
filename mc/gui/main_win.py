@@ -21,7 +21,7 @@ class MainWin(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setGeometry(100, 64, 900, 680)
+        self.setGeometry(100, 64, 900, 670)
         self.setWindowIcon(QtGui.QIcon(mc.mc_global.get_app_icon_path()))
 
         self.sys_tray = SystemTray()

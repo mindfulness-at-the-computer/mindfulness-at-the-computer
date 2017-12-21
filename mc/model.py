@@ -622,7 +622,11 @@ def populate_db_with_setup_data():
         mc.mc_global.get_user_images_path("tea.png")
     )
     RestActionsM.add(
-        "Stretching the arms",
+        "Filling a water bottle for my desk",
+        ""
+    )
+    RestActionsM.add(
+        "Stretching my arms",
         ""
     )
     RestActionsM.add(
@@ -634,19 +638,19 @@ def populate_db_with_setup_data():
         ""
     )
     RestActionsM.add(
-        "Cleaning/organizing your space",
+        "Cleaning/organizing my space",
         ""
     )
     RestActionsM.add(
-        "Eating a healthy snack",
+        "Eating something healthy",
         mc.mc_global.get_user_images_path("oranges-with-flower.png")
     )
     RestActionsM.add(
-        "Slow Mindful walking inside",
+        "Slow mindful walking inside",
         mc.mc_global.get_user_images_path("footprint.png")
     )
     RestActionsM.add(
-        "Taking a walk outside",
+        "Walking outside",
         mc.mc_global.get_user_images_path("boots-and-autumn-leaves.png")
     )
 
