@@ -68,8 +68,10 @@ class PhrasesM:
             + db.Schema.PhrasesTable.Cols.title + ", "
             + db.Schema.PhrasesTable.Cols.ib_phrase + ", "
             + db.Schema.PhrasesTable.Cols.ob_phrase + ", "
-            + db.Schema.PhrasesTable.Cols.vertical_order
-            + ") VALUES (?, ?, ?, ?)",
+            + db.Schema.PhrasesTable.Cols.vertical_order + ", "
+            + db.Schema.PhrasesTable.Cols.ib_short_phrase + ", "
+            + db.Schema.PhrasesTable.Cols.ob_short_phrase
+            + ") VALUES (?, ?, ?, ?, ?, ?)",
             (i_title, i_ib, i_ob, vertical_order_last_pos_int, ib_short, ob_short)
         )
         db_connection.commit()
