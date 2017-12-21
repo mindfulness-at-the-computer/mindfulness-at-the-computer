@@ -41,29 +41,16 @@ class BreathingState(enum.Enum):
     breathing_out = 2
 
 
-"""
-class BreathingNotification:
-    def __init__(self, i_name: str, i_value: int):
-        self.name_str = i_name
-        self.value_int = i_value
-
-notification_type_list = [
-    BreathingNotification("Visual", 0),
-    BreathingNotification("Audio", 1),
-    BreathingNotification("Both", 2)
-]
-"""
+class PhraseSetup(enum.Enum):
+    Long = 0
+    Switch = 1
+    Short = 2
 
 
 class BreathingNotificationType(enum.Enum):
     Visual = 0
     Audio = 1
     Both = 2
-
-
-# BREATHING_REMINDER_NOTIFICATION_VISUAL_INT = 0
-# BREATHING_REMINDER_NOTIFICATION_AUDIO_INT = 1
-# BREATHING_REMINDER_NOTIFICATION_BOTH_INT = 2
 
 
 breathing_state = BreathingState.inactive
@@ -74,21 +61,9 @@ class BreathingVisType(enum.Enum):
     popup_dialog = 1
 
 
-    """
-    audio_player = QtMultimedia.QMediaPlayer()
-    audio_player.setMedia(
-        QtMultimedia.QMediaContent(
-            QtCore.QUrl.fromLocalFile(audio_path_str)
-        )
-    )
-    audio_player.setVolume(30)
-    audio_player.play()
-    # defaultServiceProvider::requestService(): no service found for - "org.qt-project.qt.mediaplayer"
-    """
-
-
 def get_base_dir() -> str:
     base_dir_str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # -__file__ is the file that was started, in other words mindfulness-at-the-computer.py
     return base_dir_str
 
 

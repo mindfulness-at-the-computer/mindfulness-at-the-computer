@@ -12,7 +12,16 @@ class MoveDirectionEnum(enum.Enum):
 
 
 class PhrasesM:
-    def __init__(self, i_id: int, i_title: str, i_ib: str, i_ob: str, i_vert_order: int, i_ib_short: str, i_ob_short: str) -> None:
+    def __init__(
+        self,
+        i_id: int,
+        i_title: str,
+        i_ib: str,
+        i_ob: str,
+        i_vert_order: int,
+        i_ib_short: str,
+        i_ob_short: str
+    ) -> None:
         self.id_int = i_id
         self.title_str = i_title
         self.ib_str = i_ib
@@ -32,8 +41,8 @@ class PhrasesM:
         return_value_int = db_cursor_result.fetchone()[0]
         # -0 has to be added here even though there can only be one value
 
-        #to prevent error when the tables are empty
-        if return_value_int == None:
+        if return_value_int is None:
+            # -to prevent error when the tables are empty
             return 0
         return return_value_int
 
@@ -238,7 +247,13 @@ class PhrasesM:
 
 
 class RestActionsM:
-    def __init__(self, i_id: int, i_title: str, i_image_path: str, i_vertical_order: int) -> None:
+    def __init__(
+        self,
+        i_id: int,
+        i_title: str,
+        i_image_path: str,
+        i_vertical_order: int
+    ) -> None:
         self.id_int = i_id
         self.title_str = i_title
         self.image_path_str = i_image_path
@@ -415,25 +430,24 @@ class SettingsM:
     # noinspection PyUnusedLocal
     def __init__(
         self,
-        i_id: int,
+        i_id: int,  # unused
         i_rest_reminder_active: int,
         i_rest_reminder_interval: int,
         i_breathing_reminder_active: int,
         i_breathing_reminder_interval: int,
-        i_breathing_reminder_length: int,
         i_breathing_reminder_audio_path: str,
         i_breathing_reminder_volume: int,
-        i_breathing_reminder_notification_type: int
+        i_breathing_reminder_notification_type: int,
+        i_breathing_reminder_phrase_setup: int
     ) -> None:
-        # (id is not used)
         self.rest_reminder_active_bool = True if i_rest_reminder_active else False
         self.rest_reminder_interval_int = i_rest_reminder_interval
         self.breathing_reminder_active_bool = True if i_breathing_reminder_active else False
         self.breathing_reminder_interval_int = i_breathing_reminder_interval
-        self.breathing_reminder_length_int = i_breathing_reminder_length
         self.breathing_reminder_audio_path_str = i_breathing_reminder_audio_path
         self.breathing_reminder_volume_int = i_breathing_reminder_volume
         self.breathing_reminder_notification_type_int = i_breathing_reminder_notification_type
+        self.breathing_reminder_phrase_setup_int = i_breathing_reminder_phrase_setup
 
     @staticmethod
     def get():
@@ -444,10 +458,10 @@ class SettingsM:
             + " WHERE " + db.Schema.SettingsTable.Cols.id + "=?",
             (str(db.SINGLE_SETTINGS_ID_INT),)
         )
-        reminder_db_te = db_cursor_result.fetchone()
+        settings_db_te = db_cursor_result.fetchone()
         db_connection.commit()
 
-        return SettingsM(*reminder_db_te)
+        return SettingsM(*settings_db_te)
         # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
 
     @staticmethod
@@ -503,18 +517,6 @@ class SettingsM:
         db_connection.commit()
 
     @staticmethod
-    def update_breathing_reminder_length(i_reminder_length: int):
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_length + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (str(i_reminder_length), db.SINGLE_SETTINGS_ID_INT)
-        )
-        db_connection.commit()
-
-    @staticmethod
     def update_breathing_reminder_audio_path(i_new_audio_path: str):
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
@@ -550,6 +552,18 @@ class SettingsM:
         )
         db_connection.commit()
 
+    @staticmethod
+    def update_breathing_reminder_notification_phrase_setup(i_new_phrase_setup: int):
+        db_connection = db.Helper.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + db.Schema.SettingsTable.name
+            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_phrase_setup + " = ?"
+            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
+            (i_new_phrase_setup, str(db.SINGLE_SETTINGS_ID_INT))
+        )
+        db_connection.commit()
+
 
 def export_all():
     csv_writer = csv.writer(open(mc.mc_global.get_user_files_path("exported.csv"), "w"))
@@ -564,24 +578,43 @@ def populate_db_with_setup_data():
         "In, Out",
         "Breathing in, I know I am breathing in",
         "Breathing out, I know I am breathing out",
-        "in", "out"
-    )
-    PhrasesM.add(
-        "Happy, Safe",
-        "May I be peaceful, happy, and safe",
-        "happy", "safe"
+        "in",
+        "out"
     )
     PhrasesM.add(
         "Aware of Body",
         "Aware of my body, I breathe in",
         "Aware of my body, I breathe out",
-        "body", "body"
+        "body, in",
+        "body, out"
     )
     PhrasesM.add(
         "Caring, Relaxing",
         "Breathing in, I care for my body",
         "Breathing out, I relax my body",
-        "caring", "relaxing"
+        "caring",
+        "relaxing"
+    )
+    PhrasesM.add(
+        "Happy, Safe",
+        "May I be happy",
+        "May I be peaceful",
+        "happy",
+        "peaceful"
+    )
+    PhrasesM.add(
+        "Compassion",
+        "Breathing in compassion to myself",
+        "Breathing out compassion to others",
+        "compassion to myself",
+        "compassion to others"
+    )
+    PhrasesM.add(
+        "Sharing, Contributing",
+        "Breathing in I share in the well-being of others",
+        "Breathing out I contribute to the well-being of others",
+        "sharing well-being",
+        "contributing to well-being"
     )
 
     RestActionsM.add(

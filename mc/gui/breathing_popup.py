@@ -19,7 +19,7 @@ class BreathingDlg(QtWidgets.QFrame):
         self.ib_qtimer = None
         self.ob_qtimer = None
         self.setWindowFlags(
-            QtCore.Qt.Popup
+            QtCore.Qt.Dialog
             | QtCore.Qt.WindowStaysOnTopHint
             | QtCore.Qt.FramelessWindowHint
         )
@@ -30,6 +30,8 @@ class BreathingDlg(QtWidgets.QFrame):
         self.setLayout(vbox_l2)
         # (left, right, top, bottom) = vbox_l2.getContentsMargins()
         # vbox_l2.setContentsMargins(0, 0, 5, 5)
+
+        settings = mc.model.SettingsM.get()
 
         self.breathing_graphicsview_l3 = GraphicsView(self)
         vbox_l2.addWidget(self.breathing_graphicsview_l3)
@@ -60,6 +62,10 @@ class BreathingDlg(QtWidgets.QFrame):
         self.shortened_phrase_qcb = QtWidgets.QCheckBox("Use shortened")
         vbox_l2.addWidget(self.shortened_phrase_qcb)
         self.shortened_phrase_qcb.toggled.connect(self.on_shortened_phrase_toggled)
+        using_shortened_phrase_bool = False
+        if settings.breathing_reminder_phrase_setup_int == mc.mc_global.PhraseSetup.Short.value:
+            using_shortened_phrase_bool = True
+        self.shortened_phrase_qcb.setChecked(using_shortened_phrase_bool)
 
         self.show()  # -done after all the widget have been added so that the right size is set
         self.raise_()
@@ -203,9 +209,9 @@ class BreathingDlg(QtWidgets.QFrame):
         t_graphics_rect_item.setRect(new_rect)
 
     def update_gui(self):
-        breathing_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-        in_str = breathing_phrase.ib_str
-        out_str = breathing_phrase.ob_str
+        # phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+        # in_str = phrase.ib_str
+        # out_str = phrase.ob_str
 
         for i in range(0, self.phrases_qcb.count()):
             if self.phrases_qcb.itemData(i) == mc.mc_global.active_phrase_id_it:
@@ -280,6 +286,7 @@ class GraphicsView(QtWidgets.QGraphicsView):
         super().__init__()
         self.parent_obj = i_parent
 
+        self.breath_nr_int = 0
         self.view_width_int = 300
         self.view_height_int = 200
         self.setFixedWidth(self.view_width_int)
@@ -337,12 +344,22 @@ class GraphicsView(QtWidgets.QGraphicsView):
         # self.setTextWidth(self.textWidth() + 1)
 
     def start_breathing_in(self):
+        self.breath_nr_int += 1
+
         self.ob_qtimeline.stop()
+        phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+        settings = mc.model.SettingsM.get()
+
+        if (
+            self.breath_nr_int == 2 and
+            settings.breathing_reminder_phrase_setup_int == mc.mc_global.PhraseSetup.Switch.value
+        ):
+            self.parent_obj.shortened_phrase_qcb.setChecked(True)
 
         if self.parent_obj.shortened_phrase_qcb.isChecked():
-            breathing_str = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it).ib_short_str
+            breathing_str = phrase.ib_short_str
         else:
-            breathing_str = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it).ib_str
+            breathing_str = phrase.ib_str
         self.text_gi.setHtml(mc.mc_global.get_html(breathing_str))
         self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
         self.custom_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
@@ -351,11 +368,12 @@ class GraphicsView(QtWidgets.QGraphicsView):
     def start_breathing_out(self):
         self.ib_qtimeline.stop()
         self.peak_scale_ft = self.text_gi.scale()
+        phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
 
         if self.parent_obj.shortened_phrase_qcb.isChecked():
-            breathing_str = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it).ob_short_str
+            breathing_str = phrase.ob_short_str
         else:
-            breathing_str = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it).ob_str
+            breathing_str = phrase.ob_str
         self.text_gi.setHtml(mc.mc_global.get_html(breathing_str))
         self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
         self.custom_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)

@@ -10,9 +10,8 @@ SQLITE_NULL_STR = "NULL"
 NO_REFERENCE_INT = -1
 NO_REST_REMINDER_INT = -1
 NO_BREATHING_REMINDER_INT = -1
-DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT = 20
-DEFAULT_BREATHING_REMINDER_INTERVAL_MINUTES_INT = 5
-DEFAULT_BREATHING_REMINDER_LENGTH_SECONDS_INT = 10  # -unused now, kept in case we want to reuse
+DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT = 30
+DEFAULT_BREATHING_REMINDER_INTERVAL_MINUTES_INT = 10
 SINGLE_SETTINGS_ID_INT = 0
 
 
@@ -26,8 +25,7 @@ def set_schema_version(i_db_conn, i_version_it):
 
 
 def initial_schema_and_setup(i_db_conn):
-    """Auto-increment is not needed in our case: https://www.sqlite.org/autoinc.html
-    """
+    # Auto-increment is not needed in our case: https://www.sqlite.org/autoinc.html
 
     i_db_conn.execute(
         "CREATE TABLE " + Schema.PhrasesTable.name + "("
@@ -36,8 +34,8 @@ def initial_schema_and_setup(i_db_conn):
         + Schema.PhrasesTable.Cols.ib_phrase + " TEXT NOT NULL, "
         + Schema.PhrasesTable.Cols.ob_phrase + " TEXT NOT NULL, "
         + Schema.PhrasesTable.Cols.vertical_order + " INTEGER NOT NULL, "
-        + Schema.PhrasesTable.Cols.ib_short_phrase + " TEXT DEFAULT '', "
-        + Schema.PhrasesTable.Cols.ob_short_phrase + " TEXT DEFAULT ''"
+        + Schema.PhrasesTable.Cols.ib_short_phrase + " TEXT NOT NULL DEFAULT '', "
+        + Schema.PhrasesTable.Cols.ob_short_phrase + " TEXT NOT NULL DEFAULT ''"
         + ")"
     )
 
@@ -61,8 +59,14 @@ def initial_schema_and_setup(i_db_conn):
         + " DEFAULT " + str(SQLITE_TRUE_INT) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_interval + " INTEGER NOT NULL"
         + " DEFAULT " + str(DEFAULT_BREATHING_REMINDER_INTERVAL_MINUTES_INT) + ", "
-        + Schema.SettingsTable.Cols.breathing_reminder_length + " INTEGER NOT NULL"
-        + " DEFAULT " + str(DEFAULT_BREATHING_REMINDER_LENGTH_SECONDS_INT)
+        + Schema.SettingsTable.Cols.breathing_reminder_audio_path + " TEXT NOT NULL"
+        + " DEFAULT ''" + ", "
+        + Schema.SettingsTable.Cols.breathing_reminder_volume + " INTEGER NOT NULL"
+        + " DEFAULT 100" + ", "
+        + Schema.SettingsTable.Cols.breathing_reminder_notification_type + " INTEGER NOT NULL"
+        + " DEFAULT " + str(mc_global.BreathingNotificationType.Both.value) + ", "
+        + Schema.SettingsTable.Cols.breathing_reminder_phrase_setup + " INTEGER NOT NULL"
+        + " DEFAULT " + str(mc_global.PhraseSetup.Switch.value)
         + ")"
     )
 
@@ -97,51 +101,8 @@ def upgrade_1_2(i_db_conn):
 """
 
 
-def upgrade_1_2(i_db_conn):
-    backup_db_file()
-    i_db_conn.execute(
-        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
-        + Schema.SettingsTable.Cols.breathing_reminder_audio_path + " TEXT DEFAULT ''"
-    )
-
-
-def upgrade_2_3(i_db_conn):
-    backup_db_file()
-    i_db_conn.execute(
-        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
-        + Schema.SettingsTable.Cols.breathing_reminder_volume + " INTEGER DEFAULT 100"
-    )
-
-
-def upgrade_3_4(i_db_conn):
-    backup_db_file()
-    i_db_conn.execute(
-        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
-        + Schema.SettingsTable.Cols.breathing_reminder_notification_type
-        + " INTEGER DEFAULT " + str(mc_global.BreathingNotificationType.Both.value)
-    )
-
-
-def upgrade_4_5(i_db_conn):
-    backup_db_file()
-    i_db_conn.execute(
-        "ALTER TABLE " + Schema.PhrasesTable.name + " ADD COLUMN "
-        + Schema.PhrasesTable.Cols.ib_short_phrase
-        + " TEXT DEFAULT ''"
-    )
-    i_db_conn.execute(
-        "ALTER TABLE " + Schema.PhrasesTable.name + " ADD COLUMN "
-        + Schema.PhrasesTable.Cols.ob_short_phrase
-        + " TEXT DEFAULT ''"
-    )
-
-
 upgrade_steps = {
-    1: initial_schema_and_setup,
-    2: upgrade_1_2,
-    3: upgrade_2_3,
-    4: upgrade_3_4,
-    5: upgrade_4_5
+    7: initial_schema_and_setup
 }
 
 
@@ -161,10 +122,10 @@ class Helper(object):
             # More info here: https://www.sqlite.org/pragma.html#pragma_schema_version
             current_db_ver_it = get_schema_version(Helper.__db_connection)
             target_db_ver_it = max(upgrade_steps)
-            for upgrade_step_it in range(current_db_ver_it + 1, target_db_ver_it + 1):
-                if upgrade_step_it in upgrade_steps:
-                    upgrade_steps[upgrade_step_it](Helper.__db_connection)
-                    set_schema_version(Helper.__db_connection, upgrade_step_it)
+            for upgrade_step_nr_int in range(current_db_ver_it + 1, target_db_ver_it + 1):
+                if upgrade_step_nr_int in upgrade_steps:
+                    upgrade_steps[upgrade_step_nr_int](Helper.__db_connection)
+                    set_schema_version(Helper.__db_connection, upgrade_step_nr_int)
             Helper.__db_connection.commit()
 
             # TODO: Where do we close the db connection? (Do we need to close it?)
@@ -205,10 +166,10 @@ class Schema:
             rest_reminder_interval = "rest_reminder_interval"
             breathing_reminder_active = "breathing_reminder_active"
             breathing_reminder_interval = "breathing_reminder_interval"
-            breathing_reminder_length = "breathing_reminder_length"
             breathing_reminder_audio_path = "breathing_reminder_audio_path"
             breathing_reminder_volume = "breathing_reminder_volume"
             breathing_reminder_notification_type = "breathing_reminder_notification_type"
+            breathing_reminder_phrase_setup = "breathing_reminder_phrase_setup"
 
 
 def backup_db_file():
