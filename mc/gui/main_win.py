@@ -12,8 +12,8 @@ import mc.gui.breathing_settings_wt
 import mc.gui.breathing_phrase_list_wt
 import mc.gui.rest_settings_wt
 import mc.gui.rest_dlg
-import mc.gui.breathing_dlg
-import mc.gui.rest_reminder_dlg
+import mc.gui.breathing_popup
+import mc.gui.rest_reminder_popup
 import mc.gui.rest_dlg
 
 
@@ -271,7 +271,7 @@ class MainWin(QtWidgets.QMainWindow):
         # self.restore_window()
         # self.main_area_stacked_widget_l4.setCurrentIndex(self.rrcw_sw_id_int)
         # self.rest_actions_dock.raise_()
-        self.rest_reminder_dialog = mc.gui.rest_reminder_dlg.RestReminderDlg()
+        self.rest_reminder_dialog = mc.gui.rest_reminder_popup.RestReminderDlg()
         self.rest_reminder_dialog.rest_signal.connect(self.on_rest_rest)
         self.rest_reminder_dialog.skip_signal.connect(self.on_rest_skip)
         self.rest_reminder_dialog.wait_signal.connect(self.on_rest_wait)
@@ -358,7 +358,7 @@ class MainWin(QtWidgets.QMainWindow):
 
         if (notification_type_int == mc.mc_global.BreathingNotificationType.Both.value
         or notification_type_int == mc.mc_global.BreathingNotificationType.Visual.value):
-            self.breathing_dialog = mc.gui.breathing_dlg.BreathingDlg()
+            self.breathing_dialog = mc.gui.breathing_popup.BreathingDlg()
             self.breathing_dialog.close_signal.connect(self.on_breathing_dialog_closed)
             self.breathing_dialog.phrase_changed_signal.connect(self.on_breathing_dialog_phrase_changed)
             self.breathing_dialog.show()

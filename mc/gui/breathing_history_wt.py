@@ -2,7 +2,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 import mc.mc_global
-import mc.gui.breathing_dlg
+import mc.gui.breathing_popup
 
 BAR_HEIGHT_FT = 12.0
 LARGE_MARGIN_FT = 10.0

@@ -5,7 +5,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 import mc.mc_global
 import mc.gui.toggle_switch_wt
-import mc.gui.breathing_dlg
+import mc.gui.breathing_popup
 import mc.gui.breathing_phrase_list_wt
 import mc.gui.breathing_settings_wt
 import mc.gui.breathing_history_wt
@@ -49,7 +49,7 @@ class MainTest(unittest.TestCase):
         main_window = mc.gui.main_win.MainWin()
 
     def test_breathing_dialog(self):
-        breathing_dialog = mc.gui.breathing_dlg.BreathingDlg()
+        breathing_dialog = mc.gui.breathing_popup.BreathingDlg()
 
     def test_breathing_phrase_list_dock(self):
         breathing_phrase_list_dock = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
