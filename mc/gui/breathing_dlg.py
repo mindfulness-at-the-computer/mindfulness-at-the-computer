@@ -19,7 +19,7 @@ class BreathingDlg(QtWidgets.QFrame):
         self.ib_qtimer = None
         self.ob_qtimer = None
         self.setWindowFlags(
-            QtCore.Qt.Dialog
+            QtCore.Qt.Popup
             | QtCore.Qt.WindowStaysOnTopHint
             | QtCore.Qt.FramelessWindowHint
         )

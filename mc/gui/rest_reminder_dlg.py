@@ -19,7 +19,7 @@ class RestReminderDlg(QtWidgets.QFrame):
         self.hover_and_kb_active_bool = False
 
         self.setWindowFlags(
-            QtCore.Qt.Window
+            QtCore.Qt.Popup
             | QtCore.Qt.WindowStaysOnTopHint
             | QtCore.Qt.FramelessWindowHint
         )
