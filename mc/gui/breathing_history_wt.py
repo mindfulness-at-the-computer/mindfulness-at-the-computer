@@ -3,6 +3,7 @@ from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 import mc.mc_global
 import mc.gui.breathing_popup
+import logging
 
 BAR_HEIGHT_FT = 12.0
 LARGE_MARGIN_FT = 10.0
@@ -47,12 +48,13 @@ class BreathingHistoryWt(QtWidgets.QWidget):
             # -using ob here ensures that we only add when there are complete breathing cycles
             self.add_new_breathing_rect(
                 mc.mc_global.BreathingState.breathing_in,
-                in_length_ft,
+                10 * in_length_ft,
             )
             self.add_new_breathing_rect(
                 mc.mc_global.BreathingState.breathing_out,
-                out_length_ft,
+                10 * out_length_ft,
             )
+            logging.debug("in and out length = " + str(in_length_ft) + ", " + str(out_length_ft))
         self.new_cycle_bool = True
 
     def add_new_breathing_rect(

@@ -6,6 +6,8 @@ from PyQt5 import QtGui
 import mc.mc_global
 import mc.model
 
+TIME_NOT_SET_FT = 0.0
+
 
 class BreathingDlg(QtWidgets.QFrame):
     close_signal = QtCore.pyqtSignal(list, list)
@@ -31,10 +33,15 @@ class BreathingDlg(QtWidgets.QFrame):
         # (left, right, top, bottom) = vbox_l2.getContentsMargins()
         # vbox_l2.setContentsMargins(0, 0, 5, 5)
 
+        self.breath_phrase_id_list = []
+
+        self.start_time_ft = TIME_NOT_SET_FT
         settings = mc.model.SettingsM.get()
 
-        self.breathing_graphicsview_l3 = GraphicsView(self)
+        self.breathing_graphicsview_l3 = GraphicsView()
         vbox_l2.addWidget(self.breathing_graphicsview_l3)
+        self.breathing_graphicsview_l3.ib_signal.connect(self.start_breathing_in)
+        self.breathing_graphicsview_l3.ob_signal.connect(self.start_breathing_out)
 
         buttons_hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(buttons_hbox_l3)
@@ -78,11 +85,72 @@ class BreathingDlg(QtWidgets.QFrame):
         self.move(self.xpos_int, self.ypos_int)
 
         self.ib_length_ft_list = []
-        self.ob_length_int_list = []
+        self.ob_length_ft_list = []
+
+        # Animation
+        self.ib_qtimeline = QtCore.QTimeLine(duration=10000)
+        self.ib_qtimeline.setFrameRange(1, 1000)
+        self.ib_qtimeline.setCurveShape(QtCore.QTimeLine.LinearCurve)
+        self.ib_qtimeline.frameChanged.connect(
+            self.breathing_graphicsview_l3.frame_change_breathing_in
+        )
+        self.ob_qtimeline = QtCore.QTimeLine(duration=20000)
+        self.ob_qtimeline.setFrameRange(1, 2000)
+        self.ob_qtimeline.setCurveShape(QtCore.QTimeLine.LinearCurve)
+        self.ob_qtimeline.frameChanged.connect(
+            self.breathing_graphicsview_l3.frame_change_breathing_out
+        )
 
         self.start_cursor_timer()
 
         self.update_gui()
+
+    def start_breathing_in(self):
+        phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+        settings = mc.model.SettingsM.get()
+        self.breath_phrase_id_list.append(phrase.id_int)
+        self.ob_qtimeline.stop()
+
+        now = time.time()
+        if self.start_time_ft != TIME_NOT_SET_FT:
+            self.ob_length_ft_list.append(now - self.start_time_ft)
+        self.start_time_ft = now
+
+        are_switching_bool = settings.breathing_reminder_phrase_setup_int == mc.mc_global.PhraseSetup.Switch.value
+        if are_switching_bool:
+            if (
+                len(self.breath_phrase_id_list) >= 2 and
+                self.breath_phrase_id_list[-1] == self.breath_phrase_id_list[-2]
+            ):
+                self.shortened_phrase_qcb.setChecked(True)
+            else:
+                self.shortened_phrase_qcb.setChecked(False)
+        else:
+            pass
+
+        if self.shortened_phrase_qcb.isChecked():
+            breathing_str = phrase.ib_short_str
+        else:
+            breathing_str = phrase.ib_str
+        self.breathing_graphicsview_l3.text_gi.setHtml(mc.mc_global.get_html(breathing_str))
+
+        self.ib_qtimeline.start()
+
+    def start_breathing_out(self):
+        phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+        self.ib_qtimeline.stop()
+
+        now = time.time()
+        self.ib_length_ft_list.append(now - self.start_time_ft)
+        self.start_time_ft = now
+
+        if self.shortened_phrase_qcb.isChecked():
+            breathing_str = phrase.ob_short_str
+        else:
+            breathing_str = phrase.ob_str
+        self.breathing_graphicsview_l3.text_gi.setHtml(mc.mc_global.get_html(breathing_str))
+
+        self.ob_qtimeline.start()
 
     def on_shortened_phrase_toggled(self):
         if self.shortened_phrase_qcb.isChecked():
@@ -138,75 +206,18 @@ class BreathingDlg(QtWidgets.QFrame):
             )
             self.setCursor(cursor)
 
-    def breathing_in(self):
-        self.state = mc.mc_global.BreathingState.breathing_in
-        self.stop_breathing_out_timer()
-        self.start_breathing_in_timer()
-
-        self.ib_cll.set_active()
-        self.ob_cll.set_inactive()
-
-    def breathing_out(self):
-        self.state = mc.mc_global.BreathingState.breathing_out
-        self.stop_breathing_in_timer()
-        self.start_breathing_out_timer()
-
-        self.ib_cll.set_inactive()
-        self.ob_cll.set_active()
-
     def on_close_button_clicked(self):
-        if QtWidgets.QApplication.mouseButtons() & QtCore.Qt.LeftButton:
-            logging.debug("--------Left button--------")
-        elif QtWidgets.QApplication.mouseButtons() & QtCore.Qt.NoButton:
-            logging.debug("--------No button--------")
-        logging.debug("int(QtWidgets.QApplication.mouseButtons()) = " + str(int(QtWidgets.QApplication.mouseButtons())))
-        logging.debug("QtWidgets.QApplication.mouseButtons() = " + str(QtWidgets.QApplication.mouseButtons()))
 
-        self.stop_breathing_in_timer()
-        self.stop_breathing_out_timer()
+        if len(self.ob_length_ft_list) < len(self.ib_length_ft_list):
+            now = time.time()
+            self.ob_length_ft_list.append(now - self.start_time_ft)
+
         self.cursor_qtimer.stop()
         self.close_signal.emit(
             self.ib_length_ft_list,
-            self.ob_length_int_list
+            self.ob_length_ft_list
         )
         self.close()
-
-    def start_breathing_in_timer(self):
-        logging.info("Timer started at " + str(time.time()))
-        self.ib_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
-        self.ib_qtimer.timeout.connect(self.breathing_in_timer_timeout)
-        self.ib_qtimer.start(100)
-        self.start_time_ft = time.time()
-
-    def breathing_in_timer_timeout(self):
-        pass
-
-    def stop_breathing_in_timer(self):
-        logging.debug("Timer stopped at " + str(time.time()))
-        if self.ib_qtimer is None:
-            return
-        self.ib_qtimer.stop()
-        self.ib_length_ft_list.append(time.time() - self.start_time_ft)
-
-    def start_breathing_out_timer(self):
-        self.ob_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
-        self.ob_qtimer.timeout.connect(self.breathing_out_timer_timeout)
-        self.ob_qtimer.start(100)
-        logging.info("Timer started at " + str(time.time()))
-        self.start_time_ft = time.time()
-
-    def stop_breathing_out_timer(self):
-        logging.debug("Timer stopped at " + str(time.time()))
-        if self.ob_qtimer is None:
-            return
-        self.ob_qtimer.stop()
-        self.ob_length_ft_list.append(time.time() - self.start_time_ft)
-
-    def breathing_out_timer_timeout(self):
-        t_graphics_rect_item = self.ob_qgri_list[-1]
-        new_rect = t_graphics_rect_item.rect()
-        new_rect.setRight(new_rect.right() + 1)
-        t_graphics_rect_item.setRect(new_rect)
 
     def update_gui(self):
         # phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
@@ -219,74 +230,13 @@ class BreathingDlg(QtWidgets.QFrame):
                 break
 
 
-BREATHING_LABEL_MARGIN_INT = 16
-BRIGHT_INT = 196
-DIM_INT = 144
-DARK_INT = 64
-
-
-class CustomLabel(QtWidgets.QLabel):
-    entered_signal = QtCore.pyqtSignal()
-    pressed_signal = QtCore.pyqtSignal()
-
-    def __init__(self, i_title: str):
-        super().__init__(i_title)
-
-        # self.color_te = (64, 64, 64)
-        self.bw_color_int = BRIGHT_INT
-        self.update_stylesheet()
-
-        self.setFont(mc.mc_global.get_font_xlarge(i_underscore=False, i_bold=True))
-        self.setMargin(BREATHING_LABEL_MARGIN_INT)
-
-    def update_stylesheet(self):
-        self.setStyleSheet(
-            "background-color: white; color: rgb("
-            + str(self.bw_color_int) + ", "
-            + str(self.bw_color_int) + ", "
-            + str(self.bw_color_int)
-            + ")"
-        )
-
-    def set_active(self):
-        self.setFont(mc.mc_global.get_font_xlarge(i_underscore=True, i_bold=True))
-        # self.color_te =
-        self.bw_color_int = DIM_INT
-        self.update_stylesheet()
-
-    def set_inactive(self):
-        self.setFont(mc.mc_global.get_font_xlarge(i_underscore=False, i_bold=True))
-        # self.setStyleSheet("background-color: black; color: #404040")
-        # self.color_te = (64, 64, 64)
-        self.bw_color_int = BRIGHT_INT
-        self.update_stylesheet()
-
-    def fade_in(self, i_fade_speed: int):
-        self.bw_color_int -= i_fade_speed
-        if self.bw_color_int < DARK_INT:
-            self.bw_color_int = DARK_INT
-        self.update_stylesheet()
-
-    # Overridden
-    # noinspection PyPep8Naming
-    def enterEvent(self, i_QEvent):
-        self.entered_signal.emit()
-        logging.debug("CustomLabel: enterEvent")
-
-    # Overridden
-    # noinspection PyPep8Naming
-    def mousePressEvent(self, i_QMouseEvent):
-        self.pressed_signal.emit()
-        logging.debug("CustomLabel: mousePressEvent")
-
-
 class GraphicsView(QtWidgets.QGraphicsView):
-    # Also contains the graphics scene
-    def __init__(self, i_parent):
-        super().__init__()
-        self.parent_obj = i_parent
+    ib_signal = QtCore.pyqtSignal()
+    ob_signal = QtCore.pyqtSignal()
 
-        self.breath_phrase_id_list = []
+    # Also contains the graphics scene
+    def __init__(self):
+        super().__init__()
 
         self.view_width_int = 300
         self.view_height_int = 200
@@ -304,11 +254,11 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self.setScene(self.graphics_scene)
 
         # Custom dynamic breathing graphic
-        self.custom_gi = BreathingGraphicsObject(self)
+        self.custom_gi = BreathingGraphicsObject()
         self.graphics_scene.addItem(self.custom_gi)
         self.custom_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
-        self.custom_gi.enter_signal.connect(self.start_breathing_in)
-        self.custom_gi.leave_signal.connect(self.start_breathing_out)
+        self.custom_gi.enter_signal.connect(self.ib_start)
+        self.custom_gi.leave_signal.connect(self.ob_start)
 
         # Text
         self.text_gi = TextGraphicsItem()
@@ -322,19 +272,18 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
         self.text_gi.setDefaultTextColor(QtGui.QColor(200, 190, 10))
 
-        # Animation
-        self.ib_qtimeline = QtCore.QTimeLine(duration=10000)
-        self.ib_qtimeline.setFrameRange(1, 1000)
-        self.ib_qtimeline.setCurveShape(QtCore.QTimeLine.LinearCurve)
-        # -QtCore.QTimeLine.EaseInOutCurve
-        self.ib_qtimeline.frameChanged.connect(self.frame_change_breathing_in)
-        self.ob_qtimeline = QtCore.QTimeLine(duration=20000)
-        self.ob_qtimeline.setFrameRange(1, 2000)
-        self.ob_qtimeline.setCurveShape(QtCore.QTimeLine.LinearCurve)
-        # -QtCore.QTimeLine.EaseInOutCurve
-        self.ob_qtimeline.frameChanged.connect(self.frame_change_breathing_out)
-
         self.peak_scale_ft = 1
+
+    def ib_start(self):
+        self.ib_signal.emit()
+        self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
+        self.custom_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
+
+    def ob_start(self):
+        self.peak_scale_ft = self.text_gi.scale()
+        self.ob_signal.emit()
+        self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
+        self.custom_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
 
     def frame_change_breathing_in(self, i_frame_nr_int):
         self.text_gi.setScale(1 + 0.001 * i_frame_nr_int)
@@ -345,49 +294,6 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self.text_gi.setScale(self.peak_scale_ft - 0.0005 * i_frame_nr_int)
         self.custom_gi.setScale(self.peak_scale_ft - 0.0005 * i_frame_nr_int)
         # self.setTextWidth(self.textWidth() + 1)
-
-    def start_breathing_in(self):
-        phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-        settings = mc.model.SettingsM.get()
-
-        self.breath_phrase_id_list.append(phrase.id_int)
-
-        self.ob_qtimeline.stop()
-
-        are_switching_bool = settings.breathing_reminder_phrase_setup_int == mc.mc_global.PhraseSetup.Switch.value
-        if are_switching_bool:
-            if (
-                len(self.breath_phrase_id_list) >= 2 and
-                self.breath_phrase_id_list[-1] == self.breath_phrase_id_list[-2]
-            ):
-                self.parent_obj.shortened_phrase_qcb.setChecked(True)
-            else:
-                self.parent_obj.shortened_phrase_qcb.setChecked(False)
-        else:
-            pass
-
-        if self.parent_obj.shortened_phrase_qcb.isChecked():
-            breathing_str = phrase.ib_short_str
-        else:
-            breathing_str = phrase.ib_str
-        self.text_gi.setHtml(mc.mc_global.get_html(breathing_str))
-        self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
-        self.custom_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
-        self.ib_qtimeline.start()
-
-    def start_breathing_out(self):
-        self.ib_qtimeline.stop()
-        self.peak_scale_ft = self.text_gi.scale()
-        phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-
-        if self.parent_obj.shortened_phrase_qcb.isChecked():
-            breathing_str = phrase.ob_short_str
-        else:
-            breathing_str = phrase.ob_str
-        self.text_gi.setHtml(mc.mc_global.get_html(breathing_str))
-        self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
-        self.custom_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
-        self.ob_qtimeline.start()
 
 
 class TextGraphicsItem(QtWidgets.QGraphicsTextItem):
@@ -408,7 +314,7 @@ class BreathingGraphicsObject(QtWidgets.QGraphicsObject):
     enter_signal = QtCore.pyqtSignal()
     leave_signal = QtCore.pyqtSignal()
 
-    def __init__(self, i_parent):
+    def __init__(self):
         super().__init__()
         self.rectf = QtCore.QRectF(0.0, 0.0, 50.0, 50.0)
         self.setAcceptHoverEvents(True)
