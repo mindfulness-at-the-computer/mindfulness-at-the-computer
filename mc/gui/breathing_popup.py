@@ -286,7 +286,8 @@ class GraphicsView(QtWidgets.QGraphicsView):
         super().__init__()
         self.parent_obj = i_parent
 
-        self.breath_nr_int = 0
+        self.breath_phrase_id_list = []
+
         self.view_width_int = 300
         self.view_height_int = 200
         self.setFixedWidth(self.view_width_int)
@@ -322,13 +323,15 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self.text_gi.setDefaultTextColor(QtGui.QColor(200, 190, 10))
 
         # Animation
-        self.ib_qtimeline = QtCore.QTimeLine(duration=4000)
-        self.ib_qtimeline.setFrameRange(1, 400)
-        self.ib_qtimeline.setCurveShape(QtCore.QTimeLine.EaseInOutCurve)
+        self.ib_qtimeline = QtCore.QTimeLine(duration=10000)
+        self.ib_qtimeline.setFrameRange(1, 1000)
+        self.ib_qtimeline.setCurveShape(QtCore.QTimeLine.LinearCurve)
+        # -QtCore.QTimeLine.EaseInOutCurve
         self.ib_qtimeline.frameChanged.connect(self.frame_change_breathing_in)
-        self.ob_qtimeline = QtCore.QTimeLine(duration=7000)
-        self.ob_qtimeline.setFrameRange(1, 400)
-        self.ob_qtimeline.setCurveShape(QtCore.QTimeLine.EaseInOutCurve)
+        self.ob_qtimeline = QtCore.QTimeLine(duration=20000)
+        self.ob_qtimeline.setFrameRange(1, 2000)
+        self.ob_qtimeline.setCurveShape(QtCore.QTimeLine.LinearCurve)
+        # -QtCore.QTimeLine.EaseInOutCurve
         self.ob_qtimeline.frameChanged.connect(self.frame_change_breathing_out)
 
         self.peak_scale_ft = 1
@@ -339,22 +342,29 @@ class GraphicsView(QtWidgets.QGraphicsView):
         # self.setTextWidth(self.textWidth() + 1)
 
     def frame_change_breathing_out(self, i_frame_nr_int):
-        self.text_gi.setScale(self.peak_scale_ft - 0.001 * i_frame_nr_int)
-        self.custom_gi.setScale(self.peak_scale_ft - 0.001 * i_frame_nr_int)
+        self.text_gi.setScale(self.peak_scale_ft - 0.0005 * i_frame_nr_int)
+        self.custom_gi.setScale(self.peak_scale_ft - 0.0005 * i_frame_nr_int)
         # self.setTextWidth(self.textWidth() + 1)
 
     def start_breathing_in(self):
-        self.breath_nr_int += 1
-
-        self.ob_qtimeline.stop()
         phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
         settings = mc.model.SettingsM.get()
 
-        if (
-            self.breath_nr_int == 2 and
-            settings.breathing_reminder_phrase_setup_int == mc.mc_global.PhraseSetup.Switch.value
-        ):
-            self.parent_obj.shortened_phrase_qcb.setChecked(True)
+        self.breath_phrase_id_list.append(phrase.id_int)
+
+        self.ob_qtimeline.stop()
+
+        are_switching_bool = settings.breathing_reminder_phrase_setup_int == mc.mc_global.PhraseSetup.Switch.value
+        if are_switching_bool:
+            if (
+                len(self.breath_phrase_id_list) >= 2 and
+                self.breath_phrase_id_list[-1] == self.breath_phrase_id_list[-2]
+            ):
+                self.parent_obj.shortened_phrase_qcb.setChecked(True)
+            else:
+                self.parent_obj.shortened_phrase_qcb.setChecked(False)
+        else:
+            pass
 
         if self.parent_obj.shortened_phrase_qcb.isChecked():
             breathing_str = phrase.ib_short_str
