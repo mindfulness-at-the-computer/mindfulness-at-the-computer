@@ -1,8 +1,7 @@
 *.db
 mindfulness-at-the-computer.spec
 # pycharm project is individual
-.idea/vcs.xml
-.idea/workspace.xml
+.idea/
 exported.csv
 
 
