@@ -20,11 +20,11 @@ def get_schema_version(i_db_conn):
     return t_cursor.fetchone()[0]
 
 
-def set_schema_version(i_db_conn, i_version_it):
+def set_schema_version(i_db_conn, i_version_it) -> None:
     i_db_conn.execute("PRAGMA user_version={:d}".format(i_version_it))
 
 
-def initial_schema_and_setup(i_db_conn):
+def initial_schema_and_setup(i_db_conn) -> None:
     # Auto-increment is not needed in our case: https://www.sqlite.org/autoinc.html
 
     i_db_conn.execute(
@@ -172,7 +172,7 @@ class Schema:
             breathing_reminder_phrase_setup = "breathing_reminder_phrase_setup"
 
 
-def backup_db_file():
+def backup_db_file() -> None:
     date_sg = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     new_file_name_sg = mc_global.get_database_filename(date_sg)
     shutil.copyfile(mc_global.get_database_filename(), new_file_name_sg)
