@@ -81,6 +81,9 @@ the _gh-pages_ branch doesn't exist.
 That tracks the branch from your fork on GitHub.
   3. To sync the branch, use the steps outlined in [Syncing](#syncing), replacing instances of _master_ with _gh-pages_.
 
+### Workflow overview
+
+![workflow](docs/workflow.png)
 
 ***
 
