@@ -15,6 +15,8 @@ remember to stay in touch with and be mindful of your breathing and body
 while sitting at the computer, and helps you concentrate on breathing
 in and out when you need a breathing pause.
 
+<img src="user_files/images/bikkhu-hands.png" height="140"> <img src="user_files/images/boots-and-autumn-leaves.png" height="140"> <img src="user_files/images/boots-outside.png" height="140"> <img src="user_files/images/chair-table-oranges.png" height="140"> <img src="user_files/images/flower-and-stones.png" height="140"> <img src="user_files/images/footprint.png" height="140"> <img src="user_files/images/meditation.png" height="140"> <img src="user_files/images/mini-zen-garden.png" height="140"> <img src="user_files/images/open-window.png" height="140"> <img src="user_files/images/oranges-with-flower.png" height="140"> <img src="user_files/images/outstretched-arms-sunset.png" height="140"> <img src="user_files/images/outstretched-arms.png" height="140"> <img src="user_files/images/rest-mind.png" height="140"> <img src="user_files/images/spiral.png" height="140"> <img src="user_files/images/stones-and-purple-flower.png" height="140"> <img src="user_files/images/stones.png" height="140"> <img src="user_files/images/tea.png" height="140"> <img src="user_files/images/walking-on-petals.png" height="140"> <img src="user_files/images/window.png" height="140">
+
 **The [application website](https://sunyatazero.github.io/mindfulness-at-the-computer/)
 has more information** (including screenshots and downloads).
 
