@@ -258,9 +258,15 @@ class EditDialog(QtWidgets.QDialog):
 
         if dialog_result == QtWidgets.QDialog.Accepted:
             assert mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
+
+            phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+            phrase.title_str = dialog.breath_title_qle.text()
+
+            """
             mc.model.PhrasesM.update_title(
                 mc.mc_global.active_phrase_id_it, dialog.breath_title_qle.text()
             )
+            """
             mc.model.PhrasesM.update_in_breath(
                 mc.mc_global.active_phrase_id_it, dialog.in_breath_phrase_qle.text()
             )

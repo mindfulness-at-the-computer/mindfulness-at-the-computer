@@ -11,6 +11,13 @@ class MoveDirectionEnum(enum.Enum):
     down = 2
 
 
+def db_exec(i_sql: str, i_params: tuple):
+    db_connection = db.Helper.get_db_connection()
+    db_cursor = db_connection.cursor()
+    db_cursor.execute(i_sql, i_params)
+    db_connection.commit()
+
+
 class PhrasesM:
     def __init__(
         self,
@@ -22,13 +29,35 @@ class PhrasesM:
         i_ib_short: str,
         i_ob_short: str
     ) -> None:
-        self.id_int = i_id
-        self.title_str = i_title
-        self.ib_str = i_ib
+        self._id_int = i_id
+        self._title_str = i_title
+        self._ib_str = i_ib
         self.ob_str = i_ob
         self.vert_order_int = i_vert_order
         self.ib_short_str = i_ib_short
         self.ob_short_str = i_ob_short
+
+    @property
+    def id_int(self) -> int:
+        return self._id_int
+
+    @property
+    def title_str(self) -> str:
+        return self._title_str
+
+    @title_str.setter
+    def title_str(self, i_new_title: str):
+        self._title_str = i_new_title
+        self._update(db.Schema.PhrasesTable.Cols.title, i_new_title)
+
+    @property
+    def ib_str(self) -> str:
+        return self._ib_str
+
+    @ib_str.setter
+    def ib_str(self, i_new_ib: str):
+        self._ib_str = i_new_ib
+        self._update(db.Schema.PhrasesTable.Cols.ib_phrase, i_new_ib)
 
     @staticmethod
     def get_highest_sort_value() -> int:
@@ -126,17 +155,13 @@ class PhrasesM:
         )
         db_connection.commit()
 
-    @staticmethod
-    def update_title(i_id: int, i_new_title: str):
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
+    def _update(self, i_col_name: str, i_new_value):
+        db_exec(
             "UPDATE " + db.Schema.PhrasesTable.name
-            + " SET " + db.Schema.PhrasesTable.Cols.title + " = ?"
+            + " SET " + i_col_name + " = ?"
             + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
-            (i_new_title, str(i_id))
+            (i_new_value, str(self._id_int))
         )
-        db_connection.commit()
 
     @staticmethod
     def update_in_breath(i_id: int, i_new_in_breath: str):
@@ -201,7 +226,7 @@ class PhrasesM:
             or main_sort_order_int >= PhrasesM.get_highest_sort_value()):
                 return False
         other = PhrasesM.get_by_vert_order(main_sort_order_int, i_move_direction)
-        other_id_int = other.id_int
+        other_id_int = other._id_int
         other_sort_order_int = other.vert_order_int
 
         db_connection = db.Helper.get_db_connection()
