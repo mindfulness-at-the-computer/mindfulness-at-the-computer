@@ -48,6 +48,7 @@ class MainTest(unittest.TestCase):
     def test_main_window(self):
         main_window = mc.gui.main_win.MainWin()
 
+    @unittest.skip
     def test_breathing_dialog(self):
         breathing_dialog = mc.gui.breathing_popup.BreathingDlg()
 
@@ -74,7 +75,8 @@ class MainTest(unittest.TestCase):
         ok_dialog_button = safe_delete_dialog.button_box.button(QtWidgets.QDialogButtonBox.Ok)
         QtTest.QTest.mouseClick(ok_dialog_button, QtCore.Qt.LeftButton)
 
-    def est_adding_breathing_phrase(self):
+    @unittest.skip
+    def test_adding_breathing_phrase(self):
         pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
 
         TEST_TEXT_STR = "testing 1"
