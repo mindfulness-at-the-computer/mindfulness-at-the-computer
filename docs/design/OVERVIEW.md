@@ -11,8 +11,8 @@ Design documentation:
 
 Other links:
 * [Gitter room: Design](https://gitter.im/mindfulness-at-the-computer/design)
-* [Feature ideas (wiki)](https://github.com/SunyataZero/mindfulness-at-the-computer/wiki/Feature-Ideas)
-* [Open issues with the design tag](https://github.com/SunyataZero/mindfulness-at-the-computer/issues?q=is%3Aissue+is%3Aopen+label%3Adesign)
+* [Feature ideas (wiki)](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/wiki/Feature-Ideas)
+* [Open issues with the design tag](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/issues?q=is%3Aissue+is%3Aopen+label%3Adesign)
 
 ## Process
 

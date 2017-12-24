@@ -72,7 +72,7 @@ TBD
 
 ### Creating a new github release
 
-https://github.com/SunyataZero/mindfulness-at-the-computer/releases
+https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/releases
 
 ### Uploading
 
@@ -88,7 +88,7 @@ https://app.tinyletter.com
 ### Other outreach
 
 There's a list of places that may be interested in the application on the wiki:
-https://github.com/SunyataZero/mindfulness-at-the-computer/wiki/Outreach
+https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/wiki/Outreach
 
 Some of these places we have already made a page or post, and in these cases maybe we don't need to do anything (unless we are moving from alpha to beta.)
 

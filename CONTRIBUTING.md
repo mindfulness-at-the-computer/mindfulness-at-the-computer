@@ -42,8 +42,8 @@ This application is Free Libre Open Source Software. The software license is GPL
 
 * Code reviews
 * Write automated tests to increase code coverage
-* This project is newbie-friendly and has [these issues](https://github.com/SunyataZero/mindfulness-at-the-computer/issues?q=is%3Aissue+is%3Aopen+label%3Afirst-timers-only) specifically for new people
-* Check [the issue list](https://github.com/SunyataZero/mindfulness-at-the-computer/issues) to see if there are any issues marked with [help wanted](https://github.com/SunyataZero/mindfulness-at-the-computer/labels/help%20wanted)
+* This project is newbie-friendly and has [these issues](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/issues?q=is%3Aissue+is%3Aopen+label%3Afirst-timers-only) specifically for new people
+* Check [the issue list](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/issues) to see if there are any issues marked with [help wanted](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/labels/help%20wanted)
 
 ## Pull Requests
 
@@ -53,7 +53,7 @@ This application is Free Libre Open Source Software. The software license is GPL
 4. Make your changes. Save the file. Go to the command line and do `git add file_name` to add it to the staging area.
 5. Commit your changes. Do this using `git commit -m "comment about the changes made"`.
 6. Push the working branch (e.g. issue_32) to your remote fork. This is done using `git push origin branch_name`.
-7. Make the pull request (on the [upstream **master** branch](https://github.com/SunyataZero/mindfulness-at-the-computer/tree/master))
+7. Make the pull request (on the [upstream **master** branch](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/tree/master))
     * Do not merge it with the master branch on your fork. That would result in multiple, or unrelated patches being included in a single PR.
 8. If any further changes need to be made, comments will be made on the pull request.
 
@@ -66,12 +66,12 @@ It's possible to work on two or more different patches (and therefore multiple b
 Periodically, you'll need the sync your repo with mine (the upstream). GitHub has instructions for doing this
 
 1. [Configuring a remote for a fork](https://help.github.com/articles/configuring-a-remote-for-a-fork/)
-    * For step 3 on that page, use https://github.com/SunyataZero/mindfulness-at-the-computer for the URL.
+    * For step 3 on that page, use https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer for the URL.
 2. [Syncing a Fork](https://help.github.com/articles/syncing-a-fork/)
     * On that page, it shows how to merge the **master** branch (steps 4 & 5 of **Syncing a Fork**).
 
 ### The gh-pages branch
-The gh-pages branch contains the code for the [web site](https://sunyatazero.github.io/mindfulness-at-the-computer/).
+The gh-pages branch contains the code for the [web site](https://mindfulness-at-the-computer.github.io).
 
 You can use the [Pull Request](#pull-requests) procedure for the _gh-pages_ branch (replace instances of _master_ with _gh-pages_). First though, you need to clone the _gh-pages_ branch to your computer.
 
