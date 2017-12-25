@@ -52,10 +52,10 @@ class BreathingDlg(QtWidgets.QFrame):
             self.phrases_qcb.addItem(phrase.title_str, phrase.id_int)
         self.phrases_qcb.activated.connect(self.on_phrases_combo_activated)
 
-        self.close_qpb = QtWidgets.QPushButton("Close")
+        self.close_qpb = CustomPushButton("Close")
         buttons_hbox_l3.addWidget(self.close_qpb)
         self.close_qpb.pressed.connect(self.on_close_button_clicked)
-        # self.close_qpb.entered_signal.connect(self.on_close_button_hover)
+        self.close_qpb.entered_signal.connect(self.on_close_button_entered)
 
         self.help_qll = QtWidgets.QLabel(
             "Hover over the central area breathing in and over the background breathing out"
@@ -206,6 +206,10 @@ class BreathingDlg(QtWidgets.QFrame):
             )
             self.setCursor(cursor)
 
+    def on_close_button_entered(self):
+        if len(self.breath_phrase_id_list) >= 1:
+            self.on_close_button_clicked()
+
     def on_close_button_clicked(self):
 
         if len(self.ob_length_ft_list) < len(self.ib_length_ft_list):
@@ -228,6 +232,17 @@ class BreathingDlg(QtWidgets.QFrame):
             if self.phrases_qcb.itemData(i) == mc.mc_global.active_phrase_id_it:
                 self.phrases_qcb.setCurrentIndex(i)
                 break
+
+
+class CustomPushButton(QtWidgets.QPushButton):
+    entered_signal = QtCore.pyqtSignal()
+
+    def __init__(self, i_title: str):
+        super().__init__(i_title)
+
+    # Overridden
+    def enterEvent(self, i_qevent):
+        self.entered_signal.emit()
 
 
 class GraphicsView(QtWidgets.QGraphicsView):
