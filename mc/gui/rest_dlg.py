@@ -10,7 +10,8 @@ from mc import model, mc_global
 class RestDlg(QtWidgets.QDialog):
     # result_signal = QtCore.pyqtSignal(int)
     # -used both for wait and for closing
-    closed_signal = QtCore.pyqtSignal()
+    close_signal = QtCore.pyqtSignal(bool)
+    # -the boolean indicates whether or not we want the breathing dialog to open
 
     def __init__(self):
         super().__init__()
@@ -40,14 +41,25 @@ class RestDlg(QtWidgets.QDialog):
         vbox_l2.addWidget(walking_mindfully_qll)
         vbox_l2.addStretch(1)
 
+        buttons_hbox_l3 = QtWidgets.QHBoxLayout()
+        vbox_l2.addLayout(buttons_hbox_l3)
+
         self.close_qpb = QtWidgets.QPushButton("Close")
-        vbox_l2.addWidget(self.close_qpb)
+        buttons_hbox_l3.addWidget(self.close_qpb)
         self.close_qpb.clicked.connect(self.on_close_clicked)
+
+        self.close_and_breathe_qpb = QtWidgets.QPushButton("Close and Breathe")
+        buttons_hbox_l3.addWidget(self.close_and_breathe_qpb)
+        self.close_and_breathe_qpb.clicked.connect(self.on_close_and_breathe_clicked)
 
         self.setup_rest_action_list()
 
     def on_close_clicked(self):
-        self.closed_signal.emit()
+        self.close_signal.emit(False)
+        self.close()
+
+    def on_close_and_breathe_clicked(self):
+        self.close_signal.emit(True)
         self.close()
 
     def setup_rest_action_list(self):
