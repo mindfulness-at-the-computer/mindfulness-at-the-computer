@@ -145,13 +145,13 @@ class PhrasesM:
         return ret_reminder_list
 
     @staticmethod
-    def remove(i_id_int):
+    def remove(i_id: int):
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor.execute(
             "DELETE FROM " + db.Schema.PhrasesTable.name
             + " WHERE " + db.Schema.PhrasesTable.Cols.id + "=?",
-            (str(i_id_int),)
+            (str(i_id),)
         )
         db_connection.commit()
 
@@ -338,13 +338,13 @@ class RestActionsM:
         # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
 
     @staticmethod
-    def remove(i_id_int):
+    def remove(i_id: int):
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor.execute(
             "DELETE FROM " + db.Schema.RestActionsTable.name
             + " WHERE " + db.Schema.RestActionsTable.Cols.id + "=?",
-            (str(i_id_int), )
+            (str(i_id), )
         )
         db_connection.commit()
 
