@@ -73,9 +73,9 @@ class MainWin(QtWidgets.QMainWindow):
 
         self.rest_settings_wt = mc.gui.rest_settings_wt.RestSettingsWt()
         vbox_l4.addWidget(self.rest_settings_wt)
-        self.rest_settings_wt.settings_updated_signal.connect(self.on_rest_settings_changed)
+        self.rest_settings_wt.settings_updated_signal.connect(self.update_rest_timer)
         self.rest_settings_wt.rest_now_button_clicked_signal.connect(self.on_rest_rest)
-        self.rest_settings_wt.rest_reset_button_clicked_signal.connect(self.on_rest_settings_changed)
+        self.rest_settings_wt.rest_reset_button_clicked_signal.connect(self.update_rest_timer)
         self.rest_settings_wt.rest_slider_value_changed_signal.connect(self.on_rest_slider_value_changed)
 
         self.breathing_history_wt = mc.gui.breathing_history_wt.BreathingHistoryWt()
@@ -87,7 +87,7 @@ class MainWin(QtWidgets.QMainWindow):
 
         # Setup of Timers
         self.on_breathing_settings_changed()
-        self.on_rest_settings_changed()
+        self.update_rest_timer()
 
         # Setup of Systray
         self.setup_systray()
@@ -210,7 +210,7 @@ class MainWin(QtWidgets.QMainWindow):
         logging.debug("===== on_systray_activated exited =====")
 
     def on_breathing_list_row_changed(self, i_details_enabled: bool):
-        self.change_timer_state()
+        self.update_breathing_timer()
         self.br_settings_wt.setEnabled(i_details_enabled)
         self.sys_tray.breathing_enabled_qaction.setEnabled(i_details_enabled)
 
@@ -220,13 +220,13 @@ class MainWin(QtWidgets.QMainWindow):
         self.update_gui(mc.mc_global.EventSource.rest_list_selection_changed)
 
     def on_breathing_phrase_changed(self, i_details_enabled):
-        self.change_timer_state()
+        self.update_breathing_timer()
         self.br_settings_wt.setEnabled(i_details_enabled)
         self.sys_tray.breathing_enabled_qaction.setEnabled(i_details_enabled)
 
         self.update_gui(mc.mc_global.EventSource.breathing_list_phrase_updated)
 
-    def on_rest_settings_changed(self):
+    def update_rest_timer(self):
         settings = mc.model.SettingsM.get()
         if settings.rest_reminder_active_bool:
             self.start_rest_timer()
@@ -260,9 +260,10 @@ class MainWin(QtWidgets.QMainWindow):
 
     def on_rest_widget_closed(self, i_open_breathing_dialog: bool):
         mc.mc_global.rest_reminder_minutes_passed_int = 0
-        self.update_gui()
+        # self.update_gui()
         if i_open_breathing_dialog:
             self.show_breathing_notification()
+        self.update_rest_timer()
 
     def restore_window(self):
         self.raise_()
@@ -292,10 +293,10 @@ class MainWin(QtWidgets.QMainWindow):
         self.update_gui()
 
     def on_breathing_settings_changed(self):
-        self.change_timer_state()
+        self.update_breathing_timer()
         self.update_gui(mc.mc_global.EventSource.breathing_settings_changed)
 
-    def change_timer_state(self):
+    def update_breathing_timer(self):
         settings = mc.model.SettingsM.get()
         if settings.breathing_reminder_active_bool:
             self.start_breathing_timer()
@@ -386,6 +387,7 @@ class MainWin(QtWidgets.QMainWindow):
 
     def on_breathing_dialog_closed(self, i_ib_list, i_ob_list):
         self.breathing_history_wt.add_from_dialog(i_ib_list, i_ob_list)
+        self.update_breathing_timer()
 
     def on_breathing_dialog_phrase_changed(self):
         self.update_gui()

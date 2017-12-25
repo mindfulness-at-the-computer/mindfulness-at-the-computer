@@ -6,6 +6,7 @@
       <w>drawrect</w>
       <w>graphicsscene</w>
       <w>graphicsview</w>
+      <w>lxde</w>
       <w>mainwindow</w>
       <w>pointf</w>
       <w>prio</w>
@@ -26,6 +27,7 @@
       <w>useiconic</w>
       <w>versioning</w>
       <w>webbrowser</w>
+      <w>xfce</w>
       <w>xlarge</w>
       <w>xpos</w>
       <w>xxlarge</w>
