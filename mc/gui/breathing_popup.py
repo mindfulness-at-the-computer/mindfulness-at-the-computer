@@ -73,6 +73,7 @@ class BreathingDlg(QtWidgets.QFrame):
         if settings.breathing_reminder_phrase_setup_int == mc.mc_global.PhraseSetup.Short.value:
             using_shortened_phrase_bool = True
         self.shortened_phrase_qcb.setChecked(using_shortened_phrase_bool)
+        self.shortened_phrase_qcb.hide()
 
         self.show()  # -done after all the widget have been added so that the right size is set
         self.raise_()
