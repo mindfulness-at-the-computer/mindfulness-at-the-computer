@@ -254,8 +254,8 @@ class GraphicsView(QtWidgets.QGraphicsView):
     def __init__(self):
         super().__init__()
 
-        self.view_width_int = 300
-        self.view_height_int = 200
+        self.view_width_int = 330
+        self.view_height_int = 160
         self.setFixedWidth(self.view_width_int)
         self.setFixedHeight(self.view_height_int)
         t_brush = QtGui.QBrush(QtGui.QColor(20, 100, 10))
