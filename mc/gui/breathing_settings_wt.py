@@ -41,7 +41,7 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         hbox_l3.addWidget(QtWidgets.QLabel("minutes"))
         hbox_l3.addStretch(1)
 
-        self.test_breathing_dialog_qpb = QtWidgets.QPushButton("Test breathing dialog")
+        self.test_breathing_dialog_qpb = QtWidgets.QPushButton("Open breathing dialog")
         vbox_l2.addWidget(self.test_breathing_dialog_qpb)
         self.test_breathing_dialog_qpb.clicked.connect(self.on_test_breathing_dialog_button_clicked)
 
