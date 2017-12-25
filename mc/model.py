@@ -155,7 +155,7 @@ class PhrasesM:
         )
         db_connection.commit()
 
-    def _update(self, i_col_name: str, i_new_value: int):
+    def _update(self, i_col_name: str, i_new_value):
         db_exec(
             "UPDATE " + db.Schema.PhrasesTable.name
             + " SET " + i_col_name + " = ?"
