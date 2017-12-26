@@ -6,8 +6,9 @@ from PyQt5 import QtWidgets
 try:
     from PyQt5 import QtMultimedia
 except ImportError:
-    logging.debug("ImportError for QtMultimedia - this may have arisen because the lack of a sound card")
+    logging.debug("ImportError for QtMultimedia - maybe because there's no sound card available")
     # -If the system does not have a sound card (as for example Travis CI)
+    # -An alternative to this approach is to use this: http://doc.qt.io/qt-5/qaudiodeviceinfo.html#availableDevices
 import mc.gui.rest_action_list_wt
 import mc.model
 import mc.mc_global
@@ -386,11 +387,10 @@ class MainWin(QtWidgets.QMainWindow):
             sound_effect.setSource(QtCore.QUrl.fromLocalFile(audio_path_str))
             sound_effect.setVolume(float(volume_int / 100))
             sound_effect.play()
-        except Exception:
+        except NameError:
             logging.debug(
-                "Cannot play audio since QtMultimedia has not been imported"
+                "NameError - Cannot play audio since QtMultimedia has not been imported"
             )
-
 
     def on_breathing_dialog_closed(self, i_ib_list, i_ob_list):
         self.breathing_history_wt.add_from_dialog(i_ib_list, i_ob_list)
