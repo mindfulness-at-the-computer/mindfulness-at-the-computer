@@ -109,7 +109,7 @@ class MainWin(QtWidgets.QMainWindow):
             QtGui.QIcon(mc.model.get_app_systray_icon_path()),
             self
         )
-        self.tray_icon.activated.connect(self.on_systray_activated)
+        # self.tray_icon.activated.connect(self.on_systray_activated)
         self.tray_icon.show()
 
         logging.info("##### System Information #####")
