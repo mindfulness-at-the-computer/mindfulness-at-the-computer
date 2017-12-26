@@ -73,6 +73,14 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
 
         self.list_widget.setCurrentRow(0)  # -the first row
 
+    def set_button_states(self, status):
+        # Disables or enables the buttons depending on breathing phrases list
+        self.move_up_qpb.setDisabled(status)
+        self.move_down_qpb.setDisabled(status)
+        self.move_to_top_qpb.setDisabled(status)
+        self.delete_phrase_qpb.setDisabled(status)
+        self.edit_texts_qpb.setDisabled(status)
+
     def on_move_up_clicked(self):
         self.move_up_down(mc.model.MoveDirectionEnum.up)
 
@@ -116,15 +124,25 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
 
     def on_delete_clicked(self):
         # active_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+
+        if mc.mc_global.active_phrase_id_it == mc.mc_global.NO_PHRASE_SELECTED_INT:
+            # No phrase selected, nothing to delete
+            logging.warning("No phrase selected")
+            return
+
         conf_result_bool = mc.gui.safe_delete_dlg.SafeDeleteDlg.get_safe_confirmation_dialog(
             "Are you sure that you want to remove this entry?",
         )
+
         if conf_result_bool:
-            if mc.mc_global.active_phrase_id_it == mc.mc_global.NO_PHRASE_SELECTED_INT:
-                logging.warning("No phrase selected")
             mc.model.PhrasesM.remove(mc.mc_global.active_phrase_id_it)
-            self.list_widget.clearSelection()  # -clearing after entry removed from db
+            self.list_widget.clearSelection()   # -clearing after entry removed from db
             mc.mc_global.active_phrase_id_it = mc.mc_global.NO_PHRASE_SELECTED_INT
+
+
+            self.set_button_states(mc.model.PhrasesM.isEmpty())
+            # If the list is empty, disabling buttons
+
             self.update_gui()
         else:
             pass
@@ -140,6 +158,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             "", ""
         )
         self.add_to_list_qle.clear()
+        self.set_button_states(mc.model.PhrasesM.isEmpty())
         self.update_gui()
         self.list_widget.setCurrentRow(self.list_widget.count() - 1)
         # self.in_breath_phrase_qle.setFocus()
@@ -147,6 +166,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         # if dialog_result == QtWidgets.QDialog.Accepted:
         EditDialog.launch_edit_dialog()
         self.phrase_changed_signal.emit(True)
+
 
     def on_selection_changed(self):
         if self.updating_gui_bool:
@@ -217,8 +237,10 @@ class EditDialog(QtWidgets.QDialog):
     def __init__(self, i_parent=None):
         super(EditDialog, self).__init__(i_parent)
 
+        # If a phrase is not selected, default to phrase with id 1
         if mc.mc_global.active_phrase_id_it == mc.mc_global.NO_PHRASE_SELECTED_INT:
-            mc.mc_global.active_phrase_id_it = 1   
+            mc.mc_global.active_phrase_id_it = 1
+
         active_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
 
         vbox = QtWidgets.QVBoxLayout(self)

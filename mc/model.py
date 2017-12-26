@@ -155,6 +155,26 @@ class PhrasesM:
         )
         db_connection.commit()
 
+    @staticmethod
+    def isEmpty():
+        db_connection = db.Helper.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor_result = db_cursor.execute(
+            "SELECT count(*) FROM "
+            + db.Schema.PhrasesTable.name
+        )
+
+        empty_rows_te = db_cursor_result.fetchone()
+
+        db_connection.commit()
+
+        logging.debug(*empty_rows_te)
+
+        if empty_rows_te[0] == 0:
+            return True
+        else:
+            return False
+
     def _update(self, i_col_name: str, i_new_value):
         db_exec(
             "UPDATE " + db.Schema.PhrasesTable.name
