@@ -140,8 +140,6 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             mc.mc_global.active_phrase_id_it = mc.mc_global.NO_PHRASE_SELECTED_INT
 
 
-            self.set_button_states(mc.model.PhrasesM.isEmpty())
-            # If the list is empty, disabling buttons
 
             self.update_gui()
         else:
@@ -158,7 +156,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             "", ""
         )
         self.add_to_list_qle.clear()
-        self.set_button_states(mc.model.PhrasesM.isEmpty())
+
         self.update_gui()
         self.list_widget.setCurrentRow(self.list_widget.count() - 1)
         # self.in_breath_phrase_qle.setFocus()
@@ -198,6 +196,10 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
 
     def update_gui(self):
         self.updating_gui_bool = True
+
+        # If the list is now empty, disabling buttons
+        # If the list is no longer empty, enable buttons
+        self.set_button_states(mc.model.PhrasesM.is_empty())
 
         # List
         self.list_widget.clear()
