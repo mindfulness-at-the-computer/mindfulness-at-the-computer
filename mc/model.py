@@ -156,7 +156,7 @@ class PhrasesM:
         db_connection.commit()
 
     @staticmethod
-    def isEmpty():
+    def is_empty():
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor_result = db_cursor.execute(
