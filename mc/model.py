@@ -714,7 +714,7 @@ def breathing_reminder_active() -> bool:
     return ret_value_bool
 
 
-def get_app_systray_icon_path():
+def get_app_systray_icon_path() -> str:
     icon_file_name_str = "icon.png"
     settings = SettingsM.get()
     b_active = breathing_reminder_active()
