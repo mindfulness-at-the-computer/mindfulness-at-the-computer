@@ -11,53 +11,15 @@ class MoveDirectionEnum(enum.Enum):
     down = 2
 
 
-def db_exec(i_sql: str, i_params: tuple):
-    db_connection = db.Helper.get_db_connection()
-    db_cursor = db_connection.cursor()
-    db_cursor.execute(i_sql, i_params)
-    db_connection.commit()
-
-
 class PhrasesM:
-    def __init__(
-        self,
-        i_id: int,
-        i_title: str,
-        i_ib: str,
-        i_ob: str,
-        i_vert_order: int,
-        i_ib_short: str,
-        i_ob_short: str
-    ) -> None:
-        self._id_int = i_id
-        self._title_str = i_title
-        self._ib_str = i_ib
+    def __init__(self, i_id: int, i_title: str, i_ib: str, i_ob: str, i_vert_order: int, i_ib_short: str, i_ob_short: str) -> None:
+        self.id_int = i_id
+        self.title_str = i_title
+        self.ib_str = i_ib
         self.ob_str = i_ob
         self.vert_order_int = i_vert_order
         self.ib_short_str = i_ib_short
         self.ob_short_str = i_ob_short
-
-    @property
-    def id_int(self) -> int:
-        return self._id_int
-
-    @property
-    def title_str(self) -> str:
-        return self._title_str
-
-    @title_str.setter
-    def title_str(self, i_new_title: str):
-        self._title_str = i_new_title
-        self._update(db.Schema.PhrasesTable.Cols.title, i_new_title)
-
-    @property
-    def ib_str(self) -> str:
-        return self._ib_str
-
-    @ib_str.setter
-    def ib_str(self, i_new_ib: str):
-        self._ib_str = i_new_ib
-        self._update(db.Schema.PhrasesTable.Cols.ib_phrase, i_new_ib)
 
     @staticmethod
     def get_highest_sort_value() -> int:
@@ -70,8 +32,8 @@ class PhrasesM:
         return_value_int = db_cursor_result.fetchone()[0]
         # -0 has to be added here even though there can only be one value
 
-        if return_value_int is None:
-            # -to prevent error when the tables are empty
+        #to prevent error when the tables are empty
+        if return_value_int == None:
             return 0
         return return_value_int
 
@@ -145,43 +107,27 @@ class PhrasesM:
         return ret_reminder_list
 
     @staticmethod
-    def remove(i_id: int):
+    def remove(i_id_int):
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor.execute(
             "DELETE FROM " + db.Schema.PhrasesTable.name
             + " WHERE " + db.Schema.PhrasesTable.Cols.id + "=?",
-            (str(i_id),)
+            (str(i_id_int),)
         )
         db_connection.commit()
 
     @staticmethod
-    def isEmpty():
+    def update_title(i_id: int, i_new_title: str):
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
-        db_cursor_result = db_cursor.execute(
-            "SELECT count(*) FROM "
-            + db.Schema.PhrasesTable.name
-        )
-
-        empty_rows_te = db_cursor_result.fetchone()
-
-        db_connection.commit()
-
-        logging.debug(*empty_rows_te)
-
-        if empty_rows_te[0] == 0:
-            return True
-        else:
-            return False
-
-    def _update(self, i_col_name: str, i_new_value):
-        db_exec(
+        db_cursor.execute(
             "UPDATE " + db.Schema.PhrasesTable.name
-            + " SET " + i_col_name + " = ?"
+            + " SET " + db.Schema.PhrasesTable.Cols.title + " = ?"
             + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
-            (i_new_value, str(self._id_int))
+            (i_new_title, str(i_id))
         )
+        db_connection.commit()
 
     @staticmethod
     def update_in_breath(i_id: int, i_new_in_breath: str):
@@ -246,7 +192,7 @@ class PhrasesM:
             or main_sort_order_int >= PhrasesM.get_highest_sort_value()):
                 return False
         other = PhrasesM.get_by_vert_order(main_sort_order_int, i_move_direction)
-        other_id_int = other._id_int
+        other_id_int = other.id_int
         other_sort_order_int = other.vert_order_int
 
         db_connection = db.Helper.get_db_connection()
@@ -292,13 +238,7 @@ class PhrasesM:
 
 
 class RestActionsM:
-    def __init__(
-        self,
-        i_id: int,
-        i_title: str,
-        i_image_path: str,
-        i_vertical_order: int
-    ) -> None:
+    def __init__(self, i_id: int, i_title: str, i_image_path: str, i_vertical_order: int) -> None:
         self.id_int = i_id
         self.title_str = i_title
         self.image_path_str = i_image_path
@@ -358,13 +298,13 @@ class RestActionsM:
         # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
 
     @staticmethod
-    def remove(i_id: int):
+    def remove(i_id_int):
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor.execute(
             "DELETE FROM " + db.Schema.RestActionsTable.name
             + " WHERE " + db.Schema.RestActionsTable.Cols.id + "=?",
-            (str(i_id), )
+            (str(i_id_int), )
         )
         db_connection.commit()
 
@@ -475,24 +415,25 @@ class SettingsM:
     # noinspection PyUnusedLocal
     def __init__(
         self,
-        i_id: int,  # unused
+        i_id: int,
         i_rest_reminder_active: int,
         i_rest_reminder_interval: int,
         i_breathing_reminder_active: int,
         i_breathing_reminder_interval: int,
+        i_breathing_reminder_length: int,
         i_breathing_reminder_audio_path: str,
         i_breathing_reminder_volume: int,
-        i_breathing_reminder_notification_type: int,
-        i_breathing_reminder_phrase_setup: int
+        i_breathing_reminder_notification_type: int
     ) -> None:
+        # (id is not used)
         self.rest_reminder_active_bool = True if i_rest_reminder_active else False
         self.rest_reminder_interval_int = i_rest_reminder_interval
         self.breathing_reminder_active_bool = True if i_breathing_reminder_active else False
         self.breathing_reminder_interval_int = i_breathing_reminder_interval
+        self.breathing_reminder_length_int = i_breathing_reminder_length
         self.breathing_reminder_audio_path_str = i_breathing_reminder_audio_path
         self.breathing_reminder_volume_int = i_breathing_reminder_volume
         self.breathing_reminder_notification_type_int = i_breathing_reminder_notification_type
-        self.breathing_reminder_phrase_setup_int = i_breathing_reminder_phrase_setup
 
     @staticmethod
     def get():
@@ -503,10 +444,10 @@ class SettingsM:
             + " WHERE " + db.Schema.SettingsTable.Cols.id + "=?",
             (str(db.SINGLE_SETTINGS_ID_INT),)
         )
-        settings_db_te = db_cursor_result.fetchone()
+        reminder_db_te = db_cursor_result.fetchone()
         db_connection.commit()
 
-        return SettingsM(*settings_db_te)
+        return SettingsM(*reminder_db_te)
         # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
 
     @staticmethod
@@ -562,6 +503,18 @@ class SettingsM:
         db_connection.commit()
 
     @staticmethod
+    def update_breathing_reminder_length(i_reminder_length: int):
+        db_connection = db.Helper.get_db_connection()
+        db_cursor = db_connection.cursor()
+        db_cursor.execute(
+            "UPDATE " + db.Schema.SettingsTable.name
+            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_length + " = ?"
+            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
+            (str(i_reminder_length), db.SINGLE_SETTINGS_ID_INT)
+        )
+        db_connection.commit()
+
+    @staticmethod
     def update_breathing_reminder_audio_path(i_new_audio_path: str):
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
@@ -597,18 +550,6 @@ class SettingsM:
         )
         db_connection.commit()
 
-    @staticmethod
-    def update_breathing_reminder_notification_phrase_setup(i_new_phrase_setup: int):
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_phrase_setup + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (i_new_phrase_setup, str(db.SINGLE_SETTINGS_ID_INT))
-        )
-        db_connection.commit()
-
 
 def export_all():
     csv_writer = csv.writer(open(mc.mc_global.get_user_files_path("exported.csv"), "w"))
@@ -623,43 +564,24 @@ def populate_db_with_setup_data():
         "In, Out",
         "Breathing in, I know I am breathing in",
         "Breathing out, I know I am breathing out",
-        "in",
-        "out"
+        "in", "out"
+    )
+    PhrasesM.add(
+        "Happy, Safe",
+        "May I be peaceful, happy, and safe",
+        "happy", "safe"
     )
     PhrasesM.add(
         "Aware of Body",
         "Aware of my body, I breathe in",
         "Aware of my body, I breathe out",
-        "body, in",
-        "body, out"
+        "body", "body"
     )
     PhrasesM.add(
         "Caring, Relaxing",
         "Breathing in, I care for my body",
         "Breathing out, I relax my body",
-        "caring",
-        "relaxing"
-    )
-    PhrasesM.add(
-        "Happy, Safe",
-        "May I be happy",
-        "May I be peaceful",
-        "happy",
-        "peaceful"
-    )
-    PhrasesM.add(
-        "Compassion",
-        "Breathing in compassion to myself",
-        "Breathing out compassion to others",
-        "compassion to myself",
-        "compassion to others"
-    )
-    PhrasesM.add(
-        "Sharing, Contributing",
-        "Breathing in I share in the well-being of others",
-        "Breathing out I contribute to the well-being of others",
-        "sharing well-being",
-        "contributing to well-being"
+        "caring", "relaxing"
     )
 
     RestActionsM.add(
@@ -667,11 +589,7 @@ def populate_db_with_setup_data():
         mc.mc_global.get_user_images_path("tea.png")
     )
     RestActionsM.add(
-        "Filling a water bottle for my desk",
-        ""
-    )
-    RestActionsM.add(
-        "Stretching my arms",
+        "Stretching the arms",
         ""
     )
     RestActionsM.add(
@@ -683,19 +601,19 @@ def populate_db_with_setup_data():
         ""
     )
     RestActionsM.add(
-        "Cleaning/organizing my space",
+        "Cleaning/organizing your space",
         ""
     )
     RestActionsM.add(
-        "Eating something healthy",
+        "Eating a healthy snack",
         mc.mc_global.get_user_images_path("oranges-with-flower.png")
     )
     RestActionsM.add(
-        "Slow mindful walking inside",
+        "Slow Mindful walking inside",
         mc.mc_global.get_user_images_path("footprint.png")
     )
     RestActionsM.add(
-        "Walking outside",
+        "Taking a walk outside",
         mc.mc_global.get_user_images_path("boots-and-autumn-leaves.png")
     )
 
@@ -714,7 +632,7 @@ def breathing_reminder_active() -> bool:
     return ret_value_bool
 
 
-def get_app_systray_icon_path() -> str:
+def get_app_systray_icon_path():
     icon_file_name_str = "icon.png"
     settings = SettingsM.get()
     b_active = breathing_reminder_active()
