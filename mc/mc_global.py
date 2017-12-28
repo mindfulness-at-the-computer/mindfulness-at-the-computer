@@ -157,7 +157,7 @@ def get_font_xxlarge() -> QtGui.QFont:
     return font
 
 
-def get_html(i_text: str):
+def get_html(i_text: str) -> str:
     ret_str = '<p style="text-align:center">' + i_text + '</p>'
     return ret_str
 
