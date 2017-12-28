@@ -7,6 +7,8 @@ import mc.mc_global
 import mc.model
 
 TIME_NOT_SET_FT = 0.0
+BR_WIDTH_FT = 50.0
+BR_HEIGHT_FT = 50.0
 
 
 class BreathingDlg(QtWidgets.QFrame):
@@ -212,6 +214,7 @@ class BreathingDlg(QtWidgets.QFrame):
             self.on_close_button_clicked()
 
     def on_close_button_clicked(self):
+        mc.mc_global.breathing_state = mc.mc_global.BreathingState.inactive
 
         if len(self.ob_length_ft_list) < len(self.ib_length_ft_list):
             now = time.time()
@@ -291,11 +294,37 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self.peak_scale_ft = 1
 
     def ib_start(self):
-        self.ib_signal.emit()
-        self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
-        self.custom_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
+        if mc.mc_global.breathing_state == mc.mc_global.BreathingState.breathing_in:
+            return
+
+        small_qsize = QtCore.QSizeF(BR_WIDTH_FT, BR_HEIGHT_FT)
+        pos_pointf = QtWidgets.QGraphicsItem.mapFromItem(
+            self.custom_gi, self.custom_gi,
+            self.custom_gi.x() + (self.custom_gi.boundingRect().width() - small_qsize.width()) / 2,
+            self.custom_gi.y() + (self.custom_gi.boundingRect().height() - small_qsize.height()) / 2
+        )
+        # -widget coords
+        small_widget_coords_qrect = QtCore.QRectF(pos_pointf, small_qsize)
+        # QtWidgets.QGraphicsItem
+
+        cursor = QtGui.QCursor()  # -screen coords
+        cursor_pos_widget_coords_qp = self.mapFromGlobal(cursor.pos())  # -widget coords
+
+        logging.debug("cursor.pos() = " + str(cursor.pos()))
+        logging.debug("cursor_pos_widget_coords_qp = " + str(cursor_pos_widget_coords_qp))
+        logging.debug("small_widget_coords_qrect = " + str(small_widget_coords_qrect))
+
+        if small_widget_coords_qrect.contains(cursor_pos_widget_coords_qp):
+            mc.mc_global.breathing_state = mc.mc_global.BreathingState.breathing_in
+            self.ib_signal.emit()
+            self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
+            self.custom_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
 
     def ob_start(self):
+        if mc.mc_global.breathing_state != mc.mc_global.BreathingState.breathing_in:
+            return
+        mc.mc_global.breathing_state = mc.mc_global.BreathingState.breathing_out
+
         self.peak_scale_ft = self.text_gi.scale()
         self.ob_signal.emit()
         self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
@@ -332,7 +361,7 @@ class BreathingGraphicsObject(QtWidgets.QGraphicsObject):
 
     def __init__(self):
         super().__init__()
-        self.rectf = QtCore.QRectF(0.0, 0.0, 50.0, 50.0)
+        self.rectf = QtCore.QRectF(0.0, 0.0, BR_WIDTH_FT, BR_HEIGHT_FT)
         self.setAcceptHoverEvents(True)
 
     # Overridden
@@ -345,8 +374,8 @@ class BreathingGraphicsObject(QtWidgets.QGraphicsObject):
         return self.rectf
 
     # Overridden
-    def hoverEnterEvent(self, i_QGraphicsSceneHoverEvent):
-        logging.debug("hoverEnterEvent")
+    def hoverMoveEvent(self, QGraphicsSceneHoverEvent):
+        # logging.debug("hoverMoveEvent")
         self.enter_signal.emit()
 
     # Overridden
