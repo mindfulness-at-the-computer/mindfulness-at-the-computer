@@ -32,10 +32,10 @@ def initial_schema_and_setup(i_db_conn) -> None:
     i_db_conn.execute(
         "CREATE TABLE " + Schema.PhrasesTable.name + "("
         + Schema.PhrasesTable.Cols.id + " INTEGER PRIMARY KEY, "
+        + Schema.PhrasesTable.Cols.vertical_order + " INTEGER NOT NULL, "
         + Schema.PhrasesTable.Cols.title + " TEXT NOT NULL, "
         + Schema.PhrasesTable.Cols.ib_phrase + " TEXT NOT NULL, "
         + Schema.PhrasesTable.Cols.ob_phrase + " TEXT NOT NULL, "
-        + Schema.PhrasesTable.Cols.vertical_order + " INTEGER NOT NULL, "
         + Schema.PhrasesTable.Cols.ib_short_phrase + " TEXT NOT NULL DEFAULT '', "
         + Schema.PhrasesTable.Cols.ob_short_phrase + " TEXT NOT NULL DEFAULT ''"
         + ")"
@@ -44,9 +44,9 @@ def initial_schema_and_setup(i_db_conn) -> None:
     i_db_conn.execute(
         "CREATE TABLE " + Schema.RestActionsTable.name + "("
         + Schema.RestActionsTable.Cols.id + " INTEGER PRIMARY KEY, "
+        + Schema.RestActionsTable.Cols.vertical_order + " INTEGER NOT NULL, "
         + Schema.RestActionsTable.Cols.title + " TEXT NOT NULL, "
-        + Schema.RestActionsTable.Cols.image_path + " TEXT NOT NULL, "
-        + Schema.RestActionsTable.Cols.vertical_order + " INTEGER NOT NULL"
+        + Schema.RestActionsTable.Cols.image_path + " TEXT NOT NULL"
         + ")"
     )
 
@@ -108,28 +108,8 @@ def upgrade_1_2(i_db_conn):
     )    
 """
 
-"""
-def upgrade_1_2(i_db_conn):
-    backup_db_file()
-    i_db_conn.execute(
-        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
-        + Schema.SettingsTable.Cols.rest_reminder_audio_path + " TEXT NOT NULL"
-        + " DEFAULT ''"
-    )
-    i_db_conn.execute(
-        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
-        + Schema.SettingsTable.Cols.rest_reminder_volume + " INTEGER NOT NULL"
-        + " DEFAULT " + str(MAX_VOLUME_INT)
-    )
-    i_db_conn.execute(
-        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
-        + Schema.SettingsTable.Cols.rest_reminder_notification_type + " INTEGER NOT NULL"
-        + " DEFAULT " + str(mc_global.NotificationType.Both.value)
-    )
-"""
-
 upgrade_steps = {
-    8: initial_schema_and_setup
+    10: initial_schema_and_setup
 }
 
 
@@ -149,21 +129,38 @@ class Helper(object):
             # More info here: https://www.sqlite.org/pragma.html#pragma_schema_version
             current_db_ver_it = get_schema_version(Helper.__db_connection)
             target_db_ver_it = max(upgrade_steps)
-            if current_db_ver_it < min(upgrade_steps):
-                backup
-                export
-                message
-                Helper.drop_db_tables()
+            database_tables_dropped_bool = False
+            if current_db_ver_it < min(upgrade_steps) and mc_global.db_file_exists_at_application_startup_bl:
+                database_tables_dropped_bool = True
+                backup_db_file()
+                model.export_all()
+                Helper.drop_all_db_tables(Helper.__db_connection)
+                mc_global.db_upgrade_message_str = (
+                    "Database upgraded, all user entries have been removed,"
+                    "you can find them in this file: /user_files/exported.csv"
+                )
             for upgrade_step_nr_int in range(current_db_ver_it + 1, target_db_ver_it + 1):
                 if upgrade_step_nr_int in upgrade_steps:
                     upgrade_steps[upgrade_step_nr_int](Helper.__db_connection)
                     set_schema_version(Helper.__db_connection, upgrade_step_nr_int)
+            if database_tables_dropped_bool:
+                model.populate_db_with_setup_data()
             Helper.__db_connection.commit()
 
             # TODO: Where do we close the db connection? (Do we need to close it?)
             # http://stackoverflow.com/questions/3850261/doing-something-before-program-exit
 
         return Helper.__db_connection
+
+    @staticmethod
+    def drop_all_db_tables(i_db_conn):
+        Helper.drop_db_table(i_db_conn, Schema.PhrasesTable.name)
+        Helper.drop_db_table(i_db_conn, Schema.RestActionsTable.name)
+        Helper.drop_db_table(i_db_conn, Schema.SettingsTable.name)
+
+    @staticmethod
+    def drop_db_table(i_db_conn, i_table_name: str):
+        i_db_conn.execute("DROP TABLE IF EXISTS " + i_table_name)
 
 
 class Schema:
@@ -173,10 +170,10 @@ class Schema:
 
         class Cols:
             id = "id"  # key
+            vertical_order = "vertical_order"
             title = "title"
             ib_phrase = "ib_phrase"
             ob_phrase = "ob_phrase"
-            vertical_order = "vertical_order"
             ib_short_phrase = "ib_short_phrase"
             ob_short_phrase = "ob_short_phrase"
 
@@ -185,9 +182,9 @@ class Schema:
 
         class Cols:
             id = "id"
+            vertical_order = "vertical_order"
             title = "title"
             image_path = "image_path"
-            vertical_order = "vertical_order"
 
     class SettingsTable:
         name = "settings"

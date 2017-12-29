@@ -173,3 +173,7 @@ class EventSource(enum.Enum):
     breathing_settings_changed = 4
     rest_opened = 5
     rest_closed = 6
+
+
+db_upgrade_message_str = None
+

@@ -23,18 +23,18 @@ class PhrasesM:
     def __init__(
         self,
         i_id: int,
+        i_vert_order: int,
         i_title: str,
         i_ib: str,
         i_ob: str,
-        i_vert_order: int,
         i_ib_short: str,
         i_ob_short: str
     ) -> None:
         self._id_int = i_id
+        self.vert_order_int = i_vert_order
         self._title_str = i_title
         self._ib_str = i_ib
         self.ob_str = i_ob
-        self.vert_order_int = i_vert_order
         self.ib_short_str = i_ib_short
         self.ob_short_str = i_ob_short
 
@@ -95,23 +95,20 @@ class PhrasesM:
     @staticmethod
     def add(i_title: str, i_ib: str, i_ob: str, ib_short: str, ob_short: str) -> None:
         # vertical_order_last_pos_int = len(PhrasesM.get_all())
-        if mc.mc_global.db_file_exists_at_application_startup_bl:
-            vertical_order_last_pos_int = PhrasesM.get_highest_sort_value() + 1
-        else:
-            vertical_order_last_pos_int = 0
+        vertical_order_last_pos_int = PhrasesM.get_highest_sort_value() + 1
         logging.debug("vertical_order_last_pos_int = " + str(vertical_order_last_pos_int))
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor.execute(
             "INSERT INTO " + db.Schema.PhrasesTable.name + "("
+            + db.Schema.PhrasesTable.Cols.vertical_order + ", "
             + db.Schema.PhrasesTable.Cols.title + ", "
             + db.Schema.PhrasesTable.Cols.ib_phrase + ", "
             + db.Schema.PhrasesTable.Cols.ob_phrase + ", "
-            + db.Schema.PhrasesTable.Cols.vertical_order + ", "
             + db.Schema.PhrasesTable.Cols.ib_short_phrase + ", "
             + db.Schema.PhrasesTable.Cols.ob_short_phrase
             + ") VALUES (?, ?, ?, ?, ?, ?)",
-            (i_title, i_ib, i_ob, vertical_order_last_pos_int, ib_short, ob_short)
+            (vertical_order_last_pos_int, i_title, i_ib, i_ob, ib_short, ob_short)
         )
         db_connection.commit()
 
@@ -296,14 +293,14 @@ class RestActionsM:
     def __init__(
         self,
         i_id: int,
+        i_vertical_order: int,
         i_title: str,
-        i_image_path: str,
-        i_vertical_order: int
+        i_image_path: str
     ) -> None:
         self.id_int = i_id
+        self.vert_order_int = i_vertical_order
         self.title_str = i_title
         self.image_path_str = i_image_path
-        self.vert_order_int = i_vertical_order
 
     @staticmethod
     def get_highest_sort_value() -> int:
@@ -336,10 +333,10 @@ class RestActionsM:
         db_cursor = db_connection.cursor()
         db_cursor.execute(
             "INSERT INTO " + db.Schema.RestActionsTable.name + "("
+            + db.Schema.RestActionsTable.Cols.vertical_order + ", "
             + db.Schema.RestActionsTable.Cols.title + ", "
-            + db.Schema.RestActionsTable.Cols.image_path + ", "
-            + db.Schema.RestActionsTable.Cols.vertical_order
-            + ") VALUES (?, ?, ?)", (i_title, i_image_path, vertical_order_last_pos_int)
+            + db.Schema.RestActionsTable.Cols.image_path
+            + ") VALUES (?, ?, ?)", (vertical_order_last_pos_int, i_title, i_image_path)
         )
         db_connection.commit()
 
