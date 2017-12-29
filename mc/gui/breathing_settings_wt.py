@@ -73,20 +73,6 @@ class BreathingSettingsWt(QtWidgets.QWidget):
             mc.mc_global.PhraseSetup.Short.name
         ])
 
-        self.active_breathing_phrase_qgb = QtWidgets.QGroupBox("Active Breathing Phrase")
-        vbox_l2.addWidget(self.active_breathing_phrase_qgb)
-        vbox_l3 = QtWidgets.QVBoxLayout()
-        self.active_breathing_phrase_qgb.setLayout(vbox_l3)
-        self.title_text_qll = QtWidgets.QLabel("title")
-        vbox_l3.addWidget(self.title_text_qll)
-        self.title_text_qll.setWordWrap(True)
-        self.in_text_qll = QtWidgets.QLabel("in")
-        vbox_l3.addWidget(self.in_text_qll)
-        self.in_text_qll.setWordWrap(True)
-        self.out_text_qll = QtWidgets.QLabel("out")
-        vbox_l3.addWidget(self.out_text_qll)
-        self.out_text_qll.setWordWrap(True)
-
         self.audio_qgb = QtWidgets.QGroupBox("Audio")
         vbox_l2.addWidget(self.audio_qgb)
         vbox_l3 = QtWidgets.QVBoxLayout()
@@ -177,10 +163,6 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         # Breathing reminder
         if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT:
             self.setDisabled(False)
-            breathing_phrase = mc.model.PhrasesM.get(mc_global.active_phrase_id_it)
-            self.title_text_qll.setText(breathing_phrase.title_str)
-            self.in_text_qll.setText(breathing_phrase.ib_str)
-            self.out_text_qll.setText(breathing_phrase.ob_str)
         else:
             self.setDisabled(True)
 

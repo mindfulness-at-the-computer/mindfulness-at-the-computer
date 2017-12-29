@@ -55,14 +55,31 @@ class MainWin(QtWidgets.QMainWindow):
         hbox_l3 = QtWidgets.QHBoxLayout()
         central_w2.setLayout(hbox_l3)
 
+
         vbox_l4 = QtWidgets.QVBoxLayout()
         hbox_l3.addLayout(vbox_l4)
+        self.active_breathing_phrase_qgb = QtWidgets.QGroupBox("Active Breathing Phrase")
+        vbox_l4.addWidget(self.active_breathing_phrase_qgb)
+        vbox_l5 = QtWidgets.QVBoxLayout()
+        self.active_breathing_phrase_qgb.setLayout(vbox_l5)
+        self.title_text_qll = QtWidgets.QLabel("title")
+        vbox_l5.addWidget(self.title_text_qll)
+        self.title_text_qll.setWordWrap(True)
+        self.in_text_qll = QtWidgets.QLabel("in")
+        vbox_l5.addWidget(self.in_text_qll)
+        self.in_text_qll.setWordWrap(True)
+        self.out_text_qll = QtWidgets.QLabel("out")
+        vbox_l5.addWidget(self.out_text_qll)
+        self.out_text_qll.setWordWrap(True)
+        self.breathing_history_wt = mc.gui.breathing_history_wt.BreathingHistoryWt()
+        vbox_l4.addWidget(self.breathing_history_wt)
 
+        vbox_l4 = QtWidgets.QVBoxLayout()
+        hbox_l3.addLayout(vbox_l4)
         self.br_phrase_list_wt = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
         vbox_l4.addWidget(self.br_phrase_list_wt)
         self.br_phrase_list_wt.selection_changed_signal.connect(self.on_breathing_list_row_changed)
         self.br_phrase_list_wt.phrase_changed_signal.connect(self.on_breathing_phrase_changed)
-
         self.br_settings_wt = mc.gui.breathing_settings_wt.BreathingSettingsWt()
         vbox_l4.addWidget(self.br_settings_wt)
         self.br_settings_wt.updated_signal.connect(self.on_breathing_settings_changed)
@@ -70,21 +87,16 @@ class MainWin(QtWidgets.QMainWindow):
 
         vbox_l4 = QtWidgets.QVBoxLayout()
         hbox_l3.addLayout(vbox_l4)
-
         self.rest_action_list_wt = mc.gui.rest_action_list_wt.RestActionListWt()
         vbox_l4.addWidget(self.rest_action_list_wt)
         self.rest_action_list_wt.update_signal.connect(self.on_rest_action_list_updated)
         self.rest_action_list_wt.selection_changed_signal.connect(self.on_rest_action_list_row_changed)
-
         self.rest_settings_wt = mc.gui.rest_settings_wt.RestSettingsWt()
         vbox_l4.addWidget(self.rest_settings_wt)
         self.rest_settings_wt.settings_updated_signal.connect(self.update_rest_timer)
         self.rest_settings_wt.rest_now_button_clicked_signal.connect(self.on_rest_rest)
         self.rest_settings_wt.rest_reset_button_clicked_signal.connect(self.update_rest_timer)
         self.rest_settings_wt.rest_slider_value_changed_signal.connect(self.on_rest_slider_value_changed)
-
-        self.breathing_history_wt = mc.gui.breathing_history_wt.BreathingHistoryWt()
-        hbox_l3.addWidget(self.breathing_history_wt)
 
         # Setup of Menu
         self.menu_bar = self.menuBar()
@@ -445,6 +457,11 @@ class MainWin(QtWidgets.QMainWindow):
     def update_gui(self, i_event_source=mc.mc_global.EventSource.undefined):
         # self.breathing_widget.update_gui()
         # self.rest_widget.update_gui()
+
+        breathing_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+        self.title_text_qll.setText(breathing_phrase.title_str)
+        self.in_text_qll.setText(breathing_phrase.ib_str)
+        self.out_text_qll.setText(breathing_phrase.ob_str)
 
         if i_event_source != mc.mc_global.EventSource.rest_slider_value_changed:
             self.rest_settings_wt.update_gui()
