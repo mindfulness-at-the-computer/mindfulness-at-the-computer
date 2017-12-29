@@ -1,6 +1,7 @@
 import datetime
 import shutil
 import sqlite3
+from PyQt5 import QtWidgets
 from mc import mc_global
 from mc import model
 
@@ -13,6 +14,7 @@ NO_BREATHING_REMINDER_INT = -1
 DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT = 30
 DEFAULT_BREATHING_REMINDER_INTERVAL_MINUTES_INT = 10
 SINGLE_SETTINGS_ID_INT = 0
+MAX_VOLUME_INT = 100
 
 
 def get_schema_version(i_db_conn):
@@ -55,6 +57,12 @@ def initial_schema_and_setup(i_db_conn) -> None:
         + " DEFAULT " + str(SQLITE_TRUE_INT) + ", "
         + Schema.SettingsTable.Cols.rest_reminder_interval + " INTEGER NOT NULL"
         + " DEFAULT " + str(DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT) + ", "
+        + Schema.SettingsTable.Cols.rest_reminder_audio_path + " TEXT NOT NULL"
+        + " DEFAULT ''" + ", "
+        + Schema.SettingsTable.Cols.rest_reminder_volume + " INTEGER NOT NULL"
+        + " DEFAULT " + str(MAX_VOLUME_INT) + ", "
+        + Schema.SettingsTable.Cols.rest_reminder_notification_type + " INTEGER NOT NULL"
+        + " DEFAULT " + str(mc_global.NotificationType.Both.value) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_active + " INTEGER NOT NULL"
         + " DEFAULT " + str(SQLITE_TRUE_INT) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_interval + " INTEGER NOT NULL"
@@ -62,9 +70,9 @@ def initial_schema_and_setup(i_db_conn) -> None:
         + Schema.SettingsTable.Cols.breathing_reminder_audio_path + " TEXT NOT NULL"
         + " DEFAULT ''" + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_volume + " INTEGER NOT NULL"
-        + " DEFAULT 100" + ", "
+        + " DEFAULT " + str(MAX_VOLUME_INT) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_notification_type + " INTEGER NOT NULL"
-        + " DEFAULT " + str(mc_global.BreathingNotificationType.Both.value) + ", "
+        + " DEFAULT " + str(mc_global.NotificationType.Both.value) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_phrase_setup + " INTEGER NOT NULL"
         + " DEFAULT " + str(mc_global.PhraseSetup.Switch.value)
         + ")"
@@ -97,12 +105,31 @@ def upgrade_1_2(i_db_conn):
     i_db_conn.execute(
         "ALTER TABLE " + DbSchemaM.ObservancesTable.name + " ADD COLUMN "
         + DbSchemaM.ObservancesTable.Cols.user_text + " TEXT DEFAULT ''"
+    )    
+"""
+
+"""
+def upgrade_1_2(i_db_conn):
+    backup_db_file()
+    i_db_conn.execute(
+        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
+        + Schema.SettingsTable.Cols.rest_reminder_audio_path + " TEXT NOT NULL"
+        + " DEFAULT ''"
+    )
+    i_db_conn.execute(
+        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
+        + Schema.SettingsTable.Cols.rest_reminder_volume + " INTEGER NOT NULL"
+        + " DEFAULT " + str(MAX_VOLUME_INT)
+    )
+    i_db_conn.execute(
+        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
+        + Schema.SettingsTable.Cols.rest_reminder_notification_type + " INTEGER NOT NULL"
+        + " DEFAULT " + str(mc_global.NotificationType.Both.value)
     )
 """
 
-
 upgrade_steps = {
-    7: initial_schema_and_setup
+    8: initial_schema_and_setup
 }
 
 
@@ -122,6 +149,11 @@ class Helper(object):
             # More info here: https://www.sqlite.org/pragma.html#pragma_schema_version
             current_db_ver_it = get_schema_version(Helper.__db_connection)
             target_db_ver_it = max(upgrade_steps)
+            if current_db_ver_it < min(upgrade_steps):
+                backup
+                export
+                message
+                Helper.drop_db_tables()
             for upgrade_step_nr_int in range(current_db_ver_it + 1, target_db_ver_it + 1):
                 if upgrade_step_nr_int in upgrade_steps:
                     upgrade_steps[upgrade_step_nr_int](Helper.__db_connection)
@@ -164,6 +196,9 @@ class Schema:
             id = "id"  # key
             rest_reminder_active = "rest_reminder_active"
             rest_reminder_interval = "rest_reminder_interval"
+            rest_reminder_audio_path = "rest_reminder_audio_path"
+            rest_reminder_volume = "rest_reminder_volume"
+            rest_reminder_notification_type = "rest_reminder_notification_type"
             breathing_reminder_active = "breathing_reminder_active"
             breathing_reminder_interval = "breathing_reminder_interval"
             breathing_reminder_audio_path = "breathing_reminder_audio_path"

@@ -47,7 +47,7 @@ class PhraseSetup(enum.Enum):
     Short = 2
 
 
-class BreathingNotificationType(enum.Enum):
+class NotificationType(enum.Enum):
     Visual = 0
     Audio = 1
     Both = 2

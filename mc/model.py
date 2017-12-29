@@ -2,6 +2,7 @@ import csv
 import os
 import enum
 import logging
+import typing
 from mc import db
 import mc.mc_global
 
@@ -86,8 +87,8 @@ class PhrasesM:
         return_value_int = db_cursor_result.fetchone()[0]
         # -0 has to be added here even though there can only be one value
 
-        #to prevent error when the tables are empty
-        if return_value_int == None:
+        # To prevent error when the tables are empty
+        if return_value_int is None:
             return 0
         return return_value_int
 
@@ -478,6 +479,9 @@ class SettingsM:
         i_id: int,  # unused
         i_rest_reminder_active: int,
         i_rest_reminder_interval: int,
+        i_rest_reminder_audio_path: str,
+        i_rest_reminder_volume: int,
+        i_rest_reminder_notification_type: int,
         i_breathing_reminder_active: int,
         i_breathing_reminder_interval: int,
         i_breathing_reminder_audio_path: str,
@@ -487,6 +491,9 @@ class SettingsM:
     ) -> None:
         self.rest_reminder_active_bool = True if i_rest_reminder_active else False
         self.rest_reminder_interval_int = i_rest_reminder_interval
+        self.rest_reminder_audio_path_str = i_rest_reminder_audio_path
+        self.rest_reminder_volume_int = i_rest_reminder_volume
+        self.rest_reminder_notification_type_int = i_rest_reminder_notification_type
         self.breathing_reminder_active_bool = True if i_breathing_reminder_active else False
         self.breathing_reminder_interval_int = i_breathing_reminder_interval
         self.breathing_reminder_audio_path_str = i_breathing_reminder_audio_path
@@ -508,6 +515,36 @@ class SettingsM:
 
         return SettingsM(*settings_db_te)
         # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
+
+    @staticmethod
+    def update_rest_reminder_audio_path(i_new_audio_path: str):
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.rest_reminder_audio_path,
+            i_new_audio_path
+        )
+
+    @staticmethod
+    def update_rest_reminder_volume(i_new_volume: int):
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.rest_reminder_volume,
+            i_new_volume
+        )
+
+    @staticmethod
+    def update_rest_reminder_notification_type(i_new_notification_type: int):
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.rest_reminder_notification_type,
+            i_new_notification_type
+        )
+
+    @staticmethod
+    def _update(i_col_name: str, i_new_value: typing.Any):
+        db_exec(
+            "UPDATE " + db.Schema.SettingsTable.name
+            + " SET " + i_col_name + " = ?"
+            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
+            (i_new_value, str(db.SINGLE_SETTINGS_ID_INT))
+        )
 
     @staticmethod
     def update_rest_reminder_active(i_reminder_active: bool):
@@ -612,10 +649,15 @@ class SettingsM:
 
 def export_all():
     csv_writer = csv.writer(open(mc.mc_global.get_user_files_path("exported.csv"), "w"))
+    # csv_writer.writeheader()
+    csv_writer.writerow(("",))
+    csv_writer.writerow(("===== Breathing Phrases =====",))
     for phrase in PhrasesM.get_all():
-        # time_datetime = datetime.date.fromtimestamp(phrase.date_added_it)
-        # date_str = time_datetime.strftime("%Y-%m-%d")
-        csv_writer.writerow((phrase.title_str, phrase.ib_str, phrase.ob_str))
+        csv_writer.writerow((phrase.title_str, phrase.ib_str, phrase.ob_str, phrase.ib_short_str, phrase.ob_short_str))
+    csv_writer.writerow(("",))
+    csv_writer.writerow(("===== Rest Actions =====",))
+    for rest_action in RestActionsM.get_all():
+        csv_writer.writerow((rest_action.title_str,))
 
 
 def populate_db_with_setup_data():

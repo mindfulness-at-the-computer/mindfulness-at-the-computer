@@ -270,7 +270,7 @@ class MainWin(QtWidgets.QMainWindow):
         mc.mc_global.rest_reminder_minutes_passed_int += 1
         if (mc.mc_global.rest_reminder_minutes_passed_int
                 >= mc.model.SettingsM.get().rest_reminder_interval_int):
-            self.show_rest_reminder()
+            self.start_rest_reminder()
         self.rest_settings_wt.rest_reminder_qsr.setValue(
             mc.mc_global.rest_reminder_minutes_passed_int
         )
@@ -287,10 +287,21 @@ class MainWin(QtWidgets.QMainWindow):
         self.showNormal()
         # another alternative (from an SO answer): self.setWindowState(QtCore.Qt.WindowActive)
 
+    def start_rest_reminder(self):
+        notification_type_int = mc.model.SettingsM.get().rest_reminder_notification_type_int
+
+        if (notification_type_int == mc.mc_global.NotificationType.Both.value
+        or notification_type_int == mc.mc_global.NotificationType.Visual.value):
+            self.show_rest_reminder()
+
+        if (notification_type_int == mc.mc_global.NotificationType.Both.value
+        or notification_type_int == mc.mc_global.NotificationType.Audio.value):
+            settings = mc.model.SettingsM.get()
+            audio_path_str = settings.rest_reminder_audio_path_str
+            volume_int = settings.rest_reminder_volume_int
+            self.play_audio(audio_path_str, volume_int)
+
     def show_rest_reminder(self):
-        # self.restore_window()
-        # self.main_area_stacked_widget_l4.setCurrentIndex(self.rrcw_sw_id_int)
-        # self.rest_actions_dock.raise_()
         self.rest_reminder_dialog = mc.gui.rest_reminder_popup.RestReminderDlg()
         self.rest_reminder_dialog.rest_signal.connect(self.on_rest_rest)
         self.rest_reminder_dialog.skip_signal.connect(self.on_rest_skip)
@@ -355,7 +366,7 @@ class MainWin(QtWidgets.QMainWindow):
         breathing_full_screen_action.triggered.connect(self.showFullScreen)
         show_rest_reminder_action = QtWidgets.QAction("Show rest reminder", self)
         debug_menu.addAction(show_rest_reminder_action)
-        show_rest_reminder_action.triggered.connect(self.show_rest_reminder)
+        show_rest_reminder_action.triggered.connect(self.start_rest_reminder)
 
         help_menu = self.menu_bar.addMenu("&Help")
         about_action = QtWidgets.QAction("About", self)
@@ -373,13 +384,16 @@ class MainWin(QtWidgets.QMainWindow):
     def start_breathing_notification(self):
         notification_type_int = mc.model.SettingsM.get().breathing_reminder_notification_type_int
 
-        if (notification_type_int == mc.mc_global.BreathingNotificationType.Both.value
-        or notification_type_int == mc.mc_global.BreathingNotificationType.Visual.value):
+        if (notification_type_int == mc.mc_global.NotificationType.Both.value
+        or notification_type_int == mc.mc_global.NotificationType.Visual.value):
             self.show_breathing_notification()
 
-        if (notification_type_int == mc.mc_global.BreathingNotificationType.Both.value
-        or notification_type_int == mc.mc_global.BreathingNotificationType.Audio.value):
-            self.play_audio()  # "390200__ganapataye__03-bells[cc0].wav"
+        if (notification_type_int == mc.mc_global.NotificationType.Both.value
+        or notification_type_int == mc.mc_global.NotificationType.Audio.value):
+            settings = mc.model.SettingsM.get()
+            audio_path_str = settings.breathing_reminder_audio_path_str
+            volume_int = settings.breathing_reminder_volume_int
+            self.play_audio(audio_path_str, volume_int)
 
     def show_breathing_notification(self):
         self.breathing_dialog = mc.gui.breathing_popup.BreathingDlg()
@@ -387,17 +401,12 @@ class MainWin(QtWidgets.QMainWindow):
         self.breathing_dialog.phrase_changed_signal.connect(self.on_breathing_dialog_phrase_changed)
         self.breathing_dialog.show()
 
-    def play_audio(self) -> None:
+    def play_audio(self, i_audio_path: str, i_volume: int) -> None:
         try:
-            settings = mc.model.SettingsM.get()
-            audio_path_str = settings.breathing_reminder_audio_path_str
-
-            volume_int = settings.breathing_reminder_volume_int
-
             sound_effect = QtMultimedia.QSoundEffect(self)
             # -PLEASE NOTE: A parent has to be given here, otherwise we will not hear anything
-            sound_effect.setSource(QtCore.QUrl.fromLocalFile(audio_path_str))
-            sound_effect.setVolume(float(volume_int / 100))
+            sound_effect.setSource(QtCore.QUrl.fromLocalFile(i_audio_path))
+            sound_effect.setVolume(float(i_volume / 100))
             sound_effect.play()
         except NameError:
             logging.debug(
