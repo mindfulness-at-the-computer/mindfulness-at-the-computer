@@ -79,10 +79,13 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         self.active_breathing_phrase_qgb.setLayout(vbox_l3)
         self.title_text_qll = QtWidgets.QLabel("title")
         vbox_l3.addWidget(self.title_text_qll)
+        self.title_text_qll.setWordWrap(True)
         self.in_text_qll = QtWidgets.QLabel("in")
         vbox_l3.addWidget(self.in_text_qll)
+        self.in_text_qll.setWordWrap(True)
         self.out_text_qll = QtWidgets.QLabel("out")
         vbox_l3.addWidget(self.out_text_qll)
+        self.out_text_qll.setWordWrap(True)
 
         self.audio_qgb = QtWidgets.QGroupBox("Audio")
         vbox_l2.addWidget(self.audio_qgb)
