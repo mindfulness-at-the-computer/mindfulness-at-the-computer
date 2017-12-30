@@ -12,9 +12,9 @@ class MoveDirectionEnum(enum.Enum):
     down = 2
 
 
-class MoveToTopOrBottomEnum(enum.Enum):
-    top = 1
-    bottom = 2
+class MinOrMaxEnum(enum.Enum):
+    min = "MIN"
+    max = "MAX"
 
 
 def db_exec(i_sql: str, i_params: tuple=None):
@@ -107,53 +107,10 @@ class PhrasesM:
         self._update(db.Schema.PhrasesTable.Cols.ob_short_phrase, i_new_ob_short)
 
     @staticmethod
-    def _get_highest_sort_value() -> int:
-
-        db_cursor_result = db_exec(
-            "SELECT MAX(" + mc.db.Schema.PhrasesTable.Cols.vertical_order + ")"
-            + " FROM " + mc.db.Schema.PhrasesTable.name
-        )
-        return_value_int = db_cursor_result.fetchone()[0]
-        # -0 has to be added here even though there can only be one value
-
-        """
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor_result = db_cursor.execute(
-            "SELECT MAX(" + mc.db.Schema.PhrasesTable.Cols.vertical_order + ")"
-            + " FROM " + mc.db.Schema.PhrasesTable.name
-        )
-        """
-
-        if return_value_int is None:
-            # -to prevent error when the tables are empty
-            return 0
-        return return_value_int
-
-    @staticmethod
-    def _get_lowest_sort_value() -> int:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor_result = db_cursor.execute(
-            "SELECT MIN(" + mc.db.Schema.PhrasesTable.Cols.vertical_order + ")"
-            + " FROM " + mc.db.Schema.PhrasesTable.name
-        )
-        return_value_int = db_cursor_result.fetchone()[0]
-        # -0 has to be added here even though there can only be one value
-
-        # To prevent error when the tables are empty
-        if return_value_int is None:
-            return 0
-        return return_value_int
-
-    @staticmethod
     def add(i_title: str, i_ib: str, i_ob: str, ib_short: str, ob_short: str) -> None:
         # vertical_order_last_pos_int = len(PhrasesM.get_all())
-        vertical_order_last_pos_int = PhrasesM._get_highest_sort_value() + 1
-        logging.debug("vertical_order_last_pos_int = " + str(vertical_order_last_pos_int))
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
+        vertical_order_last_pos_int = PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max) + 1
+        db_exec(
             "INSERT INTO " + db.Schema.PhrasesTable.name + "("
             + db.Schema.PhrasesTable.Cols.vertical_order + ", "
             + db.Schema.PhrasesTable.Cols.title + ", "
@@ -164,59 +121,45 @@ class PhrasesM:
             + ") VALUES (?, ?, ?, ?, ?, ?)",
             (vertical_order_last_pos_int, i_title, i_ib, i_ob, ib_short, ob_short)
         )
-        db_connection.commit()
 
     @staticmethod
     def get(i_id: int):
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor_result = db_cursor.execute(
+        db_cursor_result = db_exec(
             "SELECT * FROM " + db.Schema.PhrasesTable.name
             + " WHERE " + db.Schema.PhrasesTable.Cols.id + "=?",
             (str(i_id),)
         )
         reminder_db_te = db_cursor_result.fetchone()
-        db_connection.commit()
-
         return PhrasesM(*reminder_db_te)
         # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
 
     @staticmethod
     def get_all():
-        ret_reminder_list = []
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor_result = db_cursor.execute(
+        ret_phrase_list = []
+        db_cursor_result = db_exec(
             "SELECT * FROM " + db.Schema.PhrasesTable.name
             + " ORDER BY " + db.Schema.PhrasesTable.Cols.vertical_order
         )
         phrases_db_te_list = db_cursor_result.fetchall()
         for phrases_db_te in phrases_db_te_list:
-            ret_reminder_list.append(PhrasesM(*phrases_db_te))
-        db_connection.commit()
-        return ret_reminder_list
+            ret_phrase_list.append(PhrasesM(*phrases_db_te))
+        return ret_phrase_list
 
     @staticmethod
     def remove(i_id: int):
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
+        db_exec(
             "DELETE FROM " + db.Schema.PhrasesTable.name
             + " WHERE " + db.Schema.PhrasesTable.Cols.id + "=?",
             (str(i_id),)
         )
-        db_connection.commit()
 
     @staticmethod
     def is_empty():
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor_result = db_cursor.execute(
+        db_cursor_result = db_exec(
             "SELECT count(*) FROM "
             + db.Schema.PhrasesTable.name
         )
         empty_rows_te = db_cursor_result.fetchone()
-        db_connection.commit()
         logging.debug(*empty_rows_te)
         if empty_rows_te[0] == 0:
             return True
@@ -232,43 +175,36 @@ class PhrasesM:
         )
 
     @staticmethod
-    def update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
+    def _update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
         main_id_int = i_id
         main_sort_order_int = PhrasesM.get(i_id)._vert_order_int
-        logging.debug("main_sort_order_int = " + str(main_sort_order_int))
-        logging.debug("PhrasesM.get_highest_sort_value() = " + str(PhrasesM._get_highest_sort_value()))
         if i_move_direction == MoveDirectionEnum.up:
-            if (main_sort_order_int <= PhrasesM._get_lowest_sort_value()
-            or main_sort_order_int > PhrasesM._get_highest_sort_value()):
+            if (main_sort_order_int <= PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.min)
+            or main_sort_order_int > PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)):
                 return False
         elif i_move_direction == MoveDirectionEnum.down:
-            if (main_sort_order_int < PhrasesM._get_lowest_sort_value()
-            or main_sort_order_int >= PhrasesM._get_highest_sort_value()):
+            if (main_sort_order_int < PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.min)
+            or main_sort_order_int >= PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)):
                 return False
         other = PhrasesM._get_by_vert_order(main_sort_order_int, i_move_direction)
         other_id_int = other._id_int
         other_sort_order_int = other._vert_order_int
-
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
+        db_exec(
             "UPDATE " + db.Schema.PhrasesTable.name
             + " SET " + db.Schema.PhrasesTable.Cols.vertical_order + " = ?"
             + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
             (str(other_sort_order_int), str(main_id_int))
         )
-        db_cursor.execute(
+        db_exec(
             "UPDATE " + db.Schema.PhrasesTable.name
             + " SET " + db.Schema.PhrasesTable.Cols.vertical_order + " = ?"
             + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
             (str(main_sort_order_int), str(other_id_int))
         )
-        db_connection.commit()
         return True
 
     @staticmethod
     def _get_by_vert_order(i_sort_order: int, i_move_direction: MoveDirectionEnum):
-
         direction_as_lt_gt_str = ">"
         sort_direction_str = "DESC"
         if i_move_direction == MoveDirectionEnum.up:
@@ -278,17 +214,29 @@ class PhrasesM:
             direction_as_lt_gt_str = ">"
             sort_direction_str = "ASC"
 
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor_result = db_cursor.execute(
+        db_cursor_result = db_exec(
             "SELECT * FROM " + db.Schema.PhrasesTable.name
             + " WHERE " + db.Schema.PhrasesTable.Cols.vertical_order + direction_as_lt_gt_str + str(i_sort_order)
             + " ORDER BY " + db.Schema.PhrasesTable.Cols.vertical_order + " " + sort_direction_str
         )
-        journal_db_te = db_cursor_result.fetchone()
-        db_connection.commit()
+        phrase_db_te = db_cursor_result.fetchone()
 
-        return PhrasesM(*journal_db_te)
+        return PhrasesM(*phrase_db_te)
+
+    @staticmethod
+    def _get_highest_or_lowest_sort_value(i_min_or_max: MinOrMaxEnum) -> int:
+        db_cursor_result = db_exec(
+            "SELECT " + i_min_or_max.value
+            + " (" + mc.db.Schema.PhrasesTable.Cols.vertical_order + ")"
+            + " FROM " + mc.db.Schema.PhrasesTable.name
+        )
+        return_value_int = db_cursor_result.fetchone()[0]
+        # -0 has to be added here even though there can only be one value
+
+        if return_value_int is None:
+            # -to prevent error when the tables are empty
+            return 0
+        return return_value_int
 
 
 class RestActionsM:
@@ -301,11 +249,11 @@ class RestActionsM:
     ) -> None:
         self._id_int = i_id
         self._vert_order_int = i_vertical_order
-        self.title_str = i_title
+        self._title_str = i_title
         self._image_path_str = i_image_path
 
     @property
-    def id(self) -> str:
+    def id(self) -> int:
         return self._id_int
     # no setter
 
@@ -316,11 +264,11 @@ class RestActionsM:
 
     @property
     def title(self) -> str:
-        return self.title_str
+        return self._title_str
 
     @title.setter
     def title(self, i_new_title: str):
-        self.title_str = i_new_title
+        self._title_str = i_new_title
         self._update(db.Schema.RestActionsTable.Cols.title, i_new_title)
 
     @property
@@ -341,125 +289,79 @@ class RestActionsM:
         )
 
     @staticmethod
-    def get_highest_sort_value() -> int:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor_result = db_cursor.execute(
-            "SELECT MAX(" + mc.db.Schema.RestActionsTable.Cols.vertical_order + ")"
-            + " FROM " + mc.db.Schema.RestActionsTable.name
-        )
-        return_value_int = db_cursor_result.fetchone()[0]
-        # -0 has to be added here even though there can only be one value
-        return return_value_int
-
-    @staticmethod
-    def get_lowest_sort_value() -> int:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor_result = db_cursor.execute(
-            "SELECT MIN(" + mc.db.Schema.RestActionsTable.Cols.vertical_order + ")"
-            + " FROM " + mc.db.Schema.RestActionsTable.name
-        )
-        return_value_int = db_cursor_result.fetchone()[0]
-        # -0 has to be added here even though there can only be one value
-        return return_value_int
-
-    @staticmethod
     def add(i_title: str, i_image_path: str) -> None:
-        vertical_order_last_pos_int = len(RestActionsM.get_all())
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
+        vertical_order_last_pos_int = RestActionsM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)
+        db_exec(
             "INSERT INTO " + db.Schema.RestActionsTable.name + "("
             + db.Schema.RestActionsTable.Cols.vertical_order + ", "
             + db.Schema.RestActionsTable.Cols.title + ", "
             + db.Schema.RestActionsTable.Cols.image_path
-            + ") VALUES (?, ?, ?)", (vertical_order_last_pos_int, i_title, i_image_path)
+            + ") VALUES (?, ?, ?)",
+            (vertical_order_last_pos_int, i_title, i_image_path)
         )
-        db_connection.commit()
 
     @staticmethod
     def get(i_id: int):
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor_result = db_cursor.execute(
+        db_cursor_result = db_exec(
             "SELECT * FROM " + db.Schema.RestActionsTable.name
             + " WHERE " + db.Schema.RestActionsTable.Cols.id + "=?",
-            (str(i_id), )
+            (str(i_id),)
         )
         rest_action_db_te = db_cursor_result.fetchone()
-        db_connection.commit()
-
         return RestActionsM(*rest_action_db_te)
         # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
 
     @staticmethod
     def remove(i_id: int):
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
+        db_exec(
             "DELETE FROM " + db.Schema.RestActionsTable.name
             + " WHERE " + db.Schema.RestActionsTable.Cols.id + "=?",
-            (str(i_id), )
+            (str(i_id),)
         )
-        db_connection.commit()
 
     @staticmethod
     def get_all():
         ret_reminder_list = []
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor_result = db_cursor.execute(
+        db_cursor_result = db_exec(
             "SELECT * FROM " + db.Schema.RestActionsTable.name
             + " ORDER BY " + db.Schema.RestActionsTable.Cols.vertical_order
         )
         rest_actions_db_te_list = db_cursor_result.fetchall()
         for rest_action_db_te in rest_actions_db_te_list:
             ret_reminder_list.append(RestActionsM(*rest_action_db_te))
-        db_connection.commit()
         return ret_reminder_list
 
     @staticmethod
     def update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
         main_id_int = i_id
         main_sort_order_int = RestActionsM.get(i_id)._vert_order_int
-        logging.debug("main_sort_order_int = " + str(main_sort_order_int))
-        logging.debug("RestActionsM.get_highest_sort_value() = " + str(RestActionsM.get_highest_sort_value()))
-        logging.debug("RestActionsM.get_lowest_sort_value() = " + str(RestActionsM.get_lowest_sort_value()))
         if i_move_direction == MoveDirectionEnum.up:
-            if (main_sort_order_int == RestActionsM.get_lowest_sort_value()
-            or main_sort_order_int > RestActionsM.get_highest_sort_value()):
-                logging.debug("Exiting update_sort_order_move_up_down [up]")
+            if (main_sort_order_int <= RestActionsM._get_highest_or_lowest_sort_value(MinOrMaxEnum.min)
+            or main_sort_order_int > RestActionsM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)):
                 return False
         elif i_move_direction == MoveDirectionEnum.down:
-            if (main_sort_order_int < RestActionsM.get_lowest_sort_value()
-            or main_sort_order_int >= RestActionsM.get_highest_sort_value()):
-                logging.debug("Exiting update_sort_order_move_up_down [down]")
+            if (main_sort_order_int < RestActionsM._get_highest_or_lowest_sort_value(MinOrMaxEnum.min)
+            or main_sort_order_int >= RestActionsM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)):
                 return False
         other = RestActionsM.get_by_vert_order(main_sort_order_int, i_move_direction)
         other_id_int = other.id
         other_sort_order_int = other._vert_order_int
-
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
+        db_exec(
             "UPDATE " + db.Schema.RestActionsTable.name
             + " SET " + db.Schema.RestActionsTable.Cols.vertical_order + " = ?"
             + " WHERE " + db.Schema.RestActionsTable.Cols.id + " = ?",
             (str(other_sort_order_int), str(main_id_int))
         )
-        db_cursor.execute(
+        db_exec(
             "UPDATE " + db.Schema.RestActionsTable.name
             + " SET " + db.Schema.RestActionsTable.Cols.vertical_order + " = ?"
             + " WHERE " + db.Schema.RestActionsTable.Cols.id + " = ?",
             (str(main_sort_order_int), str(other_id_int))
         )
-        db_connection.commit()
         return True
 
     @staticmethod
     def get_by_vert_order(i_sort_order: int, i_move_direction: MoveDirectionEnum):
-
         direction_as_lt_gt_str = ">"
         sort_direction_str = "DESC"
         if i_move_direction == MoveDirectionEnum.up:
@@ -468,19 +370,29 @@ class RestActionsM:
         elif i_move_direction == MoveDirectionEnum.down:
             direction_as_lt_gt_str = ">"
             sort_direction_str = "ASC"
-
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor_result = db_cursor.execute(
+        db_cursor_result = db_exec(
             "SELECT * FROM " + db.Schema.RestActionsTable.name
             + " WHERE " + db.Schema.RestActionsTable.Cols.vertical_order
             + " " + direction_as_lt_gt_str + " " + str(i_sort_order)
             + " ORDER BY " + db.Schema.RestActionsTable.Cols.vertical_order + " " + sort_direction_str
         )
         journal_db_te = db_cursor_result.fetchone()
-        db_connection.commit()
-
         return RestActionsM(*journal_db_te)
+
+    @staticmethod
+    def _get_highest_or_lowest_sort_value(i_min_or_max: MinOrMaxEnum) -> int:
+        db_cursor_result = db_exec(
+            "SELECT " + i_min_or_max.value
+            + " (" + mc.db.Schema.RestActionsTable.Cols.vertical_order + ")"
+            + " FROM " + mc.db.Schema.RestActionsTable.name
+        )
+        return_value_int = db_cursor_result.fetchone()[0]
+        # -0 has to be added here even though there can only be one value
+
+        if return_value_int is None:
+            # -to prevent error when the tables are empty
+            return 0
+        return return_value_int
 
 
 class SettingsM:
@@ -511,6 +423,81 @@ class SettingsM:
         self.breathing_reminder_volume_int = i_breathing_reminder_volume
         self.breathing_reminder_notification_type_int = i_breathing_reminder_notification_type
         self.breathing_reminder_phrase_setup_int = i_breathing_reminder_phrase_setup
+
+    @property
+    def rest_reminder_active(self) -> bool:
+        return self.rest_reminder_active_bool
+
+    @rest_reminder_active.setter
+    def rest_reminder_active(self, i_new_is_active: bool):
+        new_is_active_as_int = db.SQLITE_TRUE_INT if i_new_is_active else db.SQLITE_FALSE_INT
+        self._update(
+            db.Schema.SettingsTable.Cols.rest_reminder_active,
+            new_is_active_as_int
+        )
+
+    @property
+    def rest_reminder_interval(self) -> int:
+        return self.rest_reminder_interval_int
+
+    @rest_reminder_interval.setter
+    def rest_reminder_interval(self, i_new_interval: int):
+        self.rest_reminder_interval = i_new_interval
+        self._update(
+            db.Schema.SettingsTable.Cols.rest_reminder_interval,
+            i_new_interval
+        )
+
+    @property
+    def rest_reminder_audio_path(self) -> str:
+        return self.rest_reminder_audio_path
+
+    @rest_reminder_audio_path.setter
+    def rest_reminder_audio_path(self, i_new_path: str):
+        self.rest_reminder_audio_path = i_new_path
+        self._update(
+            db.Schema.SettingsTable.Cols.rest_reminder_audio_path,
+            i_new_path
+        )
+
+    @property
+    def rest_reminder_volume(self) -> int:
+        return self.rest_reminder_volume_int
+
+    @rest_reminder_volume.setter
+    def rest_reminder_volume(self, i_new_volume: int):
+        self.rest_reminder_volume_int = i_new_volume
+        self._update(
+            db.Schema.SettingsTable.Cols.rest_reminder_volume,
+            i_new_volume
+        )
+
+    # rest_reminder_notification_type_int
+
+    @property
+    def rest_reminder_notification_type(self) -> mc.mc_global.NotificationType:
+        ret_notification_type = mc.mc_global.NotificationType(self.rest_reminder_notification_type_int)
+        return ret_notification_type
+
+    @rest_reminder_notification_type.setter
+    def rest_reminder_notification_type(
+        self,
+        i_new_notification_type: mc.mc_global.NotificationType
+    ):
+        self.rest_reminder_notification_type_int = i_new_notification_type.value
+        self._update(
+            db.Schema.SettingsTable.Cols.rest_reminder_notification_type,
+            i_new_notification_type.value
+        )
+
+    @staticmethod
+    def _update(i_col_name: str, i_new_value: typing.Any):
+        db_exec(
+            "UPDATE " + db.Schema.SettingsTable.name
+            + " SET " + i_col_name + " = ?"
+            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
+            (i_new_value, str(db.SINGLE_SETTINGS_ID_INT))
+        )
 
     @staticmethod
     def get():
@@ -549,15 +536,6 @@ class SettingsM:
         )
 
     @staticmethod
-    def _update(i_col_name: str, i_new_value: typing.Any):
-        db_exec(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + i_col_name + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (i_new_value, str(db.SINGLE_SETTINGS_ID_INT))
-        )
-
-    @staticmethod
     def update_rest_reminder_active(i_reminder_active: bool):
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
@@ -570,8 +548,7 @@ class SettingsM:
             (new_value_bool_as_int, db.SINGLE_SETTINGS_ID_INT)
         )
         db_connection.commit()
-
-        logging.debug("result=" + str(SettingsM.get().rest_reminder_active_bool))
+        logging.debug("result=" + str(SettingsM.get().rest_reminder_active))
 
     @staticmethod
     def update_rest_reminder_interval(i_reminder_interval: int):
@@ -771,11 +748,11 @@ def get_app_systray_icon_path() -> str:
     icon_file_name_str = "icon.png"
     settings = SettingsM.get()
     b_active = breathing_reminder_active()
-    if b_active and settings.rest_reminder_active_bool:
+    if b_active and settings.rest_reminder_active:
         icon_file_name_str = "icon-br.png"
     elif b_active:
         icon_file_name_str = "icon-b.png"
-    elif settings.rest_reminder_active_bool:
+    elif settings.rest_reminder_active:
         icon_file_name_str = "icon-r.png"
 
     ret_icon_path_str = os.path.join(mc.mc_global.get_base_dir(), mc.mc_global.ICONS_DIR_STR, icon_file_name_str)

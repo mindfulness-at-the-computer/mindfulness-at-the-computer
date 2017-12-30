@@ -150,7 +150,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.sys_tray.rest_enabled_qaction.toggled.connect(
             self.rest_settings_wt.on_switch_toggled
         )
-        self.sys_tray.rest_enabled_qaction.setChecked(settings.rest_reminder_active_bool)
+        self.sys_tray.rest_enabled_qaction.setChecked(settings.rest_reminder_active)
         self.sys_tray.rest_progress_qaction = QtWidgets.QAction("")
         self.tray_menu.addAction(self.sys_tray.rest_progress_qaction)
         self.sys_tray.rest_progress_qaction.setDisabled(True)
@@ -245,7 +245,7 @@ class MainWin(QtWidgets.QMainWindow):
 
     def update_rest_timer(self):
         settings = mc.model.SettingsM.get()
-        if settings.rest_reminder_active_bool:
+        if settings.rest_reminder_active:
             self.start_rest_timer()
         else:
             self.stop_rest_timer()
@@ -494,7 +494,7 @@ class MainWin(QtWidgets.QMainWindow):
 
         # Menu
         self.sys_tray.update_breathing_checked(settings.breathing_reminder_active_bool)
-        self.sys_tray.update_rest_checked(settings.rest_reminder_active_bool)
+        self.sys_tray.update_rest_checked(settings.rest_reminder_active)
         self.sys_tray.update_rest_progress_bar(
             mc.mc_global.rest_reminder_minutes_passed_int,
             mc.model.SettingsM.get().rest_reminder_interval_int

@@ -108,7 +108,6 @@ class RestSettingsWt(QtWidgets.QWidget):
         self.volume_qsr.setMaximum(100)
         self.volume_qsr.valueChanged.connect(self.volume_changed)
 
-
         vbox_l2.addStretch(1)
         
         # vbox_l2.addWidget(QtWidgets.QLabel("<i>All changes are automatically saved</i>"))
@@ -122,7 +121,8 @@ class RestSettingsWt(QtWidgets.QWidget):
     def volume_changed(self, i_value: int):
         if self.updating_gui_bool:
             return
-        mc.model.SettingsM.update_rest_reminder_volume(i_value)
+        # Prev: mc.model.SettingsM.update_rest_reminder_volume(i_value)
+        mc.model.SettingsM.get().rest_reminder_volume = i_value
 
     def on_select_audio_clicked(self):
         # noinspection PyCallByClass
@@ -134,7 +134,7 @@ class RestSettingsWt(QtWidgets.QWidget):
         )
         new_file_path_str = audio_file_result_tuple[0]
         if new_file_path_str:
-            mc.model.SettingsM.update_rest_reminder_audio_path(new_file_path_str)
+            mc.model.SettingsM.get().rest_reminder_audio_path = new_file_path_str
         else:
             pass
         self.update_gui_audio_details()
@@ -169,7 +169,8 @@ class RestSettingsWt(QtWidgets.QWidget):
     def on_switch_toggled(self, i_checked_bool):
         if self.updating_gui_bool:
             return
-        mc.model.SettingsM.update_rest_reminder_active(i_checked_bool)
+        mc.model.SettingsM.get().rest_reminder_active = i_checked_bool
+
         self.settings_updated_signal.emit()
 
     def on_rest_interval_value_changed(self, i_new_value: int):
@@ -193,7 +194,7 @@ class RestSettingsWt(QtWidgets.QWidget):
         settings = mc.model.SettingsM.get()
 
         # Rest reminder
-        rr_enabled = mc.model.SettingsM.get().rest_reminder_active_bool
+        rr_enabled = mc.model.SettingsM.get().rest_reminder_active
         self.rest_reminder_switch.update_gui(rr_enabled)
         interval_minutes_int = mc.model.SettingsM.get().rest_reminder_interval_int
         self.rest_reminder_interval_qsb.setValue(interval_minutes_int)
