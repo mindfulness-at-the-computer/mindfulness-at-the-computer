@@ -65,7 +65,7 @@ class RestDlg(QtWidgets.QDialog):
     def setup_rest_action_list(self):
         rest_action_list = model.RestActionsM.get_all()
         for rest_action in rest_action_list:
-            rest_action_title_qll = QtWidgets.QLabel(rest_action.title_str)
+            rest_action_title_qll = QtWidgets.QLabel(rest_action.title)
             rest_action_title_qll.setWordWrap(True)
             self.actions_list_vbox_l4.addWidget(rest_action_title_qll)
 

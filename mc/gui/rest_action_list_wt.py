@@ -143,7 +143,7 @@ class RestActionListWt(QtWidgets.QWidget):
 
         self.list_widget.clear()
         for rest_action in model.RestActionsM.get_all():
-            rest_action_title_cll = RestQLabel(rest_action.title_str, rest_action.id_int)
+            rest_action_title_cll = RestQLabel(rest_action.title, rest_action.id)
             list_item = QtWidgets.QListWidgetItem()
             self.list_widget.addItem(list_item)
             self.list_widget.setItemWidget(list_item, rest_action_title_cll)
@@ -182,7 +182,7 @@ class EditDialog(QtWidgets.QDialog):
         vbox.addWidget(title_qgb)
         title_vbox = QtWidgets.QVBoxLayout()
         title_qgb.setLayout(title_vbox)
-        self.rest_action_title_qle = QtWidgets.QLineEdit(active_rest_action.title_str)
+        self.rest_action_title_qle = QtWidgets.QLineEdit(active_rest_action.title)
         title_vbox.addWidget(self.rest_action_title_qle)
 
         # Image
@@ -234,6 +234,10 @@ class EditDialog(QtWidgets.QDialog):
         dialog_result = dialog.exec_()
 
         if dialog_result == QtWidgets.QDialog.Accepted:
+            rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
+            rest_action.title = dialog.rest_action_title_qle.text()
+            rest_action.image_path = dialog.temporary_image_file_path_str
+            """
             model.RestActionsM.update_title(
                 mc_global.active_rest_action_id_it,
                 dialog.rest_action_title_qle.text()
@@ -242,6 +246,7 @@ class EditDialog(QtWidgets.QDialog):
                 mc_global.active_rest_action_id_it,
                 dialog.temporary_image_file_path_str
             )
+            """
         else:
             pass
 

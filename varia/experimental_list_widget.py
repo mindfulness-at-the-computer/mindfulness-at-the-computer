@@ -146,7 +146,7 @@ class RestActionsComposite(QtWidgets.QWidget):
 
         self.list_widget.clear()
         for rest_action in model.RestActionsM.get_all():
-            rest_action_title_cll = CustomQLabel(rest_action.title_str, rest_action.id_int)
+            rest_action_title_cll = CustomQLabel(rest_action.title, rest_action.id)
             list_item = QtWidgets.QListWidgetItem()
             self.list_widget.addItem(list_item)
             self.list_widget.setItemWidget(list_item, rest_action_title_cll)

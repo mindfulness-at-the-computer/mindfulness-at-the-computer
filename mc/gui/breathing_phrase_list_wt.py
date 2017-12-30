@@ -205,7 +205,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         self.list_widget.clear()
         for l_phrase in mc.model.PhrasesM.get_all():
             # self.list_widget.addItem(l_collection.title_str)
-            custom_label = CustomQLabel(l_phrase.title_str, l_phrase.id_int)
+            custom_label = CustomQLabel(l_phrase.title, l_phrase.id)
             list_item = QtWidgets.QListWidgetItem()
             self.list_widget.addItem(list_item)
             self.list_widget.setItemWidget(list_item, custom_label)
@@ -247,11 +247,11 @@ class EditDialog(QtWidgets.QDialog):
 
         vbox = QtWidgets.QVBoxLayout(self)
 
-        self.breath_title_qle = QtWidgets.QLineEdit(active_phrase.title_str)
+        self.breath_title_qle = QtWidgets.QLineEdit(active_phrase.title)
         vbox.addWidget(QtWidgets.QLabel("Title"))
         vbox.addWidget(self.breath_title_qle)
 
-        self.in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_str)
+        self.in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib)
         vbox.addWidget(QtWidgets.QLabel("In breath phrase"))
         vbox.addWidget(self.in_breath_phrase_qle)
         self.out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_str)
@@ -284,13 +284,16 @@ class EditDialog(QtWidgets.QDialog):
             assert mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
 
             phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-            phrase.title_str = dialog.breath_title_qle.text()
+            phrase.title = dialog.breath_title_qle.text()
+            phrase.ib = dialog.in_breath_phrase_qle.text()
+            phrase.ob = dialog.out_breath_phrase_qle.text()
+            phrase.ib_short = dialog.short_in_breath_phrase_qle.text()
+            phrase.ob_short = dialog.short_out_breath_phrase_qle.text()
 
             """
             mc.model.PhrasesM.update_title(
                 mc.mc_global.active_phrase_id_it, dialog.breath_title_qle.text()
             )
-            """
             mc.model.PhrasesM.update_in_breath(
                 mc.mc_global.active_phrase_id_it, dialog.in_breath_phrase_qle.text()
             )
@@ -303,6 +306,7 @@ class EditDialog(QtWidgets.QDialog):
             mc.model.PhrasesM.update_short_ob_phrase(
                 mc.mc_global.active_phrase_id_it, dialog.short_out_breath_phrase_qle.text()
             )
+            """
         else:
             pass
 

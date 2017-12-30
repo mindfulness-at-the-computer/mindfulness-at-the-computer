@@ -468,9 +468,9 @@ class MainWin(QtWidgets.QMainWindow):
         # self.rest_widget.update_gui()
 
         breathing_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-        self.title_text_qll.setText(breathing_phrase.title_str)
-        self.in_text_qll.setText(breathing_phrase.ib_str)
-        self.out_text_qll.setText(breathing_phrase.ob_str)
+        self.title_text_qll.setText(breathing_phrase.title)
+        self.in_text_qll.setText(breathing_phrase.ib)
+        self.out_text_qll.setText(breathing_phrase.ob)
 
         if i_event_source != mc.mc_global.EventSource.rest_slider_value_changed:
             self.rest_settings_wt.update_gui()

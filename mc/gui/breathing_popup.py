@@ -51,7 +51,7 @@ class BreathingDlg(QtWidgets.QFrame):
         self.phrases_qcb = QtWidgets.QComboBox()
         buttons_hbox_l3.addWidget(self.phrases_qcb)
         for phrase in mc.model.PhrasesM.get_all():
-            self.phrases_qcb.addItem(phrase.title_str, phrase.id_int)
+            self.phrases_qcb.addItem(phrase.title, phrase.id)
         self.phrases_qcb.activated.connect(self.on_phrases_combo_activated)
 
         self.close_qpb = CustomPushButton("Close")
@@ -111,7 +111,7 @@ class BreathingDlg(QtWidgets.QFrame):
     def start_breathing_in(self):
         phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
         settings = mc.model.SettingsM.get()
-        self.breath_phrase_id_list.append(phrase.id_int)
+        self.breath_phrase_id_list.append(phrase.id)
         self.ob_qtimeline.stop()
 
         now = time.time()
@@ -134,7 +134,7 @@ class BreathingDlg(QtWidgets.QFrame):
         if self.shortened_phrase_qcb.isChecked():
             breathing_str = phrase.ib_short_str
         else:
-            breathing_str = phrase.ib_str
+            breathing_str = phrase.ib
         self.breathing_graphicsview_l3.text_gi.setHtml(mc.mc_global.get_html(breathing_str))
 
         self.ib_qtimeline.start()
@@ -150,7 +150,7 @@ class BreathingDlg(QtWidgets.QFrame):
         if self.shortened_phrase_qcb.isChecked():
             breathing_str = phrase.ob_short_str
         else:
-            breathing_str = phrase.ob_str
+            breathing_str = phrase.ob
         self.breathing_graphicsview_l3.text_gi.setHtml(mc.mc_global.get_html(breathing_str))
 
         self.ob_qtimeline.start()
@@ -284,7 +284,7 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self.graphics_scene.addItem(self.text_gi)
         self.text_gi.setAcceptHoverEvents(False)
         # -so that the underlying item will not be disturbed
-        ib_str = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it).ib_str
+        ib_str = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it).ib
         # self.text_gi.setPlainText(ib_str)
         self.text_gi.setHtml(mc.mc_global.get_html(ib_str))
         self.text_gi.setTextWidth(200)
