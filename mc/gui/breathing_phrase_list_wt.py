@@ -165,7 +165,6 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         EditDialog.launch_edit_dialog()
         self.phrase_changed_signal.emit(True)
 
-
     def on_selection_changed(self):
         if self.updating_gui_bool:
             return
@@ -254,15 +253,15 @@ class EditDialog(QtWidgets.QDialog):
         self.in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib)
         vbox.addWidget(QtWidgets.QLabel("In breath phrase"))
         vbox.addWidget(self.in_breath_phrase_qle)
-        self.out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_str)
+        self.out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob)
         vbox.addWidget(QtWidgets.QLabel("Out breath phrase"))
         vbox.addWidget(self.out_breath_phrase_qle)
 
         vbox.addWidget(QtWidgets.QLabel("Short in breath phrase"))
-        self.short_in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_short_str)
+        self.short_in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_short)
         vbox.addWidget(self.short_in_breath_phrase_qle)
         vbox.addWidget(QtWidgets.QLabel("Short out breath phrase"))
-        self.short_out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_short_str)
+        self.short_out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_short)
         vbox.addWidget(self.short_out_breath_phrase_qle)
 
         self.button_box = QtWidgets.QDialogButtonBox(
