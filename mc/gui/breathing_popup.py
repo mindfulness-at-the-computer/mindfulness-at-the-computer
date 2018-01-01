@@ -132,7 +132,7 @@ class BreathingDlg(QtWidgets.QFrame):
             pass
 
         if self.shortened_phrase_qcb.isChecked():
-            breathing_str = phrase.ib_short_str
+            breathing_str = phrase.ib_short
         else:
             breathing_str = phrase.ib
         self.breathing_graphicsview_l3.text_gi.setHtml(mc.mc_global.get_html(breathing_str))
@@ -148,7 +148,7 @@ class BreathingDlg(QtWidgets.QFrame):
         self.start_time_ft = now
 
         if self.shortened_phrase_qcb.isChecked():
-            breathing_str = phrase.ob_short_str
+            breathing_str = phrase.ob_short
         else:
             breathing_str = phrase.ob
         self.breathing_graphicsview_l3.text_gi.setHtml(mc.mc_global.get_html(breathing_str))
