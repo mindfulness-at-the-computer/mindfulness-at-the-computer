@@ -42,6 +42,8 @@ class BreathingDlg(QtWidgets.QFrame):
 
         self.breathing_graphicsview_l3 = GraphicsView()
         vbox_l2.addWidget(self.breathing_graphicsview_l3)
+        self.breathing_graphicsview_l3.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.breathing_graphicsview_l3.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.breathing_graphicsview_l3.ib_signal.connect(self.start_breathing_in)
         self.breathing_graphicsview_l3.ob_signal.connect(self.start_breathing_out)
 
