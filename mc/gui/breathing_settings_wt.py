@@ -29,32 +29,6 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         hbox_l3.addWidget(self.toggle_switch)
         self.toggle_switch.toggled_signal.connect(self.on_switch_toggled)
 
-        hbox_l3 = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(hbox_l3)
-        self.breathing_reminder_interval_qll = QtWidgets.QLabel("Interval:")
-        hbox_l3.addWidget(self.breathing_reminder_interval_qll)
-        self.breathing_reminder_interval_qsb = QtWidgets.QSpinBox()
-        hbox_l3.addWidget(self.breathing_reminder_interval_qsb)
-        self.breathing_reminder_interval_qsb.valueChanged.connect(
-            self.on_breathing_interval_value_changed
-        )
-        hbox_l3.addWidget(QtWidgets.QLabel("minutes"))
-        hbox_l3.addStretch(1)
-
-
-        hbox_l3 = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(hbox_l3)
-        hbox_l3.addWidget(QtWidgets.QLabel("Notifications per dialog:"))
-        self.notifications_per_dialog_qsb = QtWidgets.QSpinBox()
-        hbox_l3.addWidget(self.notifications_per_dialog_qsb)
-        self.notifications_per_dialog_qsb.valueChanged.connect(self.on_notifications_per_dialog_qsb_changed)
-        hbox_l3.addStretch(1)
-
-
-        self.test_breathing_dialog_qpb = QtWidgets.QPushButton("Open breathing dialog")
-        vbox_l2.addWidget(self.test_breathing_dialog_qpb)
-        self.test_breathing_dialog_qpb.clicked.connect(self.on_test_breathing_dialog_button_clicked)
-
 
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
@@ -70,12 +44,36 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         self.notification_type_qcb.activated.connect(self.on_notification_type_activated)
 
 
-        hbox_l3 = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(hbox_l3)
-        hbox_l3.addWidget(QtWidgets.QLabel("Phrase setup: "))
-        hbox_l3.addStretch(1)
+        # Notifications
+        self.notifications_qgb = QtWidgets.QGroupBox("Notifications")
+        vbox_l2.addWidget(self.notifications_qgb)
+        vbox_l3 = QtWidgets.QVBoxLayout()
+        self.notifications_qgb.setLayout(vbox_l3)
+
+        hbox_l4 = QtWidgets.QHBoxLayout()
+        vbox_l3.addLayout(hbox_l4)
+        self.breathing_reminder_interval_qll = QtWidgets.QLabel("Interval:")
+        hbox_l4.addWidget(self.breathing_reminder_interval_qll)
+        self.breathing_reminder_interval_qsb = QtWidgets.QSpinBox()
+        hbox_l4.addWidget(self.breathing_reminder_interval_qsb)
+        self.breathing_reminder_interval_qsb.valueChanged.connect(
+            self.on_breathing_interval_value_changed
+        )
+        hbox_l4.addWidget(QtWidgets.QLabel("minutes"))
+        hbox_l4.addStretch(1)
+
+        # Dialog
+        self.dialog_qgb = QtWidgets.QGroupBox("Dialog")
+        vbox_l2.addWidget(self.dialog_qgb)
+        vbox_l3 = QtWidgets.QVBoxLayout()
+        self.dialog_qgb.setLayout(vbox_l3)
+
+        hbox_l4 = QtWidgets.QHBoxLayout()
+        vbox_l3.addLayout(hbox_l4)
+        hbox_l4.addWidget(QtWidgets.QLabel("Phrase setup: "))
+        hbox_l4.addStretch(1)
         self.phrase_setup_qcb = QtWidgets.QComboBox()
-        hbox_l3.addWidget(self.phrase_setup_qcb)
+        hbox_l4.addWidget(self.phrase_setup_qcb)
         self.phrase_setup_qcb.activated.connect(self.on_phrase_setup_activated)
         self.phrase_setup_qcb.addItems([
             mc.mc_global.PhraseSetup.Long.name,
@@ -83,6 +81,20 @@ class BreathingSettingsWt(QtWidgets.QWidget):
             mc.mc_global.PhraseSetup.Short.name
         ])
 
+        hbox_l4 = QtWidgets.QHBoxLayout()
+        vbox_l3.addLayout(hbox_l4)
+        hbox_l4.addWidget(QtWidgets.QLabel("Show after"))
+        self.notifications_per_dialog_qsb = QtWidgets.QSpinBox()
+        hbox_l4.addWidget(self.notifications_per_dialog_qsb)
+        self.notifications_per_dialog_qsb.valueChanged.connect(self.on_notifications_per_dialog_qsb_changed)
+        hbox_l4.addWidget(QtWidgets.QLabel("notifications"))
+        hbox_l4.addStretch(1)
+
+        self.test_breathing_dialog_qpb = QtWidgets.QPushButton("Open breathing dialog")
+        vbox_l3.addWidget(self.test_breathing_dialog_qpb)
+        self.test_breathing_dialog_qpb.clicked.connect(self.on_test_breathing_dialog_button_clicked)
+
+        # Audio
         self.audio_qgb = QtWidgets.QGroupBox("Audio")
         vbox_l2.addWidget(self.audio_qgb)
         vbox_l3 = QtWidgets.QVBoxLayout()
