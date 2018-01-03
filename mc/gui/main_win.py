@@ -467,21 +467,24 @@ class MainWin(QtWidgets.QMainWindow):
         # self.breathing_widget.update_gui()
         # self.rest_widget.update_gui()
 
-        breathing_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-        self.title_text_qll.setText(breathing_phrase.title)
-        self.in_text_qll.setText(breathing_phrase.ib)
-        self.out_text_qll.setText(breathing_phrase.ob)
+        if mc.mc_global.active_phrase_id_it == mc.mc_global.NO_PHRASE_SELECTED_INT:
+            pass
+        else:
+            breathing_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+            self.title_text_qll.setText(breathing_phrase.title)
+            self.in_text_qll.setText(breathing_phrase.ib)
+            self.out_text_qll.setText(breathing_phrase.ob)
 
-        if i_event_source != mc.mc_global.EventSource.rest_slider_value_changed:
-            self.rest_settings_wt.update_gui()
-        self.br_settings_wt.update_gui()
+            if i_event_source != mc.mc_global.EventSource.rest_slider_value_changed:
+                self.rest_settings_wt.update_gui()
+            self.br_settings_wt.update_gui()
 
-        if (i_event_source != mc.mc_global.EventSource.breathing_list_selection_changed
-        and i_event_source != mc.mc_global.EventSource.rest_list_selection_changed):
-            self.br_phrase_list_wt.update_gui()
-            self.rest_action_list_wt.update_gui()
+            if (i_event_source != mc.mc_global.EventSource.breathing_list_selection_changed
+            and i_event_source != mc.mc_global.EventSource.rest_list_selection_changed):
+                self.br_phrase_list_wt.update_gui()
+                self.rest_action_list_wt.update_gui()
 
-        self.update_systray()
+            self.update_systray()
 
     def update_systray(self):
         if self.tray_icon is None:
