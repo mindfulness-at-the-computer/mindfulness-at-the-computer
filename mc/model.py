@@ -641,7 +641,7 @@ def export_all():
     csv_writer.writerow(("",))
     csv_writer.writerow(("===== Breathing Phrases =====",))
     for phrase in PhrasesM.get_all():
-        csv_writer.writerow((phrase.title, phrase.ib, phrase.ob_str, phrase.ib_short_str, phrase.ob_short_str))
+        csv_writer.writerow((phrase.title, phrase.ib, phrase.ob, phrase.ib_short, phrase.ob_short))
     csv_writer.writerow(("",))
     csv_writer.writerow(("===== Rest Actions =====",))
     for rest_action in RestActionsM.get_all():
