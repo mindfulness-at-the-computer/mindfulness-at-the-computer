@@ -31,14 +31,14 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         vbox.addLayout(hbox)
         self.add_to_list_qle = QtWidgets.QLineEdit()
         hbox.addWidget(self.add_to_list_qle)
-        self.add_to_list_qle.setPlaceholderText("New item")
+        self.add_to_list_qle.setPlaceholderText(self.tr("New item"))
         QtWidgets.QShortcut(
             QtGui.QKeySequence(QtCore.Qt.Key_Return),
             self.add_to_list_qle,
             member=self.add_new_phrase_button_clicked,
             context=QtCore.Qt.WidgetShortcut
         )
-        self.add_new_phrase_qpb = QtWidgets.QPushButton("Add")
+        self.add_new_phrase_qpb = QtWidgets.QPushButton(self.tr("Add"))
         self.add_new_phrase_qpb.clicked.connect(self.add_new_phrase_button_clicked)
         hbox.addWidget(self.add_new_phrase_qpb)
 
@@ -131,7 +131,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             return
 
         conf_result_bool = mc.gui.safe_delete_dlg.SafeDeleteDlg.get_safe_confirmation_dialog(
-            "Are you sure that you want to remove this entry?",
+            self.tr("Are you sure that you want to remove this entry?"),
         )
 
         if conf_result_bool:
@@ -246,22 +246,22 @@ class EditDialog(QtWidgets.QDialog):
 
         vbox = QtWidgets.QVBoxLayout(self)
 
-        self.breath_title_qle = QtWidgets.QLineEdit(active_phrase.title)
-        vbox.addWidget(QtWidgets.QLabel("Title"))
+        self.breath_title_qle = QtWidgets.QLineEdit(active_phrase.title_str)
+        vbox.addWidget(QtWidgets.QLabel(self.tr("Title")))
         vbox.addWidget(self.breath_title_qle)
 
-        self.in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib)
-        vbox.addWidget(QtWidgets.QLabel("In breath phrase"))
+        self.in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_str)
+        vbox.addWidget(QtWidgets.QLabel(self.tr("In breath phrase")))
         vbox.addWidget(self.in_breath_phrase_qle)
-        self.out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob)
-        vbox.addWidget(QtWidgets.QLabel("Out breath phrase"))
+        self.out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_str)
+        vbox.addWidget(QtWidgets.QLabel(self.tr("Out breath phrase")))
         vbox.addWidget(self.out_breath_phrase_qle)
 
-        vbox.addWidget(QtWidgets.QLabel("Short in breath phrase"))
-        self.short_in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_short)
+        vbox.addWidget(QtWidgets.QLabel(self.tr("Short in breath phrase")))
+        self.short_in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_short_str)
         vbox.addWidget(self.short_in_breath_phrase_qle)
-        vbox.addWidget(QtWidgets.QLabel("Short out breath phrase"))
-        self.short_out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_short)
+        vbox.addWidget(QtWidgets.QLabel(self.tr("Short out breath phrase")))
+        self.short_out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_short_str)
         vbox.addWidget(self.short_out_breath_phrase_qle)
 
         self.button_box = QtWidgets.QDialogButtonBox(

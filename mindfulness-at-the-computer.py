@@ -40,6 +40,13 @@ if __name__ == "__main__":
     logging.info("=====")
 
     matc_qapplication = QtWidgets.QApplication(sys.argv)
+
+    translator = QtCore.QTranslator()
+    # Warning While removing debug keep the loading call intact
+    logging.info('System Localization: ' + QtCore.QLocale.system().name())
+    logging.info('Localization Load Status: ' + str(translator.load(QtCore.QLocale.system().name() + '.qm', 'translate'))) # name, dir
+    matc_qapplication.installTranslator(translator)
+
     matc_qapplication.setQuitOnLastWindowClosed(False)
     matc_main_window = mc.gui.main_win.MainWin()
     matc_main_window.show()

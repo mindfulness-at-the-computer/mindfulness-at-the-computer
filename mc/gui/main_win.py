@@ -59,17 +59,17 @@ class MainWin(QtWidgets.QMainWindow):
 
         vbox_l4 = QtWidgets.QVBoxLayout()
         hbox_l3.addLayout(vbox_l4)
-        self.active_breathing_phrase_qgb = QtWidgets.QGroupBox("Active Breathing Phrase")
+        self.active_breathing_phrase_qgb = QtWidgets.QGroupBox(self.tr("Active Breathing Phrase"))
         vbox_l4.addWidget(self.active_breathing_phrase_qgb)
         vbox_l5 = QtWidgets.QVBoxLayout()
         self.active_breathing_phrase_qgb.setLayout(vbox_l5)
-        self.title_text_qll = QtWidgets.QLabel("title")
+        self.title_text_qll = QtWidgets.QLabel(self.tr("title"))
         vbox_l5.addWidget(self.title_text_qll)
         self.title_text_qll.setWordWrap(True)
-        self.in_text_qll = QtWidgets.QLabel("in")
+        self.in_text_qll = QtWidgets.QLabel(self.tr("in"))
         vbox_l5.addWidget(self.in_text_qll)
         self.in_text_qll.setWordWrap(True)
-        self.out_text_qll = QtWidgets.QLabel("out")
+        self.out_text_qll = QtWidgets.QLabel(self.tr("out"))
         vbox_l5.addWidget(self.out_text_qll)
         self.out_text_qll.setWordWrap(True)
         self.breathing_history_wt = mc.gui.breathing_history_wt.BreathingHistoryWt()
@@ -145,7 +145,7 @@ class MainWin(QtWidgets.QMainWindow):
 
         self.tray_menu = QtWidgets.QMenu(self)
 
-        self.sys_tray.rest_enabled_qaction = QtWidgets.QAction("Enable Rest Reminder")
+        self.sys_tray.rest_enabled_qaction = QtWidgets.QAction(self.tr("Enable Rest Reminder"))
         self.tray_menu.addAction(self.sys_tray.rest_enabled_qaction)
         self.sys_tray.rest_enabled_qaction.setCheckable(True)
         self.sys_tray.rest_enabled_qaction.toggled.connect(
@@ -156,13 +156,13 @@ class MainWin(QtWidgets.QMainWindow):
         self.tray_menu.addAction(self.sys_tray.rest_progress_qaction)
         self.sys_tray.rest_progress_qaction.setDisabled(True)
         self.sys_tray.update_rest_progress_bar(0, 1)
-        self.tray_rest_now_qaction = QtWidgets.QAction("Take a Break Now")
+        self.tray_rest_now_qaction = QtWidgets.QAction(self.tr("Take a Break Now"))
         self.tray_menu.addAction(self.tray_rest_now_qaction)
         self.tray_rest_now_qaction.triggered.connect(self.on_rest_rest)
 
         self.tray_menu.addSeparator()
 
-        self.sys_tray.breathing_enabled_qaction = QtWidgets.QAction("Enable Breathing Reminder")
+        self.sys_tray.breathing_enabled_qaction = QtWidgets.QAction(self.tr("Enable Breathing Reminder"))
         self.tray_menu.addAction(self.sys_tray.breathing_enabled_qaction)
         self.sys_tray.breathing_enabled_qaction.setCheckable(True)
         self.sys_tray.breathing_enabled_qaction.setChecked(settings.breathing_reminder_active_bool)
@@ -170,7 +170,7 @@ class MainWin(QtWidgets.QMainWindow):
             self.br_settings_wt.on_switch_toggled
         )
 
-        self.tray_open_breathing_dialog_qaction = QtWidgets.QAction("Open Breathing Dialog")
+        self.tray_open_breathing_dialog_qaction = QtWidgets.QAction(self.tr("Open Breathing Dialog"))
         self.tray_menu.addAction(self.tray_open_breathing_dialog_qaction)
         self.tray_open_breathing_dialog_qaction.triggered.connect(self.breathing_timer_timeout)
 
@@ -199,10 +199,10 @@ class MainWin(QtWidgets.QMainWindow):
 
         self.tray_menu.addSeparator()
 
-        self.tray_restore_action = QtWidgets.QAction("Open Settings")
+        self.tray_restore_action = QtWidgets.QAction(self.tr("Open Settings"))
         self.tray_menu.addAction(self.tray_restore_action)
         self.tray_restore_action.triggered.connect(self.restore_window)
-        self.tray_quit_action = QtWidgets.QAction("Quit")
+        self.tray_quit_action = QtWidgets.QAction(self.tr("Quit"))
         self.tray_menu.addAction(self.tray_quit_action)
         self.tray_quit_action.triggered.connect(self.exit_application)
 
@@ -347,14 +347,14 @@ class MainWin(QtWidgets.QMainWindow):
     def update_menu(self):
         self.menu_bar.clear()
 
-        file_menu = self.menu_bar.addMenu("&File")
-        export_action = QtWidgets.QAction("Export data", self)
+        file_menu = self.menu_bar.addMenu(self.tr("&File"))
+        export_action = QtWidgets.QAction(self.tr("Export data"), self)
         file_menu.addAction(export_action)
         export_action.triggered.connect(mc.model.export_all)
-        minimize_to_tray_action = QtWidgets.QAction("Minimize to tray", self)
+        minimize_to_tray_action = QtWidgets.QAction(self.tr("Minimize to tray"), self)
         file_menu.addAction(minimize_to_tray_action)
         minimize_to_tray_action.triggered.connect(self.minimize_to_tray)
-        quit_action = QtWidgets.QAction("Quit", self)
+        quit_action = QtWidgets.QAction(self.tr("Quit"), self)
         file_menu.addAction(quit_action)
         quit_action.triggered.connect(self.exit_application)
 
@@ -362,18 +362,18 @@ class MainWin(QtWidgets.QMainWindow):
         update_gui_action = QtWidgets.QAction("Update GUI", self)
         debug_menu.addAction(update_gui_action)
         update_gui_action.triggered.connect(self.update_gui)
-        breathing_full_screen_action = QtWidgets.QAction("Full screen", self)
+        breathing_full_screen_action = QtWidgets.QAction(self.tr("Full screen"), self)
         debug_menu.addAction(breathing_full_screen_action)
         breathing_full_screen_action.triggered.connect(self.showFullScreen)
-        show_rest_reminder_action = QtWidgets.QAction("Show rest reminder", self)
+        show_rest_reminder_action = QtWidgets.QAction(self.tr("Show rest reminder"), self)
         debug_menu.addAction(show_rest_reminder_action)
         show_rest_reminder_action.triggered.connect(self.start_rest_reminder)
         show_breathing_notification_action = QtWidgets.QAction("Show breathing notification", self)
         debug_menu.addAction(show_breathing_notification_action)
         show_breathing_notification_action.triggered.connect(self.breathing_timer_timeout)
 
-        help_menu = self.menu_bar.addMenu("&Help")
-        about_action = QtWidgets.QAction("About", self)
+        help_menu = self.menu_bar.addMenu(self.tr("&Help"))
+        about_action = QtWidgets.QAction(self.tr("About"), self)
         help_menu.addAction(about_action)
         about_action.triggered.connect(self.show_about_box)
         online_help_action = QtWidgets.QAction("Online help", self)

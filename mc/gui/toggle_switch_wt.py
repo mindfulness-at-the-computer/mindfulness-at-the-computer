@@ -19,19 +19,19 @@ class ToggleSwitchWt(QtWidgets.QWidget):
         hbox = QtWidgets.QHBoxLayout()
         vbox.addLayout(hbox)
 
-        self.on_qpb = QtWidgets.QPushButton("On")
+        self.on_qpb = QtWidgets.QPushButton(self.tr("On"))
         hbox.addWidget(self.on_qpb)
         self.on_qpb.setFixedWidth(40)
         self.on_qpb.setCheckable(True)
         self.on_qpb.toggled.connect(self.on_on_toggled)
 
-        self.off_qpb = QtWidgets.QPushButton("Off")
+        self.off_qpb = QtWidgets.QPushButton(self.tr("Off"))
         hbox.addWidget(self.off_qpb)
         self.off_qpb.setFixedWidth(40)
         self.off_qpb.setCheckable(True)
         self.off_qpb.toggled.connect(self.on_off_toggled)
 
-        self.state_qll = QtWidgets.QLabel("Enabled")
+        self.state_qll = QtWidgets.QLabel(self.tr("Enabled"))
         hbox.addWidget(self.state_qll)
         self.state_qll.setFont(mc.mc_global.get_font_medium(i_bold=True))
 
@@ -58,12 +58,12 @@ class ToggleSwitchWt(QtWidgets.QWidget):
         if i_enabled:
             self.on_qpb.setChecked(True)
             self.off_qpb.setChecked(False)
-            self.state_qll.setText("Enabled")
+            self.state_qll.setText(self.tr("Enabled"))
             self.state_qll.setFont(mc.mc_global.get_font_medium(i_bold=True))
         else:
             self.on_qpb.setChecked(False)
             self.off_qpb.setChecked(True)
-            self.state_qll.setText("Disabled")
+            self.state_qll.setText(self.tr("Disabled"))
             self.state_qll.setFont(mc.mc_global.get_font_medium(i_bold=False))
 
         self.updating_gui_bool = False

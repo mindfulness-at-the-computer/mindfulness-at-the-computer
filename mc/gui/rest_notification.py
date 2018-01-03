@@ -30,24 +30,24 @@ class RestReminderDlg(QtWidgets.QFrame):
         vbox_l2 = QtWidgets.QVBoxLayout()
         self.setLayout(vbox_l2)
 
-        self.reminder_qll = QtWidgets.QLabel("Please take good care of your body and mind")
+        self.reminder_qll = QtWidgets.QLabel(self.tr("Please take good care of your body and mind"))
         vbox_l2.addWidget(self.reminder_qll)
 
         hbox = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox)
 
-        self.rest_qpb = CustomButton("Rest")
+        self.rest_qpb = CustomButton(self.tr("Rest"))
         hbox.addWidget(self.rest_qpb)
         self.rest_qpb.clicked.connect(self.on_rest_button_clicked)
         self.rest_qpb.setFont(mc.mc_global.get_font_medium(i_bold=True))
         # self.rest_qpb.clicked.connect(self.on_close_button_clicked)
         # self.rest_qpb.entered_signal.connect(self.on_close_button_hover)
 
-        self.wait_qpb = CustomButton("Wait")
+        self.wait_qpb = CustomButton(self.tr("Wait"))
         hbox.addWidget(self.wait_qpb)
         self.wait_qpb.clicked.connect(self.on_wait_button_clicked)
 
-        self.skip_qpb = CustomButton("Skip")
+        self.skip_qpb = CustomButton(self.tr("Skip"))
         hbox.addWidget(self.skip_qpb)
         self.skip_qpb.clicked.connect(self.on_skip_button_clicked)
 

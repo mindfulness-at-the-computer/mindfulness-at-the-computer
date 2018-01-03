@@ -30,14 +30,14 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         self.toggle_switch.toggled_signal.connect(self.on_switch_toggled)
 
         # Notifications
-        self.notifications_qgb = QtWidgets.QGroupBox("Notifications")
+        self.notifications_qgb = QtWidgets.QGroupBox(self.tr("Notifications"))
         vbox_l2.addWidget(self.notifications_qgb)
         vbox_l3 = QtWidgets.QVBoxLayout()
         self.notifications_qgb.setLayout(vbox_l3)
 
         hbox_l4 = QtWidgets.QHBoxLayout()
         vbox_l3.addLayout(hbox_l4)
-        hbox_l4.addWidget(QtWidgets.QLabel("Notification type: "))
+        hbox_l4.addWidget(QtWidgets.QLabel(self.tr("Notification type: ")))
         hbox_l4.addStretch(1)
         self.notification_type_qcb = QtWidgets.QComboBox()
         hbox_l4.addWidget(self.notification_type_qcb)
@@ -50,25 +50,25 @@ class BreathingSettingsWt(QtWidgets.QWidget):
 
         hbox_l4 = QtWidgets.QHBoxLayout()
         vbox_l3.addLayout(hbox_l4)
-        self.breathing_reminder_interval_qll = QtWidgets.QLabel("Interval:")
+        self.breathing_reminder_interval_qll = QtWidgets.QLabel(self.tr("Interval:"))
         hbox_l4.addWidget(self.breathing_reminder_interval_qll)
         self.breathing_reminder_interval_qsb = QtWidgets.QSpinBox()
         hbox_l4.addWidget(self.breathing_reminder_interval_qsb)
         self.breathing_reminder_interval_qsb.valueChanged.connect(
             self.on_breathing_interval_value_changed
         )
-        hbox_l4.addWidget(QtWidgets.QLabel("minutes"))
+        hbox_l4.addWidget(QtWidgets.QLabel(self.tr("minutes")))
         hbox_l4.addStretch(1)
 
         # Dialog
-        self.dialog_qgb = QtWidgets.QGroupBox("Dialog")
+        self.dialog_qgb = QtWidgets.QGroupBox(self.tr("Dialog"))
         vbox_l2.addWidget(self.dialog_qgb)
         vbox_l3 = QtWidgets.QVBoxLayout()
         self.dialog_qgb.setLayout(vbox_l3)
 
         hbox_l4 = QtWidgets.QHBoxLayout()
         vbox_l3.addLayout(hbox_l4)
-        hbox_l4.addWidget(QtWidgets.QLabel("Phrase setup: "))
+        hbox_l4.addWidget(QtWidgets.QLabel(self.tr("Phrase setup: ")))
         hbox_l4.addStretch(1)
         self.phrase_setup_qcb = QtWidgets.QComboBox()
         hbox_l4.addWidget(self.phrase_setup_qcb)
@@ -81,27 +81,27 @@ class BreathingSettingsWt(QtWidgets.QWidget):
 
         hbox_l4 = QtWidgets.QHBoxLayout()
         vbox_l3.addLayout(hbox_l4)
-        hbox_l4.addWidget(QtWidgets.QLabel("Show after"))
+        hbox_l4.addWidget(QtWidgets.QLabel(self.tr("Show after")))
         self.notifications_per_dialog_qsb = QtWidgets.QSpinBox()
         hbox_l4.addWidget(self.notifications_per_dialog_qsb)
         self.notifications_per_dialog_qsb.valueChanged.connect(self.on_notifications_per_dialog_qsb_changed)
-        hbox_l4.addWidget(QtWidgets.QLabel("notifications"))
+        hbox_l4.addWidget(QtWidgets.QLabel(self.tr("notifications")))
         hbox_l4.addStretch(1)
 
-        self.dialog_audio_qcb = QtWidgets.QCheckBox("Play Audio")
+        self.dialog_audio_qcb = QtWidgets.QCheckBox(self.tr("Play Audio"))
         vbox_l3.addWidget(self.dialog_audio_qcb)
         self.dialog_audio_qcb.toggled.connect(self.on_dialog_audio_toggled)
 
-        self.test_breathing_dialog_qpb = QtWidgets.QPushButton("Open breathing dialog")
+        self.test_breathing_dialog_qpb = QtWidgets.QPushButton(self.tr("Open breathing dialog"))
         vbox_l3.addWidget(self.test_breathing_dialog_qpb)
         self.test_breathing_dialog_qpb.clicked.connect(self.on_open_breathing_dialog_button_clicked)
 
         # Audio
-        self.audio_qgb = QtWidgets.QGroupBox("Audio")
+        self.audio_qgb = QtWidgets.QGroupBox(self.tr("Audio"))
         vbox_l2.addWidget(self.audio_qgb)
         vbox_l3 = QtWidgets.QVBoxLayout()
         self.audio_qgb.setLayout(vbox_l3)
-        self.select_audio_qpb = QtWidgets.QPushButton("Select audio")
+        self.select_audio_qpb = QtWidgets.QPushButton(self.tr("Select audio"))
         vbox_l3.addWidget(self.select_audio_qpb)
         self.select_audio_qpb.clicked.connect(self.on_select_audio_clicked)
         self.audio_path_qll = QtWidgets.QLabel(NO_AUDIO_SELECTED_STR)
@@ -148,9 +148,9 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         # noinspection PyCallByClass
         audio_file_result_tuple = QtWidgets.QFileDialog.getOpenFileName(
             self,
-            "Please choose a wav audio file",
+            self.tr("Please choose a wav audio file"),
             mc_global.get_user_audio_path(),
-            "Wav files (*.wav)"
+            self.tr("Wav files (*.wav)")
         )
         new_file_path_str = audio_file_result_tuple[0]
         if new_file_path_str:
