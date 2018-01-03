@@ -6,6 +6,13 @@ from PyQt5 import QtGui
 import mc.mc_global
 import mc.model
 
+WINDOW_FLAGS = (
+    QtCore.Qt.Dialog
+    | QtCore.Qt.WindowStaysOnTopHint
+    | QtCore.Qt.FramelessWindowHint
+    | QtCore.Qt.WindowDoesNotAcceptFocus
+)
+
 
 class BreathingNotification(QtWidgets.QFrame):
     # close_signal = QtCore.pyqtSignal(list, list)
@@ -14,14 +21,9 @@ class BreathingNotification(QtWidgets.QFrame):
     # wait_signal = QtCore.pyqtSignal()
 
     def __init__(self):
-        super().__init__()
+        super().__init__(None, WINDOW_FLAGS)
 
-        self.setWindowFlags(
-            QtCore.Qt.Dialog
-            | QtCore.Qt.WindowStaysOnTopHint
-            | QtCore.Qt.FramelessWindowHint
-            | QtCore.Qt.WindowDoesNotAcceptFocus
-        )
+        # self.setWindowFlags()
         # -To avoid the window getting focus we need to set both QtCore.Qt.Dialog
         #  and QtCore.Qt.WindowDoesNotAcceptFocus (setting QtCore.Qt.Popup +
         #  QtCore.Qt.WindowDoesNotAcceptFocus doesn't work)

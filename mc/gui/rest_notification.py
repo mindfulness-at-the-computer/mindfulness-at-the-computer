@@ -6,37 +6,23 @@ from PyQt5 import QtGui
 import mc.mc_global
 import mc.model
 
+WINDOW_FLAGS = (
+    QtCore.Qt.Dialog
+    | QtCore.Qt.WindowStaysOnTopHint
+    | QtCore.Qt.FramelessWindowHint
+    | QtCore.Qt.WindowDoesNotAcceptFocus
+)
+
 
 class RestReminderDlg(QtWidgets.QFrame):
-    # close_signal = QtCore.pyqtSignal(list, list)
     rest_signal = QtCore.pyqtSignal()
     skip_signal = QtCore.pyqtSignal()
     wait_signal = QtCore.pyqtSignal()
 
     def __init__(self):
-        super().__init__()
+        super().__init__(None, WINDOW_FLAGS)
 
         self.hover_and_kb_active_bool = False
-
-        self.setWindowFlags(
-            QtCore.Qt.Dialog
-            | QtCore.Qt.WindowStaysOnTopHint
-            | QtCore.Qt.FramelessWindowHint
-            | QtCore.Qt.WindowDoesNotAcceptFocus
-        )
-        # -To avoid the window getting focus we need to set both QtCore.Qt.Dialog
-        #  and QtCore.Qt.WindowDoesNotAcceptFocus (setting QtCore.Qt.Popup +
-        #  QtCore.Qt.WindowDoesNotAcceptFocus doesn't work)
-
-        """
-        self.setWindowFlags(
-            QtCore.Qt.Popup
-            | QtCore.Qt.WindowStaysOnTopHint
-            | QtCore.Qt.FramelessWindowHint
-        )
-        # | QtCore.Qt.WindowStaysOnTopHint
-        # | QtCore.Qt.X11BypassWindowManagerHint
-        """
 
         self.setFrameStyle(QtWidgets.QFrame.Box | QtWidgets.QFrame.Plain)
         self.setLineWidth(1)
