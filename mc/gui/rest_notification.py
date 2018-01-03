@@ -59,9 +59,9 @@ class RestReminderDlg(QtWidgets.QFrame):
 
         # Set position - done after show to get the right size hint
         screen_qrect = QtWidgets.QApplication.desktop().availableGeometry()
-        self.xpos_int = screen_qrect.left() + (screen_qrect.width() - self.sizeHint().width()) // 2
-        self.ypos_int = screen_qrect.bottom() - self.sizeHint().height() - 50
-        self.move(self.xpos_int, self.ypos_int)
+        xpos_int = screen_qrect.right() - self.sizeHint().width() - 30
+        ypos_int = screen_qrect.top() + 30
+        self.move(xpos_int, ypos_int)
 
         self.shown_qtimer = None
         self.start_shown_timer()

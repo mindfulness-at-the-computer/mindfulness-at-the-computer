@@ -410,7 +410,8 @@ class SettingsM:
         i_breathing_reminder_audio_path: str,
         i_breathing_reminder_volume: int,
         i_breathing_reminder_notification_type: int,
-        i_breathing_reminder_phrase_setup: int
+        i_breathing_reminder_phrase_setup: int,
+        i_breathing_reminder_nr_before_dialog: int
     ) -> None:
         self.rest_reminder_active_bool = True if i_rest_reminder_active else False
         self.rest_reminder_interval_int = i_rest_reminder_interval
@@ -423,6 +424,7 @@ class SettingsM:
         self.breathing_reminder_volume_int = i_breathing_reminder_volume
         self.breathing_reminder_notification_type_int = i_breathing_reminder_notification_type
         self.breathing_reminder_phrase_setup_int = i_breathing_reminder_phrase_setup
+        self.breathing_reminder_nr_before_dialog_int = i_breathing_reminder_nr_before_dialog
 
     @property
     def rest_reminder_active(self) -> bool:
@@ -609,6 +611,23 @@ class SettingsM:
             (i_new_volume, str(db.SINGLE_SETTINGS_ID_INT))
         )
         db_connection.commit()
+
+
+    @staticmethod
+    def update_breathing_reminder_nr_per_dialog(i_new_nr_per_dialog: int):
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_nr_before_dialog,
+            i_new_nr_per_dialog
+        )
+
+    @staticmethod
+    def _update(i_col_name: str, i_new_value):
+        db_exec(
+            "UPDATE " + db.Schema.SettingsTable.name
+            + " SET " + i_col_name + " = ?"
+            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
+            (i_new_value, str(db.SINGLE_SETTINGS_ID_INT))
+        )
 
     @staticmethod
     def update_breathing_reminder_notification_type(i_new_notification_type: int):

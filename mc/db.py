@@ -15,6 +15,7 @@ DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT = 30
 DEFAULT_BREATHING_REMINDER_INTERVAL_MINUTES_INT = 10
 SINGLE_SETTINGS_ID_INT = 0
 MAX_VOLUME_INT = 100
+DEFAULT_BREATHING_REMINDER_NR_BEFORE_DIALOG_INT = 3
 
 
 def get_schema_version(i_db_conn):
@@ -108,8 +109,19 @@ def upgrade_1_2(i_db_conn):
     )    
 """
 
+
+def upgrade_1_2(i_db_conn):
+    backup_db_file()
+    i_db_conn.execute(
+        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
+        + Schema.SettingsTable.Cols.breathing_reminder_nr_before_dialog + " INTEGER DEFAULT "
+        + str(DEFAULT_BREATHING_REMINDER_NR_BEFORE_DIALOG_INT)
+    )
+
+
 upgrade_steps = {
-    10: initial_schema_and_setup
+    10: initial_schema_and_setup,
+    11: upgrade_1_2
 }
 
 
@@ -202,6 +214,7 @@ class Schema:
             breathing_reminder_volume = "breathing_reminder_volume"
             breathing_reminder_notification_type = "breathing_reminder_notification_type"
             breathing_reminder_phrase_setup = "breathing_reminder_phrase_setup"
+            breathing_reminder_nr_before_dialog = "breathing_reminder_nr_before_dialog"
 
 
 def backup_db_file() -> None:

@@ -41,6 +41,16 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         hbox_l3.addWidget(QtWidgets.QLabel("minutes"))
         hbox_l3.addStretch(1)
 
+
+        hbox_l3 = QtWidgets.QHBoxLayout()
+        vbox_l2.addLayout(hbox_l3)
+        hbox_l3.addWidget(QtWidgets.QLabel("Notifications per dialog:"))
+        self.notifications_per_dialog_qsb = QtWidgets.QSpinBox()
+        hbox_l3.addWidget(self.notifications_per_dialog_qsb)
+        self.notifications_per_dialog_qsb.valueChanged.connect(self.on_notifications_per_dialog_qsb_changed)
+        hbox_l3.addStretch(1)
+
+
         self.test_breathing_dialog_qpb = QtWidgets.QPushButton("Open breathing dialog")
         vbox_l2.addWidget(self.test_breathing_dialog_qpb)
         self.test_breathing_dialog_qpb.clicked.connect(self.on_test_breathing_dialog_button_clicked)
@@ -104,6 +114,11 @@ class BreathingSettingsWt(QtWidgets.QWidget):
     def on_notification_type_activated(self, i_index: int):
         # -activated is only triggered on user action
         mc.model.SettingsM.update_breathing_reminder_notification_type(i_index)
+
+    def on_notifications_per_dialog_qsb_changed(self, i_new_value: int):
+        if self.updating_gui_bool:
+            return
+        mc.model.SettingsM.update_breathing_reminder_nr_per_dialog(i_new_value)
 
     def volume_changed(self, i_value: int):
         if self.updating_gui_bool:
@@ -186,5 +201,9 @@ class BreathingSettingsWt(QtWidgets.QWidget):
             settings.breathing_reminder_phrase_setup_int
         )
         self.phrase_setup_qcb.setCurrentText(phrase_setup_enum.name)
+
+        self.notifications_per_dialog_qsb.setValue(
+            settings.breathing_reminder_nr_before_dialog_int
+        )
 
         self.updating_gui_bool = False
