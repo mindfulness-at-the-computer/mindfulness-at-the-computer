@@ -27,10 +27,6 @@ class MainWin(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
-        translator = QtCore.QTranslator()
-        translator.load("translate/mindfullness_TR.ts")
-
-
         self.setGeometry(100, 64, 900, 670)
         self.setWindowIcon(QtGui.QIcon(mc.mc_global.get_app_icon_path()))
 
