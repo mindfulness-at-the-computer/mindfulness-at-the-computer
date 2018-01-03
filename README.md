@@ -3,8 +3,8 @@
 [![GitHub (pre-)release](https://img.shields.io/github/release/mindfulness-at-the-computer/mindfulness-at-the-computer/all.svg)](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/releases/latest)
 [![Build Status](https://travis-ci.org/mindfulness-at-the-computer/mindfulness-at-the-computer.svg?branch=master)](https://travis-ci.org/mindfulness-at-the-computer/mindfulness-at-the-computer)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/756cef9767da460e8f983131f5156825)](https://www.codacy.com/app/SunyataZero/mindfulness-at-the-computer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mindfulness-at-the-computer/mindfulness-at-the-computer&amp;utm_campaign=Badge_Grade)
-# [![codecov](https://codecov.io/gh/mindfulness-at-the-computer/mindfulness-at-the-computer/branch/master/graph/badge.svg)](https://codecov.io/gh/mindfulness-at-the-computer/mindfulness-at-the-computer)
 <!--
+[![codecov](https://codecov.io/gh/mindfulness-at-the-computer/mindfulness-at-the-computer/branch/master/graph/badge.svg)](https://codecov.io/gh/mindfulness-at-the-computer/mindfulness-at-the-computer)
 [![Total number of downloads](https://img.shields.io/github/downloads/mindfulness-at-the-computer/mindfulness-at-the-computer/total.svg)](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/releases)
 -->
 
