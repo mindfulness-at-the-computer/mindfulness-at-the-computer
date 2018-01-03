@@ -2,7 +2,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 import mc.mc_global
-import mc.gui.breathing_popup
+import mc.gui.breathing_dlg
 import logging
 
 BAR_HEIGHT_FT = 12.0

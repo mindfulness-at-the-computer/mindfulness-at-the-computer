@@ -109,6 +109,7 @@ class RestActionListWt(QtWidgets.QWidget):
         )
         self.update_gui()
         self.list_widget.setCurrentRow(self.list_widget.count() - 1)
+        self.rest_add_action_qle.clear()
 
     def on_delete_clicked(self):
         # active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
