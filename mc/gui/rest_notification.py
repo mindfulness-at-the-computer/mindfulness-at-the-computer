@@ -19,12 +19,24 @@ class RestReminderDlg(QtWidgets.QFrame):
         self.hover_and_kb_active_bool = False
 
         self.setWindowFlags(
+            QtCore.Qt.Dialog
+            | QtCore.Qt.WindowStaysOnTopHint
+            | QtCore.Qt.FramelessWindowHint
+            | QtCore.Qt.WindowDoesNotAcceptFocus
+        )
+        # -To avoid the window getting focus we need to set both QtCore.Qt.Dialog
+        #  and QtCore.Qt.WindowDoesNotAcceptFocus (setting QtCore.Qt.Popup +
+        #  QtCore.Qt.WindowDoesNotAcceptFocus doesn't work)
+
+        """
+        self.setWindowFlags(
             QtCore.Qt.Popup
             | QtCore.Qt.WindowStaysOnTopHint
             | QtCore.Qt.FramelessWindowHint
         )
         # | QtCore.Qt.WindowStaysOnTopHint
         # | QtCore.Qt.X11BypassWindowManagerHint
+        """
 
         self.setFrameStyle(QtWidgets.QFrame.Box | QtWidgets.QFrame.Plain)
         self.setLineWidth(1)

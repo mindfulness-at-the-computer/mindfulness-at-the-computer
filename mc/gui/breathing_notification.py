@@ -17,12 +17,19 @@ class BreathingNotification(QtWidgets.QFrame):
         super().__init__()
 
         self.setWindowFlags(
-            QtCore.Qt.Popup
+            QtCore.Qt.Dialog
             | QtCore.Qt.WindowStaysOnTopHint
             | QtCore.Qt.FramelessWindowHint
+            | QtCore.Qt.WindowDoesNotAcceptFocus
         )
+        # -To avoid the window getting focus we need to set both QtCore.Qt.Dialog
+        #  and QtCore.Qt.WindowDoesNotAcceptFocus (setting QtCore.Qt.Popup +
+        #  QtCore.Qt.WindowDoesNotAcceptFocus doesn't work)
+
         # | QtCore.Qt.WindowStaysOnTopHint
         # | QtCore.Qt.X11BypassWindowManagerHint
+
+        self.setFocusPolicy(QtCore.Qt.NoFocus)
 
         self.setFrameStyle(QtWidgets.QFrame.Box | QtWidgets.QFrame.Plain)
         self.setLineWidth(1)
@@ -41,11 +48,13 @@ class BreathingNotification(QtWidgets.QFrame):
 
         self.breathe_qpb = QtWidgets.QPushButton("Open Dialog")
         hbox.addWidget(self.breathe_qpb)
+        # self.breathe_qpb.setFocusPolicy(QtCore.Qt.NoFocus)
         self.breathe_qpb.clicked.connect(self.on_breathe_button_clicked)
         self.breathe_qpb.setFont(mc.mc_global.get_font_medium(i_bold=True))
 
         self.skip_qpb = QtWidgets.QPushButton("Close")
         hbox.addWidget(self.skip_qpb)
+        # self.skip_qpb.setFocusPolicy(QtCore.Qt.NoFocus)
         self.skip_qpb.clicked.connect(self.on_close_button_clicked)
 
         self.show()  # -done after all the widget have been added so that the right size is set
