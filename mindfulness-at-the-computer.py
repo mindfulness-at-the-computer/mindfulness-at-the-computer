@@ -42,9 +42,10 @@ if __name__ == "__main__":
     matc_qapplication = QtWidgets.QApplication(sys.argv)
 
     translator = QtCore.QTranslator()
-    translator.load("translate/mindfulness_TR.qm")
-    # Alternatively
-    # print('Localization loaded: ',translator.load(QtCore.QLocale.system().name() + '.qm', 'translate')) # name, dir
+    #translator.load("translate/mindfulness_TR.qm")
+    #Alternatively
+    logging.debug(QtCore.QLocale.system().name())
+    logging.debug('Localization loaded: ' + str(translator.load(QtCore.QLocale.system().name() + '.qm', 'translate'))) # name, dir
     matc_qapplication.installTranslator(translator)
 
     matc_qapplication.setQuitOnLastWindowClosed(False)

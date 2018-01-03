@@ -29,7 +29,7 @@ class RestActionListWt(QtWidgets.QWidget):
         vbox.addLayout(hbox)
         self.rest_add_action_qle = QtWidgets.QLineEdit()
         hbox.addWidget(self.rest_add_action_qle)
-        self.rest_add_action_qpb = QtWidgets.QPushButton("Add")
+        self.rest_add_action_qpb = QtWidgets.QPushButton(self.tr("Add"))
         hbox.addWidget(self.rest_add_action_qpb)
         self.rest_add_action_qpb.clicked.connect(self.add_rest_action_clicked)
 
@@ -114,7 +114,7 @@ class RestActionListWt(QtWidgets.QWidget):
     def on_delete_clicked(self):
         # active_phrase = model.PhrasesM.get(mc_global.active_phrase_id_it)
         conf_result_bool = mc.gui.safe_delete_dlg.SafeDeleteDlg.get_safe_confirmation_dialog(
-            "Are you sure that you want to remove this entry?"
+            self.tr("Are you sure that you want to remove this entry?")
         )
         if conf_result_bool:
             self.list_widget.clearSelection()
@@ -179,7 +179,7 @@ class EditDialog(QtWidgets.QDialog):
         vbox = QtWidgets.QVBoxLayout(self)
 
         # Title
-        title_qgb = QtWidgets.QGroupBox("Title")
+        title_qgb = QtWidgets.QGroupBox(self.tr("Title"))
         vbox.addWidget(title_qgb)
         title_vbox = QtWidgets.QVBoxLayout()
         title_qgb.setLayout(title_vbox)
@@ -187,11 +187,11 @@ class EditDialog(QtWidgets.QDialog):
         title_vbox.addWidget(self.rest_action_title_qle)
 
         # Image
-        image_qgb = QtWidgets.QGroupBox("Image")
+        image_qgb = QtWidgets.QGroupBox(self.tr("Image"))
         vbox.addWidget(image_qgb)
         image_vbox = QtWidgets.QVBoxLayout()
         image_qgb.setLayout(image_vbox)
-        self.select_image_qpb = QtWidgets.QPushButton(" Select image")
+        self.select_image_qpb = QtWidgets.QPushButton(self.tr(" Select image"))
         image_vbox.addWidget(self.select_image_qpb)
         self.select_image_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("image-2x.png")))
         self.select_image_qpb.clicked.connect(self.on_select_image_clicked)
@@ -225,9 +225,9 @@ class EditDialog(QtWidgets.QDialog):
                     self.temporary_image_file_path_str)
                 )
             else:
-                self.details_image_path_qll.setText("image does not exist")
+                self.details_image_path_qll.setText(self.tr("image does not exist"))
         else:
-            self.details_image_path_qll.setText("(no image set)")
+            self.details_image_path_qll.setText(self.tr("(no image set)"))
 
     @staticmethod
     def launch_edit_dialog():
@@ -257,7 +257,7 @@ class EditDialog(QtWidgets.QDialog):
         # noinspection PyCallByClass
         image_file_result_tuple = QtWidgets.QFileDialog.getOpenFileName(
             self,
-            "Please choose an image",
+            self.tr("Please choose an image"),
             mc_global.get_user_images_path(),
             "Image files (*.png *.jpg *.bmp)"
         )
