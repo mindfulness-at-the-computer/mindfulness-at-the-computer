@@ -131,7 +131,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             return
 
         conf_result_bool = mc.gui.safe_delete_dlg.SafeDeleteDlg.get_safe_confirmation_dialog(
-            "Are you sure that you want to remove this entry?",
+            self.tr("Are you sure that you want to remove this entry?"),
         )
 
         if conf_result_bool:
