@@ -17,8 +17,9 @@ import mc.gui.breathing_settings_wt
 import mc.gui.breathing_phrase_list_wt
 import mc.gui.rest_settings_wt
 import mc.gui.rest_dlg
-import mc.gui.breathing_popup
-import mc.gui.rest_reminder_popup
+import mc.gui.breathing_dlg
+import mc.gui.breathing_notification
+import mc.gui.rest_notification
 import mc.gui.rest_dlg
 
 
@@ -83,7 +84,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.br_settings_wt = mc.gui.breathing_settings_wt.BreathingSettingsWt()
         vbox_l4.addWidget(self.br_settings_wt)
         self.br_settings_wt.updated_signal.connect(self.on_breathing_settings_changed)
-        self.br_settings_wt.breathe_now_button_clicked_signal.connect(self.start_breathing_notification)
+        self.br_settings_wt.breathe_now_button_clicked_signal.connect(self.open_breathing_dialog)
 
         vbox_l4 = QtWidgets.QVBoxLayout()
         hbox_l3.addLayout(vbox_l4)
@@ -171,7 +172,7 @@ class MainWin(QtWidgets.QMainWindow):
 
         self.tray_open_breathing_dialog_qaction = QtWidgets.QAction("Open Breathing Dialog")
         self.tray_menu.addAction(self.tray_open_breathing_dialog_qaction)
-        self.tray_open_breathing_dialog_qaction.triggered.connect(self.start_breathing_notification)
+        self.tray_open_breathing_dialog_qaction.triggered.connect(self.breathing_timer_timeout)
 
         """
         self.sys_tray.phrase_qaction_list.clear()
@@ -279,7 +280,7 @@ class MainWin(QtWidgets.QMainWindow):
         mc.mc_global.rest_reminder_minutes_passed_int = 0
         # self.update_gui()
         if i_open_breathing_dialog:
-            self.show_breathing_notification()
+            self.open_breathing_dialog()
         self.update_rest_timer()
 
     def restore_window(self):
@@ -299,10 +300,10 @@ class MainWin(QtWidgets.QMainWindow):
             settings = mc.model.SettingsM.get()
             audio_path_str = settings.rest_reminder_audio_path_str
             volume_int = settings.rest_reminder_volume_int
-            self.play_audio(audio_path_str, volume_int)
+            self._play_audio(audio_path_str, volume_int)
 
     def show_rest_reminder(self):
-        self.rest_reminder_dialog = mc.gui.rest_reminder_popup.RestReminderDlg()
+        self.rest_reminder_dialog = mc.gui.rest_notification.RestReminderDlg()
         self.rest_reminder_dialog.rest_signal.connect(self.on_rest_rest)
         self.rest_reminder_dialog.skip_signal.connect(self.on_rest_skip)
         self.rest_reminder_dialog.wait_signal.connect(self.on_rest_wait)
@@ -339,7 +340,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.stop_breathing_timer()
         settings = mc.model.SettingsM.get()
         self.breathing_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
-        self.breathing_qtimer.timeout.connect(self.start_breathing_notification_if_conditions)
+        self.breathing_qtimer.timeout.connect(self.breathing_timer_timeout)
         # -show_breathing_notification
         self.breathing_qtimer.start(settings.breathing_reminder_interval_int * 60 * 1000)
 
@@ -367,6 +368,9 @@ class MainWin(QtWidgets.QMainWindow):
         show_rest_reminder_action = QtWidgets.QAction("Show rest reminder", self)
         debug_menu.addAction(show_rest_reminder_action)
         show_rest_reminder_action.triggered.connect(self.start_rest_reminder)
+        show_breathing_notification_action = QtWidgets.QAction("Show breathing notification", self)
+        debug_menu.addAction(show_breathing_notification_action)
+        show_breathing_notification_action.triggered.connect(self.breathing_timer_timeout)
 
         help_menu = self.menu_bar.addMenu("&Help")
         about_action = QtWidgets.QAction("About", self)
@@ -376,35 +380,52 @@ class MainWin(QtWidgets.QMainWindow):
         help_menu.addAction(online_help_action)
         online_help_action.triggered.connect(self.show_online_help)
 
-    def start_breathing_notification_if_conditions(self):
-        if not self.isActiveWindow() and mc.model.breathing_reminder_active():
-            self.start_breathing_notification()
-
     # noinspection PyAttributeOutsideInit
-    def start_breathing_notification(self):
+    def breathing_timer_timeout(self):
+        if not mc.model.breathing_reminder_active():
+            return
+
+        mc.mc_global.breathing_notification_counter_int += 1
+        if (mc.mc_global.breathing_notification_counter_int
+        > mc.model.SettingsM.get().breathing_reminder_nr_before_dialog_int):
+            mc.mc_global.breathing_notification_counter_int = 0
+            self.open_breathing_dialog()
+        else:
+            self.commence_breathing_notification()
+
+    def commence_breathing_notification(self):
         notification_type_int = mc.model.SettingsM.get().breathing_reminder_notification_type_int
 
         if (notification_type_int == mc.mc_global.NotificationType.Both.value
         or notification_type_int == mc.mc_global.NotificationType.Visual.value):
-            self.show_breathing_notification()
+            self.breathing_notification = mc.gui.breathing_notification.BreathingNotification()
+            self.breathing_notification.breathe_signal.connect(self.on_breathing_dialog_breathe_clicked)
+            self.breathing_notification.show()
 
         if (notification_type_int == mc.mc_global.NotificationType.Both.value
         or notification_type_int == mc.mc_global.NotificationType.Audio.value):
             settings = mc.model.SettingsM.get()
             audio_path_str = settings.breathing_reminder_audio_path_str
             volume_int = settings.breathing_reminder_volume_int
-            self.play_audio(audio_path_str, volume_int)
+            self._play_audio(audio_path_str, volume_int)
 
-    def show_breathing_notification(self):
-        self.breathing_dialog = mc.gui.breathing_popup.BreathingDlg()
+    def open_breathing_dialog(self):
+        self.breathing_dialog = mc.gui.breathing_dlg.BreathingDlg()
         self.breathing_dialog.close_signal.connect(self.on_breathing_dialog_closed)
         self.breathing_dialog.phrase_changed_signal.connect(self.on_breathing_dialog_phrase_changed)
         self.breathing_dialog.show()
 
-    def play_audio(self, i_audio_path: str, i_volume: int) -> None:
+        settings = mc.model.SettingsM.get()
+        if settings.breathing_reminder_dialog_audio_active_bool:
+            audio_path_str = settings.breathing_reminder_audio_path_str
+            volume_int = settings.breathing_reminder_volume_int
+            self._play_audio(audio_path_str, volume_int)
+
+    def _play_audio(self, i_audio_path: str, i_volume: int) -> None:
         try:
             sound_effect = QtMultimedia.QSoundEffect(self)
             # -PLEASE NOTE: A parent has to be given here, otherwise we will not hear anything
+            # noinspection PyCallByClass
             sound_effect.setSource(QtCore.QUrl.fromLocalFile(i_audio_path))
             sound_effect.setVolume(float(i_volume / 100))
             sound_effect.play()
@@ -419,6 +440,12 @@ class MainWin(QtWidgets.QMainWindow):
 
     def on_breathing_dialog_phrase_changed(self):
         self.update_gui()
+
+    def on_breathing_dialog_breathe_clicked(self):
+        self.breathing_dialog = mc.gui.breathing_dlg.BreathingDlg()
+        self.breathing_dialog.close_signal.connect(self.on_breathing_dialog_closed)
+        self.breathing_dialog.phrase_changed_signal.connect(self.on_breathing_dialog_phrase_changed)
+        self.breathing_dialog.show()
 
     def debug_clear_breathing_phrase_selection(self):
         self.br_phrase_list_wt.list_widget.clearSelection()
