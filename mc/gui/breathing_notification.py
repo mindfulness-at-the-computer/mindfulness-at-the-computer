@@ -48,13 +48,13 @@ class BreathingNotification(QtWidgets.QFrame):
         hbox = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox)
 
-        self.breathe_qpb = QtWidgets.QPushButton("Open Dialog")
+        self.breathe_qpb = QtWidgets.QPushButton(self.tr("Open Dialog"))
         hbox.addWidget(self.breathe_qpb)
         # self.breathe_qpb.setFocusPolicy(QtCore.Qt.NoFocus)
         self.breathe_qpb.clicked.connect(self.on_breathe_button_clicked)
         self.breathe_qpb.setFont(mc.mc_global.get_font_medium(i_bold=True))
 
-        self.skip_qpb = QtWidgets.QPushButton("Close")
+        self.skip_qpb = QtWidgets.QPushButton(self.tr("Close"))
         hbox.addWidget(self.skip_qpb)
         # self.skip_qpb.setFocusPolicy(QtCore.Qt.NoFocus)
         self.skip_qpb.clicked.connect(self.on_close_button_clicked)
