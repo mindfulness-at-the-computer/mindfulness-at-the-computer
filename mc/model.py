@@ -458,7 +458,7 @@ class SettingsM:
 
     @rest_reminder_audio_path.setter
     def rest_reminder_audio_path(self, i_new_path: str):
-        self.rest_reminder_audio_path = i_new_path
+        self.rest_reminder_audio_path_str = i_new_path
         self._update(
             db.Schema.SettingsTable.Cols.rest_reminder_audio_path,
             i_new_path
