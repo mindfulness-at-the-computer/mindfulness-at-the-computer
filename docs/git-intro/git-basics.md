@@ -1,6 +1,8 @@
 
 
-# Stage
+# Working with the different stages in Git
+
+Git has a few different stages that a file or a change to a file can be in:
 
 ## Working Directory
 
@@ -64,15 +66,26 @@ Your branch is ahead of 'origin/master' by 1 commit.
 
 ### `git push`
 
+```
+git push new-file.py
+```
 
 
-## Remote Repository
+## Remote
 
-Please note: The remote also has all the three stages above, but for practical purposes it might be useful to think
+Please note: Remote also has all the three stages above, but for practical purposes it might be useful to think
 of this as the fourth stage
 
-`git status`
+### `git status`
 
+```
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working directory clean
+```
 
+***
 
-
+Good to know:
+* Most of the commands in git perform actions locally
