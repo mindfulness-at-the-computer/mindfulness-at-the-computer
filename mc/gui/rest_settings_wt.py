@@ -48,10 +48,12 @@ class RestSettingsWt(QtWidgets.QWidget):
         self.rest_reminder_qsr.setTickPosition(QtWidgets.QSlider.NoTicks)
         self.rest_reminder_qsr.valueChanged.connect(self.on_rest_reminder_slider_value_changed)
         self.rest_reminder_qsr.setPageStep(5)
+
         self.rest_reminder_reset_qpb = QtWidgets.QPushButton()  # -"Reset timer"
-        hbox_l3.addWidget(self.rest_reminder_reset_qpb)
         self.rest_reminder_reset_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("reload-2x.png")))
+        self.rest_reminder_reset_qpb.setToolTip(self.tr("Reset the rest timer"))
         self.rest_reminder_reset_qpb.clicked.connect(self.on_rest_reset_clicked)
+        hbox_l3.addWidget(self.rest_reminder_reset_qpb)
 
         """
         self.slider = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)
