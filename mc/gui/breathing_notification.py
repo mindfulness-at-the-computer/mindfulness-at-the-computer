@@ -11,6 +11,7 @@ WINDOW_FLAGS = (
     | QtCore.Qt.WindowStaysOnTopHint
     | QtCore.Qt.FramelessWindowHint
     | QtCore.Qt.WindowDoesNotAcceptFocus
+    | QtCore.Qt.BypassWindowManagerHint
 )
 
 
