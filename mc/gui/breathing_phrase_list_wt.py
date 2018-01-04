@@ -38,6 +38,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             member=self.add_new_phrase_button_clicked,
             context=QtCore.Qt.WidgetShortcut
         )
+
         self.add_new_phrase_qpb = QtWidgets.QPushButton(self.tr("Add"))
         self.add_new_phrase_qpb.clicked.connect(self.add_new_phrase_button_clicked)
         hbox.addWidget(self.add_new_phrase_qpb)
@@ -46,28 +47,36 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         vbox.addLayout(hbox)
 
         self.edit_texts_qpb = QtWidgets.QPushButton()
-        hbox.addWidget(self.edit_texts_qpb)
         self.edit_texts_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("pencil-2x.png")))
+        self.edit_texts_qpb.setToolTip(self.tr("Edit the selected breathing phrase"))
         self.edit_texts_qpb.clicked.connect(self.on_edit_texts_clicked)
+        hbox.addWidget(self.edit_texts_qpb)
+
         self.move_to_top_qpb = QtWidgets.QPushButton()
-        hbox.addWidget(self.move_to_top_qpb)
         self.move_to_top_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("data-transfer-upload-2x.png")))
+        self.move_to_top_qpb.setToolTip(self.tr("Move the selected breathing phrase to top"))
         self.move_to_top_qpb.clicked.connect(self.on_move_to_top_clicked)
+        hbox.addWidget(self.move_to_top_qpb)
+
         self.move_up_qpb = QtWidgets.QPushButton()
-        hbox.addWidget(self.move_up_qpb)
         self.move_up_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("arrow-top-2x.png")))
+        self.move_up_qpb.setToolTip(self.tr("Move the selected breathing phrase up"))
         self.move_up_qpb.clicked.connect(self.on_move_up_clicked)
+        hbox.addWidget(self.move_up_qpb)
+
         self.move_down_qpb = QtWidgets.QPushButton()
-        hbox.addWidget(self.move_down_qpb)
         self.move_down_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("arrow-bottom-2x.png")))
+        self.move_down_qpb.setToolTip(self.tr("Move the selected breathing phrase down"))
         self.move_down_qpb.clicked.connect(self.on_move_down_clicked)
+        hbox.addWidget(self.move_down_qpb)
 
         hbox.addStretch(1)
 
         self.delete_phrase_qpb = QtWidgets.QPushButton()
-        hbox.addWidget(self.delete_phrase_qpb)
         self.delete_phrase_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("trash-2x.png")))
+        self.delete_phrase_qpb.setToolTip(self.tr("Delete the selected breathing phrase"))
         self.delete_phrase_qpb.clicked.connect(self.on_delete_clicked)
+        hbox.addWidget(self.delete_phrase_qpb)
 
         self.update_gui()
 
@@ -253,15 +262,17 @@ class EditDialog(QtWidgets.QDialog):
         self.in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_str)
         vbox.addWidget(QtWidgets.QLabel(self.tr("In breath phrase")))
         vbox.addWidget(self.in_breath_phrase_qle)
+
         self.out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_str)
         vbox.addWidget(QtWidgets.QLabel(self.tr("Out breath phrase")))
         vbox.addWidget(self.out_breath_phrase_qle)
 
-        vbox.addWidget(QtWidgets.QLabel(self.tr("Short in breath phrase")))
         self.short_in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_short_str)
+        vbox.addWidget(QtWidgets.QLabel(self.tr("Short in breath phrase")))
         vbox.addWidget(self.short_in_breath_phrase_qle)
-        vbox.addWidget(QtWidgets.QLabel(self.tr("Short out breath phrase")))
+
         self.short_out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_short_str)
+        vbox.addWidget(QtWidgets.QLabel(self.tr("Short out breath phrase")))
         vbox.addWidget(self.short_out_breath_phrase_qle)
 
         self.button_box = QtWidgets.QDialogButtonBox(
