@@ -21,6 +21,7 @@ import mc.gui.breathing_dlg
 import mc.gui.breathing_notification
 import mc.gui.rest_notification
 import mc.gui.rest_dlg
+import mc.gui.intro_dlg
 
 
 class MainWin(QtWidgets.QMainWindow):
@@ -371,6 +372,9 @@ class MainWin(QtWidgets.QMainWindow):
         show_breathing_notification_action = QtWidgets.QAction("Show breathing notification", self)
         debug_menu.addAction(show_breathing_notification_action)
         show_breathing_notification_action.triggered.connect(self.breathing_timer_timeout)
+        show_intro_dialog_action = QtWidgets.QAction("Show intro dialog", self)
+        debug_menu.addAction(show_intro_dialog_action)
+        show_intro_dialog_action.triggered.connect(self.show_intro_dialog)
 
         help_menu = self.menu_bar.addMenu(self.tr("&Help"))
         about_action = QtWidgets.QAction(self.tr("About"), self)
@@ -379,6 +383,10 @@ class MainWin(QtWidgets.QMainWindow):
         online_help_action = QtWidgets.QAction("Online help", self)
         help_menu.addAction(online_help_action)
         online_help_action.triggered.connect(self.show_online_help)
+
+    def show_intro_dialog(self):
+        intro_dlg = mc.gui.intro_dlg.IntroDlg()
+        intro_dlg.exec()
 
     # noinspection PyAttributeOutsideInit
     def breathing_timer_timeout(self):
