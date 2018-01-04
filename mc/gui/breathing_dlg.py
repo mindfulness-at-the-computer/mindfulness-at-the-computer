@@ -149,10 +149,16 @@ class BreathingDlg(QtWidgets.QFrame):
         self.ib_length_ft_list.append(now - self.start_time_ft)
         self.start_time_ft = now
 
-        if self.shortened_phrase_qcb.isChecked():
-            breathing_str = phrase.ob_short
+        if not phrase.ob:
+            if self.shortened_phrase_qcb.isChecked():
+                breathing_str = phrase.ib_short
+            else:
+                breathing_str = phrase.ib
         else:
-            breathing_str = phrase.ob
+            if self.shortened_phrase_qcb.isChecked():
+                breathing_str = phrase.ob_short
+            else:
+                breathing_str = phrase.ob
         self.breathing_graphicsview_l3.text_gi.setHtml(mc.mc_global.get_html(breathing_str))
 
         self.ob_qtimeline.start()
@@ -327,18 +333,26 @@ class GraphicsView(QtWidgets.QGraphicsView):
             return
         mc.mc_global.breathing_state = mc.mc_global.BreathingState.breathing_out
 
-        self.peak_scale_ft = self.text_gi.scale()
+        self.peak_scale_ft = self.custom_gi.scale()
         self.ob_signal.emit()
         self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
         self.custom_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
 
     def frame_change_breathing_in(self, i_frame_nr_int):
-        self.text_gi.setScale(1 + 0.001 * i_frame_nr_int)
+        phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+        if phrase.ob:
+            self.text_gi.setScale(1 + 0.001 * i_frame_nr_int)
+        else:
+            pass
         self.custom_gi.setScale(1 + 0.001 * i_frame_nr_int)
         # self.setTextWidth(self.textWidth() + 1)
 
     def frame_change_breathing_out(self, i_frame_nr_int):
-        self.text_gi.setScale(self.peak_scale_ft - 0.0005 * i_frame_nr_int)
+        phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+        if phrase.ob:
+            self.text_gi.setScale(self.peak_scale_ft - 0.0005 * i_frame_nr_int)
+        else:
+            pass
         self.custom_gi.setScale(self.peak_scale_ft - 0.0005 * i_frame_nr_int)
         # self.setTextWidth(self.textWidth() + 1)
 
