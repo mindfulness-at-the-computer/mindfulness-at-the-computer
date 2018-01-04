@@ -24,6 +24,10 @@ License: GPLv3
 
 Social: [**Gitter chat**](https://gitter.im/mindfulness-at-the-computer/Lobby)
 
+*This project is beginner-friendly:* You can ask for help in the gitter
+chat room and we will try to help you. Also we try to provide documentation
+useful for newcomers
+
 ## Developer documentation
 
 Most documents are located in the [docs directory](docs/). There's also a [wiki](wiki) that is open for editing
