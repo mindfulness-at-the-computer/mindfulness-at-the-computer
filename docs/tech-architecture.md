@@ -11,6 +11,9 @@ PyInstaller | - | [link](http://pyinstaller.readthedocs.io/en/stable/) | -
 SQLite through sqlite3 | - | [py module](https://docs.python.org/3/library/sqlite3.html), [official](https://www.sqlite.org/docs.html) | [Gitter](https://gitter.im/mindfulness-at-the-computer/Lobby)
 [unittest + qttest](unittest-and-qttest) | | [unittest](https://docs.python.org/3/library/unittest.html) [qttest](http://doc.qt.io/qt-5/qtest.html)| [Gitter](https://gitter.im/mindfulness-at-the-computer/Lobby)
 
+The only external dependency for the software itself is PyQt5. In general we'd like to keep the
+number of external dependencies to a minimum to avoid complications
+
 
 ## Application structure
 
