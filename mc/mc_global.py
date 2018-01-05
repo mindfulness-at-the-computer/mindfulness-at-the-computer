@@ -178,3 +178,6 @@ class EventSource(enum.Enum):
 
 db_upgrade_message_str = None
 
+
+sys_info_telist = []
+

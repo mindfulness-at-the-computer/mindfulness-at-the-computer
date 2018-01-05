@@ -107,8 +107,6 @@ class MainWin(QtWidgets.QMainWindow):
         self.on_breathing_settings_changed()
         self.update_rest_timer()
 
-        self.sys_info_list = []
-
         # Setup of Systray
         self.setup_systray()
 
@@ -130,19 +128,20 @@ class MainWin(QtWidgets.QMainWindow):
         systray_available_str = "No"
         if self.tray_icon.isSystemTrayAvailable():
             systray_available_str = "Yes"
-        self.sys_info_list.append("System tray available: " + systray_available_str)
+            mc.mc_global.sys_info_telist.append(("System tray available", systray_available_str))
         notifications_supported_str = "No"
         if self.tray_icon.supportsMessages():
             notifications_supported_str = "Yes"
-        self.sys_info_list.append("System tray notifications supported: " + notifications_supported_str)
+        mc.mc_global.sys_info_telist.append(("System tray notifications supported", notifications_supported_str))
         sys_info = QtCore.QSysInfo()
-        self.sys_info_list.append("buildCpuArchitecture: " + sys_info.buildCpuArchitecture())
-        self.sys_info_list.append("currentCpuArchitecture: " + sys_info.currentCpuArchitecture())
-        self.sys_info_list.append("kernel type and version: " + sys_info.kernelType() + " " + sys_info.kernelVersion())
-        self.sys_info_list.append("product name and version: " + sys_info.prettyProductName())
+        mc.mc_global.sys_info_telist.append(("buildCpuArchitecture", sys_info.buildCpuArchitecture()))
+        mc.mc_global.sys_info_telist.append(("currentCpuArchitecture", sys_info.currentCpuArchitecture()))
+        mc.mc_global.sys_info_telist.append(("kernel type", sys_info.kernelType()))
+        mc.mc_global.sys_info_telist.append(("kernel version", sys_info.kernelVersion()))
+        mc.mc_global.sys_info_telist.append(("product name and version", sys_info.prettyProductName()))
         logging.info("##### System Information #####")
-        for line_str in self.sys_info_list:
-            logging.info(line_str)
+        for (descr_str, value) in mc.mc_global.sys_info_telist:
+            logging.info(descr_str + ": " + str(value))
         logging.info("#####")
 
         settings = mc.model.SettingsM.get()
@@ -464,11 +463,16 @@ class MainWin(QtWidgets.QMainWindow):
         # Python: webbrowser.get(url_str) --- doesn't work
 
     def show_sysinfo_box(self):
+
+        info_str = '\n'.join([
+            descr_str + ": " + str(value) for (descr_str, value) in mc.mc_global.sys_info_telist
+        ])
+
         # noinspection PyCallByClass
         QtWidgets.QMessageBox.about(
             self,
             "System Information",
-            '\n'.join(self.sys_info_list)
+            info_str
         )
 
     def show_about_box(self):
