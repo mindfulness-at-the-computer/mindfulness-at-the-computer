@@ -107,6 +107,8 @@ class MainWin(QtWidgets.QMainWindow):
         self.on_breathing_settings_changed()
         self.update_rest_timer()
 
+        self.sys_info_list = []
+
         # Setup of Systray
         self.setup_systray()
 
@@ -125,20 +127,22 @@ class MainWin(QtWidgets.QMainWindow):
         # self.tray_icon.activated.connect(self.on_systray_activated)
         self.tray_icon.show()
 
-        logging.info("##### System Information #####")
         systray_available_str = "No"
         if self.tray_icon.isSystemTrayAvailable():
             systray_available_str = "Yes"
-        logging.info("System tray available: " + systray_available_str)
+        self.sys_info_list.append("System tray available: " + systray_available_str)
         notifications_supported_str = "No"
         if self.tray_icon.supportsMessages():
             notifications_supported_str = "Yes"
-        logging.info("System tray notifications supported: " + notifications_supported_str)
+        self.sys_info_list.append("System tray notifications supported: " + notifications_supported_str)
         sys_info = QtCore.QSysInfo()
-        logging.info("buildCpuArchitecture: " + sys_info.buildCpuArchitecture())
-        logging.info("currentCpuArchitecture: " + sys_info.currentCpuArchitecture())
-        logging.info("kernel type and version: " + sys_info.kernelType() + " " + sys_info.kernelVersion())
-        logging.info("product name and version: " + sys_info.prettyProductName())
+        self.sys_info_list.append("buildCpuArchitecture: " + sys_info.buildCpuArchitecture())
+        self.sys_info_list.append("currentCpuArchitecture: " + sys_info.currentCpuArchitecture())
+        self.sys_info_list.append("kernel type and version: " + sys_info.kernelType() + " " + sys_info.kernelVersion())
+        self.sys_info_list.append("product name and version: " + sys_info.prettyProductName())
+        logging.info("##### System Information #####")
+        for line_str in self.sys_info_list:
+            logging.info(line_str)
         logging.info("#####")
 
         settings = mc.model.SettingsM.get()
@@ -379,6 +383,9 @@ class MainWin(QtWidgets.QMainWindow):
         online_help_action = QtWidgets.QAction("Online help", self)
         help_menu.addAction(online_help_action)
         online_help_action.triggered.connect(self.show_online_help)
+        sysinfo_action = QtWidgets.QAction(self.tr("System Information"), self)
+        help_menu.addAction(sysinfo_action)
+        sysinfo_action.triggered.connect(self.show_sysinfo_box)
 
     # noinspection PyAttributeOutsideInit
     def breathing_timer_timeout(self):
@@ -455,6 +462,14 @@ class MainWin(QtWidgets.QMainWindow):
         # noinspection PyCallByClass
         QtGui.QDesktopServices.openUrl(QtCore.QUrl(url_str))
         # Python: webbrowser.get(url_str) --- doesn't work
+
+    def show_sysinfo_box(self):
+        # noinspection PyCallByClass
+        QtWidgets.QMessageBox.about(
+            self,
+            "System Information",
+            '\n'.join(self.sys_info_list)
+        )
 
     def show_about_box(self):
         # noinspection PyCallByClass
