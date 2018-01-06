@@ -27,39 +27,58 @@ class MainWin(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setGeometry(100, 64, 900, 670)
-        self.setWindowIcon(QtGui.QIcon(mc.mc_global.get_app_icon_path()))
-
         self.sys_tray = SystemTray()
-
-        if mc.mc_global.testing_bool:
-            data_storage_str = "{Testing - data stored in memory}"
-        else:
-            data_storage_str = "{Live - data stored on hard drive}"
-        window_title_str = (
-            mc.mc_global.APPLICATION_TITLE_STR
-            + " [" + mc.mc_global.APPLICATION_VERSION_STR + "] "
-            + data_storage_str
-        )
-        self.setWindowTitle(window_title_str)
-
-        self.setStyleSheet("selection-background-color:#bfef7f; selection-color:#000000;")
-
         self.rest_reminder_dialog = None
         self.rest_widget = None
         self.tray_icon = None
         self.rest_reminder_qtimer = None
         self.breathing_qtimer = None
 
+        self.active_breathing_phrase_qgb = QtWidgets.QGroupBox("Active Breathing Phrase")
+        self.br_settings_wt = mc.gui.breathing_settings_wt.BreathingSettingsWt()
+        self.br_phrase_list_wt = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
+        self.rest_settings_wt = mc.gui.rest_settings_wt.RestSettingsWt()
+        self.rest_action_list_wt = mc.gui.rest_action_list_wt.RestActionListWt()
+        self.breathing_history_wt = mc.gui.breathing_history_wt.BreathingHistoryWt()
+
+        self.initialize()
+
+        hbox_l3 = self.set_up_main_container()
+
+        self.add_first_panel_to_main_container(hbox_l3)
+        self.add_breathing_phrase_list_to_main_container(hbox_l3)
+        self.add_rest_action_list_to_main_container(hbox_l3)
+
+        # Setup of Menu
+        self.menu_bar = self.menuBar()
+        self.update_menu()
+
+        # Setup of Timers
+        self.on_breathing_settings_changed()
+        self.update_rest_timer()
+
+        # Setup of Systray
+        self.setup_systray()
+
+    def initialize(self):
+        self.setGeometry(100, 64, 900, 670)
+        self.setWindowIcon(QtGui.QIcon(mc.mc_global.get_app_icon_path()))
+        self.set_window_title_with_version_and_storage()
+        self.setStyleSheet("selection-background-color:#bfef7f; selection-color:#000000;")
+
+    def set_up_main_container(self):
         central_w2 = QtWidgets.QWidget()
         self.setCentralWidget(central_w2)
         hbox_l3 = QtWidgets.QHBoxLayout()
         central_w2.setLayout(hbox_l3)
+        return hbox_l3
 
+    def add_first_panel_to_main_container(self, hbox_l3):
+        vbox_l4 = self.new_panel_in_main_window(hbox_l3)
+        self.add_and_configure_active_breathing_phrase_to_panel(vbox_l4)
+        vbox_l4.addWidget(self.breathing_history_wt)
 
-        vbox_l4 = QtWidgets.QVBoxLayout()
-        hbox_l3.addLayout(vbox_l4)
-        self.active_breathing_phrase_qgb = QtWidgets.QGroupBox(self.tr("Active Breathing Phrase"))
+    def add_and_configure_active_breathing_phrase_to_panel(self, vbox_l4):
         vbox_l4.addWidget(self.active_breathing_phrase_qgb)
         vbox_l5 = QtWidgets.QVBoxLayout()
         self.active_breathing_phrase_qgb.setLayout(vbox_l5)
@@ -72,43 +91,49 @@ class MainWin(QtWidgets.QMainWindow):
         self.out_text_qll = QtWidgets.QLabel(self.tr("out"))
         vbox_l5.addWidget(self.out_text_qll)
         self.out_text_qll.setWordWrap(True)
-        self.breathing_history_wt = mc.gui.breathing_history_wt.BreathingHistoryWt()
-        vbox_l4.addWidget(self.breathing_history_wt)
 
-        vbox_l4 = QtWidgets.QVBoxLayout()
-        hbox_l3.addLayout(vbox_l4)
-        self.br_phrase_list_wt = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
+    def add_breathing_phrase_list_to_main_container(self, hbox_l3):
+        vbox_l4 = self.new_panel_in_main_window(hbox_l3)
         vbox_l4.addWidget(self.br_phrase_list_wt)
         self.br_phrase_list_wt.selection_changed_signal.connect(self.on_breathing_list_row_changed)
         self.br_phrase_list_wt.phrase_changed_signal.connect(self.on_breathing_phrase_changed)
-        self.br_settings_wt = mc.gui.breathing_settings_wt.BreathingSettingsWt()
-        vbox_l4.addWidget(self.br_settings_wt)
-        self.br_settings_wt.updated_signal.connect(self.on_breathing_settings_changed)
-        self.br_settings_wt.breathe_now_button_clicked_signal.connect(self.open_breathing_dialog)
+        self.configure_breathing_settings(vbox_l4)
 
-        vbox_l4 = QtWidgets.QVBoxLayout()
-        hbox_l3.addLayout(vbox_l4)
-        self.rest_action_list_wt = mc.gui.rest_action_list_wt.RestActionListWt()
+    def add_rest_action_list_to_main_container(self, hbox_l3):
+        vbox_l4 = self.new_panel_in_main_window(hbox_l3)
         vbox_l4.addWidget(self.rest_action_list_wt)
         self.rest_action_list_wt.update_signal.connect(self.on_rest_action_list_updated)
         self.rest_action_list_wt.selection_changed_signal.connect(self.on_rest_action_list_row_changed)
-        self.rest_settings_wt = mc.gui.rest_settings_wt.RestSettingsWt()
+        self.configure_rest_settings(vbox_l4)
+
+    def new_panel_in_main_window(self, hbox_l3):
+        vbox_l4 = QtWidgets.QVBoxLayout()
+        hbox_l3.addLayout(vbox_l4)
+        return vbox_l4
+
+    def configure_rest_settings(self, vbox_l4):
         vbox_l4.addWidget(self.rest_settings_wt)
         self.rest_settings_wt.settings_updated_signal.connect(self.update_rest_timer)
         self.rest_settings_wt.rest_now_button_clicked_signal.connect(self.on_rest_rest)
         self.rest_settings_wt.rest_reset_button_clicked_signal.connect(self.update_rest_timer)
         self.rest_settings_wt.rest_slider_value_changed_signal.connect(self.on_rest_slider_value_changed)
 
-        # Setup of Menu
-        self.menu_bar = self.menuBar()
-        self.update_menu()
+    def configure_breathing_settings(self, vbox_l4):
+        vbox_l4.addWidget(self.br_settings_wt)
+        self.br_settings_wt.updated_signal.connect(self.on_breathing_settings_changed)
+        self.br_settings_wt.breathe_now_button_clicked_signal.connect(self.open_breathing_dialog)
 
-        # Setup of Timers
-        self.on_breathing_settings_changed()
-        self.update_rest_timer()
-
-        # Setup of Systray
-        self.setup_systray()
+    def set_window_title_with_version_and_storage(self):
+        if mc.mc_global.testing_bool:
+            data_storage_str = "{Testing - data stored in memory}"
+        else:
+            data_storage_str = "{Live - data stored on hard drive}"
+        window_title_str = (
+            mc.mc_global.APPLICATION_TITLE_STR
+            + " [" + mc.mc_global.APPLICATION_VERSION_STR + "] "
+            + data_storage_str
+        )
+        self.setWindowTitle(window_title_str)
 
     # noinspection PyAttributeOutsideInit
     def setup_systray(self):
