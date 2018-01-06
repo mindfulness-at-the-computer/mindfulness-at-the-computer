@@ -175,7 +175,7 @@ class MainWin(QtWidgets.QMainWindow):
 
         self.tray_open_breathing_dialog_qaction = QtWidgets.QAction(self.tr("Open Breathing Dialog"))
         self.tray_menu.addAction(self.tray_open_breathing_dialog_qaction)
-        self.tray_open_breathing_dialog_qaction.triggered.connect(self.breathing_timer_timeout)
+        self.tray_open_breathing_dialog_qaction.triggered.connect(self.open_breathing_dialog)
 
         """
         self.sys_tray.phrase_qaction_list.clear()
