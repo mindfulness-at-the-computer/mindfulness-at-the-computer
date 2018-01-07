@@ -33,8 +33,9 @@ if __name__ == "__main__":
 
     translator = QtCore.QTranslator()
     # Warning While removing debug keep the loading call intact
-    logging.info('System Localization: ' + QtCore.QLocale.system().name())
-    logging.info('Localization Load Status: ' + str(translator.load(QtCore.QLocale.system().name() + '.qm', 'translate'))) # name, dir
+    system_locale = QtCore.QLocale.system().name()
+    logging.info('System Localization: ' + system_locale)
+    logging.info('Localization Load Status: ' + str(translator.load(system_locale + '.qm', 'translate/' + system_locale))) # name, dir
     matc_qapplication.installTranslator(translator)
 
     matc_qapplication.setQuitOnLastWindowClosed(False)
