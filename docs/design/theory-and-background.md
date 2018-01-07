@@ -23,4 +23,4 @@ We need to be aware that there is right mindfulness and wrong mindfulness, right
 
 This application focuses on mindfulness, resting, and stepping away from the computer (maybe going outside), rather than on getting things done and being effective.
 
-People spending a lot time in front of the computer can benefit from this application.
+People spending a lot of time in front of the computer can benefit from this application.

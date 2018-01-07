@@ -63,7 +63,7 @@ Remembering to be kind to oneself, doing things with "kindfulness"
 Perhaps following up with questions later on
 
 Example:
-* Was i peaceful in my body and mind?
+* Was I peaceful in my body and mind?
 
 ### RGBY - Remembering to take care of the body
 
@@ -71,7 +71,7 @@ For example by doing some mindful movements
 
 ### RGPU - Remembering the purpose of the work at the computer
 
-Maybe we are contributing to social justice, mental well-being or something else, maybe
+Maybe we are contributing to social justice, mental well-being or something else,or maybe
 simply helping our colleagues?
 
 
