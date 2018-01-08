@@ -6,7 +6,7 @@
     <message>
       <location filename="mc/gui/breathing_dlg.py" line="59"/>
       <source>Close</source>
-      <translation type="unfinished">Close</translation>
+      <translation>Stäng</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_dlg.py" line="64"/>
@@ -16,7 +16,7 @@
     <message>
       <location filename="mc/gui/breathing_dlg.py" line="73"/>
       <source>Use shortened</source>
-      <translation type="unfinished">Use shortened</translation>
+      <translation>Använd förkortad</translation>
     </message>
   </context>
   <context>
@@ -24,12 +24,12 @@
     <message>
       <location filename="mc/gui/breathing_notification.py" line="52"/>
       <source>Open Dialog</source>
-      <translation type="unfinished">Open Dialog</translation>
+      <translation>Öppna dialog</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_notification.py" line="58"/>
       <source>Close</source>
-      <translation type="unfinished">Close</translation>
+      <translation>Stäng</translation>
     </message>
   </context>
   <context>
@@ -42,12 +42,12 @@
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="42"/>
       <source>Add</source>
-      <translation type="unfinished">Add</translation>
+      <translation>Lägg till</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="51"/>
       <source>Edit the selected breathing phrase</source>
-      <translation type="unfinished">Edit the selected breathing phrase</translation>
+      <translation>Editera den valda andningstexten</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="57"/>
@@ -72,7 +72,7 @@
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="142"/>
       <source>Are you sure that you want to remove this entry?</source>
-      <translation type="unfinished">Are you sure that you want to remove this entry?</translation>
+      <translation>Är du säker på att du vill ta bort denna rad?</translation>
     </message>
   </context>
   <context>
@@ -90,17 +90,17 @@
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="53"/>
       <source>Interval:</source>
-      <translation type="unfinished">Interval:</translation>
+      <translation>Intervall:</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="60"/>
       <source>minutes</source>
-      <translation type="unfinished">minutes</translation>
+      <translation>minuter</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="64"/>
       <source>Dialog</source>
-      <translation type="unfinished">Dialog</translation>
+      <translation>Dialogruta</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="71"/>
