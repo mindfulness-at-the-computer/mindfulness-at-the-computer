@@ -250,17 +250,42 @@ class EditDialog(QtWidgets.QDialog):
         vbox.addWidget(QtWidgets.QLabel("Title"))
         vbox.addWidget(self.breath_title_qle)
 
+        self.group_qbg = QtWidgets.QButtonGroup(self)
+
+        """
+        Radiobuttons: 
+        ( ) In and out
+        ( ) Single - if switching, will all text be erased? Please note that it's possible to cancel
+        # TODO: Add cancel as an option
+        
+        Phrases
+        [        ]
+        [        ] <- not shown for the single phrase alternative. **Hidden or disabled?**
+
+        Shortened
+        [        ]
+        [        ] <- not shown for the single phrase alternative        
+        """
+
+        self.in_out_qrb = QtWidgets.QRadioButton("In and out phrase")
+        vbox.addWidget(self.in_out_qrb)
+        self.group_qbg.addButton(self.in_out_qrb)
+        self.in_out_qrb.toggled.connect(self.on_in_out_toggled)
+
+        self.single_qrb = QtWidgets.QRadioButton("Single phrase")
+        vbox.addWidget(self.single_qrb)
+        self.group_qbg.addButton(self.single_qrb)
+        self.single_qrb.toggled.connect(self.on_single_toggled)
+
+        vbox.addWidget(QtWidgets.QLabel("Phrase(s)"))
         self.in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib)
-        vbox.addWidget(QtWidgets.QLabel("In breath phrase"))
         vbox.addWidget(self.in_breath_phrase_qle)
         self.out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob)
-        vbox.addWidget(QtWidgets.QLabel("Out breath phrase"))
         vbox.addWidget(self.out_breath_phrase_qle)
 
-        vbox.addWidget(QtWidgets.QLabel("Short in breath phrase"))
+        vbox.addWidget(QtWidgets.QLabel("Shortened"))
         self.short_in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_short)
         vbox.addWidget(self.short_in_breath_phrase_qle)
-        vbox.addWidget(QtWidgets.QLabel("Short out breath phrase"))
         self.short_out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_short)
         vbox.addWidget(self.short_out_breath_phrase_qle)
 
@@ -273,6 +298,21 @@ class EditDialog(QtWidgets.QDialog):
         self.button_box.accepted.connect(self.accept)
         self.button_box.rejected.connect(self.reject)
         # -accept and reject are "slots" built into Qt
+
+        self.in_out_qrb.setChecked(True)  # update_gui will be called
+
+    def on_in_out_toggled(self, i_checked: bool):
+        self.update_gui()
+
+    def on_single_toggled(self, i_checked: bool):
+        if i_checked:
+            self.out_breath_phrase_qle.clear()
+            self.short_out_breath_phrase_qle.clear()
+        self.update_gui()
+
+    def update_gui(self):
+        self.out_breath_phrase_qle.setEnabled(self.in_out_qrb.isChecked())
+        self.short_out_breath_phrase_qle.setEnabled(self.in_out_qrb.isChecked())
 
     @staticmethod
     def launch_edit_dialog():
