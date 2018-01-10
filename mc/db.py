@@ -90,14 +90,6 @@ def initial_schema_and_setup(i_db_conn) -> None:
     # -please note "OR IGNORE"
     db_connection.commit()
 
-    if mc_global.testing_bool:
-        model.populate_db_with_test_data()
-    else:
-        if not mc_global.db_file_exists_at_application_startup_bl:
-            model.populate_db_with_setup_data()
-        else:
-            pass  # -default, the user has started the application before and is not testing
-
 
 """
 Example of db upgrade code:
@@ -175,9 +167,16 @@ class Helper(object):
                 if upgrade_step_nr_int in upgrade_steps:
                     upgrade_steps[upgrade_step_nr_int](Helper.__db_connection)
                     set_schema_version(Helper.__db_connection, upgrade_step_nr_int)
-            if database_tables_dropped_bool:
-                model.populate_db_with_setup_data()
-            Helper.__db_connection.commit()
+
+            if mc_global.testing_bool:
+                model.populate_db_with_test_data()
+            else:
+                if database_tables_dropped_bool:
+                    model.populate_db_with_setup_data()
+                elif not mc_global.db_file_exists_at_application_startup_bl:
+                    model.populate_db_with_setup_data()
+                else:
+                    pass  # -default, the user has started the application before and is not testing
 
             # TODO: Where do we close the db connection? (Do we need to close it?)
             # http://stackoverflow.com/questions/3850261/doing-something-before-program-exit
