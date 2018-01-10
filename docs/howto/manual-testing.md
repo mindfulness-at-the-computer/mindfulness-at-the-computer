@@ -13,8 +13,8 @@ Test Record: Please use [the wiki](https://github.com/mindfulness-at-the-compute
 ## System Tray Menu
 
 1. Click on the system tray icon.        
-1. Click on "take break now".
-2. Verify: Rest dialog comes up.
+2. Click on "take break now".
+3. Verify: Rest dialog comes up.
 
 ## Rest Dialog
 
