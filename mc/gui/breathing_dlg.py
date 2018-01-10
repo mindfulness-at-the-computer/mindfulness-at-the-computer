@@ -149,7 +149,7 @@ class BreathingDlg(QtWidgets.QFrame):
         self.ib_length_ft_list.append(now - self.start_time_ft)
         self.start_time_ft = now
 
-        if not phrase.ob:
+        if phrase.type == mc.mc_global.BreathingPhraseType.single:
             if self.shortened_phrase_qcb.isChecked():
                 breathing_str = phrase.ib_short
             else:
@@ -340,7 +340,7 @@ class GraphicsView(QtWidgets.QGraphicsView):
 
     def frame_change_breathing_in(self, i_frame_nr_int):
         phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-        if phrase.ob:
+        if phrase.type == mc.mc_global.BreathingPhraseType.in_out:
             self.text_gi.setScale(1 + 0.001 * i_frame_nr_int)
         else:
             pass
@@ -349,7 +349,7 @@ class GraphicsView(QtWidgets.QGraphicsView):
 
     def frame_change_breathing_out(self, i_frame_nr_int):
         phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-        if phrase.ob:
+        if phrase.type == mc.mc_global.BreathingPhraseType.in_out:
             self.text_gi.setScale(self.peak_scale_ft - 0.0005 * i_frame_nr_int)
         else:
             pass

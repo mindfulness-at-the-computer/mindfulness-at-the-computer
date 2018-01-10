@@ -153,7 +153,9 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             text_sg,
             BREATHING_IN_DEFAULT_PHRASE,
             BREATHING_OUT_DEFAULT_PHRASE,
-            "", ""
+            "",
+            "",
+            mc.mc_global.BreathingPhraseType.in_out
         )
         self.add_to_list_qle.clear()
 
@@ -238,6 +240,8 @@ class EditDialog(QtWidgets.QDialog):
     def __init__(self, i_parent=None):
         super(EditDialog, self).__init__(i_parent)
 
+        self.updating_gui_bool = False
+
         # If a phrase is not selected, default to phrase with id 1
         if mc.mc_global.active_phrase_id_it == mc.mc_global.NO_PHRASE_SELECTED_INT:
             mc.mc_global.active_phrase_id_it = 1
@@ -299,12 +303,22 @@ class EditDialog(QtWidgets.QDialog):
         self.button_box.rejected.connect(self.reject)
         # -accept and reject are "slots" built into Qt
 
-        self.in_out_qrb.setChecked(True)  # update_gui will be called
+        if active_phrase.type == mc.mc_global.BreathingPhraseType.single:
+            self.single_qrb.setChecked(True)
+        else:
+            self.in_out_qrb.setChecked(True)
+
+        self.update_gui()
 
     def on_in_out_toggled(self, i_checked: bool):
+        if self.updating_gui_bool:
+            return
+        # self.out_breath_phrase_qle.setText(BREATHING_IN_DEFAULT_PHRASE)
         self.update_gui()
 
     def on_single_toggled(self, i_checked: bool):
+        if self.updating_gui_bool:
+            return
         if i_checked:
             self.out_breath_phrase_qle.clear()
             self.short_out_breath_phrase_qle.clear()
@@ -314,8 +328,12 @@ class EditDialog(QtWidgets.QDialog):
         self.update_gui()
 
     def update_gui(self):
+        self.updating_gui_bool = True
+
         self.out_breath_phrase_qle.setEnabled(self.in_out_qrb.isChecked())
         self.short_out_breath_phrase_qle.setEnabled(self.in_out_qrb.isChecked())
+
+        self.updating_gui_bool = False
 
     @staticmethod
     def launch_edit_dialog():
@@ -331,6 +349,10 @@ class EditDialog(QtWidgets.QDialog):
             phrase.ob = dialog.out_breath_phrase_qle.text()
             phrase.ib_short = dialog.short_in_breath_phrase_qle.text()
             phrase.ob_short = dialog.short_out_breath_phrase_qle.text()
+            if dialog.in_out_qrb.isChecked():
+                phrase.type = mc.mc_global.BreathingPhraseType.in_out
+            else:
+                phrase.type = mc.mc_global.BreathingPhraseType.single
 
             """
             mc.model.PhrasesM.update_title(
