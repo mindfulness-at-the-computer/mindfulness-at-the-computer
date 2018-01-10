@@ -308,6 +308,9 @@ class EditDialog(QtWidgets.QDialog):
         if i_checked:
             self.out_breath_phrase_qle.clear()
             self.short_out_breath_phrase_qle.clear()
+            # If the user has just opened the edit dialog and selected single we remove the ib text
+            if self.in_breath_phrase_qle.text() == BREATHING_IN_DEFAULT_PHRASE:
+                self.in_breath_phrase_qle.clear()
         self.update_gui()
 
     def update_gui(self):
