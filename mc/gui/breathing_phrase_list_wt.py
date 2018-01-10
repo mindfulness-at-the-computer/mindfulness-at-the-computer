@@ -329,8 +329,14 @@ class EditDialog(QtWidgets.QDialog):
     def update_gui(self):
         self.updating_gui_bool = True
 
-        self.out_breath_phrase_qle.setEnabled(self.in_out_qrb.isChecked())
-        self.short_out_breath_phrase_qle.setEnabled(self.in_out_qrb.isChecked())
+        if self.in_out_qrb.isChecked():
+            self.out_breath_phrase_qle.show()
+            self.short_out_breath_phrase_qle.show()
+        else:
+            self.out_breath_phrase_qle.hide()
+            self.short_out_breath_phrase_qle.hide()
+
+        self.adjustSize()
 
         self.updating_gui_bool = False
 
