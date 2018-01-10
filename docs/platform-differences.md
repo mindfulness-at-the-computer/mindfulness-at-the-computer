@@ -15,6 +15,8 @@ For example, older versions of MacOS seem to have this problem. In such a case, 
 
 Some systems do not have a system tray
 
+XFCE: Left clicking icon in system tray does nothing
+
 ### Minimize area
 
 Systems that lack a minimizing area

@@ -56,13 +56,13 @@ class BreathingDlg(QtWidgets.QFrame):
             self.phrases_qcb.addItem(phrase.title, phrase.id)
         self.phrases_qcb.activated.connect(self.on_phrases_combo_activated)
 
-        self.close_qpb = CustomPushButton("Close")
+        self.close_qpb = CustomPushButton(self.tr("Close"))
         buttons_hbox_l3.addWidget(self.close_qpb)
         self.close_qpb.pressed.connect(self.on_close_button_clicked)
         self.close_qpb.entered_signal.connect(self.on_close_button_entered)
 
         self.help_qll = QtWidgets.QLabel(
-            "Hover over the central area breathing in and over the background breathing out"
+            self.tr("Hover over the central area breathing in and over the background breathing out")
         )
         vbox_l2.addWidget(self.help_qll, alignment=QtCore.Qt.AlignHCenter)
         font = self.help_qll.font()
@@ -70,7 +70,7 @@ class BreathingDlg(QtWidgets.QFrame):
         self.help_qll.setFont(font)
         self.help_qll.setWordWrap(True)
 
-        self.shortened_phrase_qcb = QtWidgets.QCheckBox("Use shortened")
+        self.shortened_phrase_qcb = QtWidgets.QCheckBox(self.tr("Use shortened"))
         vbox_l2.addWidget(self.shortened_phrase_qcb)
         self.shortened_phrase_qcb.toggled.connect(self.on_shortened_phrase_toggled)
         using_shortened_phrase_bool = False

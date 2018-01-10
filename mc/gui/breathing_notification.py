@@ -6,6 +6,14 @@ from PyQt5 import QtGui
 import mc.mc_global
 import mc.model
 
+WINDOW_FLAGS = (
+    QtCore.Qt.Dialog
+    | QtCore.Qt.WindowStaysOnTopHint
+    | QtCore.Qt.FramelessWindowHint
+    | QtCore.Qt.WindowDoesNotAcceptFocus
+    | QtCore.Qt.BypassWindowManagerHint
+)
+
 
 class BreathingNotification(QtWidgets.QFrame):
     # close_signal = QtCore.pyqtSignal(list, list)
@@ -14,14 +22,9 @@ class BreathingNotification(QtWidgets.QFrame):
     # wait_signal = QtCore.pyqtSignal()
 
     def __init__(self):
-        super().__init__()
+        super().__init__(None, WINDOW_FLAGS)
 
-        self.setWindowFlags(
-            QtCore.Qt.Dialog
-            | QtCore.Qt.WindowStaysOnTopHint
-            | QtCore.Qt.FramelessWindowHint
-            | QtCore.Qt.WindowDoesNotAcceptFocus
-        )
+        # self.setWindowFlags()
         # -To avoid the window getting focus we need to set both QtCore.Qt.Dialog
         #  and QtCore.Qt.WindowDoesNotAcceptFocus (setting QtCore.Qt.Popup +
         #  QtCore.Qt.WindowDoesNotAcceptFocus doesn't work)
@@ -46,13 +49,13 @@ class BreathingNotification(QtWidgets.QFrame):
         hbox = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox)
 
-        self.breathe_qpb = QtWidgets.QPushButton("Open Dialog")
+        self.breathe_qpb = QtWidgets.QPushButton(self.tr("Open Dialog"))
         hbox.addWidget(self.breathe_qpb)
         # self.breathe_qpb.setFocusPolicy(QtCore.Qt.NoFocus)
         self.breathe_qpb.clicked.connect(self.on_breathe_button_clicked)
         self.breathe_qpb.setFont(mc.mc_global.get_font_medium(i_bold=True))
 
-        self.skip_qpb = QtWidgets.QPushButton("Close")
+        self.skip_qpb = QtWidgets.QPushButton(self.tr("Close"))
         hbox.addWidget(self.skip_qpb)
         # self.skip_qpb.setFocusPolicy(QtCore.Qt.NoFocus)
         self.skip_qpb.clicked.connect(self.on_close_button_clicked)

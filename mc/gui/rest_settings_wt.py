@@ -31,15 +31,15 @@ class RestSettingsWt(QtWidgets.QWidget):
 
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
-        hbox_l3.addWidget(QtWidgets.QLabel("Interval:"))
+        hbox_l3.addWidget(QtWidgets.QLabel(self.tr("Interval:")))
         self.rest_reminder_interval_qsb = QtWidgets.QSpinBox()
         hbox_l3.addWidget(self.rest_reminder_interval_qsb)
-        hbox_l3.addWidget(QtWidgets.QLabel("minutes"))
+        hbox_l3.addWidget(QtWidgets.QLabel(self.tr("minutes")))
         hbox_l3.addStretch(1)
         self.rest_reminder_interval_qsb.setMinimum(MIN_REST_REMINDER_INT)
         self.rest_reminder_interval_qsb.setMaximum(MAX_REST_REMINDER_INT)
         self.rest_reminder_interval_qsb.valueChanged.connect(self.on_rest_interval_value_changed)
-        vbox_l2.addWidget(QtWidgets.QLabel("Time until next break:"))
+        vbox_l2.addWidget(QtWidgets.QLabel(self.tr("Time until next break:")))
 
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
@@ -48,10 +48,12 @@ class RestSettingsWt(QtWidgets.QWidget):
         self.rest_reminder_qsr.setTickPosition(QtWidgets.QSlider.NoTicks)
         self.rest_reminder_qsr.valueChanged.connect(self.on_rest_reminder_slider_value_changed)
         self.rest_reminder_qsr.setPageStep(5)
+
         self.rest_reminder_reset_qpb = QtWidgets.QPushButton()  # -"Reset timer"
-        hbox_l3.addWidget(self.rest_reminder_reset_qpb)
         self.rest_reminder_reset_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("reload-2x.png")))
+        self.rest_reminder_reset_qpb.setToolTip(self.tr("Reset the rest timer"))
         self.rest_reminder_reset_qpb.clicked.connect(self.on_rest_reset_clicked)
+        hbox_l3.addWidget(self.rest_reminder_reset_qpb)
 
         """
         self.slider = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)
@@ -72,14 +74,14 @@ class RestSettingsWt(QtWidgets.QWidget):
 
         # Take break button
         # vbox_l2.addWidget(CustomFrame())
-        self.rest_reminder_test_qpb = QtWidgets.QPushButton("Take a break now")  # -from the computer
+        self.rest_reminder_test_qpb = QtWidgets.QPushButton(self.tr("Take a break now"))  # -from the computer
         vbox_l2.addWidget(self.rest_reminder_test_qpb)
         self.rest_reminder_test_qpb.clicked.connect(self.on_rest_test_clicked)
 
 
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
-        hbox_l3.addWidget(QtWidgets.QLabel("Notification type: "))
+        hbox_l3.addWidget(QtWidgets.QLabel(self.tr("Notification type: ")))
         hbox_l3.addStretch(1)
         self.notification_type_qcb = QtWidgets.QComboBox()
         hbox_l3.addWidget(self.notification_type_qcb)
@@ -91,11 +93,11 @@ class RestSettingsWt(QtWidgets.QWidget):
         self.notification_type_qcb.activated.connect(self.on_notification_type_activated)
 
 
-        self.audio_qgb = QtWidgets.QGroupBox("Audio")
+        self.audio_qgb = QtWidgets.QGroupBox(self.tr("Audio"))
         vbox_l2.addWidget(self.audio_qgb)
         vbox_l3 = QtWidgets.QVBoxLayout()
         self.audio_qgb.setLayout(vbox_l3)
-        self.select_audio_qpb = QtWidgets.QPushButton("Select audio")
+        self.select_audio_qpb = QtWidgets.QPushButton(self.tr("Select audio"))
         vbox_l3.addWidget(self.select_audio_qpb)
         self.select_audio_qpb.clicked.connect(self.on_select_audio_clicked)
         self.audio_path_qll = QtWidgets.QLabel(NO_AUDIO_SELECTED_STR)
@@ -109,7 +111,7 @@ class RestSettingsWt(QtWidgets.QWidget):
         self.volume_qsr.valueChanged.connect(self.volume_changed)
 
         vbox_l2.addStretch(1)
-        
+
         # vbox_l2.addWidget(QtWidgets.QLabel("<i>All changes are automatically saved</i>"))
 
         self.update_gui()
@@ -128,9 +130,9 @@ class RestSettingsWt(QtWidgets.QWidget):
         # noinspection PyCallByClass
         audio_file_result_tuple = QtWidgets.QFileDialog.getOpenFileName(
             self,
-            "Please choose a wav audio file",
+            self.tr("Please choose a wav audio file"),
             mc.mc_global.get_user_audio_path(),
-            "Wav files (*.wav)"
+            self.tr("Wav files (*.wav)")
         )
         new_file_path_str = audio_file_result_tuple[0]
         if new_file_path_str:
