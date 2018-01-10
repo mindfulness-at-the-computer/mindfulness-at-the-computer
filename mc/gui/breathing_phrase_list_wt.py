@@ -255,23 +255,23 @@ class EditDialog(QtWidgets.QDialog):
 
         vbox = QtWidgets.QVBoxLayout(self)
 
-        self.breath_title_qle = QtWidgets.QLineEdit(active_phrase.title_str)
+        self.breath_title_qle = QtWidgets.QLineEdit(active_phrase.title)
         vbox.addWidget(QtWidgets.QLabel(self.tr("Title")))
         vbox.addWidget(self.breath_title_qle)
 
-        self.in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_str)
+        self.in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib)
         vbox.addWidget(QtWidgets.QLabel(self.tr("In breath phrase")))
         vbox.addWidget(self.in_breath_phrase_qle)
 
-        self.out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_str)
+        self.out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob)
         vbox.addWidget(QtWidgets.QLabel(self.tr("Out breath phrase")))
         vbox.addWidget(self.out_breath_phrase_qle)
 
-        self.short_in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_short_str)
+        self.short_in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_short)
         vbox.addWidget(QtWidgets.QLabel(self.tr("Short in breath phrase")))
         vbox.addWidget(self.short_in_breath_phrase_qle)
 
-        self.short_out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_short_str)
+        self.short_out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_short)
         vbox.addWidget(QtWidgets.QLabel(self.tr("Short out breath phrase")))
         vbox.addWidget(self.short_out_breath_phrase_qle)
 
