@@ -54,6 +54,11 @@ class NotificationType(enum.Enum):
     Both = 2
 
 
+class BreathingPhraseType(enum.Enum):
+    in_out = 0
+    single = 1
+
+
 breathing_state = BreathingState.inactive
 
 

@@ -128,10 +128,20 @@ def upgrade_2_3(i_db_conn):
     )
 
 
+def upgrade_3_4(i_db_conn):
+    backup_db_file()
+    i_db_conn.execute(
+        "ALTER TABLE " + Schema.PhrasesTable.name + " ADD COLUMN "
+        + Schema.PhrasesTable.Cols.type + " INTEGER DEFAULT "
+        + str(mc_global.BreathingPhraseType.in_out.value)
+    )
+
+
 upgrade_steps = {
     10: initial_schema_and_setup,
     11: upgrade_1_2,
-    12: upgrade_2_3
+    12: upgrade_2_3,
+    13: upgrade_3_4
 }
 
 
@@ -198,6 +208,7 @@ class Schema:
             ob_phrase = "ob_phrase"
             ib_short_phrase = "ib_short_phrase"
             ob_short_phrase = "ob_short_phrase"
+            type = "type"
 
     class RestActionsTable:
         name = "rest_actions"
