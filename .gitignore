@@ -3,6 +3,8 @@ mindfulness-at-the-computer.spec
 .idea/vcs.xml
 .idea/workspace.xml
 .idea/misc.xml
+.idea/modules.xml  # uncertain, we may want to use this
+.idea/mindfulness-at-the-computer.iml  # we may want to use this
 exported.csv
 venv
 
