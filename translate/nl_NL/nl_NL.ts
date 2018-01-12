@@ -47,7 +47,7 @@
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="51"/>
       <source>Edit the selected breathing phrase</source>
-      <translation>Wijzig de geselecteerde ademhalingszin</translation>
+      <translation>De geselecteerde ademhalingszin wijzigen</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="57"/>
@@ -85,7 +85,7 @@
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="40"/>
       <source>Notification type: </source>
-      <translation>Notificatietype: </translation>
+      <translation>Meldingstype: </translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="53"/>
@@ -125,7 +125,7 @@
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="95"/>
       <source>Open breathing dialog</source>
-      <translation>Open ademhaling dialoogvenster</translation>
+      <translation>Open dialoogvenster ademhaling</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="100"/>
@@ -271,7 +271,7 @@
     <message>
       <location filename="mc/gui/main_win.py" line="400"/>
       <source>Show rest reminder</source>
-      <translation>Toon pauze herinnering</translation>
+      <translation>Toon pauzeherinnering</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="407"/>
@@ -299,7 +299,7 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="42"/>
       <source>Edit the selected rest action</source>
-      <translation>Wijzig de geselecteerde pauzeactie</translation>
+      <translation>De geselecteerde pauzeactie wijzigen</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="48"/>
@@ -319,7 +319,7 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="68"/>
       <source>Delete the selected rest action</source>
-      <translation>Verwijder de geselecteerde pauzeactie</translation>
+      <translation>De geselecteerde pauzeactie verwijderen</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="125"/>
