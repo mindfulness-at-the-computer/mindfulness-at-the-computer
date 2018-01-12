@@ -6,7 +6,6 @@ mindfulness-at-the-computer.spec
 .idea/modules.xml  # uncertain, we may want to use this
 .idea/mindfulness-at-the-computer.iml  # we may want to use this
 exported.csv
-venv
 
 
 ##### Github standard ignores for Python #####
