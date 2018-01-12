@@ -4,6 +4,7 @@ mindfulness-at-the-computer.spec
 .idea/workspace.xml
 .idea/misc.xml
 exported.csv
+venv
 
 
 ##### Github standard ignores for Python #####
