@@ -16,7 +16,7 @@
     <message>
       <location filename="mc/gui/breathing_dlg.py" line="73"/>
       <source>Use shortened</source>
-      <translation type="unfinished">Use shortened</translation>
+      <translation>Gebruik verkorte</translation>
     </message>
   </context>
   <context>
@@ -72,7 +72,7 @@
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="142"/>
       <source>Are you sure that you want to remove this entry?</source>
-      <translation type="unfinished">Are you sure that you want to remove this entry?</translation>
+      <translation>Weet je zeker dat je dit item wil verwijderen?</translation>
     </message>
   </context>
   <context>
@@ -80,27 +80,27 @@
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="33"/>
       <source>Notifications</source>
-      <translation type="unfinished">Notifications</translation>
+      <translation>Meldingen</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="40"/>
       <source>Notification type: </source>
-      <translation type="unfinished">Notification type: </translation>
+      <translation>Notificatietype: </translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="53"/>
       <source>Interval:</source>
-      <translation type="unfinished">Interval:</translation>
+      <translation>Interval:</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="60"/>
       <source>minutes</source>
-      <translation type="unfinished">minutes</translation>
+      <translation>minuten</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="64"/>
       <source>Dialog</source>
-      <translation type="unfinished">Dialog</translation>
+      <translation>Dialoogvenster</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="71"/>
@@ -110,12 +110,12 @@
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="84"/>
       <source>Show after</source>
-      <translation type="unfinished">Show after</translation>
+      <translation>Toon na</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="88"/>
       <source>notifications</source>
-      <translation type="unfinished">notifications</translation>
+      <translation>meldingen</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="91"/>
@@ -178,27 +178,27 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="199"/>
       <source>Image</source>
-      <translation type="unfinished">Image</translation>
+      <translation>Afbeelding</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="203"/>
       <source> Select image</source>
-      <translation type="unfinished"> Select image</translation>
+      <translation> Selecteer afbeelding</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="237"/>
       <source>image does not exist</source>
-      <translation type="unfinished">image does not exist</translation>
+      <translation>afbeelding bestaat niet</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="239"/>
       <source>(no image set)</source>
-      <translation type="unfinished">(no image set)</translation>
+      <translation>(geen afbeelding is ingesteld)</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="267"/>
       <source>Please choose an image</source>
-      <translation type="unfinished">Please choose an image</translation>
+      <translation>Kies een afbeelding</translation>
     </message>
   </context>
   <context>
@@ -226,7 +226,7 @@
     <message>
       <location filename="mc/gui/main_win.py" line="188"/>
       <source>Take a Break Now</source>
-      <translation type="unfinished">Take a Break Now</translation>
+      <translation>Neem nu een pauze</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="194"/>
@@ -246,12 +246,12 @@
     <message>
       <location filename="mc/gui/main_win.py" line="389"/>
       <source>Quit</source>
-      <translation type="unfinished">Quit</translation>
+      <translation>Stoppen</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="382"/>
       <source>&amp;File</source>
-      <translation type="unfinished">&amp;File</translation>
+      <translation>&amp;Bestand</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="383"/>
@@ -281,12 +281,12 @@
     <message>
       <location filename="mc/gui/main_win.py" line="408"/>
       <source>About</source>
-      <translation type="unfinished">About</translation>
+      <translation>Over</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="414"/>
       <source>System Information</source>
-      <translation type="unfinished">System Information</translation>
+      <translation>Systeeminformatie</translation>
     </message>
   </context>
   <context>
@@ -294,7 +294,7 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="31"/>
       <source>Add</source>
-      <translation type="unfinished">Add</translation>
+      <translation>Toevoegen</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="42"/>
@@ -324,7 +324,7 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="125"/>
       <source>Are you sure that you want to remove this entry?</source>
-      <translation type="unfinished">Are you sure that you want to remove this entry?</translation>
+      <translation>Weet je zeker dat je dit item wil verwijderen?</translation>
     </message>
   </context>
   <context>
@@ -332,7 +332,7 @@
     <message>
       <location filename="mc/gui/rest_notification.py" line="34"/>
       <source>Please take good care of your body and mind</source>
-      <translation type="unfinished">Please take good care of your body and mind</translation>
+      <translation>Zorg goed voor je lichaam en geest</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_notification.py" line="40"/>
@@ -342,12 +342,12 @@
     <message>
       <location filename="mc/gui/rest_notification.py" line="47"/>
       <source>Wait</source>
-      <translation type="unfinished">Wait</translation>
+      <translation>Wacht</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_notification.py" line="51"/>
       <source>Skip</source>
-      <translation type="unfinished">Skip</translation>
+      <translation>Overslaan</translation>
     </message>
   </context>
   <context>
@@ -355,32 +355,32 @@
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="34"/>
       <source>Interval:</source>
-      <translation type="unfinished">Interval:</translation>
+      <translation>Interval:</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="37"/>
       <source>minutes</source>
-      <translation type="unfinished">minutes</translation>
+      <translation>minuten</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="42"/>
       <source>Time until next break:</source>
-      <translation type="unfinished">Time until next break:</translation>
+      <translation>Tijd tot volgende pauze:</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="54"/>
       <source>Reset the rest timer</source>
-      <translation type="unfinished">Reset the rest timer</translation>
+      <translation>Reset de pauze timer</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="77"/>
       <source>Take a break now</source>
-      <translation type="unfinished">Take a break now</translation>
+      <translation>Neem nu een pauze</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="84"/>
       <source>Notification type: </source>
-      <translation type="unfinished">Notification type: </translation>
+      <translation>Notificatietype</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="96"/>
