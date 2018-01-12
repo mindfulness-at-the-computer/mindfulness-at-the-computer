@@ -24,12 +24,12 @@
     <message>
       <location filename="mc/gui/breathing_notification.py" line="52"/>
       <source>Open Dialog</source>
-      <translation type="unfinished">Open Dialog</translation>
+      <translation>Dialoogvenster openen</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_notification.py" line="58"/>
       <source>Close</source>
-      <translation type="unfinished">Close</translation>
+      <translation>Sluiten</translation>
     </message>
   </context>
   <context>
@@ -37,17 +37,17 @@
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="34"/>
       <source>New item</source>
-      <translation type="unfinished">New item</translation>
+      <translation>Nieuw item</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="42"/>
       <source>Add</source>
-      <translation type="unfinished">Add</translation>
+      <translation>Toevoegen</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="51"/>
       <source>Edit the selected breathing phrase</source>
-      <translation type="unfinished">Edit the selected breathing phrase</translation>
+      <translation>Wijzig de geselecteerde ademhalingszin</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="57"/>
@@ -130,22 +130,22 @@
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="100"/>
       <source>Audio</source>
-      <translation type="unfinished">Audio</translation>
+      <translation>Audio</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="104"/>
       <source>Select audio</source>
-      <translation type="unfinished">Select audio</translation>
+      <translation>Audio selecteren</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="149"/>
       <source>Please choose a wav audio file</source>
-      <translation type="unfinished">Please choose a wav audio file</translation>
+      <translation>Kies een wav-audiobestand</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="149"/>
       <source>Wav files (*.wav)</source>
-      <translation type="unfinished">Wav files (*.wav)</translation>
+      <translation>Wav-bestanden (*.wav)</translation>
     </message>
   </context>
   <context>
@@ -153,7 +153,7 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="191"/>
       <source>Title</source>
-      <translation type="unfinished">Title</translation>
+      <translation>Titel</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="264"/>
@@ -206,17 +206,17 @@
     <message>
       <location filename="mc/gui/main_win.py" line="85"/>
       <source>title</source>
-      <translation type="unfinished">title</translation>
+      <translation>titel</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="88"/>
       <source>in</source>
-      <translation type="unfinished">in</translation>
+      <translation>in</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="91"/>
       <source>out</source>
-      <translation type="unfinished">out</translation>
+      <translation>uit</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="177"/>
@@ -256,17 +256,17 @@
     <message>
       <location filename="mc/gui/main_win.py" line="383"/>
       <source>Export data</source>
-      <translation type="unfinished">Export data</translation>
+      <translation>Gegevens exporteren</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="386"/>
       <source>Minimize to tray</source>
-      <translation type="unfinished">Minimize to tray</translation>
+      <translation>Naar systeemvak minimaliseren</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="397"/>
       <source>Full screen</source>
-      <translation type="unfinished">Full screen</translation>
+      <translation>Volledig scherm</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="400"/>
@@ -385,22 +385,22 @@
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="96"/>
       <source>Audio</source>
-      <translation type="unfinished">Audio</translation>
+      <translation>Audio</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="100"/>
       <source>Select audio</source>
-      <translation type="unfinished">Select audio</translation>
+      <translation>Audio selecteren</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="131"/>
       <source>Please choose a wav audio file</source>
-      <translation type="unfinished">Please choose a wav audio file</translation>
+      <translation>Kies een wav-audiobestand</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="131"/>
       <source>Wav files (*.wav)</source>
-      <translation type="unfinished">Wav files (*.wav)</translation>
+      <translation>Wav-bestanden (*.wav)</translation>
     </message>
   </context>
   <context>
@@ -408,22 +408,22 @@
     <message>
       <location filename="mc/gui/toggle_switch_wt.py" line="22"/>
       <source>On</source>
-      <translation type="unfinished">On</translation>
+      <translation>Aan</translation>
     </message>
     <message>
       <location filename="mc/gui/toggle_switch_wt.py" line="28"/>
       <source>Off</source>
-      <translation type="unfinished">Off</translation>
+      <translation>Uit</translation>
     </message>
     <message>
       <location filename="mc/gui/toggle_switch_wt.py" line="61"/>
       <source>Enabled</source>
-      <translation type="unfinished">Enabled</translation>
+      <translation>Ingeschakeld</translation>
     </message>
     <message>
       <location filename="mc/gui/toggle_switch_wt.py" line="66"/>
       <source>Disabled</source>
-      <translation type="unfinished">Disabled</translation>
+      <translation>Uitgeschakeld</translation>
     </message>
   </context>
 </TS>
