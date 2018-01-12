@@ -52,22 +52,22 @@
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="57"/>
       <source>Move the selected breathing phrase to top</source>
-      <translation type="unfinished">Move the selected breathing phrase to top</translation>
+      <translation>De geselecteerde ademhalingszin helemaal naar boven verplaatsen</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="63"/>
       <source>Move the selected breathing phrase up</source>
-      <translation type="unfinished">Move the selected breathing phrase up</translation>
+      <translation>De geselecteerde ademhalingszin naar boven verplaatsen</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="69"/>
       <source>Move the selected breathing phrase down</source>
-      <translation type="unfinished">Move the selected breathing phrase down</translation>
+      <translation>De geselecteerde ademhalingszin naar beneden verplaatsen</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="77"/>
       <source>Delete the selected breathing phrase</source>
-      <translation type="unfinished">Delete the selected breathing phrase</translation>
+      <translation>De geselecteerde ademhalingszin verwijderen</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="142"/>
@@ -120,12 +120,12 @@
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="91"/>
       <source>Play Audio</source>
-      <translation type="unfinished">Play Audio</translation>
+      <translation>Audio afspelen</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="95"/>
       <source>Open breathing dialog</source>
-      <translation type="unfinished">Open breathing dialog</translation>
+      <translation>Open ademhaling dialoogvenster</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="100"/>
@@ -158,22 +158,22 @@
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="264"/>
       <source>In breath phrase</source>
-      <translation type="unfinished">In breath phrase</translation>
+      <translation>Zin voor de inademing</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="268"/>
       <source>Out breath phrase</source>
-      <translation type="unfinished">Out breath phrase</translation>
+      <translation>Zin voor de uitademing</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="272"/>
       <source>Short in breath phrase</source>
-      <translation type="unfinished">Short in breath phrase</translation>
+      <translation>Korte zin voor de inademing</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="276"/>
       <source>Short out breath phrase</source>
-      <translation type="unfinished">Short out breath phrase</translation>
+      <translation>Korte zin voor de uitademing</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="199"/>
@@ -271,12 +271,12 @@
     <message>
       <location filename="mc/gui/main_win.py" line="400"/>
       <source>Show rest reminder</source>
-      <translation type="unfinished">Show rest reminder</translation>
+      <translation>Toon pauze herinnering</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="407"/>
       <source>&amp;Help</source>
-      <translation type="unfinished">&amp;Help</translation>
+      <translation>&amp;Help</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="408"/>
@@ -337,7 +337,7 @@
     <message>
       <location filename="mc/gui/rest_notification.py" line="40"/>
       <source>Rest</source>
-      <translation type="unfinished">Rest</translation>
+      <translation>Rusten</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_notification.py" line="47"/>
