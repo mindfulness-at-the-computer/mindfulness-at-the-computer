@@ -105,7 +105,7 @@
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="71"/>
       <source>Phrase setup: </source>
-      <translation type="unfinished">Phrase setup: </translation>
+      <translation>Instelling voor de zinnen: </translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="84"/>
@@ -221,7 +221,7 @@
     <message>
       <location filename="mc/gui/main_win.py" line="177"/>
       <source>Enable Rest Reminder</source>
-      <translation type="unfinished">Enable Rest Reminder</translation>
+      <translation>Pauzeherinnering inschakelen</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="188"/>
@@ -231,17 +231,17 @@
     <message>
       <location filename="mc/gui/main_win.py" line="194"/>
       <source>Enable Breathing Reminder</source>
-      <translation type="unfinished">Enable Breathing Reminder</translation>
+      <translation>Ademhalingsherinnering inschakelen</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="202"/>
       <source>Open Breathing Dialog</source>
-      <translation type="unfinished">Open Breathing Dialog</translation>
+      <translation>Open dialoogvenster ademhaling</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="234"/>
       <source>Open Settings</source>
-      <translation type="unfinished">Open Settings</translation>
+      <translation>Open Instellingen</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="389"/>
@@ -299,27 +299,27 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="42"/>
       <source>Edit the selected rest action</source>
-      <translation type="unfinished">Edit the selected rest action</translation>
+      <translation>Wijzig de geselecteerde pauzeactie</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="48"/>
       <source>Move the selected rest action to top</source>
-      <translation type="unfinished">Move the selected rest action to top</translation>
+      <translation>De geselecteerde pauzeactie helemaal naar boven verplaatsen</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="54"/>
       <source>Move the selected rest action up</source>
-      <translation type="unfinished">Move the selected rest action up</translation>
+      <translation>De geselecteerde pauzeactie naar boven verplaatsen</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="60"/>
       <source>Move the selected rest action down</source>
-      <translation type="unfinished">Move the selected rest action down</translation>
+      <translation>De geselecteerde pauzeactie naar beneden verplaatsen</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="68"/>
       <source>Delete the selected rest action</source>
-      <translation type="unfinished">Delete the selected rest action</translation>
+      <translation>Verwijder de geselecteerde pauzeactie</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="125"/>
