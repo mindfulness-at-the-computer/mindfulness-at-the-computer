@@ -37,3 +37,5 @@ Some important documents:
   * [Translations](CONTRIBUTING.md#translations)
 * [Technical Architecture](docs/tech-architecture.md)
 * [Running the application from source](docs/howto/running-from-source.md)
+
+[Markdown](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/wiki/Markdown) is used for the text documents. [draw.io](https://www.draw.io/) is used for editing the `.xml` files
