@@ -85,6 +85,12 @@ That tracks the branch from your fork on GitHub.
 
 ![workflow](docs/workflow.png)
 
+## Translations
+
+We need help localizing the application. Helping with translations is easy:
+* You can use our [**crowdin project page**](https://crowdin.com/project/mindfulness-at-the-computer) to enter your translations
+* You can find a list of translators on [this wiki page](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/wiki/Translators)
+
 ***
 
 ### References

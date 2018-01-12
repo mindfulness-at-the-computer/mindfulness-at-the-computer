@@ -34,5 +34,6 @@ Most documents are located in the [docs directory](docs/). There's also a [wiki]
 
 Some important documents:
 * [**CONTRIBUTING**](CONTRIBUTING.md)
+  * [Translations](CONTRIBUTING.md#translations)
 * [Technical Architecture](docs/tech-architecture.md)
 * [Running the application from source](docs/howto/running-from-source.md)
