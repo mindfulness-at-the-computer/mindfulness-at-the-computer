@@ -360,7 +360,7 @@
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="37"/>
       <source>minutes</source>
-      <translation type="unfinished">minutes</translation>
+      <translation>分钟</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="42"/>
