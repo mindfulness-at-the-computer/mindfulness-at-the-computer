@@ -6,12 +6,12 @@
     <message>
       <location filename="mc/gui/breathing_dlg.py" line="59"/>
       <source>Close</source>
-      <translation type="unfinished">Close</translation>
+      <translation>Sluiten</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_dlg.py" line="64"/>
       <source>Hover over the central area breathing in and over the background breathing out</source>
-      <translation type="unfinished">Hover over the central area breathing in and over the background breathing out</translation>
+      <translation>Beweeg over het middelste vlak terwijl je inademt en over de achtergrond terwijl je uitademt</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_dlg.py" line="73"/>
