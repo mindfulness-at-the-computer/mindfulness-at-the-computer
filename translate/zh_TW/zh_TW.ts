@@ -6,7 +6,7 @@
     <message>
       <location filename="mc/gui/breathing_dlg.py" line="59"/>
       <source>Close</source>
-      <translation type="unfinished">Close</translation>
+      <translation>關閉</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_dlg.py" line="64"/>
@@ -95,7 +95,7 @@
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="60"/>
       <source>minutes</source>
-      <translation type="unfinished">minutes</translation>
+      <translation>分鐘</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="64"/>
@@ -178,7 +178,7 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="199"/>
       <source>Image</source>
-      <translation type="unfinished">Image</translation>
+      <translation>圖像</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="203"/>
