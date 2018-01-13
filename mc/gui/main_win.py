@@ -66,7 +66,7 @@ class MainWin(QtWidgets.QMainWindow):
         self._setup_set_window_title()
         self.setStyleSheet("selection-background-color:#bfef7f; selection-color:#000000;")
 
-    def _setup_main_container(self):
+    def _setup_main_container(self) -> QtWidgets.QHBoxLayout:
         central_w2 = QtWidgets.QWidget()
         self.setCentralWidget(central_w2)
         main_container_hbox_l3 = QtWidgets.QHBoxLayout()
@@ -107,7 +107,7 @@ class MainWin(QtWidgets.QMainWindow):
         self._setup_configure_rest_settings(rest_action_list_vbox_l4)
 
     @staticmethod
-    def _setup_new_panel_in_main_window(main_container_hbox_l3):
+    def _setup_new_panel_in_main_window(main_container_hbox_l3) -> QtWidgets.QVBoxLayout:
         panel_vbox_l4 = QtWidgets.QVBoxLayout()
         main_container_hbox_l3.addLayout(panel_vbox_l4)
         return panel_vbox_l4
