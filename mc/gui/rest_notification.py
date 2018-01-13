@@ -42,17 +42,20 @@ class RestReminderDlg(QtWidgets.QFrame):
         self.rest_qpb = CustomButton(self.tr("Rest"))
         hbox.addWidget(self.rest_qpb)
         self.rest_qpb.clicked.connect(self.on_rest_button_clicked)
-        self.rest_qpb.setFont(mc.mc_global.get_font_medium(i_bold=True))
+        self.rest_qpb.setFont(mc.mc_global.get_font_medium())
+        self.rest_qpb.setFlat(True)
         # self.rest_qpb.clicked.connect(self.on_close_button_clicked)
         # self.rest_qpb.entered_signal.connect(self.on_close_button_hover)
 
         self.wait_qpb = CustomButton(self.tr("Wait"))
         hbox.addWidget(self.wait_qpb)
         self.wait_qpb.clicked.connect(self.on_wait_button_clicked)
+        self.wait_qpb.setFlat(True)
 
         self.skip_qpb = CustomButton(self.tr("Skip"))
         hbox.addWidget(self.skip_qpb)
         self.skip_qpb.clicked.connect(self.on_skip_button_clicked)
+        self.skip_qpb.setFlat(True)
 
         self.show()  # -done after all the widget have been added so that the right size is set
         self.raise_()
