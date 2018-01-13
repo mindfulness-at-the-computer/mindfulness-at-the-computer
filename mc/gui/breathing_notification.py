@@ -14,6 +14,8 @@ WINDOW_FLAGS = (
     | QtCore.Qt.BypassWindowManagerHint
 )
 
+SHOWN_TIMER_TIME_INT = 10000
+
 
 class BreathingNotification(QtWidgets.QFrame):
     # close_signal = QtCore.pyqtSignal(list, list)
@@ -77,7 +79,7 @@ class BreathingNotification(QtWidgets.QFrame):
         self.shown_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
         self.shown_qtimer.setSingleShot(True)
         self.shown_qtimer.timeout.connect(self.shown_timer_timeout)
-        self.shown_qtimer.start(8500)
+        self.shown_qtimer.start(SHOWN_TIMER_TIME_INT)
 
     def shown_timer_timeout(self):
         self.on_close_button_clicked()

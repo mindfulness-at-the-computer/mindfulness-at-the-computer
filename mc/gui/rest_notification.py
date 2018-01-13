@@ -14,6 +14,8 @@ WINDOW_FLAGS = (
     | QtCore.Qt.BypassWindowManagerHint
 )
 
+SHOWN_TIMER_TIME_INT = 10000
+
 
 class RestReminderDlg(QtWidgets.QFrame):
     rest_signal = QtCore.pyqtSignal()
@@ -69,7 +71,7 @@ class RestReminderDlg(QtWidgets.QFrame):
         self.shown_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
         self.shown_qtimer.setSingleShot(True)
         self.shown_qtimer.timeout.connect(self.shown_timer_timeout)
-        self.shown_qtimer.start(6500)
+        self.shown_qtimer.start(SHOWN_TIMER_TIME_INT)
 
     def shown_timer_timeout(self):
         self.on_wait_button_clicked()
