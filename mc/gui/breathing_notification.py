@@ -69,7 +69,7 @@ class BreathingNotification(QtWidgets.QFrame):
         # Set position - done after show to get the right size hint
         screen_qrect = QtWidgets.QApplication.desktop().availableGeometry()
         xpos_int = screen_qrect.right() - self.sizeHint().width() - 30
-        ypos_int = screen_qrect.top() + 30
+        ypos_int = screen_qrect.bottom() - self.sizeHint().height() - 30
         self.move(xpos_int, ypos_int)
 
         self.shown_qtimer = None
