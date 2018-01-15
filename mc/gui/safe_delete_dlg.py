@@ -7,7 +7,7 @@ class SafeDeleteDlg(QtWidgets.QDialog):
     Inspiration: Answer by lou here:
     https://stackoverflow.com/questions/18196799/how-can-i-show-a-pyqt-modal-dialog-and-get-data-out-of-its-controls-once-its-clo
     """
-    def __init__(self, i_description_str: str, i_parent=None):
+    def __init__(self, i_description_str: str, i_parent=None) -> None:
         super(SafeDeleteDlg, self).__init__(i_parent)
 
         vbox = QtWidgets.QVBoxLayout(self)
@@ -26,7 +26,7 @@ class SafeDeleteDlg(QtWidgets.QDialog):
         # -accept and reject are "slots" built into Qt
 
     @staticmethod
-    def get_safe_confirmation_dialog(i_description_str: str):
+    def get_safe_confirmation_dialog(i_description_str: str) -> bool:
         dialog = SafeDeleteDlg(i_description_str)
         dialog_result = dialog.exec_()
         confirmation_result_bool = False
