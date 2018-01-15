@@ -132,6 +132,14 @@ def does_database_exist_started() -> bool:
 # Standard font size is (on almost all systems) 12
 
 
+def get_font_small(i_italics: bool=False, i_bold: bool=False) -> QtGui.QFont:
+    font = QtGui.QFont()
+    font.setPointSize(9)
+    font.setItalic(i_italics)
+    font.setBold(i_bold)
+    return font
+
+
 def get_font_medium(i_italics: bool=False, i_bold: bool=False) -> QtGui.QFont:
     font = QtGui.QFont()
     font.setItalic(i_italics)

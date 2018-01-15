@@ -1,5 +1,3 @@
-import logging
-import time
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
@@ -15,6 +13,8 @@ WINDOW_FLAGS = (
 )
 
 SHOWN_TIMER_TIME_INT = 10000
+IMAGE_GOAL_WIDTH_INT = 70
+IMAGE_GOAL_HEIGHT_INT = 70
 
 
 class BreathingNotification(QtWidgets.QFrame):
@@ -39,28 +39,42 @@ class BreathingNotification(QtWidgets.QFrame):
         self.setFrameStyle(QtWidgets.QFrame.Box | QtWidgets.QFrame.Plain)
         self.setLineWidth(1)
 
-        vbox_l2 = QtWidgets.QVBoxLayout()
-        self.setLayout(vbox_l2)
+        hbox_l2 = QtWidgets.QHBoxLayout()
+        self.setLayout(hbox_l2)
+
+        self.image_qll = QtWidgets.QLabel()
+        hbox_l2.addWidget(self.image_qll)
+        self.image_qll.setPixmap(
+            QtGui.QPixmap(mc.mc_global.get_user_images_path("stones.png"))
+        )
+        self.image_qll.setScaledContents(True)
+        self.resize_image()
+
+        vbox_l3 = QtWidgets.QVBoxLayout()
+        hbox_l2.addLayout(vbox_l3)
 
         phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
         self.ib_qll = QtWidgets.QLabel(phrase.ib)
-        vbox_l2.addWidget(self.ib_qll)
+        vbox_l3.addWidget(self.ib_qll)
         self.ob_qll = QtWidgets.QLabel(phrase.ob)
-        vbox_l2.addWidget(self.ob_qll)
+        vbox_l3.addWidget(self.ob_qll)
 
-        hbox = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(hbox)
+        hbox_l4 = QtWidgets.QHBoxLayout()
+        vbox_l3.addLayout(hbox_l4)
+
+        hbox_l4.addStretch(1)
 
         self.breathe_qpb = QtWidgets.QPushButton(self.tr("Open Dialog"))
-        hbox.addWidget(self.breathe_qpb)
+        hbox_l4.addWidget(self.breathe_qpb)
         self.breathe_qpb.setFlat(True)
         self.breathe_qpb.clicked.connect(self.on_breathe_button_clicked)
-        self.breathe_qpb.setFont(mc.mc_global.get_font_medium())
+        self.breathe_qpb.setFont(mc.mc_global.get_font_small())
 
         self.skip_qpb = QtWidgets.QPushButton(self.tr("Close"))
-        hbox.addWidget(self.skip_qpb)
+        hbox_l4.addWidget(self.skip_qpb)
         self.skip_qpb.clicked.connect(self.on_close_button_clicked)
         self.skip_qpb.setFlat(True)
+        self.skip_qpb.hide()
 
         self.show()  # -done after all the widget have been added so that the right size is set
         self.raise_()
@@ -84,6 +98,11 @@ class BreathingNotification(QtWidgets.QFrame):
     def shown_timer_timeout(self):
         self.on_close_button_clicked()
 
+    # overridden
+    def mousePressEvent(self, i_QMouseEvent):
+        self.close_signal.emit()
+        self.close()
+
     def on_breathe_button_clicked(self):
         self.close()  # -closing first to avoid collision between dialogs
         self.breathe_signal.emit()
@@ -91,3 +110,24 @@ class BreathingNotification(QtWidgets.QFrame):
     def on_close_button_clicked(self):
         self.close_signal.emit()
         self.close()
+
+    def resize_image(self):
+        if self.image_qll.pixmap() is None:
+            return
+        old_width_int = self.image_qll.pixmap().width()
+        old_height_int = self.image_qll.pixmap().height()
+        if old_width_int == 0:
+            return
+        width_relation_float = old_width_int / IMAGE_GOAL_WIDTH_INT
+        height_relation_float = old_height_int / IMAGE_GOAL_HEIGHT_INT
+
+        if width_relation_float > height_relation_float:
+            scaled_width_int = IMAGE_GOAL_WIDTH_INT
+            scaled_height_int = (scaled_width_int / old_width_int) * old_height_int
+        else:
+            scaled_height_int = IMAGE_GOAL_HEIGHT_INT
+            scaled_width_int = (scaled_height_int / old_height_int) * old_width_int
+
+        self.image_qll.setFixedWidth(scaled_width_int)
+        self.image_qll.setFixedHeight(scaled_height_int)
+
