@@ -8,7 +8,7 @@ from PyQt5 import QtWidgets
 from mc import model, mc_global
 import mc.gui.breathing_dlg
 
-NEXT_STR = "Next"
+NEXT_STR = "Next >>"
 
 
 class IntroDlg(QtWidgets.QDialog):
@@ -27,11 +27,13 @@ class IntroDlg(QtWidgets.QDialog):
 
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
-        self.prev_qpb = QtWidgets.QPushButton("Prev")
-        hbox_l3.addWidget(self.prev_qpb)
+        hbox_l3.addStretch(1)
+        self.prev_qpb = QtWidgets.QPushButton("<< Prev")
+        hbox_l3.addWidget(self.prev_qpb, stretch=1)
         self.prev_qpb.clicked.connect(self.on_prev_clicked)
         self.next_qpb = QtWidgets.QPushButton(NEXT_STR)
-        hbox_l3.addWidget(self.next_qpb)
+        hbox_l3.addWidget(self.next_qpb, stretch=1)
+        hbox_l3.addStretch(1)
         self.next_qpb.clicked.connect(self.on_next_clicked)
         """
         self.close_qpb = QtWidgets.QPushButton("Close")
@@ -39,20 +41,14 @@ class IntroDlg(QtWidgets.QDialog):
         self.close_qpb.clicked.connect(self.on_close_clicked)
         """
 
-        self.info_qll = QtWidgets.QLabel(self.tr('''
-Welcome! Please take a few moments to set up the application. Or you can skip and return to this wizard later by going to "help" -> "setup wizard"
-'''))
-        self.info_qll.setWordWrap(True)
-        self.wizard_qsw_w3.addWidget(self.info_qll)
+        self.info = InformationPage()
+        self.wizard_qsw_w3.addWidget(self.info)
 
-        self.initial_setup = BreathingInitSetup()
+        self.initial_setup = BreathingInitSetupPage()
         self.wizard_qsw_w3.addWidget(self.initial_setup)
 
-        self.breathing_dialog_coming_up_qll = QtWidgets.QLabel(self.tr('''
-The next breathing dialog
-        '''))
-        self.info_qll.setWordWrap(True)
-        self.wizard_qsw_w3.addWidget(self.breathing_dialog_coming_up_qll)
+        self.breathing_dialog_coming = BreathingDialogComing()
+        self.wizard_qsw_w3.addWidget(self.breathing_dialog_coming)
 
         """
         self.wizard_qll = QtWidgets.QLabel(self.tr("3. Please choose your initial settings"))
@@ -105,25 +101,80 @@ The next breathing dialog
             self.next_qpb.setText(NEXT_STR)
 
 
-class BreathingInitSetup(QtWidgets.QWidget):
+class InformationPage(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
-
         vbox_l2 = QtWidgets.QVBoxLayout()
         self.setLayout(vbox_l2)
 
-        self.title_qll = QtWidgets.QLabel("Please select the intial setup parameters for the breathing. (Or use the default values)")
-        self.title_qll.setWordWrap(True)
+        self.title_qll = QtWidgets.QLabel("Introduction")
+        self.title_qll.setFont(mc.mc_global.get_font_large())
         vbox_l2.addWidget(self.title_qll)
 
-        vbox_l2.addWidget(QtWidgets.QLabel("Time between notifications"))
+        vbox_l2.addStretch(1)
+
+        self.text_qll = QtWidgets.QLabel('''
+Welcome! Please take a few moments to set read about and up the application. Or you can skip and return to this wizard later by going to "help" -> "setup wizard"
+''')
+        self.text_qll.setWordWrap(True)
+        vbox_l2.addWidget(self.text_qll)
+
+        vbox_l2.addStretch(1)
+
+
+class BreathingDialogComing(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+        vbox_l2 = QtWidgets.QVBoxLayout()
+        self.setLayout(vbox_l2)
+
+        self.title_qll = QtWidgets.QLabel("Breathing Dialog")
+        self.title_qll.setFont(mc.mc_global.get_font_large())
+        vbox_l2.addWidget(self.title_qll)
+
+        vbox_l2.addStretch(1)
+
+        self.text_qll = QtWidgets.QLabel('''
+When you click on finish a breathing dialog will be shown. You can use it by ______ or using the keyboard
+''')
+        self.text_qll.setWordWrap(True)
+        vbox_l2.addWidget(self.text_qll)
+
+        vbox_l2.addStretch(1)
+
+
+class BreathingInitSetupPage(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+        vbox_l2 = QtWidgets.QVBoxLayout()
+        self.setLayout(vbox_l2)
+
+        self.title_qll = QtWidgets.QLabel("Initial setup (breathing)")
+        self.title_qll.setFont(mc.mc_global.get_font_large())
+        vbox_l2.addWidget(self.title_qll)
+
+        vbox_l2.addStretch(1)
+
+        self.text_qll = QtWidgets.QLabel("Please select the intial setup parameters for the breathing. (Or use the default values)")
+        self.text_qll.setWordWrap(True)
+        vbox_l2.addWidget(self.text_qll)
+
+        vbox_l2.addStretch(1)
+
+        hbox_l3 = QtWidgets.QHBoxLayout()
+        vbox_l2.addLayout(hbox_l3)
+        hbox_l3.addWidget(QtWidgets.QLabel("Time between breathing notifications"))
         self.time_btw_notifications_qsb = QtWidgets.QSpinBox()
-        vbox_l2.addWidget(self.time_btw_notifications_qsb)
+        hbox_l3.addWidget(self.time_btw_notifications_qsb)
         self.time_btw_notifications_qsb.valueChanged.connect(self.on_time_btw_notifications_valuechanged)
 
+        vbox_l2.addStretch(1)
+
+        """
         self.play_audio_qcb = QtWidgets.QCheckBox("Play Audio")
         vbox_l2.addWidget(self.play_audio_qcb)
         self.play_audio_qcb.toggled.connect(self.on_play_audio_toggled)
+        """
 
     def on_time_btw_notifications_valuechanged(self, i_new_value: int):
         logging.debug("on_time_btw_notifications_valuechanged, i_new_value = " + str(i_new_value))
@@ -133,33 +184,4 @@ class BreathingInitSetup(QtWidgets.QWidget):
         mc.model.SettingsM.update_breathing_dialog_audio_active(i_checked)
         if not mc.model.SettingsM.get().breathing_reminder_audio_path_str:
             mc.model.SettingsM.update_breathing_reminder_audio_path("small_bell_long[cc0].wav")
-
-"""
-class BreathingArea(QtWidgets.QWidget):
-    def __init__(self):
-        super().__init__()
-
-        vbox_l2 = QtWidgets.QVBoxLayout()
-        self.setLayout(vbox_l2)
-
-        self.title_qll = QtWidgets.QLabel("Breathing dialog")
-        self.title_qll.setWordWrap(True)
-        vbox_l2.addWidget(self.title_qll)
-        vbox_l2.addStretch(1)
-
-        hbox_l3 = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(hbox_l3)
-
-        hbox_l3.addStretch(1)
-
-        self.breathing_dlg = mc.gui.breathing_dlg.BreathingDlg()
-        self.breathing_dlg.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
-        # vbox_l2.setSizeConstraint()
-        hbox_l3.addWidget(self.breathing_dlg)
-
-        hbox_l3.addStretch(1)
-
-        vbox_l2.addStretch(1)
-"""
-
 
