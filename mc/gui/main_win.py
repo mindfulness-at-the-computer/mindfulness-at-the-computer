@@ -385,8 +385,13 @@ class MainWin(QtWidgets.QMainWindow):
         online_help_action.triggered.connect(self.show_online_help)
 
     def show_intro_dialog(self):
-        intro_dlg = mc.gui.intro_dlg.IntroDlg()
-        intro_dlg.exec()
+        self.intro_dlg = mc.gui.intro_dlg.IntroDlg()
+        self.intro_dlg.close_signal.connect(self.on_intro_dialog_closed)
+        self.intro_dlg.exec()
+
+    def on_intro_dialog_closed(self, i_open_breathing_dialog: bool):
+        if i_open_breathing_dialog:
+            self.open_breathing_dialog()
 
     # noinspection PyAttributeOutsideInit
     def breathing_timer_timeout(self):

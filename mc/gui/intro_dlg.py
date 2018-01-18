@@ -8,6 +8,8 @@ from PyQt5 import QtWidgets
 from mc import model, mc_global
 import mc.gui.breathing_dlg
 
+NEXT_STR = "Next"
+
 
 class IntroDlg(QtWidgets.QDialog):
     close_signal = QtCore.pyqtSignal(bool)
@@ -28,12 +30,14 @@ class IntroDlg(QtWidgets.QDialog):
         self.prev_qpb = QtWidgets.QPushButton("Prev")
         hbox_l3.addWidget(self.prev_qpb)
         self.prev_qpb.clicked.connect(self.on_prev_clicked)
-        self.next_qpb = QtWidgets.QPushButton("Next")
+        self.next_qpb = QtWidgets.QPushButton(NEXT_STR)
         hbox_l3.addWidget(self.next_qpb)
         self.next_qpb.clicked.connect(self.on_next_clicked)
+        """
         self.close_qpb = QtWidgets.QPushButton("Close")
         hbox_l3.addWidget(self.close_qpb)
         self.close_qpb.clicked.connect(self.on_close_clicked)
+        """
 
         self.info_qll = QtWidgets.QLabel(self.tr('''
 Welcome! Please take a few moments to set up the application. Or you can skip and return to this wizard later by going to "help" -> "setup wizard"
@@ -41,11 +45,14 @@ Welcome! Please take a few moments to set up the application. Or you can skip an
         self.info_qll.setWordWrap(True)
         self.wizard_qsw_w3.addWidget(self.info_qll)
 
-        self.breathing_area = BreathingArea()
-        self.wizard_qsw_w3.addWidget(self.breathing_area)
-
         self.initial_setup = BreathingInitSetup()
         self.wizard_qsw_w3.addWidget(self.initial_setup)
+
+        self.breathing_dialog_coming_up_qll = QtWidgets.QLabel(self.tr('''
+The next breathing dialog
+        '''))
+        self.info_qll.setWordWrap(True)
+        self.wizard_qsw_w3.addWidget(self.breathing_dialog_coming_up_qll)
 
         """
         self.wizard_qll = QtWidgets.QLabel(self.tr("3. Please choose your initial settings"))
@@ -62,6 +69,8 @@ Welcome! Please take a few moments to set up the application. Or you can skip an
         self.close_qpb.clicked.connect(self.on_close_clicked)
         """
 
+        self.update_gui()
+
         # self.setup_rest_action_list()
         self.show()
 
@@ -71,13 +80,29 @@ Welcome! Please take a few moments to set up the application. Or you can skip an
 
     def on_next_clicked(self):
         current_index_int = self.wizard_qsw_w3.currentIndex()
+        if current_index_int >= self.wizard_qsw_w3.count() - 1:
+            self.close_signal.emit(True)
+            self.close()
         logging.debug("current_index_int = " + str(current_index_int))
         self.wizard_qsw_w3.setCurrentIndex(current_index_int + 1)
+        self.update_gui()
 
     def on_prev_clicked(self):
         current_index_int = self.wizard_qsw_w3.currentIndex()
+        if current_index_int <= 0:
+            return
         logging.debug("current_index_int = " + str(current_index_int))
         self.wizard_qsw_w3.setCurrentIndex(current_index_int - 1)
+        self.update_gui()
+
+    def update_gui(self):
+        current_index_int = self.wizard_qsw_w3.currentIndex()
+        self.prev_qpb.setDisabled(current_index_int == 0)
+
+        if current_index_int == self.wizard_qsw_w3.count() - 1:
+            self.next_qpb.setText("Finish")  # "open breathing dialog"
+        else:
+            self.next_qpb.setText(NEXT_STR)
 
 
 class BreathingInitSetup(QtWidgets.QWidget):
@@ -109,7 +134,7 @@ class BreathingInitSetup(QtWidgets.QWidget):
         if not mc.model.SettingsM.get().breathing_reminder_audio_path_str:
             mc.model.SettingsM.update_breathing_reminder_audio_path("small_bell_long[cc0].wav")
 
-
+"""
 class BreathingArea(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
@@ -135,5 +160,6 @@ class BreathingArea(QtWidgets.QWidget):
         hbox_l3.addStretch(1)
 
         vbox_l2.addStretch(1)
+"""
 
 
