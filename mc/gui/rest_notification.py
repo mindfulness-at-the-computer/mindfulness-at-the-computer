@@ -11,7 +11,10 @@ WINDOW_FLAGS = (
     | QtCore.Qt.WindowStaysOnTopHint
     | QtCore.Qt.FramelessWindowHint
     | QtCore.Qt.WindowDoesNotAcceptFocus
+    | QtCore.Qt.BypassWindowManagerHint
 )
+
+SHOWN_TIMER_TIME_INT = 10000
 
 
 class RestReminderDlg(QtWidgets.QFrame):
@@ -36,18 +39,18 @@ class RestReminderDlg(QtWidgets.QFrame):
         hbox = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox)
 
-        self.rest_qpb = CustomButton(self.tr("Rest"))
+        self.rest_qpb = QtWidgets.QPushButton(self.tr("Rest"))
         hbox.addWidget(self.rest_qpb)
         self.rest_qpb.clicked.connect(self.on_rest_button_clicked)
-        self.rest_qpb.setFont(mc.mc_global.get_font_medium(i_bold=True))
+        self.rest_qpb.setFont(mc.mc_global.get_font_medium())
         # self.rest_qpb.clicked.connect(self.on_close_button_clicked)
         # self.rest_qpb.entered_signal.connect(self.on_close_button_hover)
 
-        self.wait_qpb = CustomButton(self.tr("Wait"))
+        self.wait_qpb = QtWidgets.QPushButton(self.tr("Wait"))
         hbox.addWidget(self.wait_qpb)
         self.wait_qpb.clicked.connect(self.on_wait_button_clicked)
 
-        self.skip_qpb = CustomButton(self.tr("Skip"))
+        self.skip_qpb = QtWidgets.QPushButton(self.tr("Skip"))
         hbox.addWidget(self.skip_qpb)
         self.skip_qpb.clicked.connect(self.on_skip_button_clicked)
 
@@ -64,11 +67,16 @@ class RestReminderDlg(QtWidgets.QFrame):
         self.shown_qtimer = None
         self.start_shown_timer()
 
+        # self.setStyleSheet("QPushButton {background-color: red;}")
+        # border-style: outset;border-width: 2px;border-color: beige;
+        # self.setStyleSheet("QPushButton {border-style: solid;border-width: 1px;border-color: black;}")
+        # self.setStyleSheet("QPushButton:hover {background-color:green;}")
+
     def start_shown_timer(self):
         self.shown_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
         self.shown_qtimer.setSingleShot(True)
         self.shown_qtimer.timeout.connect(self.shown_timer_timeout)
-        self.shown_qtimer.start(6500)
+        self.shown_qtimer.start(SHOWN_TIMER_TIME_INT)
 
     def shown_timer_timeout(self):
         self.on_wait_button_clicked()

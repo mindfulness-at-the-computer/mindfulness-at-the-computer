@@ -34,5 +34,25 @@ Most documents are located in the [docs directory](docs/). There's also a [wiki]
 
 Some important documents:
 * [**CONTRIBUTING**](CONTRIBUTING.md)
+  * [Translations](CONTRIBUTING.md#translations)
 * [Technical Architecture](docs/tech-architecture.md)
 * [Running the application from source](docs/howto/running-from-source.md)
+
+[Markdown](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/wiki/Markdown) is used for the text documents. [draw.io](https://www.draw.io/) is used for editing the `.xml` files
+
+## What is Mindfulness?
+
+When we spend many hours in front of our computer screen, focused on solving problems, we may forget that we also have a body. Unnoticed we build up a lot of tension in our body because of bad posture or stress.
+
+With mindfulness, we can become aware of our breathing and our body. This gives us the possibility to notice if there is tension, and then relax our muscles or take a break. Or maybe we are hungry and need to eat something. We may even become aware that we are running around in circles trying to solve a problem. A break may give us a breakthrough.
+
+Mindfulness can also help when we are dealing with negative emotions. When we become aware of them, we can stop, go back to our breathing and relax.
+
+Being mindful means being aware of the present moment in an open and accepting way. What is going on in the here and the now, in the room, in our body, in our mind?
+
+Have a look at these links for more information.
+
+* https://en.wikipedia.org/wiki/Mindfulness
+* http://franticworld.com/what-is-mindfulness/
+* https://www.youtube.com/watch?v=3nwwKbM_vJc&t=1s
+* https://www.youtube.com/watch?v=mjtfyuTTQFY

@@ -51,6 +51,8 @@ This application is Free Libre Open Source Software. The software license is GPL
 2. Clone it to your computer. You can do it using `git clone url_name`.
 3. When you're ready to work on an issue, be sure you're on the **master** branch(Check using `git branch`). From there, create a separate branch. You can do this using `git checkout -b branch_name` where branch_name (e.g. issue_32) is the name of a new branch that you create.
 4. Make your changes. Save the file. Go to the command line and do `git add file_name` to add it to the staging area.
+5. Test the changes you've made manually to check that they are working okay
+6. Run auto-tests to see if the changes you've made have impacted other parts of the application: `python -m unittest discover -s test` (on Ubuntu use `python3`)
 5. Commit your changes. Do this using `git commit -m "comment about the changes made"`.
 6. Push the working branch (e.g. issue_32) to your remote fork. This is done using `git push origin branch_name`.
 7. Make the pull request (on the [upstream **master** branch](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/tree/master))
@@ -84,6 +86,12 @@ That tracks the branch from your fork on GitHub.
 ### Workflow overview
 
 ![workflow](docs/workflow.png)
+
+## Translations
+
+We need help localizing the application. Helping with translations is easy:
+* You can use our [**crowdin project page**](https://crowdin.com/project/mindfulness-at-the-computer) to enter your translations
+* You can find a list of translators on [this wiki page](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/wiki/Translators)
 
 ***
 

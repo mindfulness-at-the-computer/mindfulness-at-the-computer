@@ -1,0 +1,3 @@
+files:
+  - source: /translate/*.ts
+    translation: /translate/%locale_with_underscore%/%locale_with_underscore%.ts

@@ -17,34 +17,25 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)  # -by default only warnings and higher are shown
 
     # Application information
-    logging.info(
-        "===== Starting "
-        + mc_global.APPLICATION_TITLE_STR + " - "
-        + mc_global.APPLICATION_VERSION_STR + " ====="
-    )
-    logging.info("Python version: " + str(sys.version))
-    logging.info("SQLite version: " + str(sqlite3.sqlite_version))
-    logging.info("PySQLite (Python module) version: " + str(sqlite3.version))
-    logging.info("Qt version: " + str(QtCore.qVersion()))
-    # noinspection PyUnresolvedReferences
-    logging.info("PyQt (Python module) version: " + str(PyQt5.Qt.PYQT_VERSION_STR))
-    logging.info(
-        mc_global.APPLICATION_TITLE_STR
-        + " - Application version: " + str(mc_global.APPLICATION_VERSION_STR)
-    )
+
+    mc.mc_global.sys_info_telist.append(("Application name", mc.mc_global.APPLICATION_VERSION_STR))
+    mc.mc_global.sys_info_telist.append(("Application version", mc.mc_global.APPLICATION_VERSION_STR))
     db_conn = mc.db.Helper.get_db_connection()
-    logging.info(
-        mc_global.APPLICATION_TITLE_STR
-        + " - Database schema version: " + str(mc.db.get_schema_version(db_conn))
-    )
-    logging.info("=====")
+    mc.mc_global.sys_info_telist.append(("Application database schema version", mc.db.get_schema_version(db_conn)))
+    mc.mc_global.sys_info_telist.append(("Python version", sys.version))
+    mc.mc_global.sys_info_telist.append(("SQLite version", sqlite3.sqlite_version))
+    mc.mc_global.sys_info_telist.append(("PySQLite (Python module) version", sqlite3.version))
+    mc.mc_global.sys_info_telist.append(("Qt version", QtCore.qVersion()))
+    # noinspection PyUnresolvedReferences
+    mc.mc_global.sys_info_telist.append(("PyQt (Python module) version", PyQt5.Qt.PYQT_VERSION_STR))
 
     matc_qapplication = QtWidgets.QApplication(sys.argv)
 
     translator = QtCore.QTranslator()
     # Warning While removing debug keep the loading call intact
-    logging.info('System Localization: ' + QtCore.QLocale.system().name())
-    logging.info('Localization Load Status: ' + str(translator.load(QtCore.QLocale.system().name() + '.qm', 'translate'))) # name, dir
+    system_locale = QtCore.QLocale.system().name()
+    logging.info('System Localization: ' + system_locale)
+    logging.info('Localization Load Status: ' + str(translator.load(system_locale + '.qm', 'translate/' + system_locale))) # name, dir
     matc_qapplication.installTranslator(translator)
 
     matc_qapplication.setQuitOnLastWindowClosed(False)

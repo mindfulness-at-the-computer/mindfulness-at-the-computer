@@ -38,7 +38,8 @@ class PhrasesM:
         i_ib: str,
         i_ob: str,
         i_ib_short: str,
-        i_ob_short: str
+        i_ob_short: str,
+        i_type: int
     ) -> None:
         self._id_int = i_id
         self._vert_order_int = i_vert_order
@@ -47,6 +48,17 @@ class PhrasesM:
         self._ob_str = i_ob
         self._ib_short_str = i_ib_short
         self._ob_short_str = i_ob_short
+        self._type_enum = mc.mc_global.BreathingPhraseType.in_out
+        if i_type == mc.mc_global.BreathingPhraseType.single.value:
+            self._type_enum = mc.mc_global.BreathingPhraseType.single
+
+    @staticmethod
+    def update_breathing_phrase_type(i_breathing_phrase_type: mc.mc_global.BreathingPhraseType):
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_phrase_type,
+            i_breathing_phrase_type.value
+        )
+
 
     @property
     def id(self) -> int:
@@ -106,8 +118,18 @@ class PhrasesM:
         self._ob_short_str = i_new_ob_short
         self._update(db.Schema.PhrasesTable.Cols.ob_short_phrase, i_new_ob_short)
 
+    @property
+    def type(self) -> mc.mc_global.BreathingPhraseType:
+        return self._type_enum
+
+    @type.setter
+    def type(self, i_new_type: mc.mc_global.BreathingPhraseType):
+        self._type_enum = i_new_type
+        self._update(db.Schema.PhrasesTable.Cols.type, i_new_type.value)
+
     @staticmethod
-    def add(i_title: str, i_ib: str, i_ob: str, ib_short: str, ob_short: str) -> None:
+    def add(i_title: str, i_ib: str, i_ob: str, ib_short: str, ob_short: str,
+    i_type: mc.mc_global.BreathingPhraseType) -> None:
         # vertical_order_last_pos_int = len(PhrasesM.get_all())
         vertical_order_last_pos_int = PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max) + 1
         db_exec(
@@ -117,9 +139,10 @@ class PhrasesM:
             + db.Schema.PhrasesTable.Cols.ib_phrase + ", "
             + db.Schema.PhrasesTable.Cols.ob_phrase + ", "
             + db.Schema.PhrasesTable.Cols.ib_short_phrase + ", "
-            + db.Schema.PhrasesTable.Cols.ob_short_phrase
-            + ") VALUES (?, ?, ?, ?, ?, ?)",
-            (vertical_order_last_pos_int, i_title, i_ib, i_ob, ib_short, ob_short)
+            + db.Schema.PhrasesTable.Cols.ob_short_phrase + ", "
+            + db.Schema.PhrasesTable.Cols.type
+            + ") VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (vertical_order_last_pos_int, i_title, i_ib, i_ob, ib_short, ob_short, i_type.value)
         )
 
     @staticmethod
@@ -683,42 +706,56 @@ def populate_db_with_setup_data():
         "Breathing in, I know I am breathing in",
         "Breathing out, I know I am breathing out",
         "in",
-        "out"
+        "out",
+        mc.mc_global.BreathingPhraseType.in_out
     )
     PhrasesM.add(
         "Aware of Body",
         "Aware of my body, I breathe in",
         "Aware of my body, I breathe out",
         "body, in",
-        "body, out"
+        "body, out",
+        mc.mc_global.BreathingPhraseType.in_out
     )
     PhrasesM.add(
         "Caring, Relaxing",
         "Breathing in, I care for my body",
         "Breathing out, I relax my body",
         "caring",
-        "relaxing"
+        "relaxing",
+        mc.mc_global.BreathingPhraseType.in_out
     )
     PhrasesM.add(
         "Happy, Safe",
         "May I be happy",
         "May I be peaceful",
         "happy",
-        "peaceful"
+        "peaceful",
+        mc.mc_global.BreathingPhraseType.in_out
     )
     PhrasesM.add(
         "Compassion",
         "Breathing in compassion to myself",
         "Breathing out compassion to others",
         "compassion to myself",
-        "compassion to others"
+        "compassion to others",
+        mc.mc_global.BreathingPhraseType.in_out
     )
     PhrasesM.add(
         "Sharing, Contributing",
         "Breathing in I share in the well-being of others",
         "Breathing out I contribute to the well-being of others",
         "sharing well-being",
-        "contributing to well-being"
+        "contributing to well-being",
+        mc.mc_global.BreathingPhraseType.in_out
+    )
+    PhrasesM.add(
+        "Self-love and acceptance",
+        "I love and accept myself just as I am",
+        "",
+        "Self-love",
+        "",
+        mc.mc_global.BreathingPhraseType.single
     )
 
     RestActionsM.add(

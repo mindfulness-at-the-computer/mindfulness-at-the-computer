@@ -54,6 +54,11 @@ class NotificationType(enum.Enum):
     Both = 2
 
 
+class BreathingPhraseType(enum.Enum):
+    in_out = 0
+    single = 1
+
+
 breathing_state = BreathingState.inactive
 
 
@@ -127,6 +132,14 @@ def does_database_exist_started() -> bool:
 # Standard font size is (on almost all systems) 12
 
 
+def get_font_small(i_italics: bool=False, i_bold: bool=False) -> QtGui.QFont:
+    font = QtGui.QFont()
+    font.setPointSize(9)
+    font.setItalic(i_italics)
+    font.setBold(i_bold)
+    return font
+
+
 def get_font_medium(i_italics: bool=False, i_bold: bool=False) -> QtGui.QFont:
     font = QtGui.QFont()
     font.setItalic(i_italics)
@@ -177,4 +190,7 @@ class EventSource(enum.Enum):
 
 
 db_upgrade_message_str = None
+
+
+sys_info_telist = []
 
