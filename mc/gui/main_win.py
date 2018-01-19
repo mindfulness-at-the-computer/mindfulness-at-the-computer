@@ -21,6 +21,7 @@ import mc.gui.breathing_dlg
 import mc.gui.breathing_notification
 import mc.gui.rest_notification
 import mc.gui.rest_dlg
+import mc.gui.intro_dlg
 
 
 class MainWin(QtWidgets.QMainWindow):
@@ -57,8 +58,13 @@ class MainWin(QtWidgets.QMainWindow):
         self.on_breathing_settings_changed()
         self.update_rest_timer()
 
+        if not mc.mc_global.db_file_exists_at_application_startup_bl and not mc.mc_global.testing_bool:
+            self.show_intro_dialog()
+
         # Setup of Systray
         self.setup_systray()
+
+        self.minimize_to_tray()
 
     def _setup_initialize(self):
         self.setGeometry(100, 64, 900, 670)
@@ -402,6 +408,9 @@ class MainWin(QtWidgets.QMainWindow):
         show_breathing_notification_action.triggered.connect(self.breathing_timer_timeout)
 
         help_menu = self.menu_bar.addMenu(self.tr("&Help"))
+        show_intro_dialog_action = QtWidgets.QAction("Show intro wizard", self)
+        help_menu.addAction(show_intro_dialog_action)
+        show_intro_dialog_action.triggered.connect(self.show_intro_dialog)
         about_action = QtWidgets.QAction(self.tr("About"), self)
         help_menu.addAction(about_action)
         about_action.triggered.connect(self.show_about_box)
@@ -411,6 +420,15 @@ class MainWin(QtWidgets.QMainWindow):
         sysinfo_action = QtWidgets.QAction(self.tr("System Information"), self)
         help_menu.addAction(sysinfo_action)
         sysinfo_action.triggered.connect(self.show_sysinfo_box)
+
+    def show_intro_dialog(self):
+        self.intro_dlg = mc.gui.intro_dlg.IntroDlg()
+        self.intro_dlg.close_signal.connect(self.on_intro_dialog_closed)
+        self.intro_dlg.exec()
+
+    def on_intro_dialog_closed(self, i_open_breathing_dialog: bool):
+        if i_open_breathing_dialog:
+            self.open_breathing_dialog()
 
     # noinspection PyAttributeOutsideInit
     def breathing_timer_timeout(self):
