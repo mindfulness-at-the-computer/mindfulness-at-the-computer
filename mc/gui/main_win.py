@@ -58,7 +58,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.on_breathing_settings_changed()
         self.update_rest_timer()
 
-        if not mc.mc_global.db_file_exists_at_application_startup_bl:
+        if not mc.mc_global.db_file_exists_at_application_startup_bl and not mc.mc_global.testing_bool:
             self.show_intro_dialog()
 
         # Setup of Systray
