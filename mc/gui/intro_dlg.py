@@ -100,7 +100,7 @@ class InformationPage(QtWidgets.QWidget):
             "These are the parts of the interface:"
             "\n1. The breathing dialog and notifications"
             "\n2. The rest dialog and notifications"
-            "\n3. The settings window"
+            '\n3. The settings window (available from systray menu -> "open settings")'
             "\n4. The system tray icon and menu"
         )
         self.text_2_qll.setWordWrap(True)
@@ -149,7 +149,8 @@ class BreathingInitSetupPage(QtWidgets.QWidget):
 
         self.text_qll = QtWidgets.QLabel(
             "Please select the initial setup parameters for the breathing dialog. "
-            "It's possible to change the values later on using the settings window. "
+            "It's possible to change the values later on using the settings window "
+            '(available from the systray menu -> "Open Settings").'
         )
         self.text_qll.setWordWrap(True)
         vbox_l2.addWidget(self.text_qll)
