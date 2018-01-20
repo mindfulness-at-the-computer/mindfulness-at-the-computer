@@ -12,9 +12,6 @@ If you don't see a download option for the platform of your choice, or you just 
 7. Change directory to where the software files have been extracted
 8. Type and run `python mindfulness-at-the-computer.py` on Windows or `python3 mindfulness-at-the-computer.py`on GNU/Linux systems
 
-NOTE:
-If you are running **MacOS** you need to install growl to get the breathing reminder notifications.
-
 ## Creating a shortcut (Optional)
 
 ### Windows
