@@ -305,7 +305,10 @@ class MainWin(QtWidgets.QMainWindow):
     def rest_timer_timeout(self):
         mc.mc_global.rest_reminder_minutes_passed_int += 1
         if (mc.mc_global.rest_reminder_minutes_passed_int
-                >= mc.model.SettingsM.get().rest_reminder_interval_int):
+        == mc.model.SettingsM.get().rest_reminder_interval_int - 1):
+            self.tray_icon.showMessage("MatC", "One minute left")
+        if (mc.mc_global.rest_reminder_minutes_passed_int
+        == mc.model.SettingsM.get().rest_reminder_interval_int):
             self.start_rest_reminder()
         self.rest_settings_wt.rest_reminder_qsr.setValue(
             mc.mc_global.rest_reminder_minutes_passed_int

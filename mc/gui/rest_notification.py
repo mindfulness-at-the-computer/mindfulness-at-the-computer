@@ -65,7 +65,9 @@ class RestReminderDlg(QtWidgets.QFrame):
         self.move(xpos_int, ypos_int)
 
         self.shown_qtimer = None
-        self.start_shown_timer()
+        ##### self.start_shown_timer()
+
+        self.setStyleSheet("background-color: #101010; color: #999999;")
 
         # self.setStyleSheet("QPushButton {background-color: red;}")
         # border-style: outset;border-width: 2px;border-color: beige;

@@ -54,6 +54,10 @@ class RestDlg(QtWidgets.QDialog):
 
         self.setup_rest_action_list()
 
+        self.setStyleSheet("background-color: #101010; color: #999999;")
+
+        self.showFullScreen()
+
     def on_close_clicked(self):
         self.close_signal.emit(False)
         self.close()
