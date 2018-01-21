@@ -67,12 +67,12 @@
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="77"/>
       <source>Delete the selected breathing phrase</source>
-      <translation type="unfinished">Delete the selected breathing phrase</translation>
+      <translation>選定的呼吸的話</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="142"/>
       <source>Are you sure that you want to remove this entry?</source>
-      <translation type="unfinished">Are you sure that you want to remove this entry?</translation>
+      <translation>您確定要刪除此項嗎</translation>
     </message>
   </context>
   <context>
@@ -80,17 +80,17 @@
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="33"/>
       <source>Notifications</source>
-      <translation type="unfinished">Notifications</translation>
+      <translation>計算機的通知</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="40"/>
       <source>Notification type: </source>
-      <translation type="unfinished">Notification type: </translation>
+      <translation>通知類型 </translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="53"/>
       <source>Interval:</source>
-      <translation type="unfinished">Interval:</translation>
+      <translation>時間間隔</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="60"/>
@@ -100,7 +100,7 @@
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="64"/>
       <source>Dialog</source>
-      <translation type="unfinished">Dialog</translation>
+      <translation>對話</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="71"/>
@@ -115,37 +115,37 @@
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="88"/>
       <source>notifications</source>
-      <translation type="unfinished">notifications</translation>
+      <translation>計算機的通知</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="91"/>
       <source>Play Audio</source>
-      <translation type="unfinished">Play Audio</translation>
+      <translation>播放音頻</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="95"/>
       <source>Open breathing dialog</source>
-      <translation type="unfinished">Open breathing dialog</translation>
+      <translation>打開呼吸對話框</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="100"/>
       <source>Audio</source>
-      <translation type="unfinished">Audio</translation>
+      <translation>音頻</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="104"/>
       <source>Select audio</source>
-      <translation type="unfinished">Select audio</translation>
+      <translation>選擇音頻</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="149"/>
       <source>Please choose a wav audio file</source>
-      <translation type="unfinished">Please choose a wav audio file</translation>
+      <translation>請選擇WAV音頻文件</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="149"/>
       <source>Wav files (*.wav)</source>
-      <translation type="unfinished">Wav files (*.wav)</translation>
+      <translation>Wav文件 (*.wav)</translation>
     </message>
   </context>
   <context>
@@ -153,7 +153,7 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="191"/>
       <source>Title</source>
-      <translation type="unfinished">Title</translation>
+      <translation>標題</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="264"/>
@@ -183,12 +183,12 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="203"/>
       <source> Select image</source>
-      <translation type="unfinished"> Select image</translation>
+      <translation> 選擇圖像</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="237"/>
       <source>image does not exist</source>
-      <translation type="unfinished">image does not exist</translation>
+      <translation>圖像不存在</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="239"/>
@@ -198,7 +198,7 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="267"/>
       <source>Please choose an image</source>
-      <translation type="unfinished">Please choose an image</translation>
+      <translation>請選擇圖像</translation>
     </message>
   </context>
   <context>
@@ -206,7 +206,7 @@
     <message>
       <location filename="mc/gui/main_win.py" line="85"/>
       <source>title</source>
-      <translation type="unfinished">title</translation>
+      <translation>標題</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="88"/>
@@ -221,32 +221,32 @@
     <message>
       <location filename="mc/gui/main_win.py" line="177"/>
       <source>Enable Rest Reminder</source>
-      <translation type="unfinished">Enable Rest Reminder</translation>
+      <translation>啓用休息提醒</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="188"/>
       <source>Take a Break Now</source>
-      <translation type="unfinished">Take a Break Now</translation>
+      <translation>現在休息一下</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="194"/>
       <source>Enable Breathing Reminder</source>
-      <translation type="unfinished">Enable Breathing Reminder</translation>
+      <translation>啓用休息提醒</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="202"/>
       <source>Open Breathing Dialog</source>
-      <translation type="unfinished">Open Breathing Dialog</translation>
+      <translation>打開呼吸對話框</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="234"/>
       <source>Open Settings</source>
-      <translation type="unfinished">Open Settings</translation>
+      <translation>打開設置</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="389"/>
       <source>Quit</source>
-      <translation type="unfinished">Quit</translation>
+      <translation>退出</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="382"/>
@@ -256,22 +256,22 @@
     <message>
       <location filename="mc/gui/main_win.py" line="383"/>
       <source>Export data</source>
-      <translation type="unfinished">Export data</translation>
+      <translation>匯出數據</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="386"/>
       <source>Minimize to tray</source>
-      <translation type="unfinished">Minimize to tray</translation>
+      <translation>最小化到托盤</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="397"/>
       <source>Full screen</source>
-      <translation type="unfinished">Full screen</translation>
+      <translation>全屏幕</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="400"/>
       <source>Show rest reminder</source>
-      <translation type="unfinished">Show rest reminder</translation>
+      <translation>顯示休息提醒</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="407"/>
