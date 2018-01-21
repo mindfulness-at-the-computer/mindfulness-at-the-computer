@@ -24,25 +24,30 @@ class RestDlg(QtWidgets.QDialog):
         vbox_l2 = QtWidgets.QVBoxLayout()
         self.setLayout(vbox_l2)
 
+        # Centering vertically and horizontally
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addStretch(1)
         vbox_l2.addLayout(hbox_l3)
         vbox_l2.addStretch(1)
+        vbox_l4 = QtWidgets.QVBoxLayout()
+        hbox_l3.addStretch(1)
+        hbox_l3.addLayout(vbox_l4)
+        hbox_l3.addStretch(1)
 
         # Main area
         self.main_area_qgb = QtWidgets.QGroupBox("Rest Actions")
-        hbox_l3.addWidget(self.main_area_qgb)
+        vbox_l4.addWidget(self.main_area_qgb)
 
         self.actions_list_vbox_l4 = QtWidgets.QVBoxLayout()
         self.main_area_qgb.setLayout(self.actions_list_vbox_l4)
 
         walking_mindfully_qll = QtWidgets.QLabel("Please move and walk mindfully when leaving the computer")
         walking_mindfully_qll.setFont(mc_global.get_font_medium())
-        vbox_l2.addWidget(walking_mindfully_qll)
-        vbox_l2.addStretch(1)
+        vbox_l4.addWidget(walking_mindfully_qll)
+        vbox_l4.addStretch(1)
 
         buttons_hbox_l3 = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(buttons_hbox_l3)
+        vbox_l4.addLayout(buttons_hbox_l3)
 
         self.close_qpb = QtWidgets.QPushButton("Close")
         buttons_hbox_l3.addWidget(self.close_qpb)
@@ -71,6 +76,7 @@ class RestDlg(QtWidgets.QDialog):
         for rest_action in rest_action_list:
             rest_action_title_qll = QtWidgets.QLabel(rest_action.title)
             rest_action_title_qll.setWordWrap(True)
+            rest_action_title_qll.setFont(mc_global.get_font_large())
             self.actions_list_vbox_l4.addWidget(rest_action_title_qll)
 
     def update_gui(self):
