@@ -3,6 +3,7 @@
 
 If you don't see a download option for the platform of your choice, or you just prefer running from source for other reasons, you can follow these steps to start the application:
 
+### Windows or GNU/Linux Systems
 1. Download the Python 3.x installation package for your platform: https://www.python.org/downloads/
 2. Install Python 3.x
 3. On the command line: `pip install --upgrade pip` (On Ubuntu use `sudo -H` and `pip3` instead of `pip`)
@@ -11,6 +12,16 @@ If you don't see a download option for the platform of your choice, or you just 
 6. Unzip the downloaded file
 7. Change directory to where the software files have been extracted
 8. Type and run `python mindfulness-at-the-computer.py` on Windows or `python3 mindfulness-at-the-computer.py`on GNU/Linux systems
+
+### MacOS
+1. Install python: `brew install python3`
+2. Download the project files from GitHub, by clicking on *the green "Clone or download" button* and then "Download ZIP"
+3. Change directory to where the software files have been extracted
+4. create a virtual environment: `python3 -m venv ./venv`. You should now have a venv folder in your project
+5. activate this venv: `source ./venv/bin/activate`. You can test whether you are using the right python now by doing: 
+`which python` and `which pip`. You should be seeing the python and pip from the ./venv/bin/python folder
+6. install dependencies in this environment: `pip install -r requirements.txt`
+8. Type and run `python mindfulness-at-the-computer.py`
 
 ## Creating a shortcut (Optional)
 
