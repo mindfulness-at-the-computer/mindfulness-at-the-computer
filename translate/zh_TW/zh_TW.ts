@@ -24,12 +24,12 @@
     <message>
       <location filename="mc/gui/breathing_notification.py" line="52"/>
       <source>Open Dialog</source>
-      <translation type="unfinished">Open Dialog</translation>
+      <translation>打開對話框</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_notification.py" line="58"/>
       <source>Close</source>
-      <translation type="unfinished">Close</translation>
+      <translation>關閉</translation>
     </message>
   </context>
   <context>
@@ -37,17 +37,17 @@
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="34"/>
       <source>New item</source>
-      <translation type="unfinished">New item</translation>
+      <translation>新項目</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="42"/>
       <source>Add</source>
-      <translation type="unfinished">Add</translation>
+      <translation>添加</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="51"/>
       <source>Edit the selected breathing phrase</source>
-      <translation type="unfinished">Edit the selected breathing phrase</translation>
+      <translation>編輯選定的呼吸的話</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="57"/>
