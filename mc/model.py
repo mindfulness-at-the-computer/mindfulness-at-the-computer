@@ -183,7 +183,7 @@ class PhrasesM:
             + db.Schema.PhrasesTable.name
         )
         empty_rows_te = db_cursor_result.fetchone()
-        logging.debug(*empty_rows_te)
+        # logging.debug("*empty_rows_te = " + str(*empty_rows_te))
         if empty_rows_te[0] == 0:
             return True
         else:
