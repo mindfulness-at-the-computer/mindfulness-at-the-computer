@@ -70,7 +70,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.setGeometry(100, 64, 900, 670)
         self.setWindowIcon(QtGui.QIcon(mc.mc_global.get_app_icon_path()))
         self._setup_set_window_title()
-        self.setStyleSheet("selection-background-color:#bfef7f; selection-color:#000000;")
+        self.setStyleSheet("selection-background-color:" + mc.mc_global.MC_LIGHT_GREEN_COLOR_STR + "; selection-color:#000000;")
 
     def _setup_main_container(self) -> QtWidgets.QHBoxLayout:
         central_w2 = QtWidgets.QWidget()

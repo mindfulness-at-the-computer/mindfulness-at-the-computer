@@ -35,24 +35,28 @@ class RestReminderDlg(QtWidgets.QFrame):
 
         self.reminder_qll = QtWidgets.QLabel(self.tr("Please take good care of your body and mind"))
         vbox_l2.addWidget(self.reminder_qll)
-
-        hbox = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(hbox)
+        self.reminder_qll.setWordWrap(True)
 
         self.rest_qpb = QtWidgets.QPushButton(self.tr("Rest"))
-        hbox.addWidget(self.rest_qpb)
+        vbox_l2.addWidget(self.rest_qpb, stretch=1)
+        self.rest_qpb.setFont(mc.mc_global.get_font_large(i_bold=False))
         self.rest_qpb.clicked.connect(self.on_rest_button_clicked)
-        self.rest_qpb.setFont(mc.mc_global.get_font_medium())
+        self.rest_qpb.setStyleSheet("background-color:" + mc.mc_global.MC_DARK_GREEN_COLOR_STR + "; color:#000000;")
         # self.rest_qpb.clicked.connect(self.on_close_button_clicked)
         # self.rest_qpb.entered_signal.connect(self.on_close_button_hover)
 
+        hbox_l3 = QtWidgets.QHBoxLayout()
+        vbox_l2.addLayout(hbox_l3)
+        hbox_l3.addStretch(1)
         self.wait_qpb = QtWidgets.QPushButton(self.tr("Wait"))
-        hbox.addWidget(self.wait_qpb)
+        hbox_l3.addWidget(self.wait_qpb)
+        self.wait_qpb.setFlat(True)
         self.wait_qpb.clicked.connect(self.on_wait_button_clicked)
-
         self.skip_qpb = QtWidgets.QPushButton(self.tr("Skip"))
-        hbox.addWidget(self.skip_qpb)
+        hbox_l3.addWidget(self.skip_qpb)
+        self.skip_qpb.setFlat(True)
         self.skip_qpb.clicked.connect(self.on_skip_button_clicked)
+        hbox_l3.addStretch(1)
 
         self.show()  # -done after all the widget have been added so that the right size is set
         self.raise_()
