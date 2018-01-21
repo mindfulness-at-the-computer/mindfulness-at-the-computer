@@ -310,7 +310,7 @@ class MainWin(QtWidgets.QMainWindow):
             # self.tray_icon.showMessage("Mindfulness at the Computer", "One minute left until the next rest")
             self.show_rest_prepare()
         if (mc.mc_global.rest_reminder_minutes_passed_int
-        >= mc.model.SettingsM.get().rest_reminder_interval_int):
+        == mc.model.SettingsM.get().rest_reminder_interval_int):
             self.start_rest_reminder()
         self.rest_settings_wt.rest_reminder_qsr.setValue(
             mc.mc_global.rest_reminder_minutes_passed_int
