@@ -193,7 +193,7 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="239"/>
       <source>(no image set)</source>
-      <translation type="unfinished">(no image set)</translation>
+      <translation>(沒有圖像集)</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="267"/>
@@ -281,12 +281,12 @@
     <message>
       <location filename="mc/gui/main_win.py" line="408"/>
       <source>About</source>
-      <translation type="unfinished">About</translation>
+      <translation>關於</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="414"/>
       <source>System Information</source>
-      <translation type="unfinished">System Information</translation>
+      <translation>系統信息</translation>
     </message>
   </context>
   <context>
@@ -294,12 +294,12 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="31"/>
       <source>Add</source>
-      <translation type="unfinished">Add</translation>
+      <translation>添加</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="42"/>
       <source>Edit the selected rest action</source>
-      <translation type="unfinished">Edit the selected rest action</translation>
+      <translation>編輯選定的休息動作</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="48"/>
@@ -319,12 +319,12 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="68"/>
       <source>Delete the selected rest action</source>
-      <translation type="unfinished">Delete the selected rest action</translation>
+      <translation>選定的呼吸的話</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="125"/>
       <source>Are you sure that you want to remove this entry?</source>
-      <translation type="unfinished">Are you sure that you want to remove this entry?</translation>
+      <translation>您確定要刪除此項嗎</translation>
     </message>
   </context>
   <context>
@@ -332,22 +332,22 @@
     <message>
       <location filename="mc/gui/rest_notification.py" line="34"/>
       <source>Please take good care of your body and mind</source>
-      <translation type="unfinished">Please take good care of your body and mind</translation>
+      <translation>請好好照顧你的身心</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_notification.py" line="40"/>
       <source>Rest</source>
-      <translation type="unfinished">Rest</translation>
+      <translation>休息</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_notification.py" line="47"/>
       <source>Wait</source>
-      <translation type="unfinished">Wait</translation>
+      <translation>等待</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_notification.py" line="51"/>
       <source>Skip</source>
-      <translation type="unfinished">Skip</translation>
+      <translation>跳過</translation>
     </message>
   </context>
   <context>
@@ -355,52 +355,52 @@
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="34"/>
       <source>Interval:</source>
-      <translation type="unfinished">Interval:</translation>
+      <translation>時間間隔</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="37"/>
       <source>minutes</source>
-      <translation type="unfinished">minutes</translation>
+      <translation>分鐘</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="42"/>
       <source>Time until next break:</source>
-      <translation type="unfinished">Time until next break:</translation>
+      <translation>下次休息時間</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="54"/>
       <source>Reset the rest timer</source>
-      <translation type="unfinished">Reset the rest timer</translation>
+      <translation>重置休息計時器</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="77"/>
       <source>Take a break now</source>
-      <translation type="unfinished">Take a break now</translation>
+      <translation>現在休息一下</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="84"/>
       <source>Notification type: </source>
-      <translation type="unfinished">Notification type: </translation>
+      <translation>通知類型 </translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="96"/>
       <source>Audio</source>
-      <translation type="unfinished">Audio</translation>
+      <translation>音頻</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="100"/>
       <source>Select audio</source>
-      <translation type="unfinished">Select audio</translation>
+      <translation>選擇音頻</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="131"/>
       <source>Please choose a wav audio file</source>
-      <translation type="unfinished">Please choose a wav audio file</translation>
+      <translation>請選擇WAV音頻文件</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_settings_wt.py" line="131"/>
       <source>Wav files (*.wav)</source>
-      <translation type="unfinished">Wav files (*.wav)</translation>
+      <translation>Wav文件 (*.wav)</translation>
     </message>
   </context>
   <context>
@@ -408,22 +408,22 @@
     <message>
       <location filename="mc/gui/toggle_switch_wt.py" line="22"/>
       <source>On</source>
-      <translation type="unfinished">On</translation>
+      <translation>開啟</translation>
     </message>
     <message>
       <location filename="mc/gui/toggle_switch_wt.py" line="28"/>
       <source>Off</source>
-      <translation type="unfinished">Off</translation>
+      <translation>關閉</translation>
     </message>
     <message>
       <location filename="mc/gui/toggle_switch_wt.py" line="61"/>
       <source>Enabled</source>
-      <translation type="unfinished">Enabled</translation>
+      <translation>启用</translation>
     </message>
     <message>
       <location filename="mc/gui/toggle_switch_wt.py" line="66"/>
       <source>Disabled</source>
-      <translation type="unfinished">Disabled</translation>
+      <translation>禁用</translation>
     </message>
   </context>
 </TS>
