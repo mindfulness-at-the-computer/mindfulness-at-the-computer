@@ -64,10 +64,14 @@ class RestDlg(QtWidgets.QDialog):
         self.showFullScreen()
 
     def on_close_clicked(self):
+        self.showNormal()
+        # -for MacOS. showNormal is used here rather than showMinimized to avoid animation
         self.close_signal.emit(False)
         self.close()
 
     def on_close_and_breathe_clicked(self):
+        self.showMinimized()
+        # -for MacOS
         self.close_signal.emit(True)
         self.close()
 
