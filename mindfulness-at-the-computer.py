@@ -31,6 +31,12 @@ if __name__ == "__main__":
 
     matc_qapplication = QtWidgets.QApplication(sys.argv)
 
+    desktop_widget = matc_qapplication.desktop()
+    mc.mc_global.sys_info_telist.append(("Virtual desktop", str(desktop_widget.isVirtualDesktop())))
+    mc.mc_global.sys_info_telist.append(("Screen count", str(desktop_widget.screenCount())))
+    mc.mc_global.sys_info_telist.append(("Primary screen", str(desktop_widget.primaryScreen())))
+
+
     translator = QtCore.QTranslator()
     # Warning While removing debug keep the loading call intact
     system_locale = QtCore.QLocale.system().name()

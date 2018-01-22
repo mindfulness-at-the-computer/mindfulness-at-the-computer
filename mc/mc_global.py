@@ -42,6 +42,10 @@ class BreathingState(enum.Enum):
     breathing_out = 2
 
 
+MC_LIGHT_GREEN_COLOR_STR = "#bfef7f"
+MC_DARK_GREEN_COLOR_STR = "#7fcc19"  # "#7fcc19"
+
+
 class PhraseSetup(enum.Enum):
     Long = 0
     Switch = 1

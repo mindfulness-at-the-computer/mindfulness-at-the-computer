@@ -22,6 +22,7 @@ import mc.gui.breathing_notification
 import mc.gui.rest_notification
 import mc.gui.rest_dlg
 import mc.gui.intro_dlg
+import mc.gui.rest_prepare
 
 
 class MainWin(QtWidgets.QMainWindow):
@@ -70,7 +71,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.setGeometry(100, 64, 900, 670)
         self.setWindowIcon(QtGui.QIcon(mc.mc_global.get_app_icon_path()))
         self._setup_set_window_title()
-        self.setStyleSheet("selection-background-color:#bfef7f; selection-color:#000000;")
+        self.setStyleSheet("selection-background-color:" + mc.mc_global.MC_LIGHT_GREEN_COLOR_STR + "; selection-color:#000000;")
 
     def _setup_main_container(self) -> QtWidgets.QHBoxLayout:
         central_w2 = QtWidgets.QWidget()
@@ -191,6 +192,9 @@ class MainWin(QtWidgets.QMainWindow):
         self.tray_menu.addAction(self.sys_tray.rest_progress_qaction)
         self.sys_tray.rest_progress_qaction.setDisabled(True)
         self.sys_tray.update_rest_progress_bar(0, 1)
+        self.tray_rest_reset_qaction = QtWidgets.QAction(self.tr("Reset Rest Timer (Skip Break)"))
+        self.tray_menu.addAction(self.tray_rest_reset_qaction)
+        self.tray_rest_reset_qaction.triggered.connect(self.on_rest_skip)
         self.tray_rest_now_qaction = QtWidgets.QAction(self.tr("Take a Break Now"))
         self.tray_menu.addAction(self.tray_rest_now_qaction)
         self.tray_rest_now_qaction.triggered.connect(self.on_rest_rest)
@@ -305,7 +309,11 @@ class MainWin(QtWidgets.QMainWindow):
     def rest_timer_timeout(self):
         mc.mc_global.rest_reminder_minutes_passed_int += 1
         if (mc.mc_global.rest_reminder_minutes_passed_int
-                >= mc.model.SettingsM.get().rest_reminder_interval_int):
+        == mc.model.SettingsM.get().rest_reminder_interval_int - 1):
+            # self.tray_icon.showMessage("Mindfulness at the Computer", "One minute left until the next rest")
+            self.show_rest_prepare()
+        if (mc.mc_global.rest_reminder_minutes_passed_int
+        == mc.model.SettingsM.get().rest_reminder_interval_int):
             self.start_rest_reminder()
         self.rest_settings_wt.rest_reminder_qsr.setValue(
             mc.mc_global.rest_reminder_minutes_passed_int
@@ -322,6 +330,9 @@ class MainWin(QtWidgets.QMainWindow):
         self.raise_()
         self.showNormal()
         # another alternative (from an SO answer): self.setWindowState(QtCore.Qt.WindowActive)
+
+    def show_rest_prepare(self):
+        self.rest_prepare_dialog = mc.gui.rest_prepare.RestPrepareDlg()
 
     def start_rest_reminder(self):
         notification_type_int = mc.model.SettingsM.get().rest_reminder_notification_type_int
@@ -403,6 +414,9 @@ class MainWin(QtWidgets.QMainWindow):
         show_rest_reminder_action = QtWidgets.QAction(self.tr("Show rest reminder"), self)
         debug_menu.addAction(show_rest_reminder_action)
         show_rest_reminder_action.triggered.connect(self.start_rest_reminder)
+        show_rest_prepare_action = QtWidgets.QAction("Show rest prepare", self)
+        debug_menu.addAction(show_rest_prepare_action)
+        show_rest_prepare_action.triggered.connect(self.show_rest_prepare)
         show_breathing_notification_action = QtWidgets.QAction("Show breathing notification", self)
         debug_menu.addAction(show_breathing_notification_action)
         show_breathing_notification_action.triggered.connect(self.breathing_timer_timeout)
