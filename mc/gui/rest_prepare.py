@@ -70,6 +70,10 @@ class RestPrepareDlg(QtWidgets.QFrame):
     def shown_timer_timeout(self):
         self.close()
 
+    # overridden
+    def mousePressEvent(self, i_QMouseEvent):
+        self.close()
+
     """
     def on_rest_button_clicked(self):
         self.rest_signal.emit()

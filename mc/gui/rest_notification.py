@@ -99,6 +99,11 @@ class RestReminderDlg(QtWidgets.QFrame):
         self.wait_signal.emit()
         self.close()
 
+    # overridden
+    def mousePressEvent(self, i_QMouseEvent):
+        self.wait_signal.emit()
+        self.close()
+
 
 class CustomLabel(QtWidgets.QLabel):
     def __init__(self, i_title: str):
