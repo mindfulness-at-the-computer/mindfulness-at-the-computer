@@ -129,8 +129,10 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
                 return
 
     def on_edit_texts_clicked(self):
-        EditDialog.launch_edit_dialog()
-        self.phrase_changed_signal.emit(True)
+        id_int = mc.mc_global.active_rest_action_id_it
+        if id_int != mc.mc_global.NO_PHRASE_SELECTED_INT:
+            EditDialog.launch_edit_dialog()
+            self.phrase_changed_signal.emit(True)
 
     def on_return_shortcut_triggered(self):
         logging.debug("the return key has been pressed")
