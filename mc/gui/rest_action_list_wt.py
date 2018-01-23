@@ -73,8 +73,10 @@ class RestActionListWt(QtWidgets.QWidget):
         self.update_gui()
 
     def on_edit_texts_clicked(self):
-        EditDialog.launch_edit_dialog()
-        self.update_signal.emit()
+        id_int = mc.mc_global.active_rest_action_id_it
+        if id_int != mc.mc_global.NO_REST_ACTION_SELECTED_INT:
+            EditDialog.launch_edit_dialog()
+            self.update_signal.emit()
 
     def on_move_up_clicked(self):
         self.move_up_down(model.MoveDirectionEnum.up)
