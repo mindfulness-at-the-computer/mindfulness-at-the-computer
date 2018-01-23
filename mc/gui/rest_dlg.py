@@ -60,8 +60,9 @@ class RestDlg(QtWidgets.QDialog):
         self.setup_rest_action_list()
 
         self.setStyleSheet(
-            "background-color: #101010;"
-            "color: #999999; selection-background-color:" + mc_global.MC_LIGHT_GREEN_COLOR_STR + ";"
+            "background-color:#101010;"
+            "color: #999999;"
+            "selection-background-color:" + mc_global.MC_LIGHT_GREEN_COLOR_STR + ";"
             "selection-color:#000000;"
         )
 
