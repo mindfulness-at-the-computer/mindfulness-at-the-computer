@@ -8,6 +8,8 @@ import mc.mc_global
 
 BREATHING_IN_DEFAULT_PHRASE = "Breathing in"
 BREATHING_OUT_DEFAULT_PHRASE = "Breathing out"
+BREATHING_IN_DEFAULT_SHORT_PHRASE = "in"
+BREATHING_OUT_DEFAULT_SHORT_PHRASE = "out"
 
 
 class BreathingPhraseListWt(QtWidgets.QWidget):
@@ -153,9 +155,6 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             mc.model.PhrasesM.remove(mc.mc_global.active_phrase_id_it)
             self.list_widget.clearSelection()   # -clearing after entry removed from db
             mc.mc_global.active_phrase_id_it = mc.mc_global.NO_PHRASE_SELECTED_INT
-
-
-
             self.update_gui()
         else:
             pass
@@ -168,8 +167,8 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             text_sg,
             BREATHING_IN_DEFAULT_PHRASE,
             BREATHING_OUT_DEFAULT_PHRASE,
-            "",
-            "",
+            BREATHING_IN_DEFAULT_SHORT_PHRASE,
+            BREATHING_OUT_DEFAULT_SHORT_PHRASE,
             mc.mc_global.BreathingPhraseType.in_out
         )
         self.add_to_list_qle.clear()
