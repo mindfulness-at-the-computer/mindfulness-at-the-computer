@@ -83,22 +83,24 @@ class RestActionListWt(QtWidgets.QWidget):
         self.move_up_down(model.MoveDirectionEnum.down)
 
     def move_up_down(self, i_up_down: model.MoveDirectionEnum):
-        id_int = mc_global.active_rest_action_id_it
-        model.RestActionsM.update_sort_order_move_up_down(id_int, i_up_down)
-        self.update_gui()
-        self.update_selected()
+        id_int = mc.mc_global.active_rest_action_id_it
+        if id_int != mc.mc_global.NO_REST_ACTION_SELECTED_INT:
+            model.RestActionsM.update_sort_order_move_up_down(id_int, i_up_down)
+            self.update_gui()
+            self.update_selected()
 
     def on_move_to_top_clicked(self):
-        id_int = mc_global.active_rest_action_id_it
-        while True:
-            result_bool = model.RestActionsM.update_sort_order_move_up_down(
-                id_int,
-                model.MoveDirectionEnum.up
-            )
-            if not result_bool:
-                break
-        self.update_gui()
-        self.update_selected()
+        id_int = mc.mc_global.active_rest_action_id_it
+        if id_int != mc.mc_global.NO_REST_ACTION_SELECTED_INT:
+            while True:
+                result_bool = model.RestActionsM.update_sort_order_move_up_down(
+                    id_int,
+                    model.MoveDirectionEnum.up
+                )
+                if not result_bool:
+                    break
+            self.update_gui()
+            self.update_selected()
 
     def update_selected(self):
         for i in range(0, self.list_widget.count()):

@@ -97,23 +97,27 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         self.move_up_down(mc.model.MoveDirectionEnum.down)
 
     def move_up_down(self, i_up_down: mc.model.MoveDirectionEnum):
-        mc.model.PhrasesM._update_sort_order_move_up_down(
-            mc.mc_global.active_phrase_id_it,
-            i_up_down
-        )
-        self.update_gui()
-        self.update_selected()
+        id_int = mc.mc_global.active_rest_action_id_it
+        if id_int != mc.mc_global.NO_PHRASE_SELECTED_INT:
+            mc.model.PhrasesM._update_sort_order_move_up_down(
+                mc.mc_global.active_phrase_id_it,
+                i_up_down
+            )
+            self.update_gui()
+            self.update_selected()
 
     def on_move_to_top_clicked(self):
-        while True:
-            result_bool = mc.model.PhrasesM._update_sort_order_move_up_down(
-                mc.mc_global.active_phrase_id_it,
-                mc.model.MoveDirectionEnum.up
-            )
-            if not result_bool:
-                break
-        self.update_gui()
-        self.update_selected()
+        id_int = mc.mc_global.active_rest_action_id_it
+        if id_int != mc.mc_global.NO_PHRASE_SELECTED_INT:
+            while True:
+                result_bool = mc.model.PhrasesM._update_sort_order_move_up_down(
+                    mc.mc_global.active_phrase_id_it,
+                    mc.model.MoveDirectionEnum.up
+                )
+                if not result_bool:
+                    break
+            self.update_gui()
+            self.update_selected()
 
     def update_selected(self):
         for i in range(0, self.list_widget.count()):
