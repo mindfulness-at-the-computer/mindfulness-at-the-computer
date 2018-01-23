@@ -175,7 +175,7 @@ class BreathingDlg(QtWidgets.QFrame):
             return
         if i_qkeyevent.key() == QtCore.Qt.Key_Shift:
             logging.info("shift key pressed")
-            self.breathing_graphicsview_l3.start_breathing_in()
+            self.start_breathing_in()
             # self.in_qpb.click()
         else:
             pass
@@ -187,7 +187,7 @@ class BreathingDlg(QtWidgets.QFrame):
             return
         if i_qkeyevent.key() == QtCore.Qt.Key_Shift:
             logging.info("shift key released")
-            self.breathing_graphicsview_l3.start_breathing_out()
+            self.start_breathing_out()
             # self.out_qpb.click()
         else:
             pass
