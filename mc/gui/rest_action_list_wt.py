@@ -180,7 +180,7 @@ class EditDialog(QtWidgets.QDialog):
         super(EditDialog, self).__init__(i_parent)
 
         rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
-        self.temporary_image_file_path_str = rest_action.image_path_str
+        self.temporary_image_file_path_str = rest_action.image_path
 
         assert mc_global.active_rest_action_id_it != mc_global.NO_REST_ACTION_SELECTED_INT
         active_rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
