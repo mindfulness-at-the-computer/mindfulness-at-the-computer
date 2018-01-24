@@ -199,6 +199,8 @@ class PhrasesM:
 
     @staticmethod
     def _update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
+        if i_id == mc.mc_global.NO_PHRASE_SELECTED_INT:
+            return False
         main_id_int = i_id
         main_sort_order_int = PhrasesM.get(i_id)._vert_order_int
         if i_move_direction == MoveDirectionEnum.up:
@@ -357,6 +359,8 @@ class RestActionsM:
 
     @staticmethod
     def update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
+        if i_id == mc.mc_global.NO_REST_ACTION_SELECTED_INT:
+            return False
         main_id_int = i_id
         main_sort_order_int = RestActionsM.get(i_id)._vert_order_int
         if i_move_direction == MoveDirectionEnum.up:

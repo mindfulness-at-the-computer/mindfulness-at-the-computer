@@ -18,21 +18,20 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
 
     def __init__(self):
         super().__init__()
-        vbox = QtWidgets.QVBoxLayout()
-        self.setLayout(vbox)
-        # self.setMinimumWidth(180)
+        vbox_l2 = QtWidgets.QVBoxLayout()
+        self.setLayout(vbox_l2)
 
         self.updating_gui_bool = False
 
         self.list_widget = QtWidgets.QListWidget()
         # self.list_widget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
-        vbox.addWidget(self.list_widget)
+        vbox_l2.addWidget(self.list_widget)
         self.list_widget.itemSelectionChanged.connect(self.on_selection_changed)
 
-        hbox = QtWidgets.QHBoxLayout()
-        vbox.addLayout(hbox)
+        hbox_l3 = QtWidgets.QHBoxLayout()
+        vbox_l2.addLayout(hbox_l3)
         self.add_to_list_qle = QtWidgets.QLineEdit()
-        hbox.addWidget(self.add_to_list_qle)
+        hbox_l3.addWidget(self.add_to_list_qle)
         self.add_to_list_qle.setPlaceholderText(self.tr("New item"))
         QtWidgets.QShortcut(
             QtGui.QKeySequence(QtCore.Qt.Key_Return),
@@ -43,45 +42,38 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
 
         self.add_new_phrase_qpb = QtWidgets.QPushButton(self.tr("Add"))
         self.add_new_phrase_qpb.clicked.connect(self.add_new_phrase_button_clicked)
-        hbox.addWidget(self.add_new_phrase_qpb)
+        hbox_l3.addWidget(self.add_new_phrase_qpb)
 
-        hbox = QtWidgets.QHBoxLayout()
-        vbox.addLayout(hbox)
-
+        hbox_l3 = QtWidgets.QHBoxLayout()
+        vbox_l2.addLayout(hbox_l3)
         self.edit_texts_qpb = QtWidgets.QPushButton()
         self.edit_texts_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("pencil-2x.png")))
         self.edit_texts_qpb.setToolTip(self.tr("Edit the selected breathing phrase"))
         self.edit_texts_qpb.clicked.connect(self.on_edit_texts_clicked)
-        hbox.addWidget(self.edit_texts_qpb)
-
+        hbox_l3.addWidget(self.edit_texts_qpb)
         self.move_to_top_qpb = QtWidgets.QPushButton()
         self.move_to_top_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("data-transfer-upload-2x.png")))
         self.move_to_top_qpb.setToolTip(self.tr("Move the selected breathing phrase to top"))
         self.move_to_top_qpb.clicked.connect(self.on_move_to_top_clicked)
-        hbox.addWidget(self.move_to_top_qpb)
-
+        hbox_l3.addWidget(self.move_to_top_qpb)
         self.move_up_qpb = QtWidgets.QPushButton()
         self.move_up_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("arrow-top-2x.png")))
         self.move_up_qpb.setToolTip(self.tr("Move the selected breathing phrase up"))
         self.move_up_qpb.clicked.connect(self.on_move_up_clicked)
-        hbox.addWidget(self.move_up_qpb)
-
+        hbox_l3.addWidget(self.move_up_qpb)
         self.move_down_qpb = QtWidgets.QPushButton()
         self.move_down_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("arrow-bottom-2x.png")))
         self.move_down_qpb.setToolTip(self.tr("Move the selected breathing phrase down"))
         self.move_down_qpb.clicked.connect(self.on_move_down_clicked)
-        hbox.addWidget(self.move_down_qpb)
-
-        hbox.addStretch(1)
-
+        hbox_l3.addWidget(self.move_down_qpb)
+        hbox_l3.addStretch(1)
         self.delete_phrase_qpb = QtWidgets.QPushButton()
         self.delete_phrase_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("trash-2x.png")))
         self.delete_phrase_qpb.setToolTip(self.tr("Delete the selected breathing phrase"))
         self.delete_phrase_qpb.clicked.connect(self.on_delete_clicked)
-        hbox.addWidget(self.delete_phrase_qpb)
+        hbox_l3.addWidget(self.delete_phrase_qpb)
 
         self.update_gui()
-
         self.list_widget.setCurrentRow(0)  # -the first row
 
     def set_button_states(self, status):
@@ -99,27 +91,23 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         self.move_up_down(mc.model.MoveDirectionEnum.down)
 
     def move_up_down(self, i_up_down: mc.model.MoveDirectionEnum):
-        id_int = mc.mc_global.active_phrase_id_it
-        if id_int != mc.mc_global.NO_PHRASE_SELECTED_INT:
-            mc.model.PhrasesM._update_sort_order_move_up_down(
-                mc.mc_global.active_phrase_id_it,
-                i_up_down
-            )
-            self.update_gui()
-            self.update_selected()
+        mc.model.PhrasesM._update_sort_order_move_up_down(
+            mc.mc_global.active_phrase_id_it,
+            i_up_down
+        )
+        self.update_gui()
+        self.update_selected()
 
     def on_move_to_top_clicked(self):
-        id_int = mc.mc_global.active_rest_action_id_it
-        if id_int != mc.mc_global.NO_PHRASE_SELECTED_INT:
-            while True:
-                result_bool = mc.model.PhrasesM._update_sort_order_move_up_down(
-                    mc.mc_global.active_phrase_id_it,
-                    mc.model.MoveDirectionEnum.up
-                )
-                if not result_bool:
-                    break
-            self.update_gui()
-            self.update_selected()
+        while True:
+            result_bool = mc.model.PhrasesM._update_sort_order_move_up_down(
+                mc.mc_global.active_phrase_id_it,
+                mc.model.MoveDirectionEnum.up
+            )
+            if not result_bool:
+                break
+        self.update_gui()
+        self.update_selected()
 
     def update_selected(self):
         for i in range(0, self.list_widget.count()):

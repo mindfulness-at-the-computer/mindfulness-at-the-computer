@@ -17,58 +17,58 @@ class RestActionListWt(QtWidgets.QWidget):
 
         self.updating_gui_bool = False
 
-        vbox = QtWidgets.QVBoxLayout()
-        self.setLayout(vbox)
+        vbox_l2 = QtWidgets.QVBoxLayout()
+        self.setLayout(vbox_l2)
 
         # Rest actions
         self.list_widget = QtWidgets.QListWidget()
-        vbox.addWidget(self.list_widget)
+        vbox_l2.addWidget(self.list_widget)
 
         self.list_widget.itemSelectionChanged.connect(self.on_selection_changed)
-        hbox = QtWidgets.QHBoxLayout()
-        vbox.addLayout(hbox)
+        hbox_l3 = QtWidgets.QHBoxLayout()
+        vbox_l2.addLayout(hbox_l3)
         self.rest_add_action_qle = QtWidgets.QLineEdit()
-        hbox.addWidget(self.rest_add_action_qle)
+        hbox_l3.addWidget(self.rest_add_action_qle)
         self.rest_add_action_qpb = QtWidgets.QPushButton(self.tr("Add"))
-        hbox.addWidget(self.rest_add_action_qpb)
+        hbox_l3.addWidget(self.rest_add_action_qpb)
         self.rest_add_action_qpb.clicked.connect(self.add_rest_action_clicked)
 
         # Details
 
-        hbox = QtWidgets.QHBoxLayout()
-        vbox.addLayout(hbox)
+        hbox_l3 = QtWidgets.QHBoxLayout()
+        vbox_l2.addLayout(hbox_l3)
 
         self.edit_texts_qpb = QtWidgets.QPushButton()
         self.edit_texts_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("pencil-2x.png")))
         self.edit_texts_qpb.setToolTip(self.tr("Edit the selected rest action"))
         self.edit_texts_qpb.clicked.connect(self.on_edit_texts_clicked)
-        hbox.addWidget(self.edit_texts_qpb)
+        hbox_l3.addWidget(self.edit_texts_qpb)
 
         self.move_to_top_qpb = QtWidgets.QPushButton()
         self.move_to_top_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("data-transfer-upload-2x.png")))
         self.move_to_top_qpb.setToolTip(self.tr("Move the selected rest action to top"))
         self.move_to_top_qpb.clicked.connect(self.on_move_to_top_clicked)
-        hbox.addWidget(self.move_to_top_qpb)
+        hbox_l3.addWidget(self.move_to_top_qpb)
 
         self.move_up_qpb = QtWidgets.QPushButton()
         self.move_up_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("arrow-top-2x.png")))
         self.move_up_qpb.setToolTip(self.tr("Move the selected rest action up"))
         self.move_up_qpb.clicked.connect(self.on_move_up_clicked)
-        hbox.addWidget(self.move_up_qpb)
+        hbox_l3.addWidget(self.move_up_qpb)
 
         self.move_down_qpb = QtWidgets.QPushButton()
         self.move_down_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("arrow-bottom-2x.png")))
         self.move_down_qpb.setToolTip(self.tr("Move the selected rest action down"))
         self.move_down_qpb.clicked.connect(self.on_move_down_clicked)
-        hbox.addWidget(self.move_down_qpb)
+        hbox_l3.addWidget(self.move_down_qpb)
 
-        hbox.addStretch(1)
+        hbox_l3.addStretch(1)
 
         self.delete_qpb = QtWidgets.QPushButton()
         self.delete_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("trash-2x.png")))
         self.delete_qpb.setToolTip(self.tr("Delete the selected rest action"))
         self.delete_qpb.clicked.connect(self.on_delete_clicked)
-        hbox.addWidget(self.delete_qpb)
+        hbox_l3.addWidget(self.delete_qpb)
 
         self.update_gui()
 
@@ -92,17 +92,15 @@ class RestActionListWt(QtWidgets.QWidget):
             self.update_selected()
 
     def on_move_to_top_clicked(self):
-        id_int = mc.mc_global.active_rest_action_id_it
-        if id_int != mc.mc_global.NO_REST_ACTION_SELECTED_INT:
-            while True:
-                result_bool = model.RestActionsM.update_sort_order_move_up_down(
-                    id_int,
-                    model.MoveDirectionEnum.up
-                )
-                if not result_bool:
-                    break
-            self.update_gui()
-            self.update_selected()
+        while True:
+            result_bool = model.RestActionsM.update_sort_order_move_up_down(
+                mc.mc_global.active_rest_action_id_it,
+                model.MoveDirectionEnum.up
+            )
+            if not result_bool:
+                break
+        self.update_gui()
+        self.update_selected()
 
     def update_selected(self):
         for i in range(0, self.list_widget.count()):
