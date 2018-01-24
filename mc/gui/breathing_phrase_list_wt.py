@@ -99,7 +99,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         self.move_up_down(mc.model.MoveDirectionEnum.down)
 
     def move_up_down(self, i_up_down: mc.model.MoveDirectionEnum):
-        id_int = mc.mc_global.active_rest_action_id_it
+        id_int = mc.mc_global.active_phrase_id_it
         if id_int != mc.mc_global.NO_PHRASE_SELECTED_INT:
             mc.model.PhrasesM._update_sort_order_move_up_down(
                 mc.mc_global.active_phrase_id_it,

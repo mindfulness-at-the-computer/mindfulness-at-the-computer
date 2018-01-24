@@ -130,8 +130,8 @@ class PhrasesM:
     @staticmethod
     def add(i_title: str, i_ib: str, i_ob: str, ib_short: str, ob_short: str,
     i_type: mc.mc_global.BreathingPhraseType) -> None:
-        # vertical_order_last_pos_int = len(PhrasesM.get_all())
-        vertical_order_last_pos_int = PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max) + 1
+        vertical_order_last_pos_int = PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)
+        # -this is the last pos before the new entry has been added, therefore + 1 is added below
         db_exec(
             "INSERT INTO " + db.Schema.PhrasesTable.name + "("
             + db.Schema.PhrasesTable.Cols.vertical_order + ", "
@@ -142,7 +142,7 @@ class PhrasesM:
             + db.Schema.PhrasesTable.Cols.ob_short_phrase + ", "
             + db.Schema.PhrasesTable.Cols.type
             + ") VALUES (?, ?, ?, ?, ?, ?, ?)",
-            (vertical_order_last_pos_int, i_title, i_ib, i_ob, ib_short, ob_short, i_type.value)
+            (vertical_order_last_pos_int + 1, i_title, i_ib, i_ob, ib_short, ob_short, i_type.value)
         )
 
     @staticmethod
@@ -314,13 +314,14 @@ class RestActionsM:
     @staticmethod
     def add(i_title: str, i_image_path: str) -> None:
         vertical_order_last_pos_int = RestActionsM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)
+        # -this is the last pos before the new entry has been added, therefore + 1 is added below
         db_exec(
             "INSERT INTO " + db.Schema.RestActionsTable.name + "("
             + db.Schema.RestActionsTable.Cols.vertical_order + ", "
             + db.Schema.RestActionsTable.Cols.title + ", "
             + db.Schema.RestActionsTable.Cols.image_path
             + ") VALUES (?, ?, ?)",
-            (vertical_order_last_pos_int, i_title, i_image_path)
+            (vertical_order_last_pos_int + 1, i_title, i_image_path)
         )
 
     @staticmethod
