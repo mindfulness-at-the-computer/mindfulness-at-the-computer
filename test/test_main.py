@@ -48,8 +48,8 @@ class MainTest(unittest.TestCase):
     def test_main_window(self):
         main_window = mc.gui.main_win.MainWin()
 
-    @unittest.skip
     def test_breathing_dialog(self):
+        mc.mc_global.active_phrase_id_it = 1
         breathing_dialog = mc.gui.breathing_dlg.BreathingDlg()
 
     def test_breathing_phrase_list_dock(self):
@@ -75,7 +75,6 @@ class MainTest(unittest.TestCase):
         ok_dialog_button = safe_delete_dialog.button_box.button(QtWidgets.QDialogButtonBox.Ok)
         QtTest.QTest.mouseClick(ok_dialog_button, QtCore.Qt.LeftButton)
 
-    @unittest.skip
     def test_adding_breathing_phrase(self):
         pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
 
@@ -83,11 +82,18 @@ class MainTest(unittest.TestCase):
         QtTest.QTest.keyClicks(pl_widget.add_to_list_qle, TEST_TEXT_STR)
         QtTest.QTest.mouseClick(pl_widget.add_new_phrase_qpb, QtCore.Qt.LeftButton)
 
+        pl_widget.edit_dialog.accept()  # clicking "ok"
+        # pl_widget.edit_dialog.reject()  # clicking "ok"
+        # pl_widget.edit_dialog.done()  # clicking "ok"
+
+        # QtTest.QTest.mouseClick(pl_widget.add_new_phrase_qpb, QtCore.Qt.LeftButton)
+
         for i in range(0, pl_widget.list_widget.count()):
             qlwi = pl_widget.list_widget.item(i)
             custom_qll = pl_widget.list_widget.itemWidget(qlwi)
             if custom_qll.text() == TEST_TEXT_STR:
                 return
+
         self.fail()
 
     """
