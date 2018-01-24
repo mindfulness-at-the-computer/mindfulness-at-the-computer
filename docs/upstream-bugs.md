@@ -19,3 +19,4 @@ This bug is not seen in XFCE (version 4.12)
 
 Bug found by mbed67 on MacOS Sierra
 
+Stackoverflow has a question related to this here: https://stackoverflow.com/questions/31666744/pyqt5-can-not-close-a-topmost-fullscreen-qdialog-on-mac-osx
