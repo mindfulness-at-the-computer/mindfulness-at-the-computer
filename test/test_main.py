@@ -22,6 +22,9 @@ test_app = QtWidgets.QApplication(sys.argv)
 
 
 class MainTest(unittest.TestCase):
+    """
+    "@unittest.skip" can be used to skip a test
+    """
 
     @classmethod
     def setUpClass(cls):
@@ -88,13 +91,14 @@ class MainTest(unittest.TestCase):
 
         # QtTest.QTest.mouseClick(pl_widget.add_new_phrase_qpb, QtCore.Qt.LeftButton)
 
+        # trying to find the newly added entry
         for i in range(0, pl_widget.list_widget.count()):
             qlwi = pl_widget.list_widget.item(i)
             custom_qll = pl_widget.list_widget.itemWidget(qlwi)
             if custom_qll.text() == TEST_TEXT_STR:
                 return
-
-        self.fail()
+        else:
+            self.fail()
 
     """
     def test_starting_breathing(self):
@@ -102,7 +106,8 @@ class MainTest(unittest.TestCase):
         main_win_widget.menu_bar.
     """
 
-    def est_selecting_breathing_phrase(self):
+    @unittest.skip
+    def test_selecting_breathing_phrase(self):
 
         # pl_widget = self.matc_main_obj.main_window.phrase_list_widget
         pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
