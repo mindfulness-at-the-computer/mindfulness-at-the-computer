@@ -94,7 +94,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         self.move_up_down(mc.model.MoveDirectionEnum.down)
 
     def move_up_down(self, i_up_down: mc.model.MoveDirectionEnum):
-        mc.model.PhrasesM._update_sort_order_move_up_down(
+        mc.model.PhrasesM.update_sort_order_move_up_down(
             mc.mc_global.active_phrase_id_it,
             i_up_down
         )
@@ -103,7 +103,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
 
     def on_move_to_top_clicked(self):
         while True:
-            result_bool = mc.model.PhrasesM._update_sort_order_move_up_down(
+            result_bool = mc.model.PhrasesM.update_sort_order_move_up_down(
                 mc.mc_global.active_phrase_id_it,
                 mc.model.MoveDirectionEnum.up
             )

@@ -20,6 +20,7 @@ class MinOrMaxEnum(enum.Enum):
 def db_exec(i_sql: str, i_params: tuple=None):
     db_connection = db.Helper.get_db_connection()
     db_cursor = db_connection.cursor()
+    # noinspection PyUnusedLocal
     db_cursor_result = None
     if i_params is not None:
         db_cursor_result = db_cursor.execute(i_sql, i_params)
@@ -51,14 +52,6 @@ class PhrasesM:
         self._type_enum = mc.mc_global.BreathingPhraseType.in_out
         if i_type == mc.mc_global.BreathingPhraseType.single.value:
             self._type_enum = mc.mc_global.BreathingPhraseType.single
-
-    @staticmethod
-    def update_breathing_phrase_type(i_breathing_phrase_type: mc.mc_global.BreathingPhraseType):
-        SettingsM._update(
-            db.Schema.SettingsTable.Cols.breathing_reminder_phrase_type,
-            i_breathing_phrase_type.value
-        )
-
 
     @property
     def id(self) -> int:
@@ -198,7 +191,7 @@ class PhrasesM:
         )
 
     @staticmethod
-    def _update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
+    def update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
         if i_id == mc.mc_global.NO_PHRASE_SELECTED_INT:
             return False
         main_id_int = i_id
@@ -650,21 +643,11 @@ class SettingsM:
         )
         db_connection.commit()
 
-
     @staticmethod
     def update_breathing_reminder_nr_per_dialog(i_new_nr_per_dialog: int):
         SettingsM._update(
             db.Schema.SettingsTable.Cols.breathing_reminder_nr_before_dialog,
             i_new_nr_per_dialog
-        )
-
-    @staticmethod
-    def _update(i_col_name: str, i_new_value):
-        db_exec(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + i_col_name + " = ?"
-            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
-            (i_new_value, str(db.SINGLE_SETTINGS_ID_INT))
         )
 
     @staticmethod
