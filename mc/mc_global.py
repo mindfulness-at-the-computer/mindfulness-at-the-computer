@@ -197,3 +197,12 @@ db_upgrade_message_str = None
 
 
 sys_info_telist = []
+
+
+def clear_widget_and_layout_children(qlayout_or_qwidget):
+    if qlayout_or_qwidget.widget():
+        qlayout_or_qwidget.widget().deleteLater()
+    elif qlayout_or_qwidget.layout():
+        while qlayout_or_qwidget.layout().count():
+            child_qlayoutitem = qlayout_or_qwidget.takeAt(0)
+            clear_widget_and_layout_children(child_qlayoutitem)  # Recursive call
