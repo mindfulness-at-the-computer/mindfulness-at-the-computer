@@ -4,6 +4,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 try:
+    # noinspection PyUnresolvedReferences
     from PyQt5 import QtMultimedia
 except ImportError:
     logging.debug("ImportError for QtMultimedia - maybe because there's no sound card available")
@@ -35,6 +36,10 @@ class MainWin(QtWidgets.QMainWindow):
         self.tray_icon = None
         self.rest_reminder_qtimer = None
         self.breathing_qtimer = None
+        self.rest_prepare_dialog = None
+        self.intro_dlg = None
+        self.breathing_notification = None
+        self.breathing_dialog = None
 
         self.active_breathing_phrase_qgb = QtWidgets.QGroupBox("Active Breathing Phrase")
         self.br_settings_wt = mc.gui.breathing_settings_wt.BreathingSettingsWt()
@@ -71,7 +76,10 @@ class MainWin(QtWidgets.QMainWindow):
         self.setGeometry(100, 64, 900, 670)
         self.setWindowIcon(QtGui.QIcon(mc.mc_global.get_app_icon_path()))
         self._setup_set_window_title()
-        self.setStyleSheet("selection-background-color:" + mc.mc_global.MC_LIGHT_GREEN_COLOR_STR + "; selection-color:#000000;")
+        self.setStyleSheet(
+            "selection-background-color:" + mc.mc_global.MC_LIGHT_GREEN_COLOR_STR + ";"
+            "selection-color:#000000;"
+        )
 
     def _setup_main_container(self) -> QtWidgets.QHBoxLayout:
         central_w2 = QtWidgets.QWidget()
@@ -161,7 +169,7 @@ class MainWin(QtWidgets.QMainWindow):
         systray_available_str = "No"
         if self.tray_icon.isSystemTrayAvailable():
             systray_available_str = "Yes"
-            mc.mc_global.sys_info_telist.append(("System tray available", systray_available_str))
+        mc.mc_global.sys_info_telist.append(("System tray available", systray_available_str))
         notifications_supported_str = "No"
         if self.tray_icon.supportsMessages():
             notifications_supported_str = "Yes"

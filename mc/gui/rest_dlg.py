@@ -1,9 +1,5 @@
-import os
-
 from PyQt5 import QtCore
-from PyQt5 import QtGui
 from PyQt5 import QtWidgets
-
 from mc import model, mc_global
 
 
@@ -81,12 +77,8 @@ class RestDlg(QtWidgets.QDialog):
         self.close()
 
     def setup_rest_action_list(self):
-        first_iteration_bool = True
         rest_action_list = model.RestActionsM.get_all()
         for rest_action in rest_action_list:
-            # if not first_iteration_bool:
-            #     self.actions_list_vbox_l4.addSpacing(10)
-            first_iteration_bool = False
             rest_action_title_qll = QtWidgets.QLabel(rest_action.title)
             rest_action_title_qll.setWordWrap(True)
             rest_action_title_qll.setFont(mc_global.get_font_large())

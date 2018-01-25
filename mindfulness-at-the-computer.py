@@ -36,12 +36,13 @@ if __name__ == "__main__":
     mc.mc_global.sys_info_telist.append(("Screen count", str(desktop_widget.screenCount())))
     mc.mc_global.sys_info_telist.append(("Primary screen", str(desktop_widget.primaryScreen())))
 
-
     translator = QtCore.QTranslator()
     # Warning While removing debug keep the loading call intact
     system_locale = QtCore.QLocale.system().name()
     logging.info('System Localization: ' + system_locale)
-    logging.info('Localization Load Status: ' + str(translator.load(system_locale + '.qm', 'translate/' + system_locale))) # name, dir
+    logging.info(
+        'Localization Load Status: ' + str(translator.load(system_locale + '.qm', 'translate/' + system_locale))
+    )  # -name, dir
     matc_qapplication.installTranslator(translator)
 
     matc_qapplication.setQuitOnLastWindowClosed(False)
@@ -49,20 +50,7 @@ if __name__ == "__main__":
     matc_main_window.show()
 
     if mc.mc_global.db_upgrade_message_str:
+        # noinspection PyCallByClass
         QtWidgets.QMessageBox.warning(matc_main_window, "title", mc.mc_global.db_upgrade_message_str)
 
     sys.exit(matc_qapplication.exec_())
-
-    """
-    argument_parser = argparse.ArgumentParser()
-    argument_parser.add_argument(
-        "--testing", "-t", help="Testing", action="store_true"
-    )
-    # -for info about "store_true" please search here: https://docs.python.org/3/howto/argparse.html
-    args = argument_parser.parse_args()
-
-    if args.testing:
-        mc_global.testing_bool = True
-    else:
-        mc_global.testing_bool = False
-    """

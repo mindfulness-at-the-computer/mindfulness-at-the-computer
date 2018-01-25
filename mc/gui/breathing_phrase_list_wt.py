@@ -324,6 +324,7 @@ class EditDialog(QtWidgets.QDialog):
 
         self.update_gui()
 
+    # noinspection PyUnusedLocal
     def on_in_out_toggled(self, i_checked: bool):
         if self.updating_gui_bool:
             return

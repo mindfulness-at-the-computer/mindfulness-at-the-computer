@@ -169,12 +169,6 @@ class BreathingInitSetupPage(QtWidgets.QWidget):
 
         vbox_l2.addStretch(1)
 
-        """
-        self.play_audio_qcb = QtWidgets.QCheckBox("Play Audio")
-        vbox_l2.addWidget(self.play_audio_qcb)
-        self.play_audio_qcb.toggled.connect(self.on_play_audio_toggled)
-        """
-
     def on_time_btw_notifications_value_changed(self, i_new_value: int):
         logging.debug("on_time_btw_notifications_value_changed, i_new_value = " + str(i_new_value))
         mc.model.SettingsM.update_breathing_reminder_interval(i_new_value)

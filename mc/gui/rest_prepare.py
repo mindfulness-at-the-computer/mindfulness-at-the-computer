@@ -1,10 +1,5 @@
-import logging
-import time
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
-from PyQt5 import QtGui
-import mc.mc_global
-import mc.model
 
 WINDOW_FLAGS = (
     QtCore.Qt.Dialog
@@ -71,7 +66,7 @@ class RestPrepareDlg(QtWidgets.QFrame):
         self.close()
 
     # overridden
-    def mousePressEvent(self, i_QMouseEvent):
+    def mousePressEvent(self, i_qmouseevent):
         self.close()
 
     """
