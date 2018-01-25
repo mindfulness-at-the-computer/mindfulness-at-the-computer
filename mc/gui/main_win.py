@@ -221,29 +221,6 @@ class MainWin(QtWidgets.QMainWindow):
         self.tray_menu.addAction(self.tray_open_breathing_dialog_qaction)
         self.tray_open_breathing_dialog_qaction.triggered.connect(self.open_breathing_dialog)
 
-        """
-        self.sys_tray.phrase_qaction_list.clear()
-        for (count, l_phrase) in enumerate(mc.model.PhrasesM.get_all()):
-            INDENTATION_STR = "  "
-            ACTIVE_MARKER_STR = "•"
-            INACTIVE_MARKER_STR = " "
-            active_or_inactive_str = INACTIVE_MARKER_STR
-            if l_phrase.id_int == mc.mc_global.active_phrase_id_it:
-                active_or_inactive_str = ACTIVE_MARKER_STR
-            tray_phrase_qaction = QtWidgets.QAction(active_or_inactive_str + INDENTATION_STR + l_phrase.title_str)
-            tray_phrase_qaction.triggered.connect(
-                functools.partial(
-                    self.br_phrase_list_wt.on_new_row_selected_from_system_tray,
-                    l_phrase.id_int
-                )
-            )
-            self.sys_tray.phrase_qaction_list.append(tray_phrase_qaction)
-            # self.tray_phrase_qaction = QtWidgets.QAction(l_phrase.title_str)
-            self.tray_menu.addAction(tray_phrase_qaction)
-            if count >= 4:
-                break
-        """
-
         self.tray_menu.addSeparator()
 
         self.tray_restore_action = QtWidgets.QAction(self.tr("Open Settings"))
@@ -364,7 +341,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.update_gui(mc.mc_global.EventSource.rest_opened)
 
     def on_rest_wait(self):
-        mc.mc_global.rest_reminder_minutes_passed_int -= 2  # TODO
+        mc.mc_global.rest_reminder_minutes_passed_int -= 2
         self.update_gui()
 
     def on_rest_rest(self):
@@ -408,6 +385,11 @@ class MainWin(QtWidgets.QMainWindow):
         minimize_to_tray_action = QtWidgets.QAction(self.tr("Minimize to tray"), self)
         file_menu.addAction(minimize_to_tray_action)
         minimize_to_tray_action.triggered.connect(self.minimize_to_tray)
+        """
+        choose_file_directory_action = QtWidgets.QAction(self.tr("Choose file directory"), self)
+        file_menu.addAction(choose_file_directory_action)
+        choose_file_directory_action.triggered.connect(pass)
+        """
         quit_action = QtWidgets.QAction(self.tr("Quit"), self)
         file_menu.addAction(quit_action)
         quit_action.triggered.connect(self.exit_application)
