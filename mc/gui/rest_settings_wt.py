@@ -78,7 +78,6 @@ class RestSettingsWt(QtWidgets.QWidget):
         vbox_l2.addWidget(self.rest_reminder_test_qpb)
         self.rest_reminder_test_qpb.clicked.connect(self.on_rest_test_clicked)
 
-
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
         hbox_l3.addWidget(QtWidgets.QLabel(self.tr("Notification type: ")))
@@ -91,7 +90,6 @@ class RestSettingsWt(QtWidgets.QWidget):
             mc.mc_global.NotificationType.Both.name
         ])
         self.notification_type_qcb.activated.connect(self.on_notification_type_activated)
-
 
         self.audio_qgb = QtWidgets.QGroupBox(self.tr("Audio"))
         vbox_l2.addWidget(self.audio_qgb)

@@ -99,7 +99,7 @@ class BreathingNotification(QtWidgets.QFrame):
         self.on_close_button_clicked()
 
     # overridden
-    def mousePressEvent(self, i_QMouseEvent):
+    def mousePressEvent(self, i_qmouseevent):
         self.close_signal.emit()
         self.close()
 
@@ -130,4 +130,3 @@ class BreathingNotification(QtWidgets.QFrame):
 
         self.image_qll.setFixedWidth(scaled_width_int)
         self.image_qll.setFixedHeight(scaled_height_int)
-

@@ -20,6 +20,7 @@ class BreathingDlg(QtWidgets.QFrame):
         self.hover_active_bool = False
         self.keyboard_active_bool = True
         self.state = mc.mc_global.BreathingState.inactive
+        self.cursor_qtimer = None
         self.ib_qtimer = None
         self.ob_qtimer = None
         self.setWindowFlags(
@@ -201,7 +202,7 @@ class BreathingDlg(QtWidgets.QFrame):
         self.update_gui()
 
     def start_cursor_timer(self):
-        self.cursor_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
+        self.cursor_qtimer = QtCore.QTimer(self)
         self.cursor_qtimer.setSingleShot(True)
         self.cursor_qtimer.timeout.connect(self.cursor_timer_timeout)
         self.cursor_qtimer.start(2500)
@@ -306,6 +307,7 @@ class GraphicsView(QtWidgets.QGraphicsView):
             return
 
         small_qsize = QtCore.QSizeF(BR_WIDTH_FT, BR_HEIGHT_FT)
+        # noinspection PyCallByClass
         pos_pointf = QtWidgets.QGraphicsItem.mapFromItem(
             self.custom_gi, self.custom_gi,
             self.custom_gi.x() + (self.custom_gi.boundingRect().width() - small_qsize.width()) / 2,
@@ -381,25 +383,22 @@ class BreathingGraphicsObject(QtWidgets.QGraphicsObject):
         self.setAcceptHoverEvents(True)
 
     # Overridden
-    def paint(self, i_QPainter, QStyleOptionGraphicsItem, widget=None):
+    def paint(self, i_qpainter, i_qstyleoptiongraphicsitem, widget=None):
         t_brush = QtGui.QBrush(QtGui.QColor(200, 10, 100))
-        i_QPainter.fillRect(self.rectf, t_brush)
+        i_qpainter.fillRect(self.rectf, t_brush)
 
     # Overridden
     def boundingRect(self):
         return self.rectf
 
     # Overridden
-    def hoverMoveEvent(self, QGraphicsSceneHoverEvent):
-        # logging.debug("hoverMoveEvent")
+    def hoverMoveEvent(self, i_qgraphicsscenehoverevent):
         self.enter_signal.emit()
 
     # Overridden
-    def hoverLeaveEvent(self, QGraphicsSceneHoverEvent):
+    def hoverLeaveEvent(self, i_qgraphicsscenehoverevent):
         # Please note that this function is entered in case the user hovers over something on top of this graphics item
         logging.debug("hoverLeaveEvent")
-
-        # TODO: Check to see if the mouse is outside the bounding rectangle
         self.leave_signal.emit()
 
     def update_pos_and_origin_point(self, i_view_width: int, i_view_height: int):
@@ -410,4 +409,3 @@ class BreathingGraphicsObject(QtWidgets.QGraphicsObject):
         self.setPos(t_pointf)
 
         self.setTransformOriginPoint(self.boundingRect().center())
-

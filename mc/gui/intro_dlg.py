@@ -183,4 +183,3 @@ class BreathingInitSetupPage(QtWidgets.QWidget):
         mc.model.SettingsM.update_breathing_dialog_audio_active(i_checked)
         if not mc.model.SettingsM.get().breathing_reminder_audio_path_str:
             mc.model.SettingsM.update_breathing_reminder_audio_path("small_bell_long[cc0].wav")
-

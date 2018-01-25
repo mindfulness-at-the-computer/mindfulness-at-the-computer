@@ -1,7 +1,6 @@
 import datetime
 import shutil
 import sqlite3
-from PyQt5 import QtWidgets
 from mc import mc_global
 from mc import model
 

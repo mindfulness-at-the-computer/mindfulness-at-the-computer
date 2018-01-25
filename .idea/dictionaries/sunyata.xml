@@ -6,26 +6,36 @@
       <w>drawrect</w>
       <w>graphicsscene</w>
       <w>graphicsview</w>
+      <w>hbox</w>
       <w>lxde</w>
       <w>mainwindow</w>
+      <w>matc</w>
       <w>pointf</w>
       <w>prio</w>
       <w>qaction</w>
       <w>qevent</w>
+      <w>qgraphicsscenehoverevent</w>
       <w>qgri</w>
       <w>qkeyevent</w>
+      <w>qmouseevent</w>
+      <w>qpainter</w>
       <w>qpointf</w>
       <w>qrect</w>
       <w>qrectf</w>
+      <w>qstyleoptiongraphicsitem</w>
       <w>qtimeline</w>
       <w>qtimer</w>
       <w>rectf</w>
+      <w>sysinfo</w>
       <w>systray</w>
+      <w>telist</w>
       <w>tord</w>
       <w>torgny</w>
       <w>torgnydellsen</w>
       <w>useiconic</w>
+      <w>vbox</w>
       <w>versioning</w>
+      <w>vert</w>
       <w>webbrowser</w>
       <w>xfce</w>
       <w>xlarge</w>

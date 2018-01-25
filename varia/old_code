@@ -1,6 +1,25 @@
 
 
 
+
+    """
+    argument_parser = argparse.ArgumentParser()
+    argument_parser.add_argument(
+        "--testing", "-t", help="Testing", action="store_true"
+    )
+    # -for info about "store_true" please search here: https://docs.python.org/3/howto/argparse.html
+    args = argument_parser.parse_args()
+
+    if args.testing:
+        mc_global.testing_bool = True
+    else:
+        mc_global.testing_bool = False
+    """
+
+
+
+
+
     def show_breathing_notification(self):
         if mc.mc_global.breathing_state != mc.mc_global.BreathingState.inactive \
                 or mc.mc_global.active_phrase_id_it == -1:

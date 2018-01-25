@@ -4,6 +4,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 try:
+    # noinspection PyUnresolvedReferences
     from PyQt5 import QtMultimedia
 except ImportError:
     logging.debug("ImportError for QtMultimedia - maybe because there's no sound card available")
@@ -22,6 +23,7 @@ import mc.gui.breathing_notification
 import mc.gui.rest_notification
 import mc.gui.rest_dlg
 import mc.gui.intro_dlg
+import mc.gui.rest_prepare
 
 
 class MainWin(QtWidgets.QMainWindow):
@@ -34,6 +36,10 @@ class MainWin(QtWidgets.QMainWindow):
         self.tray_icon = None
         self.rest_reminder_qtimer = None
         self.breathing_qtimer = None
+        self.rest_prepare_dialog = None
+        self.intro_dlg = None
+        self.breathing_notification = None
+        self.breathing_dialog = None
 
         self.active_breathing_phrase_qgb = QtWidgets.QGroupBox("Active Breathing Phrase")
         self.br_settings_wt = mc.gui.breathing_settings_wt.BreathingSettingsWt()
@@ -70,7 +76,10 @@ class MainWin(QtWidgets.QMainWindow):
         self.setGeometry(100, 64, 900, 670)
         self.setWindowIcon(QtGui.QIcon(mc.mc_global.get_app_icon_path()))
         self._setup_set_window_title()
-        self.setStyleSheet("selection-background-color:#bfef7f; selection-color:#000000;")
+        self.setStyleSheet(
+            "selection-background-color:#bfef7f;"
+            "selection-color:#000000;"
+        )
 
     def _setup_main_container(self) -> QtWidgets.QHBoxLayout:
         central_w2 = QtWidgets.QWidget()
@@ -160,7 +169,7 @@ class MainWin(QtWidgets.QMainWindow):
         systray_available_str = "No"
         if self.tray_icon.isSystemTrayAvailable():
             systray_available_str = "Yes"
-            mc.mc_global.sys_info_telist.append(("System tray available", systray_available_str))
+        mc.mc_global.sys_info_telist.append(("System tray available", systray_available_str))
         notifications_supported_str = "No"
         if self.tray_icon.supportsMessages():
             notifications_supported_str = "Yes"
@@ -323,6 +332,9 @@ class MainWin(QtWidgets.QMainWindow):
         self.showNormal()
         # another alternative (from an SO answer): self.setWindowState(QtCore.Qt.WindowActive)
 
+    def show_rest_prepare(self):
+        self.rest_prepare_dialog = mc.gui.rest_prepare.RestPrepareDlg()
+
     def start_rest_reminder(self):
         notification_type_int = mc.model.SettingsM.get().rest_reminder_notification_type_int
 
@@ -345,7 +357,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.update_gui(mc.mc_global.EventSource.rest_opened)
 
     def on_rest_wait(self):
-        mc.mc_global.rest_reminder_minutes_passed_int -= 2  # TODO
+        mc.mc_global.rest_reminder_minutes_passed_int -= 2
         self.update_gui()
 
     def on_rest_rest(self):
@@ -507,11 +519,9 @@ class MainWin(QtWidgets.QMainWindow):
         # Python: webbrowser.get(url_str) --- doesn't work
 
     def show_sysinfo_box(self):
-
         info_str = '\n'.join([
             descr_str + ": " + str(value) for (descr_str, value) in mc.mc_global.sys_info_telist
         ])
-
         # noinspection PyCallByClass
         QtWidgets.QMessageBox.about(
             self,
@@ -554,9 +564,6 @@ class MainWin(QtWidgets.QMainWindow):
         sys.exit()
 
     def update_gui(self, i_event_source=mc.mc_global.EventSource.undefined):
-        # self.breathing_widget.update_gui()
-        # self.rest_widget.update_gui()
-
         if mc.mc_global.active_phrase_id_it == mc.mc_global.NO_PHRASE_SELECTED_INT:
             pass
         else:
@@ -583,7 +590,6 @@ class MainWin(QtWidgets.QMainWindow):
 
         # Icon
         self.tray_icon.setIcon(QtGui.QIcon(mc.model.get_app_systray_icon_path()))
-        # self.tray_icon.show()
 
         # Menu
         self.sys_tray.update_breathing_checked(settings.breathing_reminder_active_bool)
