@@ -20,7 +20,6 @@ class MinOrMaxEnum(enum.Enum):
 def db_exec(i_sql: str, i_params: tuple=None):
     db_connection = db.Helper.get_db_connection()
     db_cursor = db_connection.cursor()
-    # noinspection PyUnusedLocal
     db_cursor_result = None
     if i_params is not None:
         db_cursor_result = db_cursor.execute(i_sql, i_params)
@@ -52,6 +51,14 @@ class PhrasesM:
         self._type_enum = mc.mc_global.BreathingPhraseType.in_out
         if i_type == mc.mc_global.BreathingPhraseType.single.value:
             self._type_enum = mc.mc_global.BreathingPhraseType.single
+
+    @staticmethod
+    def update_breathing_phrase_type(i_breathing_phrase_type: mc.mc_global.BreathingPhraseType):
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_phrase_type,
+            i_breathing_phrase_type.value
+        )
+
 
     @property
     def id(self) -> int:
@@ -123,8 +130,8 @@ class PhrasesM:
     @staticmethod
     def add(i_title: str, i_ib: str, i_ob: str, ib_short: str, ob_short: str,
     i_type: mc.mc_global.BreathingPhraseType) -> None:
-        # vertical_order_last_pos_int = len(PhrasesM.get_all())
-        vertical_order_last_pos_int = PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max) + 1
+        vertical_order_last_pos_int = PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)
+        # -this is the last pos before the new entry has been added, therefore + 1 is added below
         db_exec(
             "INSERT INTO " + db.Schema.PhrasesTable.name + "("
             + db.Schema.PhrasesTable.Cols.vertical_order + ", "
@@ -135,7 +142,7 @@ class PhrasesM:
             + db.Schema.PhrasesTable.Cols.ob_short_phrase + ", "
             + db.Schema.PhrasesTable.Cols.type
             + ") VALUES (?, ?, ?, ?, ?, ?, ?)",
-            (vertical_order_last_pos_int, i_title, i_ib, i_ob, ib_short, ob_short, i_type.value)
+            (vertical_order_last_pos_int + 1, i_title, i_ib, i_ob, ib_short, ob_short, i_type.value)
         )
 
     @staticmethod
@@ -176,7 +183,7 @@ class PhrasesM:
             + db.Schema.PhrasesTable.name
         )
         empty_rows_te = db_cursor_result.fetchone()
-        logging.debug(*empty_rows_te)
+        # logging.debug("*empty_rows_te = " + str(*empty_rows_te))
         if empty_rows_te[0] == 0:
             return True
         else:
@@ -191,7 +198,9 @@ class PhrasesM:
         )
 
     @staticmethod
-    def update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
+    def _update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
+        if i_id == mc.mc_global.NO_PHRASE_SELECTED_INT:
+            return False
         main_id_int = i_id
         main_sort_order_int = PhrasesM.get(i_id)._vert_order_int
         if i_move_direction == MoveDirectionEnum.up:
@@ -298,22 +307,23 @@ class RestActionsM:
 
     def _update(self, i_col_name: str, i_new_value):
         db_exec(
-            "UPDATE " + db.Schema.RestActionsTable.name
+            "UPDATE " + db.Schema.PhrasesTable.name
             + " SET " + i_col_name + " = ?"
-            + " WHERE " + db.Schema.RestActionsTable.Cols.id + " = ?",
+            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
             (i_new_value, str(self._id_int))
         )
 
     @staticmethod
     def add(i_title: str, i_image_path: str) -> None:
         vertical_order_last_pos_int = RestActionsM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)
+        # -this is the last pos before the new entry has been added, therefore + 1 is added below
         db_exec(
             "INSERT INTO " + db.Schema.RestActionsTable.name + "("
             + db.Schema.RestActionsTable.Cols.vertical_order + ", "
             + db.Schema.RestActionsTable.Cols.title + ", "
             + db.Schema.RestActionsTable.Cols.image_path
             + ") VALUES (?, ?, ?)",
-            (vertical_order_last_pos_int, i_title, i_image_path)
+            (vertical_order_last_pos_int + 1, i_title, i_image_path)
         )
 
     @staticmethod
@@ -349,6 +359,8 @@ class RestActionsM:
 
     @staticmethod
     def update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
+        if i_id == mc.mc_global.NO_REST_ACTION_SELECTED_INT:
+            return False
         main_id_int = i_id
         main_sort_order_int = RestActionsM.get(i_id)._vert_order_int
         if i_move_direction == MoveDirectionEnum.up:
@@ -638,11 +650,21 @@ class SettingsM:
         )
         db_connection.commit()
 
+
     @staticmethod
     def update_breathing_reminder_nr_per_dialog(i_new_nr_per_dialog: int):
         SettingsM._update(
             db.Schema.SettingsTable.Cols.breathing_reminder_nr_before_dialog,
             i_new_nr_per_dialog
+        )
+
+    @staticmethod
+    def _update(i_col_name: str, i_new_value):
+        db_exec(
+            "UPDATE " + db.Schema.SettingsTable.name
+            + " SET " + i_col_name + " = ?"
+            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
+            (i_new_value, str(db.SINGLE_SETTINGS_ID_INT))
         )
 
     @staticmethod

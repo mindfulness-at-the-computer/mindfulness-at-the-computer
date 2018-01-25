@@ -4,7 +4,6 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 try:
-    # noinspection PyUnresolvedReferences
     from PyQt5 import QtMultimedia
 except ImportError:
     logging.debug("ImportError for QtMultimedia - maybe because there's no sound card available")
@@ -36,10 +35,6 @@ class MainWin(QtWidgets.QMainWindow):
         self.tray_icon = None
         self.rest_reminder_qtimer = None
         self.breathing_qtimer = None
-        self.rest_prepare_dialog = None
-        self.intro_dlg = None
-        self.breathing_notification = None
-        self.breathing_dialog = None
 
         self.active_breathing_phrase_qgb = QtWidgets.QGroupBox("Active Breathing Phrase")
         self.br_settings_wt = mc.gui.breathing_settings_wt.BreathingSettingsWt()
@@ -76,10 +71,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.setGeometry(100, 64, 900, 670)
         self.setWindowIcon(QtGui.QIcon(mc.mc_global.get_app_icon_path()))
         self._setup_set_window_title()
-        self.setStyleSheet(
-            "selection-background-color:#bfef7f;"
-            "selection-color:#000000;"
-        )
+        self.setStyleSheet("selection-background-color:" + mc.mc_global.MC_LIGHT_GREEN_COLOR_STR + "; selection-color:#000000;")
 
     def _setup_main_container(self) -> QtWidgets.QHBoxLayout:
         central_w2 = QtWidgets.QWidget()
@@ -169,7 +161,7 @@ class MainWin(QtWidgets.QMainWindow):
         systray_available_str = "No"
         if self.tray_icon.isSystemTrayAvailable():
             systray_available_str = "Yes"
-        mc.mc_global.sys_info_telist.append(("System tray available", systray_available_str))
+            mc.mc_global.sys_info_telist.append(("System tray available", systray_available_str))
         notifications_supported_str = "No"
         if self.tray_icon.supportsMessages():
             notifications_supported_str = "Yes"
@@ -200,6 +192,9 @@ class MainWin(QtWidgets.QMainWindow):
         self.tray_menu.addAction(self.sys_tray.rest_progress_qaction)
         self.sys_tray.rest_progress_qaction.setDisabled(True)
         self.sys_tray.update_rest_progress_bar(0, 1)
+        self.tray_rest_reset_qaction = QtWidgets.QAction(self.tr("Reset Rest Timer (Skip Break)"))
+        self.tray_menu.addAction(self.tray_rest_reset_qaction)
+        self.tray_rest_reset_qaction.triggered.connect(self.on_rest_skip)
         self.tray_rest_now_qaction = QtWidgets.QAction(self.tr("Take a Break Now"))
         self.tray_menu.addAction(self.tray_rest_now_qaction)
         self.tray_rest_now_qaction.triggered.connect(self.on_rest_rest)
@@ -314,7 +309,11 @@ class MainWin(QtWidgets.QMainWindow):
     def rest_timer_timeout(self):
         mc.mc_global.rest_reminder_minutes_passed_int += 1
         if (mc.mc_global.rest_reminder_minutes_passed_int
-                >= mc.model.SettingsM.get().rest_reminder_interval_int):
+        == mc.model.SettingsM.get().rest_reminder_interval_int - 1):
+            # self.tray_icon.showMessage("Mindfulness at the Computer", "One minute left until the next rest")
+            self.show_rest_prepare()
+        if (mc.mc_global.rest_reminder_minutes_passed_int
+        == mc.model.SettingsM.get().rest_reminder_interval_int):
             self.start_rest_reminder()
         self.rest_settings_wt.rest_reminder_qsr.setValue(
             mc.mc_global.rest_reminder_minutes_passed_int
@@ -357,7 +356,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.update_gui(mc.mc_global.EventSource.rest_opened)
 
     def on_rest_wait(self):
-        mc.mc_global.rest_reminder_minutes_passed_int -= 2
+        mc.mc_global.rest_reminder_minutes_passed_int -= 2  # TODO
         self.update_gui()
 
     def on_rest_rest(self):
@@ -415,6 +414,9 @@ class MainWin(QtWidgets.QMainWindow):
         show_rest_reminder_action = QtWidgets.QAction(self.tr("Show rest reminder"), self)
         debug_menu.addAction(show_rest_reminder_action)
         show_rest_reminder_action.triggered.connect(self.start_rest_reminder)
+        show_rest_prepare_action = QtWidgets.QAction("Show rest prepare", self)
+        debug_menu.addAction(show_rest_prepare_action)
+        show_rest_prepare_action.triggered.connect(self.show_rest_prepare)
         show_breathing_notification_action = QtWidgets.QAction("Show breathing notification", self)
         debug_menu.addAction(show_breathing_notification_action)
         show_breathing_notification_action.triggered.connect(self.breathing_timer_timeout)
@@ -519,9 +521,11 @@ class MainWin(QtWidgets.QMainWindow):
         # Python: webbrowser.get(url_str) --- doesn't work
 
     def show_sysinfo_box(self):
+
         info_str = '\n'.join([
             descr_str + ": " + str(value) for (descr_str, value) in mc.mc_global.sys_info_telist
         ])
+
         # noinspection PyCallByClass
         QtWidgets.QMessageBox.about(
             self,
@@ -564,6 +568,9 @@ class MainWin(QtWidgets.QMainWindow):
         sys.exit()
 
     def update_gui(self, i_event_source=mc.mc_global.EventSource.undefined):
+        # self.breathing_widget.update_gui()
+        # self.rest_widget.update_gui()
+
         if mc.mc_global.active_phrase_id_it == mc.mc_global.NO_PHRASE_SELECTED_INT:
             pass
         else:
@@ -590,6 +597,7 @@ class MainWin(QtWidgets.QMainWindow):
 
         # Icon
         self.tray_icon.setIcon(QtGui.QIcon(mc.model.get_app_systray_icon_path()))
+        # self.tray_icon.show()
 
         # Menu
         self.sys_tray.update_breathing_checked(settings.breathing_reminder_active_bool)

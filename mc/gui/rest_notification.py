@@ -1,6 +1,8 @@
 import logging
+import time
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
+from PyQt5 import QtGui
 import mc.mc_global
 import mc.model
 
@@ -67,8 +69,7 @@ class RestReminderDlg(QtWidgets.QFrame):
         self.move(xpos_int, ypos_int)
 
         self.shown_qtimer = None
-        # self.start_shown_timer()
-        # -at the time of writing this timer is not used
+        ##### self.start_shown_timer()
 
         self.setStyleSheet("background-color: #101010; color: #999999;")
 
@@ -99,7 +100,7 @@ class RestReminderDlg(QtWidgets.QFrame):
         self.close()
 
     # overridden
-    def mousePressEvent(self, i_qmouseevent):
+    def mousePressEvent(self, i_QMouseEvent):
         self.wait_signal.emit()
         self.close()
 
@@ -125,3 +126,4 @@ class CustomButton(QtWidgets.QPushButton):
     def enterEvent(self, i_QEvent):
         self.entered_signal.emit()
         logging.debug("CustomButton: enterEvent")
+

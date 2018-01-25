@@ -1,7 +1,10 @@
+import os
+
 from PyQt5 import QtCore
+from PyQt5 import QtGui
 from PyQt5 import QtWidgets
-import mc.model
-import mc.mc_global
+
+from mc import model, mc_global
 
 
 class RestDlg(QtWidgets.QDialog):
@@ -39,7 +42,7 @@ class RestDlg(QtWidgets.QDialog):
         self.main_area_qgb.setLayout(self.actions_list_vbox_l4)
 
         walking_mindfully_qll = QtWidgets.QLabel("Please move and walk mindfully when leaving the computer")
-        walking_mindfully_qll.setFont(mc.mc_global.get_font_medium())
+        walking_mindfully_qll.setFont(mc_global.get_font_medium())
         vbox_l4.addWidget(walking_mindfully_qll)
         vbox_l4.addStretch(1)
 
@@ -56,14 +59,18 @@ class RestDlg(QtWidgets.QDialog):
 
         self.setup_rest_action_list()
 
-        self.setStyleSheet("background-color: #101010; color: #999999;")
+        self.setStyleSheet(
+            "background-color:#101010;"
+            "color: #999999;"
+            "selection-background-color:" + mc_global.MC_LIGHT_GREEN_COLOR_STR + ";"
+            "selection-color:#000000;"
+        )
 
         self.showFullScreen()
 
     def on_close_clicked(self):
         self.showNormal()
-        # -for MacOS where it's not possible to close a window in fullscreen
-        #  showNormal is used here rather than showMinimized to avoid animation
+        # -for MacOS. showNormal is used here rather than showMinimized to avoid animation
         self.close_signal.emit(False)
         self.close()
 
@@ -74,14 +81,15 @@ class RestDlg(QtWidgets.QDialog):
         self.close()
 
     def setup_rest_action_list(self):
-        rest_action_list = mc.model.RestActionsM.get_all()
+        first_iteration_bool = True
+        rest_action_list = model.RestActionsM.get_all()
         for rest_action in rest_action_list:
             # if not first_iteration_bool:
             #     self.actions_list_vbox_l4.addSpacing(10)
             first_iteration_bool = False
             rest_action_title_qll = QtWidgets.QLabel(rest_action.title)
             rest_action_title_qll.setWordWrap(True)
-            rest_action_title_qll.setFont(mc.mc_global.get_font_large())
+            rest_action_title_qll.setFont(mc_global.get_font_large())
             rest_action_title_qll.setContentsMargins(10, 5, 10, 5)
             self.actions_list_vbox_l4.addWidget(rest_action_title_qll)
 

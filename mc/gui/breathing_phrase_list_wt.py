@@ -8,6 +8,8 @@ import mc.mc_global
 
 BREATHING_IN_DEFAULT_PHRASE = "Breathing in"
 BREATHING_OUT_DEFAULT_PHRASE = "Breathing out"
+BREATHING_IN_DEFAULT_SHORT_PHRASE = "in"
+BREATHING_OUT_DEFAULT_SHORT_PHRASE = "out"
 
 
 class BreathingPhraseListWt(QtWidgets.QWidget):
@@ -18,7 +20,9 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         super().__init__()
         vbox_l2 = QtWidgets.QVBoxLayout()
         self.setLayout(vbox_l2)
-        # self.setMinimumWidth(180)
+
+        self.edit_dialog = EditDialog()
+        self.edit_dialog.finished.connect(self.on_edit_dialog_finished)
 
         self.updating_gui_bool = False
 
@@ -45,33 +49,27 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
 
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
-
         self.edit_texts_qpb = QtWidgets.QPushButton()
         self.edit_texts_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("pencil-2x.png")))
         self.edit_texts_qpb.setToolTip(self.tr("Edit the selected breathing phrase"))
         self.edit_texts_qpb.clicked.connect(self.on_edit_texts_clicked)
         hbox_l3.addWidget(self.edit_texts_qpb)
-
         self.move_to_top_qpb = QtWidgets.QPushButton()
         self.move_to_top_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("data-transfer-upload-2x.png")))
         self.move_to_top_qpb.setToolTip(self.tr("Move the selected breathing phrase to top"))
         self.move_to_top_qpb.clicked.connect(self.on_move_to_top_clicked)
         hbox_l3.addWidget(self.move_to_top_qpb)
-
         self.move_up_qpb = QtWidgets.QPushButton()
         self.move_up_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("arrow-top-2x.png")))
         self.move_up_qpb.setToolTip(self.tr("Move the selected breathing phrase up"))
         self.move_up_qpb.clicked.connect(self.on_move_up_clicked)
         hbox_l3.addWidget(self.move_up_qpb)
-
         self.move_down_qpb = QtWidgets.QPushButton()
         self.move_down_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("arrow-bottom-2x.png")))
         self.move_down_qpb.setToolTip(self.tr("Move the selected breathing phrase down"))
         self.move_down_qpb.clicked.connect(self.on_move_down_clicked)
         hbox_l3.addWidget(self.move_down_qpb)
-
         hbox_l3.addStretch(1)
-
         self.delete_phrase_qpb = QtWidgets.QPushButton()
         self.delete_phrase_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("trash-2x.png")))
         self.delete_phrase_qpb.setToolTip(self.tr("Delete the selected breathing phrase"))
@@ -79,7 +77,6 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         hbox_l3.addWidget(self.delete_phrase_qpb)
 
         self.update_gui()
-
         self.list_widget.setCurrentRow(0)  # -the first row
 
     def set_button_states(self, status):
@@ -97,7 +94,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         self.move_up_down(mc.model.MoveDirectionEnum.down)
 
     def move_up_down(self, i_up_down: mc.model.MoveDirectionEnum):
-        mc.model.PhrasesM.update_sort_order_move_up_down(
+        mc.model.PhrasesM._update_sort_order_move_up_down(
             mc.mc_global.active_phrase_id_it,
             i_up_down
         )
@@ -106,7 +103,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
 
     def on_move_to_top_clicked(self):
         while True:
-            result_bool = mc.model.PhrasesM.update_sort_order_move_up_down(
+            result_bool = mc.model.PhrasesM._update_sort_order_move_up_down(
                 mc.mc_global.active_phrase_id_it,
                 mc.model.MoveDirectionEnum.up
             )
@@ -125,8 +122,9 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
                 return
 
     def on_edit_texts_clicked(self):
-        EditDialog.launch_edit_dialog()
-        self.phrase_changed_signal.emit(True)
+        id_int = mc.mc_global.active_phrase_id_it
+        if id_int != mc.mc_global.NO_PHRASE_SELECTED_INT:
+            self.edit_dialog.show()
 
     def on_return_shortcut_triggered(self):
         logging.debug("the return key has been pressed")
@@ -147,7 +145,6 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             mc.model.PhrasesM.remove(mc.mc_global.active_phrase_id_it)
             self.list_widget.clearSelection()   # -clearing after entry removed from db
             mc.mc_global.active_phrase_id_it = mc.mc_global.NO_PHRASE_SELECTED_INT
-
             self.update_gui()
         else:
             pass
@@ -160,8 +157,8 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             text_sg,
             BREATHING_IN_DEFAULT_PHRASE,
             BREATHING_OUT_DEFAULT_PHRASE,
-            "",
-            "",
+            BREATHING_IN_DEFAULT_SHORT_PHRASE,
+            BREATHING_OUT_DEFAULT_SHORT_PHRASE,
             mc.mc_global.BreathingPhraseType.in_out
         )
         self.add_to_list_qle.clear()
@@ -171,7 +168,25 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         # self.in_breath_phrase_qle.setFocus()
 
         # if dialog_result == QtWidgets.QDialog.Accepted:
-        EditDialog.launch_edit_dialog()
+        self.edit_dialog.show()
+
+    def on_edit_dialog_finished(self, i_result: int):
+
+        if i_result == QtWidgets.QDialog.Accepted:
+            assert mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
+            phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+            phrase.title = self.edit_dialog.breath_title_qle.text()
+            phrase.ib = self.edit_dialog.in_breath_phrase_qle.text()
+            phrase.ob = self.edit_dialog.out_breath_phrase_qle.text()
+            phrase.ib_short = self.edit_dialog.short_in_breath_phrase_qle.text()
+            phrase.ob_short = self.edit_dialog.short_out_breath_phrase_qle.text()
+            if self.edit_dialog.in_out_qrb.isChecked():
+                phrase.type = mc.mc_global.BreathingPhraseType.in_out
+            else:
+                phrase.type = mc.mc_global.BreathingPhraseType.single
+        else:
+            pass
+
         self.phrase_changed_signal.emit(True)
 
     def on_selection_changed(self):
@@ -247,6 +262,8 @@ class EditDialog(QtWidgets.QDialog):
     def __init__(self, i_parent=None):
         super(EditDialog, self).__init__(i_parent)
 
+        self.setModal(True)
+
         self.updating_gui_bool = False
 
         # If a phrase is not selected, default to phrase with id 1
@@ -307,7 +324,6 @@ class EditDialog(QtWidgets.QDialog):
 
         self.update_gui()
 
-    # noinspection PyUnusedLocal
     def on_in_out_toggled(self, i_checked: bool):
         if self.updating_gui_bool:
             return
