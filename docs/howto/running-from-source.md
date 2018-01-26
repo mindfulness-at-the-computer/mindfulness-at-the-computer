@@ -19,7 +19,7 @@ If you don't see a download option for the platform of your choice, or you just 
 3. Change directory to where the software files have been extracted
 4. create a virtual environment: `python3 -m venv ./venv`. You should now have a venv folder in your project
 5. activate this venv: `source ./venv/bin/activate`. You can test whether you are using the right python now by doing: 
-`which python` and `which pip`. You should be seeing the python and pip from the ./venv/bin/python folder
+`which python` and `which pip`. You should be seeing the python and pip from the ./venv/bin folder
 6. install dependencies in this environment: `pip install -r requirements.txt`
 8. Type and run `python mindfulness-at-the-computer.py`
 
