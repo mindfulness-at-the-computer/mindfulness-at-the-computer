@@ -1,12 +1,12 @@
 
 ## About me
 
-Tord (SunyataZero on github) have a Buddhist background, having practiced Buddhism and meditation for over ten years, and being influenced by the [Plum Village tradition](https://plumvillage.org/) which puts emphasis on mindfulness.
+Tord (SunyataZero on github) has a Buddhist background, having practiced Buddhism and meditation for over ten years, and being influenced by the [Plum Village tradition](https://plumvillage.org/) which puts emphasis on mindfulness.
 
 
 ## Background
 
-Tord started this project after having worked on a pomodoro application, but then realized that I wanted to focus on mindfulness more than productivity.
+Tord started this project after having worked on a pomodoro application, but then realized that he wanted to focus on mindfulness more than productivity.
 
 ## Theory
 
@@ -14,12 +14,11 @@ The application is influenced by Buddhist mindfulness, but the application itsel
 
 ### Buddhist concerns
 
-If you are planning to make changes to the features of this application
-please read the section "Buddhist Concerns" in [this Wikipedia article](https://en.wikipedia.org/wiki/Mindfulness_and_technology).
+If you are planning to make changes to the features of this application please read the section "Buddhist Concerns" in [this Wikipedia article](https://en.wikipedia.org/wiki/Mindfulness_and_technology).
 
 ### Right mindfulness
 
-We need to be aware that there is right mindfulness and wrong mindfulness, right concentration and wrong concentration. Wrong concentration may be that we are so caught-up in our work at the computer.
+There is right mindfulness and wrong mindfulness, right concentration and wrong concentration. Wrong mindfulness can be that we are aware of causes of anxiety. Wrong concentration may be that we are so caught-up in our work at the computer that we are no longer aware of our body.
 
 ### Time
 
