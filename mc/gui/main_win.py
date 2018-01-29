@@ -112,7 +112,7 @@ class MainWin(QtWidgets.QMainWindow):
 
         title_qll = QtWidgets.QLabel("Breathing")
         breathing_phrase_list_vbox_l4.addWidget(title_qll)
-        title_qll.setFont(mc.mc_global.get_font_large())
+        title_qll.setFont(mc.mc_global.get_font_large(i_bold=True))
 
         breathing_phrase_list_vbox_l4.addWidget(self.br_phrase_list_wt)
         self.br_phrase_list_wt.selection_changed_signal.connect(self.on_breathing_list_row_changed)
@@ -124,7 +124,7 @@ class MainWin(QtWidgets.QMainWindow):
 
         title_qll = QtWidgets.QLabel("Resting")
         rest_action_list_vbox_l4.addWidget(title_qll)
-        title_qll.setFont(mc.mc_global.get_font_large())
+        title_qll.setFont(mc.mc_global.get_font_large(i_bold=True))
 
         rest_action_list_vbox_l4.addWidget(self.rest_action_list_wt)
         self.rest_action_list_wt.update_signal.connect(self.on_rest_action_list_updated)
