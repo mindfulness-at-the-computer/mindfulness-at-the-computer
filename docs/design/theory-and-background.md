@@ -18,7 +18,7 @@ If you are planning to make changes to the features of this application please r
 
 ### Right mindfulness
 
-There is right mindfulness and wrong mindfulness, right concentration and wrong concentration. Wrong mindfulness can be that we are aware of causes of anxiety. Wrong concentration may be that we are so caught-up in our work at the computer that we are no longer aware of our body.
+Mindfulness in relationship to working at the computer helps people become aware of their physical and emotional needs so that they will be facilitated in self-care. 
 
 ### Time
 
