@@ -519,7 +519,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.br_phrase_list_wt.list_widget.clearSelection()
 
     def show_online_help(self):
-        url_str = "https://sunyatazero.github.io/mindfulness-at-the-computer/user-guide.html"
+        url_str = "https://mindfulness-at-the-computer.github.io/user_guide"
         # noinspection PyCallByClass
         QtGui.QDesktopServices.openUrl(QtCore.QUrl(url_str))
         # Python: webbrowser.get(url_str) --- doesn't work
