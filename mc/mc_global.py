@@ -199,7 +199,7 @@ db_upgrade_message_str = None
 sys_info_telist = []
 
 
-def clear_widget_and_layout_children(qlayout_or_qwidget):
+def clear_widget_and_layout_children(qlayout_or_qwidget) -> None:
     if qlayout_or_qwidget.widget():
         qlayout_or_qwidget.widget().deleteLater()
     elif qlayout_or_qwidget.layout():

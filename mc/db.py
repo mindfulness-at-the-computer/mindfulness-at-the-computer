@@ -17,16 +17,16 @@ MAX_VOLUME_INT = 100
 DEFAULT_BREATHING_REMINDER_NR_BEFORE_DIALOG_INT = 3
 
 
-def get_schema_version(i_db_conn):
+def get_schema_version(i_db_conn :str) -> str:
     t_cursor = i_db_conn.execute("PRAGMA user_version")
     return t_cursor.fetchone()[0]
 
 
-def set_schema_version(i_db_conn, i_version_it) -> None:
+def set_schema_version(i_db_conn, i_version_it :str) -> None:
     i_db_conn.execute("PRAGMA user_version={:d}".format(i_version_it))
 
 
-def initial_schema_and_setup(i_db_conn) -> None:
+def initial_schema_and_setup(i_db_conn :str) -> None:
     # Auto-increment is not needed in our case: https://www.sqlite.org/autoinc.html
 
     i_db_conn.execute(
@@ -101,7 +101,7 @@ def upgrade_1_2(i_db_conn):
 """
 
 
-def upgrade_1_2(i_db_conn):
+def upgrade_1_2(i_db_conn :str) -> None:
     backup_db_file()
     i_db_conn.execute(
         "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
@@ -110,7 +110,7 @@ def upgrade_1_2(i_db_conn):
     )
 
 
-def upgrade_2_3(i_db_conn):
+def upgrade_2_3(i_db_conn :str) -> None:
     backup_db_file()
     i_db_conn.execute(
         "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
@@ -119,7 +119,7 @@ def upgrade_2_3(i_db_conn):
     )
 
 
-def upgrade_3_4(i_db_conn):
+def upgrade_3_4(i_db_conn :str) -> None:
     backup_db_file()
     i_db_conn.execute(
         "ALTER TABLE " + Schema.PhrasesTable.name + " ADD COLUMN "
@@ -183,13 +183,13 @@ class Helper(object):
         return Helper.__db_connection
 
     @staticmethod
-    def drop_all_db_tables(i_db_conn):
+    def drop_all_db_tables(i_db_conn :str) -> None:
         Helper.drop_db_table(i_db_conn, Schema.PhrasesTable.name)
         Helper.drop_db_table(i_db_conn, Schema.RestActionsTable.name)
         Helper.drop_db_table(i_db_conn, Schema.SettingsTable.name)
 
     @staticmethod
-    def drop_db_table(i_db_conn, i_table_name: str):
+    def drop_db_table(i_db_conn, i_table_name: str) -> None:
         i_db_conn.execute("DROP TABLE IF EXISTS " + i_table_name)
 
 
