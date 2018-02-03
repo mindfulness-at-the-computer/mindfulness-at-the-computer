@@ -1,6 +1,3 @@
-
-
-
 ## 1. Building binaries
 
 Semantic versioning is used: semver.org
@@ -31,7 +28,7 @@ Creating the tar.gz file: `tar -czvf mindfulness-at-the-computer.tar.gz mindfuln
 *Please choose a fairly early version*, 16.04 or earlier. The reason is that pyinstaller does not bundle *libc* into the resulting package so the resulting package may not (will not?) work with earlier versions of libc and Linux:
 https://pyinstaller.readthedocs.io/en/stable/usage.html#making-linux-apps-forward-compatible
 
-glibc is also specific for 32 or 64 bit so builds will only work for that architecture. Because of how common 64 bit systems are nowadays this is the priority
+glibc is also specific for 32 or 64 bit so builds will only work on that architecture. Because of how common 64 bit systems are nowadays this is the priority
 
 
 ### Building on MacOS
@@ -41,7 +38,7 @@ glibc is also specific for 32 or 64 bit so builds will only work for that archit
 
 1. Install Python (PyInstaller works with 3.6 which is the latest Python version at the time of writing). Use these settings:
   * Install Python only for the current user (otherwise there may be problems with permissions later on)
-  * Add the path (you have to restart to get the path working)
+  * Add the path (you have to restart to get the path to work)
 2. `pip install pyinstaller`
 3. `pip install pyqt5`
 4. Find the installation path for PyQt5 (example: "C:\Python\Python35\Lib\site-packages\PyQt5\Qt\bin")
@@ -49,9 +46,9 @@ glibc is also specific for 32 or 64 bit so builds will only work for that archit
 6. `pyinstaller --paths [pyqt5 install directory] mindfulness-at-the-computer-windows.spec`. For example: `pyinstaller --paths C:\Python\Python35\Lib\site-packages\PyQt5\Qt\bin mindfulness-at-the-computer-windows.spec`
   * `--paths` has to be used: https://stackoverflow.com/questions/42880859/importerror-dll-load-failed-the-specified-module-could-not-be-found-failed-to
 
-The resulting exe and dll files will be in the `./dist` directory.
+The resulting `exe` and `dll` files will be in the `./dist` directory.
 
-As a last step you can create a zip file
+As the last step, you can create a zip file
 
 #### Windows 7 and 10
 
@@ -70,7 +67,7 @@ TBD
 
 ## 3. Publishing
 
-### Creating a new github release
+### Creating a new GitHub release
 
 https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/releases
 
@@ -91,4 +88,3 @@ There's a list of places that may be interested in the application on the wiki:
 https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/wiki/Outreach
 
 Some of these places we have already made a page or post, and in these cases maybe we don't need to do anything (unless we are moving from alpha to beta.)
-
