@@ -444,6 +444,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.intro_dlg = mc.gui.intro_dlg.IntroDlg()
         self.intro_dlg.close_signal.connect(self.on_intro_dialog_closed)
         self.intro_dlg.exec()
+        self.update_gui()
 
     def on_intro_dialog_closed(self, i_open_breathing_dialog: bool):
         if i_open_breathing_dialog:
