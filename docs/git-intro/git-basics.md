@@ -1,6 +1,6 @@
 
 
-# Working with the different stages in Git
+# Working with the different stages of Git
 
 Git has a few different stages that a file or a change to a file can be in:
 
@@ -73,7 +73,7 @@ git push new-file.py
 
 ## Remote
 
-Please note: Remote also has all the three stages above, but for practical purposes it might be useful to think
+Please note: Remote also has all the three stages above, but for practical purposes, it might be useful to think
 of this as the fourth stage
 
 ### `git status`

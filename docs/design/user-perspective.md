@@ -71,12 +71,10 @@ For example by doing some mindful movements
 
 ### RGPU - Remembering the purpose of the work at the computer
 
-Maybe we are contributing to social justice, mental well-being or something else,or maybe
+Maybe we are contributing to social justice, mental well-being or something else, or maybe
 simply helping our colleagues?
 
 
 ## User scenarios
 
 Also see the file flowcharts-and-wireframes.xml (draw.io)
-
-
