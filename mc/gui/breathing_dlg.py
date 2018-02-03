@@ -298,7 +298,7 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self.text_gi.setHtml(mc.mc_global.get_html(ib_str))
         self.text_gi.setTextWidth(200)
         self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
-        self.text_gi.setDefaultTextColor(QtGui.QColor(mc.mc_global.MC_LIGHT_GREEN_COLOR_STR))
+        self.text_gi.setDefaultTextColor(QtGui.QColor("#ffffff"))
 
         self.peak_scale_ft = 1
 
