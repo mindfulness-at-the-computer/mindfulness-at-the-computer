@@ -270,7 +270,7 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self.view_height_int = 160
         self.setFixedWidth(self.view_width_int)
         self.setFixedHeight(self.view_height_int)
-        t_brush = QtGui.QBrush(QtGui.QColor(20, 100, 10))
+        t_brush = QtGui.QBrush(QtGui.QColor(mc.mc_global.MC_DARKER_GREEN_COLOR_STR))
         self.setBackgroundBrush(t_brush)
         self.setRenderHints(
             QtGui.QPainter.Antialiasing |
@@ -298,7 +298,7 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self.text_gi.setHtml(mc.mc_global.get_html(ib_str))
         self.text_gi.setTextWidth(200)
         self.text_gi.update_pos_and_origin_point(self.view_width_int, self.view_height_int)
-        self.text_gi.setDefaultTextColor(QtGui.QColor(200, 190, 10))
+        self.text_gi.setDefaultTextColor(QtGui.QColor(mc.mc_global.MC_LIGHT_GREEN_COLOR_STR))
 
         self.peak_scale_ft = 1
 
@@ -384,7 +384,7 @@ class BreathingGraphicsObject(QtWidgets.QGraphicsObject):
 
     # Overridden
     def paint(self, i_qpainter, i_qstyleoptiongraphicsitem, widget=None):
-        t_brush = QtGui.QBrush(QtGui.QColor(200, 10, 100))
+        t_brush = QtGui.QBrush(QtGui.QColor(mc.mc_global.MC_DARK_GREEN_COLOR_STR))  # QtGui.QColor(200, 10, 100)
         i_qpainter.fillRect(self.rectf, t_brush)
 
     # Overridden
