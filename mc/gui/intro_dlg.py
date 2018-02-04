@@ -7,7 +7,7 @@ import mc.mc_global
 
 NEXT_STR = "Next >>"
 PREV_STR = "<< Prev"
-MARGIN_TOP_INT = 25
+MARGIN_TOP_INT = 35
 PARAGRAPH_SPACING_INT = 10
 
 
@@ -22,9 +22,9 @@ class IntroDlg(QtWidgets.QDialog):
         self.prev_qpb = QtWidgets.QPushButton(PREV_STR)
         self.next_qpb = QtWidgets.QPushButton(NEXT_STR)
 
-        self.initUI()
+        self.init_ui()
 
-    def initUI(self):
+    def init_ui(self):
         welcome = WelcomePage()
         intro = IntroPage()
         initial_setup = BreathingInitSetupPage()
@@ -49,7 +49,7 @@ class IntroDlg(QtWidgets.QDialog):
         vbox_l2.addWidget(self.wizard_qsw_w3)
         vbox_l2.addLayout(hbox_l3)
 
-        self.setGeometry(300, 300, 550, 450)
+        self.setGeometry(300, 300, 600, 450)
         self.setLayout(vbox_l2)
         self.update_gui()
         self.show()
@@ -85,9 +85,9 @@ class WelcomePage(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
 
-        self.initUI()
+        self.init_ui()
 
-    def initUI(self):
+    def init_ui(self):
         title_qll = QtWidgets.QLabel("Welcome")
         title_qll.setFont(mc.mc_global.get_font_xxlarge(i_bold=True))
 
@@ -113,9 +113,9 @@ class IntroPage(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
 
-        self.initUI()
+        self.init_ui()
 
-    def initUI(self):
+    def init_ui(self):
         title_qll = QtWidgets.QLabel("How to use this wizard")
         title_qll.setFont(mc.mc_global.get_font_xxlarge(i_bold=True))
 
@@ -149,12 +149,12 @@ class BreathingInitSetupPage(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
 
-        self.time_overview_vbox_l3 = None
+        self.overview_qlw = QtWidgets.QListWidget()
         self.grid = QtWidgets.QGridLayout()
 
-        self.initUI()
+        self.init_ui()
 
-    def initUI(self):
+    def init_ui(self):
         settings = mc.model.SettingsM.get()
 
         title_qll = QtWidgets.QLabel("Initial setup")
@@ -168,10 +168,15 @@ class BreathingInitSetupPage(QtWidgets.QWidget):
         intro_qll.setWordWrap(True)
         intro_qll.setFont(mc.mc_global.get_font_xlarge())
 
+        header_qll = QtWidgets.QLabel("Time overview")
+        header_qll.setFont(mc.mc_global.get_font_medium(i_bold=True))
+        header_qll.setFixedHeight(15)
+
         notification_interval_qll = QtWidgets.QLabel("Time between breathing notifications")
         notification_interval_qsp = QtWidgets.QSpinBox()
         notification_interval_qsp.valueChanged.connect(self.on_time_btw_notifications_value_changed)
         notification_interval_qsp.setValue(settings.breathing_reminder_interval_int)
+        notification_interval_qsp.setMinimum(1)
 
         breathing_interval_qll = QtWidgets.QLabel("Breathing dialog after x nr of notifications")
         breathing_interval_qsp = QtWidgets.QSpinBox()
@@ -183,23 +188,20 @@ class BreathingInitSetupPage(QtWidgets.QWidget):
         rest_interval_qsp.valueChanged.connect(self.on_time_before_rest_value_changed)
         rest_interval_qsp.setValue(settings.rest_reminder_interval)
 
-        time_overview_background_qfr = QtWidgets.QFrame()
-        time_overview_background_qfr.setFrameStyle(QtWidgets.QFrame.Panel | QtWidgets.QFrame.Raised)
-
         self.time_overview_vbox_l3 = QtWidgets.QVBoxLayout()
         self.time_overview_vbox_l3.setContentsMargins(12, 12, 12, 12)
 
         self.grid.setSpacing(10)
         self.grid.addWidget(title_qll, 1, 0, 1, 3)
         self.grid.addWidget(intro_qll, 2, 0, 1, 3)
-        self.grid.addWidget(notification_interval_qll, 3, 0)
-        self.grid.addWidget(notification_interval_qsp, 3, 1)
-        self.grid.addWidget(breathing_interval_qll, 4, 0)
-        self.grid.addWidget(breathing_interval_qsp, 4, 1)
-        self.grid.addWidget(rest_interval_qll, 5, 0)
-        self.grid.addWidget(rest_interval_qsp, 5, 1)
-        self.grid.addWidget(time_overview_background_qfr, 3, 2, 3, 1)
-        self.grid.addLayout(self.time_overview_vbox_l3, 3, 2, 3, 1)
+        self.grid.addWidget(header_qll, 3, 2)
+        self.grid.addWidget(notification_interval_qll, 4, 0)
+        self.grid.addWidget(notification_interval_qsp, 4, 1)
+        self.grid.addWidget(self.overview_qlw, 4, 2, 3, 1)
+        self.grid.addWidget(breathing_interval_qll, 5, 0)
+        self.grid.addWidget(breathing_interval_qsp, 5, 1)
+        self.grid.addWidget(rest_interval_qll, 6, 0)
+        self.grid.addWidget(rest_interval_qsp, 6, 1)
 
         self.setLayout(self.grid)
 
@@ -207,7 +209,7 @@ class BreathingInitSetupPage(QtWidgets.QWidget):
 
     def on_time_before_rest_value_changed(self, i_new_value: int):
         logging.debug("on_time_before_rest_value_changed, i_new_value = " + str(i_new_value))
-        mc.model.SettingsM.rest_reminder_interval = i_new_value
+        mc.model.SettingsM.update_rest_reminder_interval(i_new_value)
         self.update_gui_time_overview()
 
     def on_dlg_after_nr_notifications_value_changed(self, i_new_value: int):
@@ -227,10 +229,13 @@ class BreathingInitSetupPage(QtWidgets.QWidget):
         self.update_gui_time_overview()
 
     def update_gui_time_overview(self):
-        if self.time_overview_vbox_l3 is None:
+        if self.overview_qlw is None:
             return
-        mc.mc_global.clear_widget_and_layout_children(self.time_overview_vbox_l3)
+
+        self.overview_qlw.clear()
+
         settings = mc.model.SettingsM.get()
+
         counter_int = 0
         while True:
             counter_int += 1
@@ -239,26 +244,21 @@ class BreathingInitSetupPage(QtWidgets.QWidget):
                 break
             elif settings.breathing_reminder_nr_before_dialog_int != 0 and \
                     (counter_int % settings.breathing_reminder_nr_before_dialog_int) == 0:
-                breathing_dialog_qll = QtWidgets.QLabel()
-                self.time_overview_vbox_l3.addWidget(breathing_dialog_qll)
-                breathing_dialog_qll.setText("Breathing dialog: " + str(minutes_int) + " minutes")
+                self.overview_qlw.addItem("Breathing dialog: " + str(minutes_int) + " minutes")
             else:
-                breathing_reminder_qll = QtWidgets.QLabel()
-                self.time_overview_vbox_l3.addWidget(breathing_reminder_qll)
-                breathing_reminder_qll.setText("Breathing reminder: " + str(minutes_int) + " minutes")
+                self.overview_qlw.addItem("Breathing reminder: " + str(minutes_int) + " minutes")
 
-        self.rest_time_qll = QtWidgets.QLabel()
-        self.time_overview_vbox_l3.addWidget(self.rest_time_qll)
-        self.rest_time_qll.setText("Rest: " + str(settings.rest_reminder_interval) + " minutes")
+        self.overview_qlw.addItem("Rest: " + str(settings.rest_reminder_interval) + " minutes")
+        self.overview_qlw.setFrameStyle(QtWidgets.QFrame.Panel | QtWidgets.QFrame.Raised)
 
 
 class BreathingDialogComing(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
 
-        self.initUI()
+        self.init_ui()
 
-    def initUI(self):
+    def init_ui(self):
         title_qll = QtWidgets.QLabel("Breathing Dialog")
         title_qll.setFont(mc.mc_global.get_font_xxlarge(i_bold=True))
 
