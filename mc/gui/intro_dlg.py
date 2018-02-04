@@ -170,7 +170,7 @@ class BreathingInitSetupPage(QtWidgets.QWidget):
 
         header_qll = QtWidgets.QLabel("Time overview")
         header_qll.setFont(mc.mc_global.get_font_medium(i_bold=True))
-        header_qll.setFixedHeight(15)
+        header_qll.setSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
 
         notification_interval_qll = QtWidgets.QLabel("Time between breathing notifications")
         notification_interval_qsp = QtWidgets.QSpinBox()
