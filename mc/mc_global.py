@@ -28,6 +28,7 @@ AUDIO_DIR_STR = "audio"
 
 active_rest_action_id_it = NO_REST_ACTION_SELECTED_INT
 active_phrase_id_it = NO_PHRASE_SELECTED_INT
+rest_window_shown_bool = False
 testing_bool = False
 rest_reminder_minutes_passed_int = 0
 # active_rest_image_full_path_str = "user_files/tea.png"
