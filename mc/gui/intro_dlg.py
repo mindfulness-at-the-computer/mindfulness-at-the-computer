@@ -192,17 +192,22 @@ class BreathingInitSetupPage(QtWidgets.QWidget):
         self.time_overview_vbox_l3.setContentsMargins(12, 12, 12, 12)
 
         self.grid.setHorizontalSpacing(10)
-        self.grid.setVerticalSpacing(30)
+        self.grid.setVerticalSpacing(20)
         self.grid.addWidget(title_qll, 1, 0, 1, 3)
         self.grid.addWidget(intro_qll, 2, 0, 1, 3)
         self.grid.addWidget(header_qll, 3, 2)
-        self.grid.addWidget(notification_interval_qll, 4, 0)
-        self.grid.addWidget(notification_interval_qsp, 4, 1)
-        self.grid.addWidget(self.overview_qlw, 4, 2, 3, 1)
-        self.grid.addWidget(breathing_interval_qll, 5, 0)
-        self.grid.addWidget(breathing_interval_qsp, 5, 1)
-        self.grid.addWidget(rest_interval_qll, 6, 0)
-        self.grid.addWidget(rest_interval_qsp, 6, 1)
+
+        self.grid.addWidget(None, 4, 0)
+
+        self.grid.addWidget(notification_interval_qll, 5, 0)
+        self.grid.addWidget(notification_interval_qsp, 5, 1)
+        self.grid.addWidget(self.overview_qlw, 4, 2, 5, 1)
+        self.grid.addWidget(breathing_interval_qll, 6, 0)
+        self.grid.addWidget(breathing_interval_qsp, 6, 1)
+        self.grid.addWidget(rest_interval_qll, 7, 0)
+        self.grid.addWidget(rest_interval_qsp, 7, 1)
+
+        self.grid.addWidget(None, 8, 0)
 
         self.setLayout(self.grid)
 
