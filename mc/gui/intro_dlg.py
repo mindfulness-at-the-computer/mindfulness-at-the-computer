@@ -49,7 +49,7 @@ class IntroDlg(QtWidgets.QDialog):
         vbox_l2.addWidget(self.wizard_qsw_w3)
         vbox_l2.addLayout(hbox_l3)
 
-        self.setGeometry(300, 300, 600, 450)
+        self.setGeometry(300, 300, 650, 450)
         self.setLayout(vbox_l2)
         self.update_gui()
         self.show()
@@ -191,7 +191,8 @@ class BreathingInitSetupPage(QtWidgets.QWidget):
         self.time_overview_vbox_l3 = QtWidgets.QVBoxLayout()
         self.time_overview_vbox_l3.setContentsMargins(12, 12, 12, 12)
 
-        self.grid.setSpacing(10)
+        self.grid.setHorizontalSpacing(10)
+        self.grid.setVerticalSpacing(30)
         self.grid.addWidget(title_qll, 1, 0, 1, 3)
         self.grid.addWidget(intro_qll, 2, 0, 1, 3)
         self.grid.addWidget(header_qll, 3, 2)
