@@ -14,7 +14,16 @@
 
 ### Feelings
 
+* Tensed bodies because of the stress or excitement solving a problem
+* Dizziness after staring at the computer for long hours
+* Sore wrist and shoulders
+
+
+
 ### Needs
+
+* Reminders to take break after long hours of using the computer
+* Reminder to have good posture sitting in front of the computer
 
 
 ## User Requirements
