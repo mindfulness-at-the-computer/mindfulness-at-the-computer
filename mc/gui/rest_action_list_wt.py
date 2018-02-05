@@ -37,7 +37,7 @@ class RestActionListWt(QtWidgets.QWidget):
         # Details
 
         hbox_l3 = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(hbox_l3)#
+        vbox_l2.addLayout(hbox_l3)
 
         self.edit_texts_qpb = QtWidgets.QPushButton()
         self.edit_texts_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("pencil-2x.png")))
