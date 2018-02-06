@@ -21,10 +21,9 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         vbox_l2 = QtWidgets.QVBoxLayout()
         self.setLayout(vbox_l2)
 
-        self.edit_dialog = EditDialog()
-        self.edit_dialog.finished.connect(self.on_edit_dialog_finished)
-
         self.updating_gui_bool = False
+
+        self.edit_dialog = None
 
         self.list_widget = QtWidgets.QListWidget()
         # self.list_widget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
@@ -124,6 +123,8 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
     def on_edit_texts_clicked(self):
         id_int = mc.mc_global.active_phrase_id_it
         if id_int != mc.mc_global.NO_PHRASE_SELECTED_INT:
+            self.edit_dialog = EditDialog()
+            self.edit_dialog.finished.connect(self.on_edit_dialog_finished)
             self.edit_dialog.show()
 
     def on_return_shortcut_triggered(self):
@@ -355,44 +356,3 @@ class EditDialog(QtWidgets.QDialog):
         self.adjustSize()
 
         self.updating_gui_bool = False
-
-    @staticmethod
-    def launch_edit_dialog():
-        dialog = EditDialog()
-        dialog_result = dialog.exec_()
-
-        if dialog_result == QtWidgets.QDialog.Accepted:
-            assert mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
-
-            phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-            phrase.title = dialog.breath_title_qle.text()
-            phrase.ib = dialog.in_breath_phrase_qle.text()
-            phrase.ob = dialog.out_breath_phrase_qle.text()
-            phrase.ib_short = dialog.short_in_breath_phrase_qle.text()
-            phrase.ob_short = dialog.short_out_breath_phrase_qle.text()
-            if dialog.in_out_qrb.isChecked():
-                phrase.type = mc.mc_global.BreathingPhraseType.in_out
-            else:
-                phrase.type = mc.mc_global.BreathingPhraseType.single
-
-            """
-            mc.model.PhrasesM.update_title(
-                mc.mc_global.active_phrase_id_it, dialog.breath_title_qle.text()
-            )
-            mc.model.PhrasesM.update_in_breath(
-                mc.mc_global.active_phrase_id_it, dialog.in_breath_phrase_qle.text()
-            )
-            mc.model.PhrasesM.update_out_breath(
-                mc.mc_global.active_phrase_id_it, dialog.out_breath_phrase_qle.text()
-            )
-            mc.model.PhrasesM.update_short_ib_phrase(
-                mc.mc_global.active_phrase_id_it, dialog.short_in_breath_phrase_qle.text()
-            )
-            mc.model.PhrasesM.update_short_ob_phrase(
-                mc.mc_global.active_phrase_id_it, dialog.short_out_breath_phrase_qle.text()
-            )
-            """
-        else:
-            pass
-
-        return dialog_result
