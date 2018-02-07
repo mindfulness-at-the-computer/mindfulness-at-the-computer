@@ -52,17 +52,17 @@
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="57"/>
       <source>Move the selected breathing phrase to top</source>
-      <translation type="unfinished">Move the selected breathing phrase to top</translation>
+      <translation>把選定的呼吸的話推到頂端</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="63"/>
       <source>Move the selected breathing phrase up</source>
-      <translation type="unfinished">Move the selected breathing phrase up</translation>
+      <translation>把選定的呼吸的話上移</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="69"/>
       <source>Move the selected breathing phrase down</source>
-      <translation type="unfinished">Move the selected breathing phrase down</translation>
+      <translation>把選定的呼吸的話下移</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="77"/>
@@ -105,7 +105,7 @@
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="71"/>
       <source>Phrase setup: </source>
-      <translation type="unfinished">Phrase setup: </translation>
+      <translation>設置語句: </translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="84"/>
