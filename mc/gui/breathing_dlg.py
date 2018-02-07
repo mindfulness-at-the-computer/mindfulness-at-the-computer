@@ -12,11 +12,19 @@ BR_HEIGHT_FT = 50.0
 
 
 class BreathingDlg(QtWidgets.QFrame):
+    """
+    The Rest dialog.
+    When used in the introduction wizard, the can_be_closed_bool parameter can be set to False
+    to prevent leaving the wizard
+
+    """
     close_signal = QtCore.pyqtSignal(list, list)
     phrase_changed_signal = QtCore.pyqtSignal()
 
-    def __init__(self):
+    def __init__(self, can_be_closed_bool=True):
         super().__init__()
+
+        self.can_be_closed_bool = can_be_closed_bool
         self.hover_active_bool = False
         self.keyboard_active_bool = True
         self.state = mc.mc_global.BreathingState.inactive
@@ -219,22 +227,24 @@ class BreathingDlg(QtWidgets.QFrame):
             self.setCursor(cursor)
 
     def on_close_button_entered(self):
-        if len(self.breath_phrase_id_list) >= 1:
-            self.on_close_button_clicked()
+        if self.can_be_closed_bool:
+            if len(self.breath_phrase_id_list) >= 1:
+                self.on_close_button_clicked()
 
     def on_close_button_clicked(self):
-        mc.mc_global.breathing_state = mc.mc_global.BreathingState.inactive
+        if self.can_be_closed_bool:
+            mc.mc_global.breathing_state = mc.mc_global.BreathingState.inactive
 
-        if len(self.ob_length_ft_list) < len(self.ib_length_ft_list):
-            now = time.time()
-            self.ob_length_ft_list.append(now - self.start_time_ft)
+            if len(self.ob_length_ft_list) < len(self.ib_length_ft_list):
+                now = time.time()
+                self.ob_length_ft_list.append(now - self.start_time_ft)
 
-        self.cursor_qtimer.stop()
-        self.close_signal.emit(
-            self.ib_length_ft_list,
-            self.ob_length_ft_list
-        )
-        self.close()
+            self.cursor_qtimer.stop()
+            self.close_signal.emit(
+                self.ib_length_ft_list,
+                self.ob_length_ft_list
+            )
+            self.close()
 
     def update_gui(self):
         # phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)

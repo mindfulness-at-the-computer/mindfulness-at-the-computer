@@ -2,7 +2,11 @@ import logging
 import mc.model
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
+from PyQt5 import QtGui
 import mc.gui.breathing_dlg
+import mc.gui.breathing_notification
+import mc.gui.rest_notification
+import mc.gui.rest_dlg
 import mc.mc_global
 
 NEXT_STR = "Next >>"
@@ -12,6 +16,9 @@ PARAGRAPH_SPACING_INT = 10
 
 
 class IntroDlg(QtWidgets.QDialog):
+    """
+    The introduction wizard with examples of dialogs and functionality to adjust initial settings
+    """
     close_signal = QtCore.pyqtSignal(bool)
     # -the boolean indicates whether or not we want the breathing dialog to open
 
@@ -22,16 +29,24 @@ class IntroDlg(QtWidgets.QDialog):
         self.prev_qpb = QtWidgets.QPushButton(PREV_STR)
         self.next_qpb = QtWidgets.QPushButton(NEXT_STR)
 
-        self.init_ui()
+        self._init_ui()
 
-    def init_ui(self):
+    def _init_ui(self):
         welcome = WelcomePage()
-        intro = IntroPage()
+        breathing_notification = BreathingNotificationPage()
+        breathing_dialog = BreathingDialogPage()
+        rest_notification = RestNotificationPage()
+        rest_dialog = RestDialogPage()
+        system_tray = SystemTrayPage()
         initial_setup = BreathingInitSetupPage()
         breathing_dialog_coming = BreathingDialogComing()
 
         self.wizard_qsw_w3.addWidget(welcome)
-        self.wizard_qsw_w3.addWidget(intro)
+        self.wizard_qsw_w3.addWidget(breathing_notification)
+        self.wizard_qsw_w3.addWidget(breathing_dialog)
+        self.wizard_qsw_w3.addWidget(rest_notification)
+        self.wizard_qsw_w3.addWidget(rest_dialog)
+        self.wizard_qsw_w3.addWidget(system_tray)
         self.wizard_qsw_w3.addWidget(initial_setup)
         self.wizard_qsw_w3.addWidget(breathing_dialog_coming)
 
@@ -85,9 +100,9 @@ class WelcomePage(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
 
-        self.init_ui()
+        self._init_ui()
 
-    def init_ui(self):
+    def _init_ui(self):
         title_qll = QtWidgets.QLabel("Welcome")
         title_qll.setFont(mc.mc_global.get_font_xxlarge(i_bold=True))
 
@@ -109,40 +124,159 @@ class WelcomePage(QtWidgets.QWidget):
         self.setLayout(vbox_l2)
 
 
-class IntroPage(QtWidgets.QWidget):
+class BreathingNotificationPage(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
 
-        self.init_ui()
+        self._init_ui()
 
-    def init_ui(self):
-        title_qll = QtWidgets.QLabel("How to use this wizard")
+    def _init_ui(self):
+        title_qll = QtWidgets.QLabel("The breathing notification")
         title_qll.setFont(mc.mc_global.get_font_xxlarge(i_bold=True))
+        title_qll.setAlignment(QtCore.Qt.AlignHCenter)
 
-        text_qll = QtWidgets.QLabel(
-            '<p>You can use this wizard to read about and set up the application.<br /> '
-            'You can return to this wizard later by going to <br /> <strong>help -> show intro wizard</strong></p>'
-            "<p>&nbsp;</p>"
-            "<p>These are the parts of the interface:</p>"
-            "<ol>"
-            "<li>The breathing dialog and notifications</li>"
-            "<li>The rest dialog and notifications</li>"
-            '<li>The settings window <br /> (available from systray menu -> <strong>Open Settings</strong>)</li>'
-            "<li>The system tray icon and menu</li>"
-            "</ol>"
-        )
-        text_qll.setWordWrap(True)
-        text_qll.setFont(mc.mc_global.get_font_xlarge())
+        description_qll = QtWidgets.QLabel("If you like, you can start a breathing session from here")
+        description_qll.setFont(mc.mc_global.get_font_xlarge())
+        description_qll.setAlignment(QtCore.Qt.AlignHCenter)
 
-        vbox_l2 = QtWidgets.QVBoxLayout()
-        vbox_l2.addSpacing(MARGIN_TOP_INT)
-        vbox_l2.addWidget(title_qll)
-        vbox_l2.addStretch(1)
-        vbox_l2.addWidget(text_qll)
-        vbox_l2.addSpacing(PARAGRAPH_SPACING_INT)
-        vbox_l2.addStretch(1)
+        breathing_notification = mc.gui.breathing_notification.BreathingNotification(False)
 
-        self.setLayout(vbox_l2)
+        vbox_l3 = QtWidgets.QVBoxLayout()
+        vbox_l3.addSpacing(MARGIN_TOP_INT)
+        vbox_l3.addWidget(title_qll)
+        vbox_l3.addWidget(description_qll)
+        vbox_l3.addStretch(1)
+        vbox_l3.addWidget(breathing_notification)
+        vbox_l3.addStretch(1)
+
+        hbox_l2 = QtWidgets.QHBoxLayout()
+        hbox_l2.addStretch(1)
+        hbox_l2.addLayout(vbox_l3)
+        hbox_l2.addStretch(1)
+
+        self.setLayout(hbox_l2)
+
+
+class BreathingDialogPage(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self._init_ui()
+
+    def _init_ui(self):
+        title_qll = QtWidgets.QLabel("The breathing dialog")
+        title_qll.setFont(mc.mc_global.get_font_xxlarge(i_bold=True))
+        title_qll.setAlignment(QtCore.Qt.AlignHCenter)
+
+        breathing_dlg = mc.gui.breathing_dlg.BreathingDlg(False)
+
+        vbox_l3 = QtWidgets.QVBoxLayout()
+        vbox_l3.addSpacing(MARGIN_TOP_INT)
+        vbox_l3.addWidget(title_qll)
+        vbox_l3.addWidget(breathing_dlg)
+        vbox_l3.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
+
+        hbox_l2 = QtWidgets.QHBoxLayout()
+        hbox_l2.addStretch(1)
+        hbox_l2.addLayout(vbox_l3)
+        hbox_l2.addStretch(1)
+
+        self.setLayout(hbox_l2)
+
+
+class RestNotificationPage(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self._init_ui()
+
+    def _init_ui(self):
+        title_qll = QtWidgets.QLabel("The rest notification")
+        title_qll.setFont(mc.mc_global.get_font_xxlarge(i_bold=True))
+        title_qll.setAlignment(QtCore.Qt.AlignHCenter)
+
+        rest_reminder = mc.gui.rest_notification.RestReminderDlg(False)
+
+        vbox_l3 = QtWidgets.QVBoxLayout()
+        vbox_l3.addSpacing(MARGIN_TOP_INT)
+        vbox_l3.addWidget(title_qll)
+        vbox_l3.addStretch(1)
+        vbox_l3.addWidget(rest_reminder)
+        vbox_l3.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
+        vbox_l3.addStretch(1)
+
+        hbox_l2 = QtWidgets.QHBoxLayout()
+        hbox_l2.addStretch(1)
+        hbox_l2.addLayout(vbox_l3)
+        hbox_l2.addStretch(1)
+
+        self.setLayout(hbox_l2)
+
+
+class RestDialogPage(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self._init_ui()
+
+    def _init_ui(self):
+        title_qll = QtWidgets.QLabel("The rest dialog")
+        title_qll.setFont(mc.mc_global.get_font_xxlarge(i_bold=True))
+        title_qll.setAlignment(QtCore.Qt.AlignHCenter)
+
+        rest_dlg = mc.gui.rest_dlg.RestDlg(False)
+
+        vbox_l3 = QtWidgets.QVBoxLayout()
+        vbox_l3.addSpacing(MARGIN_TOP_INT)
+        vbox_l3.addWidget(title_qll)
+        vbox_l3.addStretch(1)
+        vbox_l3.addWidget(rest_dlg)
+        vbox_l3.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
+        vbox_l3.addStretch(1)
+
+        hbox_l2 = QtWidgets.QHBoxLayout()
+        hbox_l2.addStretch(1)
+        hbox_l2.addLayout(vbox_l3)
+        hbox_l2.addStretch(1)
+
+        self.setLayout(hbox_l2)
+
+
+class SystemTrayPage(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self._init_ui()
+
+    def _init_ui(self):
+        title_qll = QtWidgets.QLabel("The system tray")
+        title_qll.setFont(mc.mc_global.get_font_xxlarge(i_bold=True))
+        title_qll.setAlignment(QtCore.Qt.AlignHCenter)
+
+        description_qll = QtWidgets.QLabel("From the menu that opens in the system tray you can adjust settings<br />"
+                                           "or invoke a breathing or rest session")
+        description_qll.setFont(mc.mc_global.get_font_xlarge())
+        description_qll.setAlignment(QtCore.Qt.AlignHCenter)
+
+        system_tray_qll = QtWidgets.QLabel()
+        system_tray_qll.setPixmap(QtGui.QPixmap(mc.model.get_app_systray_icon_path()))
+        system_tray_qll.setAlignment(QtCore.Qt.AlignHCenter)
+
+        vbox_l3 = QtWidgets.QVBoxLayout()
+        vbox_l3.addSpacing(MARGIN_TOP_INT)
+        vbox_l3.addWidget(title_qll)
+        vbox_l3.addStretch(1)
+        vbox_l3.addWidget(description_qll)
+        vbox_l3.addStretch(1)
+        vbox_l3.addWidget(system_tray_qll)
+        vbox_l3.addStretch(1)
+
+        hbox_l2 = QtWidgets.QHBoxLayout()
+        hbox_l2.addStretch(1)
+        hbox_l2.addLayout(vbox_l3)
+        hbox_l2.addStretch(1)
+
+        self.setLayout(hbox_l2)
 
 
 class BreathingInitSetupPage(QtWidgets.QWidget):
@@ -152,9 +286,9 @@ class BreathingInitSetupPage(QtWidgets.QWidget):
         self.overview_qlw = QtWidgets.QListWidget()
         self.grid = QtWidgets.QGridLayout()
 
-        self.init_ui()
+        self._init_ui()
 
-    def init_ui(self):
+    def _init_ui(self):
         settings = mc.model.SettingsM.get()
 
         title_qll = QtWidgets.QLabel("Initial setup")
@@ -262,16 +396,16 @@ class BreathingDialogComing(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
 
-        self.init_ui()
+        self._init_ui()
 
-    def init_ui(self):
-        title_qll = QtWidgets.QLabel("Breathing Dialog")
+    def _init_ui(self):
+        title_qll = QtWidgets.QLabel("Finish")
         title_qll.setFont(mc.mc_global.get_font_xxlarge(i_bold=True))
 
         text_qll = QtWidgets.QLabel(
             "<p>When you click on finish and exit this wizard a breathing dialog will be shown. </p>"
-            "<p><strong>Breathing in:</strong> hover over the central magenta square</p>"
-            "<p><strong>Breathing out:</strong> hover over the green background</p>"
+            "<p><strong>Breathing in:</strong> hover over the central square</p>"
+            "<p><strong>Breathing out:</strong> hover over the background</p>"
         )
         text_qll.setWordWrap(True)
         text_qll.setFont(mc.mc_global.get_font_xlarge())

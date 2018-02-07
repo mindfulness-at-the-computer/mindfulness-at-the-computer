@@ -4,13 +4,21 @@ from mc import model, mc_global
 
 
 class RestDlg(QtWidgets.QDialog):
+    """
+    The Rest dialog.
+    When used in the introduction wizard, the can_be_closed_bool parameter can be set to False
+    to prevent leaving the wizard
+
+    """
     # result_signal = QtCore.pyqtSignal(int)
     # -used both for wait and for closing
     close_signal = QtCore.pyqtSignal(bool)
     # -the boolean indicates whether or not we want the breathing dialog to open
 
-    def __init__(self):
+    def __init__(self, can_be_closed_bool=True):
         super().__init__()
+
+        self.can_be_closed_bool = can_be_closed_bool
         self.show()
         self.raise_()
         self.showNormal()
@@ -62,26 +70,32 @@ class RestDlg(QtWidgets.QDialog):
             "selection-color:#000000;"
         )
 
-        self.showFullScreen()
+        if self.can_be_closed_bool:
+            self.showFullScreen()
 
         mc_global.rest_window_shown_bool = True
 
     def on_close_clicked(self):
-        self.showNormal()
-        # -for MacOS. showNormal is used here rather than showMinimized to avoid animation
-        self.close_signal.emit(False)
-        mc_global.rest_window_shown_bool = False
-        self.close()
+        if self.can_be_closed_bool:
+            self.showNormal()
+            # -for MacOS. showNormal is used here rather than showMinimized to avoid animation
+            self.close_signal.emit(False)
+            mc_global.rest_window_shown_bool = False
+            self.close()
 
     def on_close_and_breathe_clicked(self):
-        self.showMinimized()
-        # -for MacOS
-        self.close_signal.emit(True)
-        mc_global.rest_window_shown_bool = False
-        self.close()
+        if self.can_be_closed_bool:
+            self.showMinimized()
+            # -for MacOS
+            self.close_signal.emit(True)
+            mc_global.rest_window_shown_bool = False
+            self.close()
 
     def setup_rest_action_list(self):
         rest_action_list = model.RestActionsM.get_all()
+        if not self.can_be_closed_bool:
+            rest_action_list = rest_action_list[0:4]
+
         for rest_action in rest_action_list:
             rest_action_title_qll = QtWidgets.QLabel(rest_action.title)
             rest_action_title_qll.setWordWrap(True)
