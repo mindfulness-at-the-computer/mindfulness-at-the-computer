@@ -105,7 +105,7 @@
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="71"/>
       <source>Phrase setup: </source>
-      <translation>設置語句: </translation>
+      <translation>設置短語: </translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_settings_wt.py" line="84"/>
@@ -158,12 +158,12 @@
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="264"/>
       <source>In breath phrase</source>
-      <translation type="unfinished">In breath phrase</translation>
+      <translation>吸入短語</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="268"/>
       <source>Out breath phrase</source>
-      <translation type="unfinished">Out breath phrase</translation>
+      <translation>吸出短語</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="272"/>
@@ -251,7 +251,7 @@
     <message>
       <location filename="mc/gui/main_win.py" line="382"/>
       <source>&amp;File</source>
-      <translation type="unfinished">&amp;File</translation>
+      <translation>&amp;檔案</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="383"/>
@@ -276,7 +276,7 @@
     <message>
       <location filename="mc/gui/main_win.py" line="407"/>
       <source>&amp;Help</source>
-      <translation type="unfinished">&amp;Help</translation>
+      <translation>&amp;説明</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="408"/>
