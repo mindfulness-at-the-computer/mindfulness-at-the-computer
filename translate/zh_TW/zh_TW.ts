@@ -67,7 +67,7 @@
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="77"/>
       <source>Delete the selected breathing phrase</source>
-      <translation>選定的呼吸的話</translation>
+      <translation>删除選定的呼吸的話</translation>
     </message>
     <message>
       <location filename="mc/gui/breathing_phrase_list_wt.py" line="142"/>
@@ -211,12 +211,12 @@
     <message>
       <location filename="mc/gui/main_win.py" line="88"/>
       <source>in</source>
-      <translation type="unfinished">in</translation>
+      <translation>吸入</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="91"/>
       <source>out</source>
-      <translation type="unfinished">out</translation>
+      <translation>吸出</translation>
     </message>
     <message>
       <location filename="mc/gui/main_win.py" line="177"/>
@@ -304,17 +304,17 @@
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="48"/>
       <source>Move the selected rest action to top</source>
-      <translation type="unfinished">Move the selected rest action to top</translation>
+      <translation>把選定的休息活動推到頂端</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="54"/>
       <source>Move the selected rest action up</source>
-      <translation type="unfinished">Move the selected rest action up</translation>
+      <translation>把選定的休息活動上移</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="60"/>
       <source>Move the selected rest action down</source>
-      <translation type="unfinished">Move the selected rest action down</translation>
+      <translation>把選定的休息活動下移</translation>
     </message>
     <message>
       <location filename="mc/gui/rest_action_list_wt.py" line="68"/>
