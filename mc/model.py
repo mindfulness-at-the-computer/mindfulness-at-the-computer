@@ -433,7 +433,8 @@ class SettingsM:
         i_breathing_reminder_notification_type: int,
         i_breathing_reminder_phrase_setup: int,
         i_breathing_reminder_nr_before_dialog: int,
-        i_breathing_reminder_dialog_audio_active: int
+        i_breathing_reminder_dialog_audio_active: int,
+        i_breathing_reminder_dialog_close_on_active: int
     ) -> None:
         self.rest_reminder_active_bool = True if i_rest_reminder_active else False
         self.rest_reminder_interval_int = i_rest_reminder_interval
@@ -448,6 +449,8 @@ class SettingsM:
         self.breathing_reminder_phrase_setup_int = i_breathing_reminder_phrase_setup
         self.breathing_reminder_nr_before_dialog_int = i_breathing_reminder_nr_before_dialog
         self.breathing_reminder_dialog_audio_active_bool = True if i_breathing_reminder_dialog_audio_active else False
+        self.breathing_reminder_dialog_close_on_active_bool = \
+            True if i_breathing_reminder_dialog_close_on_active else False
 
     @property
     def rest_reminder_active(self) -> bool:
@@ -525,7 +528,7 @@ class SettingsM:
         )
 
     @staticmethod
-    def get() -> tuple:
+    def get():
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor_result = db_cursor.execute(
@@ -544,6 +547,14 @@ class SettingsM:
         SettingsM._update(
             db.Schema.SettingsTable.Cols.rest_reminder_audio_path,
             i_new_audio_path
+        )
+
+    @staticmethod
+    def update_breathing_dialog_close_on_hover(i_close_on_active: bool) -> None:
+        new_value_bool_as_int = db.SQLITE_TRUE_INT if i_close_on_active else db.SQLITE_FALSE_INT
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_dialog_close_on_hover,
+            new_value_bool_as_int
         )
 
     @staticmethod

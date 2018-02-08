@@ -17,7 +17,7 @@ class BreathingDlg(QtWidgets.QFrame):
 
     def __init__(self):
         super().__init__()
-        self.hover_active_bool = False
+        self.close_hover_bool = False
         self.keyboard_active_bool = True
         self.state = mc.mc_global.BreathingState.inactive
         self.cursor_qtimer = None
@@ -108,6 +108,9 @@ class BreathingDlg(QtWidgets.QFrame):
         )
 
         self.start_cursor_timer()
+
+        if settings.breathing_reminder_dialog_close_on_active_bool:
+            self.close_hover_bool = True
 
         self.update_gui()
 
@@ -219,7 +222,7 @@ class BreathingDlg(QtWidgets.QFrame):
             self.setCursor(cursor)
 
     def on_close_button_entered(self):
-        if len(self.breath_phrase_id_list) >= 1:
+        if self.close_hover_bool and len(self.breath_phrase_id_list) >= 1:
             self.on_close_button_clicked()
 
     def on_close_button_clicked(self):

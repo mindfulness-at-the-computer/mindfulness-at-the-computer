@@ -413,6 +413,10 @@ class MainWin(QtWidgets.QMainWindow):
         file_menu.addAction(quit_action)
         quit_action.triggered.connect(self.exit_application)
 
+        """
+        preferences_menu = self.menu_bar.addMenu("&Preferences")
+        """
+
         debug_menu = self.menu_bar.addMenu("&Debug")
         update_gui_action = QtWidgets.QAction("Update GUI", self)
         debug_menu.addAction(update_gui_action)
