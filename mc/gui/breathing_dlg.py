@@ -98,13 +98,13 @@ class BreathingDlg(QtWidgets.QFrame):
         self._ib_qtimeline.setFrameRange(1, 1000)
         self._ib_qtimeline.setCurveShape(QtCore.QTimeLine.LinearCurve)
         self._ib_qtimeline.frameChanged.connect(
-            self._breathing_graphicsview_l3._frame_change_breathing_in
+            self._breathing_graphicsview_l3.frame_change_breathing_in
         )
         self._ob_qtimeline = QtCore.QTimeLine(duration=20000)
         self._ob_qtimeline.setFrameRange(1, 2000)
         self._ob_qtimeline.setCurveShape(QtCore.QTimeLine.LinearCurve)
         self._ob_qtimeline.frameChanged.connect(
-            self._breathing_graphicsview_l3._frame_change_breathing_out
+            self._breathing_graphicsview_l3.frame_change_breathing_out
         )
 
         self._start_cursor_timer()
@@ -340,7 +340,7 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self.text_gi.update_pos_and_origin_point(self._view_width_int, self._view_height_int)
         self._custom_gi.update_pos_and_origin_point(self._view_width_int, self._view_height_int)
 
-    def _frame_change_breathing_in(self, i_frame_nr_int):
+    def frame_change_breathing_in(self, i_frame_nr_int):
         phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
         if phrase.type == mc.mc_global.BreathingPhraseType.in_out:
             self.text_gi.setScale(1 + 0.001 * i_frame_nr_int)
@@ -349,7 +349,7 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self._custom_gi.setScale(1 + 0.001 * i_frame_nr_int)
         # self.setTextWidth(self.textWidth() + 1)
 
-    def _frame_change_breathing_out(self, i_frame_nr_int):
+    def frame_change_breathing_out(self, i_frame_nr_int):
         phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
         if phrase.type == mc.mc_global.BreathingPhraseType.in_out:
             self.text_gi.setScale(self._peak_scale_ft - 0.0005 * i_frame_nr_int)
