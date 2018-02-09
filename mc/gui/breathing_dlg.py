@@ -20,9 +20,6 @@ class BreathingDlg(QtWidgets.QFrame):
         self._hover_active_bool = False
         self._keyboard_active_bool = True
         self._cursor_qtimer = None
-        # TODO Remove unused fields?
-        self.ib_qtimer = None
-        self.ob_qtimer = None
         self.setWindowFlags(
             QtCore.Qt.Dialog
             | QtCore.Qt.WindowStaysOnTopHint
