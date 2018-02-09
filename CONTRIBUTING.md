@@ -65,23 +65,13 @@ If you're unsure of some details while you're making edits, you can discuss them
 It's possible to work on two or more different patches (and therefore multiple branches) at one time, but it's recommended that beginners only work on one patch at a time.
 
 ### Syncing
+
 Periodically, you'll need the sync your repo with mine (the upstream). GitHub has instructions for doing this
 
 1. [Configuring a remote for a fork](https://help.github.com/articles/configuring-a-remote-for-a-fork/)
     * For step 3 on that page, use https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer for the URL.
 2. [Syncing a Fork](https://help.github.com/articles/syncing-a-fork/)
     * On that page, it shows how to merge the **master** branch (steps 4 & 5 of **Syncing a Fork**).
-
-### The gh-pages branch
-The gh-pages branch contains the code for the [web site](https://mindfulness-at-the-computer.github.io).
-
-You can use the [Pull Request](#pull-requests) procedure for the _gh-pages_ branch (replace instances of _master_ with _gh-pages_). First though, you need to clone the _gh-pages_ branch to your computer.
-
-  1. Within the repo directory, enter in`git branch`. Verify you're on the _master_ branch. You'll also see that
-the _gh-pages_ branch doesn't exist.
-  2. Create the branch and set tracking information: `git checkout -b gh-pages origin/gh-pages`
-That tracks the branch from your fork on GitHub.
-  3. To sync the branch, use the steps outlined in [Syncing](#syncing), replacing instances of _master_ with _gh-pages_.
 
 ### Workflow overview
 
@@ -92,6 +82,10 @@ That tracks the branch from your fork on GitHub.
 We need help localizing the application. Helping with translations is easy:
 * You can use our [**crowdin project page**](https://crowdin.com/project/mindfulness-at-the-computer) to enter your translations
 * You can find a list of translators on [this wiki page](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/wiki/Translators)
+
+## Website
+
+The website has a separate github repo: https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer.github.io
 
 ***
 
