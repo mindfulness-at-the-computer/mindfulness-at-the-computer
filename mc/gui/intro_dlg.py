@@ -219,7 +219,7 @@ class BreathingDialogPage(QtWidgets.QWidget):
         description_qll.setFont(mc.mc_global.get_font_xlarge())
 
         breathing_dlg = mc.gui.breathing_dlg.BreathingDlg()
-        breathing_dlg.close_qpb.setDisabled(True)
+        breathing_dlg._close_qpb.setDisabled(True)
 
         vbox_l3 = QtWidgets.QVBoxLayout()
         vbox_l3.addSpacing(MARGIN_TOP_INT)

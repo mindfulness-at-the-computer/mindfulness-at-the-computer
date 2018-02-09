@@ -169,6 +169,8 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         # self.in_breath_phrase_qle.setFocus()
 
         # if dialog_result == QtWidgets.QDialog.Accepted:
+        self.edit_dialog = EditDialog()
+        self.edit_dialog.finished.connect(self.on_edit_dialog_finished)
         self.edit_dialog.show()
 
     def on_edit_dialog_finished(self, i_result: int):
