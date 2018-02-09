@@ -18,18 +18,12 @@ IMAGE_GOAL_HEIGHT_INT = 70
 
 
 class BreathingNotification(QtWidgets.QFrame):
-    """
-    The breathing notification.
-    When used in the introduction wizard, the can_be_closed_bool parameter can be set to False
-    to prevent leaving the wizard
-
-    """
     # close_signal = QtCore.pyqtSignal(list, list)
     breathe_signal = QtCore.pyqtSignal()
     close_signal = QtCore.pyqtSignal()
     # wait_signal = QtCore.pyqtSignal()
 
-    def __init__(self, can_be_closed_bool=True):
+    def __init__(self):
         super().__init__(None, WINDOW_FLAGS)
 
         # self.setWindowFlags()
@@ -40,7 +34,6 @@ class BreathingNotification(QtWidgets.QFrame):
         # | QtCore.Qt.WindowStaysOnTopHint
         # | QtCore.Qt.X11BypassWindowManagerHint
 
-        self.can_be_closed_bool = can_be_closed_bool
         self.setFocusPolicy(QtCore.Qt.NoFocus)
 
         self.setFrameStyle(QtWidgets.QFrame.Box | QtWidgets.QFrame.Plain)
@@ -107,17 +100,17 @@ class BreathingNotification(QtWidgets.QFrame):
 
     # overridden
     def mousePressEvent(self, i_qmouseevent):
-        if self.can_be_closed_bool:
+        if self.breathe_qpb.isEnabled():
             self.close_signal.emit()
             self.close()
 
     def on_breathe_button_clicked(self):
-        if self.can_be_closed_bool:
+        if self.breathe_qpb.isEnabled():
             self.close()  # -closing first to avoid collision between dialogs
             self.breathe_signal.emit()
 
     def on_close_button_clicked(self):
-        if self.can_be_closed_bool:
+        if self.breathe_qpb.isEnabled():
             self.close_signal.emit()
             self.close()
 

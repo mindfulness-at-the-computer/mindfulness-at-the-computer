@@ -18,20 +18,13 @@ SHOWN_TIMER_TIME_INT = 10000
 
 
 class RestReminderDlg(QtWidgets.QFrame):
-    """
-    The rest notification.
-    When used in the introduction wizard, the can_be_closed_bool parameter can be set to False
-    to prevent leaving the wizard
-
-    """
     rest_signal = QtCore.pyqtSignal()
     skip_signal = QtCore.pyqtSignal()
     wait_signal = QtCore.pyqtSignal()
 
-    def __init__(self, can_be_closed_bool=True):
+    def __init__(self):
         super().__init__(None, WINDOW_FLAGS)
 
-        self.can_be_closed_bool = can_be_closed_bool
         self.hover_and_kb_active_bool = False
 
         self.setFrameStyle(QtWidgets.QFrame.Box | QtWidgets.QFrame.Plain)
@@ -95,25 +88,21 @@ class RestReminderDlg(QtWidgets.QFrame):
         self.on_wait_button_clicked()
 
     def on_rest_button_clicked(self):
-        if self.can_be_closed_bool:
-            self.rest_signal.emit()
-            self.close()
+        self.rest_signal.emit()
+        self.close()
 
     def on_skip_button_clicked(self):
-        if self.can_be_closed_bool:
-            self.skip_signal.emit()
-            self.close()
+        self.skip_signal.emit()
+        self.close()
 
     def on_wait_button_clicked(self):
-        if self.can_be_closed_bool:
-            self.wait_signal.emit()
-            self.close()
+        self.wait_signal.emit()
+        self.close()
 
     # overridden
     def mousePressEvent(self, i_qmouseevent):
-        if self.can_be_closed_bool:
-            self.wait_signal.emit()
-            self.close()
+        self.wait_signal.emit()
+        self.close()
 
 
 class CustomLabel(QtWidgets.QLabel):

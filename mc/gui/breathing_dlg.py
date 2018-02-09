@@ -12,19 +12,12 @@ BR_HEIGHT_FT = 50.0
 
 
 class BreathingDlg(QtWidgets.QFrame):
-    """
-    The Rest dialog.
-    When used in the introduction wizard, the can_be_closed_bool parameter can be set to False
-    to prevent leaving the wizard
-
-    """
     close_signal = QtCore.pyqtSignal(list, list)
     phrase_changed_signal = QtCore.pyqtSignal()
 
-    def __init__(self, can_be_closed_bool=True):
+    def __init__(self):
         super().__init__()
 
-        self.can_be_closed_bool = can_be_closed_bool
         self.hover_active_bool = False
         self.keyboard_active_bool = True
         self.state = mc.mc_global.BreathingState.inactive
@@ -227,12 +220,12 @@ class BreathingDlg(QtWidgets.QFrame):
             self.setCursor(cursor)
 
     def on_close_button_entered(self):
-        if self.can_be_closed_bool:
+        if self.close_qpb.isEnabled():
             if len(self.breath_phrase_id_list) >= 1:
                 self.on_close_button_clicked()
 
     def on_close_button_clicked(self):
-        if self.can_be_closed_bool:
+        if self.close_qpb.isEnabled():
             mc.mc_global.breathing_state = mc.mc_global.BreathingState.inactive
 
             if len(self.ob_length_ft_list) < len(self.ib_length_ft_list):
