@@ -92,6 +92,10 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         vbox_l3.addWidget(self.dialog_audio_qcb)
         self.dialog_audio_qcb.toggled.connect(self.on_dialog_audio_toggled)
 
+        self.dialog_close_on_hover_qcb = QtWidgets.QCheckBox(self.tr("Close on hover"))
+        vbox_l3.addWidget(self.dialog_close_on_hover_qcb)
+        self.dialog_close_on_hover_qcb.toggled.connect(self.on_dialog_close_on_hover_toggled)
+
         self.test_breathing_dialog_qpb = QtWidgets.QPushButton(self.tr("Open breathing dialog"))
         vbox_l3.addWidget(self.test_breathing_dialog_qpb)
         self.test_breathing_dialog_qpb.clicked.connect(self.on_open_breathing_dialog_button_clicked)
@@ -120,6 +124,11 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         self.setDisabled(True)
 
         self.update_gui()
+
+    def on_dialog_close_on_hover_toggled(self, i_checked: bool):
+        if self.updating_gui_bool:
+            return
+        mc.model.SettingsM.update_breathing_dialog_close_on_hover(i_checked)
 
     def on_dialog_audio_toggled(self, i_checked: bool):
         if self.updating_gui_bool:
@@ -170,6 +179,8 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         else:
             self.audio_path_qll.setText(NO_AUDIO_SELECTED_STR)
 
+        self.dialog_audio_qcb.setChecked(settings.breathing_reminder_dialog_audio_active_bool)
+        self.dialog_close_on_hover_qcb.setChecked(settings.breathing_reminder_dialog_close_on_active_bool)
         self.volume_qsr.setValue(settings.breathing_reminder_volume_int)
 
         self.updating_gui_bool = False
