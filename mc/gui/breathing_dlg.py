@@ -219,7 +219,7 @@ class BreathingDlg(QtWidgets.QFrame):
             )
             self.setCursor(cursor)
 
-    def on_close_button_entered(self):
+    def _on_close_button_entered(self):
         if self.close_hover_bool and len(self._breath_phrase_id_list) >= 1:
             self._on_close_button_clicked()
 
