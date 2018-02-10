@@ -29,6 +29,7 @@ class RestActionListWt(QtWidgets.QWidget):
         vbox_l2.addLayout(hbox_l3)
         self.rest_add_action_qle = QtWidgets.QLineEdit()
         hbox_l3.addWidget(self.rest_add_action_qle)
+        self.rest_add_action_qle.setPlaceholderText(self.tr("New item"))
         self.rest_add_action_qpb = QtWidgets.QPushButton(self.tr("Add"))
         hbox_l3.addWidget(self.rest_add_action_qpb)
         self.rest_add_action_qpb.clicked.connect(self.add_rest_action_clicked)

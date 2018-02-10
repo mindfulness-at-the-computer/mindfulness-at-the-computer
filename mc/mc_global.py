@@ -28,6 +28,7 @@ AUDIO_DIR_STR = "audio"
 
 active_rest_action_id_it = NO_REST_ACTION_SELECTED_INT
 active_phrase_id_it = NO_PHRASE_SELECTED_INT
+rest_window_shown_bool = False
 testing_bool = False
 rest_reminder_minutes_passed_int = 0
 # active_rest_image_full_path_str = "user_files/tea.png"
@@ -172,9 +173,12 @@ def get_font_xlarge(i_underscore: bool=False, i_italics: bool=False, i_bold: boo
     return font
 
 
-def get_font_xxlarge() -> QtGui.QFont:
+def get_font_xxlarge(i_underscore: bool=False, i_italics: bool=False, i_bold: bool=False) -> QtGui.QFont:
     font = QtGui.QFont()
     font.setPointSize(24)
+    font.setUnderline(i_underscore)
+    font.setItalic(i_italics)
+    font.setBold(i_bold)
     return font
 
 
@@ -202,7 +206,7 @@ db_upgrade_message_str = None
 sys_info_telist = []
 
 
-def clear_widget_and_layout_children(qlayout_or_qwidget):
+def clear_widget_and_layout_children(qlayout_or_qwidget) -> None:
     if qlayout_or_qwidget.widget():
         qlayout_or_qwidget.widget().deleteLater()
     elif qlayout_or_qwidget.layout():

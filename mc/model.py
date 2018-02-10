@@ -62,7 +62,7 @@ class PhrasesM:
         return self._title_str
 
     @title.setter
-    def title(self, i_new_title: str):
+    def title(self, i_new_title: str) -> None:
         self._title_str = i_new_title
         self._update(db.Schema.PhrasesTable.Cols.title, i_new_title)
 
@@ -71,7 +71,7 @@ class PhrasesM:
         return self._vert_order_int
 
     @vert_order.setter
-    def vert_order(self, i_new_vert_order: int):
+    def vert_order(self, i_new_vert_order: int) -> None:
         self._vert_order_int = i_new_vert_order
         self._update(db.Schema.PhrasesTable.Cols.vertical_order, i_new_vert_order)
 
@@ -80,7 +80,7 @@ class PhrasesM:
         return self._ib_str
 
     @ib.setter
-    def ib(self, i_new_ib: str):
+    def ib(self, i_new_ib: str) -> None:
         self._ib_str = i_new_ib
         self._update(db.Schema.PhrasesTable.Cols.ib_phrase, i_new_ib)
 
@@ -89,7 +89,7 @@ class PhrasesM:
         return self._ob_str
 
     @ob.setter
-    def ob(self, i_new_ob: str):
+    def ob(self, i_new_ob: str) -> None:
         self._ib_str = i_new_ob
         self._update(db.Schema.PhrasesTable.Cols.ob_phrase, i_new_ob)
 
@@ -98,7 +98,7 @@ class PhrasesM:
         return self._ib_short_str
 
     @ib_short.setter
-    def ib_short(self, i_new_ib_short: str):
+    def ib_short(self, i_new_ib_short: str) -> None:
         self._ib_short_str = i_new_ib_short
         self._update(db.Schema.PhrasesTable.Cols.ib_short_phrase, i_new_ib_short)
 
@@ -107,7 +107,7 @@ class PhrasesM:
         return self._ob_short_str
 
     @ob_short.setter
-    def ob_short(self, i_new_ob_short: str):
+    def ob_short(self, i_new_ob_short: str) -> None:
         self._ob_short_str = i_new_ob_short
         self._update(db.Schema.PhrasesTable.Cols.ob_short_phrase, i_new_ob_short)
 
@@ -116,7 +116,7 @@ class PhrasesM:
         return self._type_enum
 
     @type.setter
-    def type(self, i_new_type: mc.mc_global.BreathingPhraseType):
+    def type(self, i_new_type: mc.mc_global.BreathingPhraseType) -> None:
         self._type_enum = i_new_type
         self._update(db.Schema.PhrasesTable.Cols.type, i_new_type.value)
 
@@ -139,7 +139,7 @@ class PhrasesM:
         )
 
     @staticmethod
-    def get(i_id: int):
+    def get(i_id: int) -> tuple:
         db_cursor_result = db_exec(
             "SELECT * FROM " + db.Schema.PhrasesTable.name
             + " WHERE " + db.Schema.PhrasesTable.Cols.id + "=?",
@@ -150,7 +150,7 @@ class PhrasesM:
         # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
 
     @staticmethod
-    def get_all():
+    def get_all() -> list:
         ret_phrase_list = []
         db_cursor_result = db_exec(
             "SELECT * FROM " + db.Schema.PhrasesTable.name
@@ -162,7 +162,7 @@ class PhrasesM:
         return ret_phrase_list
 
     @staticmethod
-    def remove(i_id: int):
+    def remove(i_id: int) -> None:
         db_exec(
             "DELETE FROM " + db.Schema.PhrasesTable.name
             + " WHERE " + db.Schema.PhrasesTable.Cols.id + "=?",
@@ -170,7 +170,7 @@ class PhrasesM:
         )
 
     @staticmethod
-    def is_empty():
+    def is_empty() -> bool:
         db_cursor_result = db_exec(
             "SELECT count(*) FROM "
             + db.Schema.PhrasesTable.name
@@ -182,7 +182,7 @@ class PhrasesM:
         else:
             return False
 
-    def _update(self, i_col_name: str, i_new_value):
+    def _update(self, i_col_name: str, i_new_value) -> None:
         db_exec(
             "UPDATE " + db.Schema.PhrasesTable.name
             + " SET " + i_col_name + " = ?"
@@ -285,20 +285,20 @@ class RestActionsM:
         return self._title_str
 
     @title.setter
-    def title(self, i_new_title: str):
+    def title(self, i_new_title: str) -> None:
         self._title_str = i_new_title
         self._update(db.Schema.RestActionsTable.Cols.title, i_new_title)
 
     @property
-    def image_path(self):
+    def image_path(self) -> str:
         return self._image_path_str
 
     @image_path.setter
-    def image_path(self, i_new_path: str):
+    def image_path(self, i_new_path: str) -> None:
         self._image_path_str = i_new_path
         self._update(db.Schema.RestActionsTable.Cols.image_path, i_new_path)
 
-    def _update(self, i_col_name: str, i_new_value):
+    def _update(self, i_col_name: str, i_new_value) -> None:
         db_exec(
             "UPDATE " + db.Schema.PhrasesTable.name
             + " SET " + i_col_name + " = ?"
@@ -331,7 +331,7 @@ class RestActionsM:
         # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
 
     @staticmethod
-    def remove(i_id: int):
+    def remove(i_id: int) -> None:
         db_exec(
             "DELETE FROM " + db.Schema.RestActionsTable.name
             + " WHERE " + db.Schema.RestActionsTable.Cols.id + "=?",
@@ -339,7 +339,7 @@ class RestActionsM:
         )
 
     @staticmethod
-    def get_all():
+    def get_all() -> list:
         ret_reminder_list = []
         db_cursor_result = db_exec(
             "SELECT * FROM " + db.Schema.RestActionsTable.name
@@ -433,7 +433,8 @@ class SettingsM:
         i_breathing_reminder_notification_type: int,
         i_breathing_reminder_phrase_setup: int,
         i_breathing_reminder_nr_before_dialog: int,
-        i_breathing_reminder_dialog_audio_active: int
+        i_breathing_reminder_dialog_audio_active: int,
+        i_breathing_reminder_dialog_close_on_active: int
     ) -> None:
         self.rest_reminder_active_bool = True if i_rest_reminder_active else False
         self.rest_reminder_interval_int = i_rest_reminder_interval
@@ -448,13 +449,15 @@ class SettingsM:
         self.breathing_reminder_phrase_setup_int = i_breathing_reminder_phrase_setup
         self.breathing_reminder_nr_before_dialog_int = i_breathing_reminder_nr_before_dialog
         self.breathing_reminder_dialog_audio_active_bool = True if i_breathing_reminder_dialog_audio_active else False
+        self.breathing_reminder_dialog_close_on_active_bool = \
+            True if i_breathing_reminder_dialog_close_on_active else False
 
     @property
     def rest_reminder_active(self) -> bool:
         return self.rest_reminder_active_bool
 
     @rest_reminder_active.setter
-    def rest_reminder_active(self, i_new_is_active: bool):
+    def rest_reminder_active(self, i_new_is_active: bool) -> None:
         new_is_active_as_int = db.SQLITE_TRUE_INT if i_new_is_active else db.SQLITE_FALSE_INT
         self._update(
             db.Schema.SettingsTable.Cols.rest_reminder_active,
@@ -466,7 +469,7 @@ class SettingsM:
         return self.rest_reminder_interval_int
 
     @rest_reminder_interval.setter
-    def rest_reminder_interval(self, i_new_interval: int):
+    def rest_reminder_interval(self, i_new_interval: int) -> None:
         self.rest_reminder_interval = i_new_interval
         self._update(
             db.Schema.SettingsTable.Cols.rest_reminder_interval,
@@ -478,7 +481,7 @@ class SettingsM:
         return self.rest_reminder_audio_path
 
     @rest_reminder_audio_path.setter
-    def rest_reminder_audio_path(self, i_new_path: str):
+    def rest_reminder_audio_path(self, i_new_path: str) -> None:
         self.rest_reminder_audio_path_str = i_new_path
         self._update(
             db.Schema.SettingsTable.Cols.rest_reminder_audio_path,
@@ -490,7 +493,7 @@ class SettingsM:
         return self.rest_reminder_volume_int
 
     @rest_reminder_volume.setter
-    def rest_reminder_volume(self, i_new_volume: int):
+    def rest_reminder_volume(self, i_new_volume: int) -> None:
         self.rest_reminder_volume_int = i_new_volume
         self._update(
             db.Schema.SettingsTable.Cols.rest_reminder_volume,
@@ -508,7 +511,7 @@ class SettingsM:
     def rest_reminder_notification_type(
         self,
         i_new_notification_type: mc.mc_global.NotificationType
-    ):
+    ) -> None:
         self.rest_reminder_notification_type_int = i_new_notification_type.value
         self._update(
             db.Schema.SettingsTable.Cols.rest_reminder_notification_type,
@@ -516,7 +519,7 @@ class SettingsM:
         )
 
     @staticmethod
-    def _update(i_col_name: str, i_new_value: typing.Any):
+    def _update(i_col_name: str, i_new_value: typing.Any) -> None:
         db_exec(
             "UPDATE " + db.Schema.SettingsTable.name
             + " SET " + i_col_name + " = ?"
@@ -540,14 +543,22 @@ class SettingsM:
         # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
 
     @staticmethod
-    def update_rest_reminder_audio_path(i_new_audio_path: str):
+    def update_rest_reminder_audio_path(i_new_audio_path: str) -> None:
         SettingsM._update(
             db.Schema.SettingsTable.Cols.rest_reminder_audio_path,
             i_new_audio_path
         )
 
     @staticmethod
-    def update_breathing_dialog_audio_active(i_audio_active: bool):
+    def update_breathing_dialog_close_on_hover(i_close_on_active: bool) -> None:
+        new_value_bool_as_int = db.SQLITE_TRUE_INT if i_close_on_active else db.SQLITE_FALSE_INT
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_dialog_close_on_hover,
+            new_value_bool_as_int
+        )
+
+    @staticmethod
+    def update_breathing_dialog_audio_active(i_audio_active: bool) -> None:
         new_value_bool_as_int = db.SQLITE_TRUE_INT if i_audio_active else db.SQLITE_FALSE_INT
         SettingsM._update(
             db.Schema.SettingsTable.Cols.breathing_reminder_dialog_audio_active,
@@ -555,21 +566,21 @@ class SettingsM:
         )
 
     @staticmethod
-    def update_rest_reminder_volume(i_new_volume: int):
+    def update_rest_reminder_volume(i_new_volume: int) -> None:
         SettingsM._update(
             db.Schema.SettingsTable.Cols.rest_reminder_volume,
             i_new_volume
         )
 
     @staticmethod
-    def update_rest_reminder_notification_type(i_new_notification_type: int):
+    def update_rest_reminder_notification_type(i_new_notification_type: int) -> None:
         SettingsM._update(
             db.Schema.SettingsTable.Cols.rest_reminder_notification_type,
             i_new_notification_type
         )
 
     @staticmethod
-    def update_rest_reminder_active(i_reminder_active: bool):
+    def update_rest_reminder_active(i_reminder_active: bool) -> None:
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         new_value_bool_as_int = db.SQLITE_TRUE_INT if i_reminder_active else db.SQLITE_FALSE_INT
@@ -584,7 +595,7 @@ class SettingsM:
         logging.debug("result=" + str(SettingsM.get().rest_reminder_active))
 
     @staticmethod
-    def update_rest_reminder_interval(i_reminder_interval: int):
+    def update_rest_reminder_interval(i_reminder_interval: int) -> None:
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor.execute(
@@ -596,7 +607,7 @@ class SettingsM:
         db_connection.commit()
 
     @staticmethod
-    def update_breathing_reminder_active(i_reminder_active: bool):
+    def update_breathing_reminder_active(i_reminder_active: bool) -> None:
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor.execute(
@@ -608,7 +619,7 @@ class SettingsM:
         db_connection.commit()
 
     @staticmethod
-    def update_breathing_reminder_interval(i_reminder_interval: int):
+    def update_breathing_reminder_interval(i_reminder_interval: int) -> None:
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor.execute(
@@ -620,7 +631,7 @@ class SettingsM:
         db_connection.commit()
 
     @staticmethod
-    def update_breathing_reminder_audio_path(i_new_audio_path: str):
+    def update_breathing_reminder_audio_path(i_new_audio_path: str) -> None:
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor.execute(
@@ -632,7 +643,7 @@ class SettingsM:
         db_connection.commit()
 
     @staticmethod
-    def update_breathing_reminder_volume(i_new_volume: int):
+    def update_breathing_reminder_volume(i_new_volume: int) -> None:
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor.execute(
@@ -644,14 +655,14 @@ class SettingsM:
         db_connection.commit()
 
     @staticmethod
-    def update_breathing_reminder_nr_per_dialog(i_new_nr_per_dialog: int):
+    def update_breathing_reminder_nr_per_dialog(i_new_nr_per_dialog: int) -> None:
         SettingsM._update(
             db.Schema.SettingsTable.Cols.breathing_reminder_nr_before_dialog,
             i_new_nr_per_dialog
         )
 
     @staticmethod
-    def update_breathing_reminder_notification_type(i_new_notification_type: int):
+    def update_breathing_reminder_notification_type(i_new_notification_type: int) -> None:
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor.execute(
@@ -663,7 +674,7 @@ class SettingsM:
         db_connection.commit()
 
     @staticmethod
-    def update_breathing_reminder_notification_phrase_setup(i_new_phrase_setup: int):
+    def update_breathing_reminder_notification_phrase_setup(i_new_phrase_setup: int) -> None:
         db_connection = db.Helper.get_db_connection()
         db_cursor = db_connection.cursor()
         db_cursor.execute(
@@ -675,7 +686,7 @@ class SettingsM:
         db_connection.commit()
 
 
-def export_all():
+def export_all() -> None:
     csv_writer = csv.writer(open(mc.mc_global.get_user_files_path("exported.csv"), "w"))
     # csv_writer.writeheader()
     csv_writer.writerow(("",))
@@ -688,7 +699,7 @@ def export_all():
         csv_writer.writerow((rest_action.title,))
 
 
-def populate_db_with_setup_data():
+def populate_db_with_setup_data() -> None:
     PhrasesM.add(
         "In, Out",
         "Breathing in, I know I am breathing in",
@@ -784,7 +795,7 @@ def populate_db_with_setup_data():
     )
 
 
-def populate_db_with_test_data():
+def populate_db_with_test_data() -> None:
     populate_db_with_setup_data()
 
 

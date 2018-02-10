@@ -11,22 +11,22 @@ NO_REFERENCE_INT = -1
 NO_REST_REMINDER_INT = -1
 NO_BREATHING_REMINDER_INT = -1
 DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT = 30
-DEFAULT_BREATHING_REMINDER_INTERVAL_MINUTES_INT = 10
+DEFAULT_BREATHING_REMINDER_INTERVAL_MINUTES_INT = 5
 SINGLE_SETTINGS_ID_INT = 0
 MAX_VOLUME_INT = 100
 DEFAULT_BREATHING_REMINDER_NR_BEFORE_DIALOG_INT = 3
 
 
-def get_schema_version(i_db_conn):
+def get_schema_version(i_db_conn: sqlite3.Connection) -> int:
     t_cursor = i_db_conn.execute("PRAGMA user_version")
     return t_cursor.fetchone()[0]
 
 
-def set_schema_version(i_db_conn, i_version_it) -> None:
+def set_schema_version(i_db_conn, i_version_it: sqlite3.Connection) -> None:
     i_db_conn.execute("PRAGMA user_version={:d}".format(i_version_it))
 
 
-def initial_schema_and_setup(i_db_conn) -> None:
+def initial_schema_and_setup(i_db_conn: sqlite3.Connection) -> None:
     # Auto-increment is not needed in our case: https://www.sqlite.org/autoinc.html
 
     i_db_conn.execute(
@@ -101,7 +101,7 @@ def upgrade_1_2(i_db_conn):
 """
 
 
-def upgrade_1_2(i_db_conn):
+def upgrade_1_2(i_db_conn: sqlite3.Connection) -> None:
     backup_db_file()
     i_db_conn.execute(
         "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
@@ -110,7 +110,7 @@ def upgrade_1_2(i_db_conn):
     )
 
 
-def upgrade_2_3(i_db_conn):
+def upgrade_2_3(i_db_conn: sqlite3.Connection) -> None:
     backup_db_file()
     i_db_conn.execute(
         "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
@@ -119,7 +119,7 @@ def upgrade_2_3(i_db_conn):
     )
 
 
-def upgrade_3_4(i_db_conn):
+def upgrade_3_4(i_db_conn: sqlite3.Connection) -> None:
     backup_db_file()
     i_db_conn.execute(
         "ALTER TABLE " + Schema.PhrasesTable.name + " ADD COLUMN "
@@ -128,11 +128,21 @@ def upgrade_3_4(i_db_conn):
     )
 
 
+def upgrade_4_5(i_db_conn: sqlite3.Connection) -> None:
+    backup_db_file()
+    i_db_conn.execute(
+        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
+        + Schema.SettingsTable.Cols.breathing_reminder_dialog_close_on_hover + " INTEGER DEFAULT "
+        + str(SQLITE_FALSE_INT)
+    )
+
+
 upgrade_steps = {
     10: initial_schema_and_setup,
     11: upgrade_1_2,
     12: upgrade_2_3,
-    13: upgrade_3_4
+    13: upgrade_3_4,
+    14: upgrade_4_5
 }
 
 
@@ -183,13 +193,13 @@ class Helper(object):
         return Helper.__db_connection
 
     @staticmethod
-    def drop_all_db_tables(i_db_conn):
+    def drop_all_db_tables(i_db_conn: sqlite3.Connection) -> None:
         Helper.drop_db_table(i_db_conn, Schema.PhrasesTable.name)
         Helper.drop_db_table(i_db_conn, Schema.RestActionsTable.name)
         Helper.drop_db_table(i_db_conn, Schema.SettingsTable.name)
 
     @staticmethod
-    def drop_db_table(i_db_conn, i_table_name: str):
+    def drop_db_table(i_db_conn, i_table_name: sqlite3.Connection) -> None:
         i_db_conn.execute("DROP TABLE IF EXISTS " + i_table_name)
 
 
@@ -235,6 +245,7 @@ class Schema:
             breathing_reminder_phrase_setup = "breathing_reminder_phrase_setup"
             breathing_reminder_nr_before_dialog = "breathing_reminder_nr_before_dialog"
             breathing_reminder_dialog_audio_active = "breathing_reminder_dialog_audio_active"
+            breathing_reminder_dialog_close_on_hover = "breathing_reminder_dialog_close_on_hover"
 
 
 def backup_db_file() -> None:

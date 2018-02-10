@@ -307,6 +307,8 @@ class MainWin(QtWidgets.QMainWindow):
         self.rest_reminder_qtimer.start(60 * 1000)  # -one minute
 
     def rest_timer_timeout(self):
+        if mc.mc_global.rest_window_shown_bool:
+            return
         mc.mc_global.rest_reminder_minutes_passed_int += 1
         if (mc.mc_global.rest_reminder_minutes_passed_int
         == mc.model.SettingsM.get().rest_reminder_interval_int - 1):
@@ -321,10 +323,12 @@ class MainWin(QtWidgets.QMainWindow):
 
     def on_rest_widget_closed(self, i_open_breathing_dialog: bool):
         mc.mc_global.rest_reminder_minutes_passed_int = 0
-        # self.update_gui()
+
         if i_open_breathing_dialog:
             self.open_breathing_dialog()
         self.update_rest_timer()
+        self.update_breathing_timer()
+        self.update_gui()
 
     def restore_window(self):
         self.raise_()
@@ -409,6 +413,10 @@ class MainWin(QtWidgets.QMainWindow):
         file_menu.addAction(quit_action)
         quit_action.triggered.connect(self.exit_application)
 
+        """
+        preferences_menu = self.menu_bar.addMenu("&Preferences")
+        """
+
         debug_menu = self.menu_bar.addMenu("&Debug")
         update_gui_action = QtWidgets.QAction("Update GUI", self)
         debug_menu.addAction(update_gui_action)
@@ -453,6 +461,8 @@ class MainWin(QtWidgets.QMainWindow):
     # noinspection PyAttributeOutsideInit
     def breathing_timer_timeout(self):
         if not mc.model.breathing_reminder_active():
+            return
+        if mc.mc_global.rest_window_shown_bool:
             return
 
         mc.mc_global.breathing_notification_counter_int += 1
