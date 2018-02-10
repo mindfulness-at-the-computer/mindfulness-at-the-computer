@@ -53,3 +53,22 @@ class MainTest(unittest.TestCase):
         else:
             self.fail()
 
+    def test_delete_single(self):
+        pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
+        list_length_before_int = pl_widget.list_widget.count()
+        pl_widget.list_widget.takeItem(0)
+        self.assertEqual(list_length_before_int - 1, pl_widget.list_widget.count())
+
+    def test_delete_two(self):
+        pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
+        list_length_before_int = pl_widget.list_widget.count()
+        pl_widget.list_widget.takeItem(0)
+        pl_widget.list_widget.takeItem(0)
+        self.assertEqual(list_length_before_int - 2, pl_widget.list_widget.count())
+
+    def test_delete_all(self):
+        pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
+        while pl_widget.list_widget.takeItem(0):
+            pass
+        self.assertEqual(pl_widget.list_widget.count(), 0)
+

@@ -81,12 +81,6 @@ class MainTest(unittest.TestCase):
         QtTest.QTest.waitForEvents()
         # self.assertFalse(safe_delete_dialog.description_qll.isVisibleTo(safe_delete_dialog))
 
-    def test_deleting_breathing_phrase(self):
-        pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
-        list_length_before_int = pl_widget.list_widget.count()
-        pl_widget.list_widget.takeItem(0)
-        self.assertEqual(list_length_before_int - 1, pl_widget.list_widget.count())
-
     @ unittest.skip("work in progress")
     def test_adding_breathing_phrase_with_edit(self):
         pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
@@ -102,7 +96,6 @@ class MainTest(unittest.TestCase):
         # pl_widget.edit_dialog.reject()
 
         QtTest.QTest.waitForEvents()
-        QtTest.QTest.qWait(1000)
 
         # trying to find the newly added entry
         for i in range(0, pl_widget.list_widget.count()):
