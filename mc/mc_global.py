@@ -26,6 +26,9 @@ IMAGES_DIR_STR = "images"
 ICONS_DIR_STR = "icons"
 AUDIO_DIR_STR = "audio"
 
+SMALL_BELL_SHORT_FILENAME_STR = "small_bell_short[cc0].wav"
+WIND_CHIMES_FILENAME_STR = "wind_chimes[cc0].wav"
+
 active_rest_action_id_it = NO_REST_ACTION_SELECTED_INT
 active_phrase_id_it = NO_PHRASE_SELECTED_INT
 rest_window_shown_bool = False
