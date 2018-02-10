@@ -151,7 +151,7 @@ class Helper(object):
 
     # noinspection PyTypeChecker
     @staticmethod
-    def get_db_connection():
+    def get_db_connection() -> sqlite3.Connection:
 
         if Helper.__db_connection is None:
             Helper.__db_connection = sqlite3.connect(mc_global.get_database_filename())
