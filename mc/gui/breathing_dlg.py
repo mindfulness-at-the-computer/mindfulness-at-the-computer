@@ -21,6 +21,7 @@ class BreathingDlg(QtWidgets.QFrame):
         self._hover_active_bool = False
         self._keyboard_active_bool = True
         self._cursor_qtimer = None
+        self._cursor_move_active_bool = False
         self.setWindowFlags(
             QtCore.Qt.Dialog
             | QtCore.Qt.WindowStaysOnTopHint
@@ -209,6 +210,8 @@ class BreathingDlg(QtWidgets.QFrame):
         self._cursor_qtimer.start(2500)
 
     def _cursor_timer_timeout(self):
+        if not self._cursor_move_active_bool:
+            return
         cursor = QtGui.QCursor()
         if self.geometry().contains(cursor.pos()):
             pass
