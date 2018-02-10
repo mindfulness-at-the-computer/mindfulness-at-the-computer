@@ -219,23 +219,24 @@ class BreathingDlg(QtWidgets.QFrame):
             )
             self.setCursor(cursor)
 
-    def on_close_button_entered(self):
+    def _on_close_button_entered(self):
         if self.close_hover_bool and len(self._breath_phrase_id_list) >= 1:
             self._on_close_button_clicked()
 
     def _on_close_button_clicked(self):
-        mc.mc_global.breathing_state = mc.mc_global.BreathingState.inactive
+        if self._close_qpb.isEnabled():
+            mc.mc_global.breathing_state = mc.mc_global.BreathingState.inactive
 
-        if len(self._ob_length_ft_list) < len(self._ib_length_ft_list):
-            now = time.time()
-            self._ob_length_ft_list.append(now - self._start_time_ft)
+            if len(self._ob_length_ft_list) < len(self._ib_length_ft_list):
+                now = time.time()
+                self._ob_length_ft_list.append(now - self._start_time_ft)
 
-        self._cursor_qtimer.stop()
-        self.close_signal.emit(
-            self._ib_length_ft_list,
-            self._ob_length_ft_list
-        )
-        self.close()
+            self._cursor_qtimer.stop()
+            self.close_signal.emit(
+                self._ib_length_ft_list,
+                self._ob_length_ft_list
+            )
+            self.close()
 
     def update_gui(self):
         # phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)

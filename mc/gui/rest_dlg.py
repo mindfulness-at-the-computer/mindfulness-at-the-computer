@@ -11,6 +11,7 @@ class RestDlg(QtWidgets.QDialog):
 
     def __init__(self):
         super().__init__()
+
         self.show()
         self.raise_()
         self.showNormal()
@@ -82,6 +83,7 @@ class RestDlg(QtWidgets.QDialog):
 
     def setup_rest_action_list(self):
         rest_action_list = model.RestActionsM.get_all()
+
         for rest_action in rest_action_list:
             rest_action_title_qll = QtWidgets.QLabel(rest_action.title)
             rest_action_title_qll.setWordWrap(True)

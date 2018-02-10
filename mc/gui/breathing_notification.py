@@ -100,16 +100,19 @@ class BreathingNotification(QtWidgets.QFrame):
 
     # overridden
     def mousePressEvent(self, i_qmouseevent):
-        self.close_signal.emit()
-        self.close()
+        if self.breathe_qpb.isEnabled():
+            self.close_signal.emit()
+            self.close()
 
     def on_breathe_button_clicked(self):
-        self.close()  # -closing first to avoid collision between dialogs
-        self.breathe_signal.emit()
+        if self.breathe_qpb.isEnabled():
+            self.close()  # -closing first to avoid collision between dialogs
+            self.breathe_signal.emit()
 
     def on_close_button_clicked(self):
-        self.close_signal.emit()
-        self.close()
+        if self.breathe_qpb.isEnabled():
+            self.close_signal.emit()
+            self.close()
 
     def resize_image(self):
         if self.image_qll.pixmap() is None:
