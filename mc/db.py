@@ -115,7 +115,7 @@ def upgrade_2_3(i_db_conn: sqlite3.Connection) -> None:
     i_db_conn.execute(
         "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
         + Schema.SettingsTable.Cols.breathing_reminder_dialog_audio_active + " INTEGER DEFAULT "
-        + str(SQLITE_FALSE_INT)
+        + str(SQLITE_TRUE_INT)
     )
 
 
