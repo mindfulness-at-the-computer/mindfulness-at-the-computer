@@ -128,11 +128,21 @@ def upgrade_3_4(i_db_conn: sqlite3.Connection) -> None:
     )
 
 
+def upgrade_4_5(i_db_conn: sqlite3.Connection) -> None:
+    backup_db_file()
+    i_db_conn.execute(
+        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
+        + Schema.SettingsTable.Cols.breathing_reminder_dialog_close_on_hover + " INTEGER DEFAULT "
+        + str(SQLITE_FALSE_INT)
+    )
+
+
 upgrade_steps = {
     10: initial_schema_and_setup,
     11: upgrade_1_2,
     12: upgrade_2_3,
-    13: upgrade_3_4
+    13: upgrade_3_4,
+    14: upgrade_4_5
 }
 
 
@@ -235,6 +245,7 @@ class Schema:
             breathing_reminder_phrase_setup = "breathing_reminder_phrase_setup"
             breathing_reminder_nr_before_dialog = "breathing_reminder_nr_before_dialog"
             breathing_reminder_dialog_audio_active = "breathing_reminder_dialog_audio_active"
+            breathing_reminder_dialog_close_on_hover = "breathing_reminder_dialog_close_on_hover"
 
 
 def backup_db_file() -> None:
