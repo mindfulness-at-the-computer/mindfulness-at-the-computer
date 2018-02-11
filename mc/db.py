@@ -1,6 +1,7 @@
 import datetime
 import shutil
 import sqlite3
+import logging
 from mc import mc_global
 from mc import model
 
@@ -201,6 +202,13 @@ class Helper(object):
     @staticmethod
     def drop_db_table(i_db_conn, i_table_name: sqlite3.Connection) -> None:
         i_db_conn.execute("DROP TABLE IF EXISTS " + i_table_name)
+
+    @staticmethod
+    def close_db():
+        if Helper.__db_connection is not None:
+            Helper.__db_connection.close()
+            Helper.__db_connection = None
+            logging.debug("Database closed")
 
 
 class Schema:

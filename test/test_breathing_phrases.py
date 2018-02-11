@@ -1,9 +1,11 @@
 import sys
+import os
 import unittest
 from PyQt5 import QtTest
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 import mc.mc_global
+import mc.db
 import mc.gui.toggle_switch_wt
 import mc.gui.breathing_dlg
 import mc.gui.breathing_phrase_list_wt
@@ -17,58 +19,156 @@ import mc.gui.safe_delete_dlg
 import mc.gui.toggle_switch_wt
 
 
-class MainTest(unittest.TestCase):
-    """
-    "@unittest.skip" can be used to skip a test
-    """
+class BreathingPhrasesTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
         mc.mc_global.testing_bool = True
 
     def setUp(self):
-        pass
+        self.bpl = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
+        self.print_current_row_and_count("setUp")
+
+    def tearDown(self):
+        mc.db.Helper.close_db()
+        # os.remove(mc.mc_global.get_database_filename())
+        # self.bpl.close()
+        # self.bpl.deleteLater()
+        # mc.mc_global.clear_widget_and_layout_children(self.bpl)
+        # QtTest.QTest.waitForEvents()
 
     def test_create(self):
-        breathing_phrase_list = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
+        pass
 
-    def test_add_phrase(self):
+    def test_add_phrase_single(self):
+        test_text_str = "testing 1"
+        self.add_to_list(test_text_str)
+
+    def test_add_phrase_multiple(self):
+        base_test_text_str = "testing"
+        number_to_add_int = 10
+        for i in range(0, number_to_add_int):
+            test_text_str = base_test_text_str + " " + str(i)
+            self.add_to_list(test_text_str)
+
+    def add_to_list(self, i_string: str):
+        QtTest.QTest.keyClicks(self.bpl.add_to_list_qle, i_string)
+        QtTest.QTest.mouseClick(self.bpl.add_new_phrase_qpb, QtCore.Qt.LeftButton)
+        self.bpl.edit_dialog.accept()  # clicking "ok"
+        self.assertTrue(self.is_in_list(self.bpl.list_widget, i_string))
+
+    @staticmethod
+    def is_in_list(i_list: list, i_string: str):
+        for i in range(0, i_list.count()):
+            qlwi = i_list.item(i)
+            custom_qll = i_list.itemWidget(qlwi)
+            if custom_qll.text() == i_string:
+                return True
+        return False
+
+    def test_delete_single(self):
+        list_length_before_int = self.bpl.list_widget.count()
+        self.bpl.list_widget.takeItem(0)
+        self.assertEqual(list_length_before_int - 1, self.bpl.list_widget.count())
+
+    def test_delete_two(self):
+        list_length_before_int = self.bpl.list_widget.count()
+        self.bpl.list_widget.takeItem(0)
+        self.bpl.list_widget.takeItem(0)
+        self.assertEqual(list_length_before_int - 2, self.bpl.list_widget.count())
+
+    def test_delete_all(self):
+        while self.bpl.list_widget.takeItem(0):
+            pass
+        self.assertEqual(self.bpl.list_widget.count(), 0)
+
+    ##############################################
+
+    @unittest.skip("asdf")
+    def test_selecting_breathing_phrase(self):
+
+        # pl_widget = self.matc_main_obj.main_window.phrase_list_widget
         pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
+        # breathing_widget = self.matc_main_obj.main_window.breathing_composite_widget
+        breathing_widget = mc.gui.breathing_dlg.BreathingDlg()
+        # print("breathing_widget.bi_text_qll.text() = " + breathing_widget._breathing_graphicsview_l3.bi.bi_text_qll.text())
 
-        TEST_TEXT_STR = "testing 1"
-        QtTest.QTest.keyClicks(pl_widget.add_to_list_qle, TEST_TEXT_STR)
+        # mc.gui.main_win.MbMainWindow()
+
+        TEXT_FOR_ENTRY_TO_CLICK_STR = "testing 2"
+        QtTest.QTest.keyClicks(pl_widget.add_to_list_qle, TEXT_FOR_ENTRY_TO_CLICK_STR)
         QtTest.QTest.mouseClick(pl_widget.add_new_phrase_qpb, QtCore.Qt.LeftButton)
 
-        pl_widget.edit_dialog.accept()  # clicking "ok"
-        # pl_widget.edit_dialog.reject()
+        # pl_widget.list_widget.setCurrentRow(3)
 
-        # QtTest.QTest.mouseClick(pl_widget.add_new_phrase_qpb, QtCore.Qt.LeftButton)
-
-        # trying to find the newly added entry
         for i in range(0, pl_widget.list_widget.count()):
             qlwi = pl_widget.list_widget.item(i)
             custom_qll = pl_widget.list_widget.itemWidget(qlwi)
-            if custom_qll.text() == TEST_TEXT_STR:
-                return
-        else:
-            self.fail()
+            if custom_qll.text() == TEXT_FOR_ENTRY_TO_CLICK_STR:
+                # pl_widget.list_widget.setCurrentItem(qlwi)
+                qlwi_rect = pl_widget.list_widget.visualItemRect(qlwi)
+                QtTest.QTest.mouseClick(
+                    pl_widget.list_widget.viewport(),
+                    QtCore.Qt.LeftButton,
+                    pos=qlwi_rect.center()
+                )
 
-    def test_delete_single(self):
-        pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
-        list_length_before_int = pl_widget.list_widget.count()
-        pl_widget.list_widget.takeItem(0)
-        self.assertEqual(list_length_before_int - 1, pl_widget.list_widget.count())
+        QtTest.QTest.waitForEvents()
 
-    def test_delete_two(self):
-        pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
-        list_length_before_int = pl_widget.list_widget.count()
-        pl_widget.list_widget.takeItem(0)
-        pl_widget.list_widget.takeItem(0)
-        self.assertEqual(list_length_before_int - 2, pl_widget.list_widget.count())
+        # print("breathing_widget.bi_text_qll.text() = " + breathing_widget.bi_text_qll.text())
+        print("mc.gui.phrase_list_cw.BREATHING_IN_DEFAULT_PHRASE = "
+              + mc.gui.breathing_phrase_list_wt.BREATHING_IN_DEFAULT_PHRASE)
+        is_true = breathing_widget.bi_text_qll.text() == mc.gui.breathing_phrase_list_wt.BREATHING_IN_DEFAULT_PHRASE
 
-    def test_delete_all(self):
-        pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
-        while pl_widget.list_widget.takeItem(0):
-            pass
-        self.assertEqual(pl_widget.list_widget.count(), 0)
+        self.assertTrue(is_true)
 
+        self.assertTrue(
+            breathing_widget.bo_text_qll.text() == mc.gui.breathing_phrase_list_wt.BREATHING_OUT_DEFAULT_PHRASE
+        )
+
+    def test_click_on_entry(self):
+        test_nonexisting_text_str = "non-existing"
+        test_text_str = "existing"
+        self.add_to_list(test_text_str)
+        self.assertFalse(self.click_on_list_widget_entry(test_nonexisting_text_str))
+        self.bpl.list_widget.setCurrentRow(0)
+        self.assertTrue(self.click_on_list_widget_entry(test_text_str))
+        self.assertEqual(self.bpl.list_widget.currentRow(), self.bpl.list_widget.count() - 1)
+        self.print_current_row_and_count("test_click_on_entry")
+
+    def print_current_row_and_count(self, i_init_string: str):
+        equals_signs_str = " ========= "
+        print(equals_signs_str + i_init_string + equals_signs_str)
+        print("self.bpl.list_widget.currentRow() = " + str(self.bpl.list_widget.currentRow()))
+        print("self.bpl.list_widget.count() = " + str(self.bpl.list_widget.count()))
+        print(equals_signs_str)
+
+    def click_on_list_widget_entry(self, i_text_for_entry_to_click: str):
+        # -this assumes that the list widget has a custom qlwi set for each of the rows
+        for i in range(0, self.bpl.list_widget.count()):
+            qlwi = self.bpl.list_widget.item(i)
+            custom_qll = self.bpl.list_widget.itemWidget(qlwi)
+            qlwi_qrect = self.bpl.list_widget.visualItemRect(qlwi)
+            if custom_qll.text() == i_text_for_entry_to_click:
+                # QtTest.QTest.mouseClick(qlwi, QtCore.Qt.LeftButton)
+                QtTest.QTest.mouseClick(
+                    self.bpl.list_widget.viewport(),
+                    QtCore.Qt.LeftButton,
+                    pos=qlwi_qrect.center()
+                )
+                QtTest.QTest.waitForEvents()
+                return True
+        return False
+
+    """
+    # This doesn't work
+    def click_on_list_widget_entry(self, i_text_for_entry_to_click: str):
+        # -this assumes that the list widget has a custom qlwi set for each of the rows
+        for i in range(0, self.bpl.list_widget.count()):
+            qlwi = self.bpl.list_widget.item(i)
+            custom_qll = self.bpl.list_widget.itemWidget(qlwi)
+            if custom_qll.text() == i_text_for_entry_to_click:
+                QtTest.QTest.mouseClick(custom_qll, QtCore.Qt.LeftButton)
+                return True
+        return False
+    """
