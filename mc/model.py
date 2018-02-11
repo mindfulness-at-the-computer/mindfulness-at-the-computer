@@ -733,19 +733,21 @@ def populate_db_with_setup_data() -> None:
         mc.mc_global.BreathingPhraseType.in_out
     )
     PhrasesM.add(
+        "Sharing, Contributing",
+        "Breathing in I share the well-being of others",
+        "Breathing out I contribute to the well-being of others",
+        "sharing well-being",
+        "contributing to well-being",
+        mc.mc_global.BreathingPhraseType.in_out
+    )
+
+    """    
+    PhrasesM.add(
         "Compassion",
         "Breathing in compassion to myself",
         "Breathing out compassion to others",
         "compassion to myself",
         "compassion to others",
-        mc.mc_global.BreathingPhraseType.in_out
-    )
-    PhrasesM.add(
-        "Sharing, Contributing",
-        "Breathing in I share in the well-being of others",
-        "Breathing out I contribute to the well-being of others",
-        "sharing well-being",
-        "contributing to well-being",
         mc.mc_global.BreathingPhraseType.in_out
     )
     PhrasesM.add(
@@ -756,6 +758,7 @@ def populate_db_with_setup_data() -> None:
         "",
         mc.mc_global.BreathingPhraseType.single
     )
+    """
 
     RestActionsM.add(
         "Making a cup of tea",
