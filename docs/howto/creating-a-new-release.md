@@ -21,7 +21,9 @@ This process will create an executable file with supporting .so files
 
 The .spec file has been customized to include the user_files and icons directories
 
-Creating the tar.gz file: `tar -czvf mindfulness-at-the-computer.tar.gz mindfulness-at-the-computer/`
+Creating the tar.gz file:
+1. Go to the `dist` directory
+2. `tar -czvf mindfulness-at-the-computer.tar.gz mindfulness-at-the-computer/`
 
 #### glibc
 
@@ -33,6 +35,7 @@ glibc is also specific for 32 or 64 bit so builds will only work on that archite
 
 ### Building on MacOS
 
+TBD
 
 ### Building on Windows
 
@@ -55,10 +58,6 @@ As the last step, you can create a zip file
 It seems to be better to build on Windows 7. The Windows 10 build binary file has failed to start for us, but the Windows 7 has always worked once the build has been completed
 
 More info here: http://pyinstaller.readthedocs.io/en/stable/usage.html#windows
-
-### Building on Mac
-
-TBD
 
 
 ## 2. Manual testing
