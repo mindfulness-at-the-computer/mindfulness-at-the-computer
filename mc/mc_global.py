@@ -24,6 +24,7 @@ README_FILE_STR = "README.md"
 USER_FILES_DIR_STR = "user_files"
 IMAGES_DIR_STR = "images"
 ICONS_DIR_STR = "icons"
+OPEN_ICONIC_ICONS_DIR_STR = "open_iconic"
 AUDIO_DIR_STR = "audio"
 
 SMALL_BELL_SHORT_FILENAME_STR = "small_bell_short[cc0].wav"
@@ -118,7 +119,7 @@ def get_user_audio_path(i_file_name: str="") -> str:
 
 
 def get_icon_path(i_file_name: str) -> str:
-    ret_icon_path_str = os.path.join(get_base_dir(), ICONS_DIR_STR, i_file_name)
+    ret_icon_path_str = os.path.join(get_base_dir(), ICONS_DIR_STR, OPEN_ICONIC_ICONS_DIR_STR, i_file_name)
     return ret_icon_path_str
 
 
