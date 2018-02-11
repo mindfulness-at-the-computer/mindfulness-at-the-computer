@@ -81,34 +81,6 @@ class MainTest(unittest.TestCase):
         QtTest.QTest.waitForEvents()
         # self.assertFalse(safe_delete_dialog.description_qll.isVisibleTo(safe_delete_dialog))
 
-    @ unittest.skip("work in progress")
-    def test_adding_breathing_phrase_with_edit(self):
-        pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
-
-        TEST_TEXT_STR = "testing 1"
-        NEW_TEST_TEXT_STR = "testing 2"
-        QtTest.QTest.keyClicks(pl_widget.add_to_list_qle, TEST_TEXT_STR)
-        QtTest.QTest.mouseClick(pl_widget.add_new_phrase_qpb, QtCore.Qt.LeftButton)
-
-        pl_widget.edit_dialog.breath_title_qle.setText(NEW_TEST_TEXT_STR)
-
-        pl_widget.edit_dialog.accept()  # clicking "ok"
-        # pl_widget.edit_dialog.reject()
-
-        QtTest.QTest.waitForEvents()
-
-        # trying to find the newly added entry
-        for i in range(0, pl_widget.list_widget.count()):
-            qlwi = pl_widget.list_widget.item(i)
-            custom_qll = pl_widget.list_widget.itemWidget(qlwi)
-            if custom_qll.text() == NEW_TEST_TEXT_STR:
-                return
-        else:
-            self.fail()
-
-    def add_phrase(self):
-        pass
-
 
     """
     def test_starting_breathing(self):

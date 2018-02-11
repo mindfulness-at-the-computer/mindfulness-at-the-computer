@@ -27,7 +27,6 @@ class BreathingPhrasesTest(unittest.TestCase):
 
     def setUp(self):
         self.bpl = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
-        self.print_current_row_and_count("setUp")
 
     def tearDown(self):
         mc.db.Helper.close_db()
@@ -81,50 +80,6 @@ class BreathingPhrasesTest(unittest.TestCase):
         while self.bpl.list_widget.takeItem(0):
             pass
         self.assertEqual(self.bpl.list_widget.count(), 0)
-
-    ##############################################
-
-    @unittest.skip("asdf")
-    def test_selecting_breathing_phrase(self):
-
-        # pl_widget = self.matc_main_obj.main_window.phrase_list_widget
-        pl_widget = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
-        # breathing_widget = self.matc_main_obj.main_window.breathing_composite_widget
-        breathing_widget = mc.gui.breathing_dlg.BreathingDlg()
-        # print("breathing_widget.bi_text_qll.text() = " + breathing_widget._breathing_graphicsview_l3.bi.bi_text_qll.text())
-
-        # mc.gui.main_win.MbMainWindow()
-
-        TEXT_FOR_ENTRY_TO_CLICK_STR = "testing 2"
-        QtTest.QTest.keyClicks(pl_widget.add_to_list_qle, TEXT_FOR_ENTRY_TO_CLICK_STR)
-        QtTest.QTest.mouseClick(pl_widget.add_new_phrase_qpb, QtCore.Qt.LeftButton)
-
-        # pl_widget.list_widget.setCurrentRow(3)
-
-        for i in range(0, pl_widget.list_widget.count()):
-            qlwi = pl_widget.list_widget.item(i)
-            custom_qll = pl_widget.list_widget.itemWidget(qlwi)
-            if custom_qll.text() == TEXT_FOR_ENTRY_TO_CLICK_STR:
-                # pl_widget.list_widget.setCurrentItem(qlwi)
-                qlwi_rect = pl_widget.list_widget.visualItemRect(qlwi)
-                QtTest.QTest.mouseClick(
-                    pl_widget.list_widget.viewport(),
-                    QtCore.Qt.LeftButton,
-                    pos=qlwi_rect.center()
-                )
-
-        QtTest.QTest.waitForEvents()
-
-        # print("breathing_widget.bi_text_qll.text() = " + breathing_widget.bi_text_qll.text())
-        print("mc.gui.phrase_list_cw.BREATHING_IN_DEFAULT_PHRASE = "
-              + mc.gui.breathing_phrase_list_wt.BREATHING_IN_DEFAULT_PHRASE)
-        is_true = breathing_widget.bi_text_qll.text() == mc.gui.breathing_phrase_list_wt.BREATHING_IN_DEFAULT_PHRASE
-
-        self.assertTrue(is_true)
-
-        self.assertTrue(
-            breathing_widget.bo_text_qll.text() == mc.gui.breathing_phrase_list_wt.BREATHING_OUT_DEFAULT_PHRASE
-        )
 
     def test_click_on_entry(self):
         test_nonexisting_text_str = "non-existing"
