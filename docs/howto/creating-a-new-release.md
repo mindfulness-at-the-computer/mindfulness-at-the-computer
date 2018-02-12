@@ -13,6 +13,7 @@ Documentation:
 
 1. Install Python (PyInstaller now works with version 3.6 of Python): `sudo apt-get install python3`
 2. `pip3 install pyinstaller`
+   * Please verify that you can access pyinstaller by trying to run `pyinstaller` from the command line. If this does not work (pyinstaller not available even though it seems like the installation was successful) you may need to use `sudo -H pip3 install pyinstaller` to install pyinstaller instead
 3. `pip3 install pyqt5`
 3. Go to the base application directory
 4. `pyinstaller mindfulness-at-the-computer-linux.spec`
@@ -27,7 +28,7 @@ Creating the tar.gz file:
 
 #### glibc
 
-*Please choose a fairly early version*, 16.04 or earlier. The reason is that pyinstaller does not bundle *libc* into the resulting package so the resulting package may not (will not?) work with earlier versions of libc and Linux:
+*Please choose a fairly early version of Ubuntu*, 16.04 or earlier. The reason is that pyinstaller does not bundle *libc* into the resulting package so the resulting package may not (will not?) work with earlier versions of libc and Linux:
 https://pyinstaller.readthedocs.io/en/stable/usage.html#making-linux-apps-forward-compatible
 
 glibc is also specific for 32 or 64 bit so builds will only work on that architecture. Because of how common 64 bit systems are nowadays this is the priority
