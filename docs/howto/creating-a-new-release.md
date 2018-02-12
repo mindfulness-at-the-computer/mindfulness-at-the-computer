@@ -40,14 +40,14 @@ TBD
 ### Building on Windows
 
 1. Install Python (PyInstaller works with 3.6 which is the latest Python version at the time of writing). Use these settings:
-  * Install Python only for the current user (otherwise there may be problems with permissions later on)
-  * Add the path (you have to restart to get the path to work)
+   * Install Python only for the current user (otherwise there may be problems with permissions later on)
+   * Add the path (you have to restart to get the path to work)
 2. `pip install pyinstaller`
 3. `pip install pyqt5`
 4. Find the installation path for PyQt5 (example: "C:\Python\Python35\Lib\site-packages\PyQt5\Qt\bin")
 5. Go to the base application directory
 6. `pyinstaller --paths [pyqt5 install directory] mindfulness-at-the-computer-windows.spec`. For example: `pyinstaller --paths C:\Python\Python35\Lib\site-packages\PyQt5\Qt\bin mindfulness-at-the-computer-windows.spec`
-  * `--paths` has to be used: https://stackoverflow.com/questions/42880859/importerror-dll-load-failed-the-specified-module-could-not-be-found-failed-to
+   * `--paths` has to be used: https://stackoverflow.com/questions/42880859/importerror-dll-load-failed-the-specified-module-could-not-be-found-failed-to
 
 The resulting `exe` and `dll` files will be in the `./dist` directory.
 
