@@ -45,8 +45,10 @@ TBD
 2. Start cmd *with admin privelige*
    * We need admin priveliges, otherwise we may get permission denied for the PyQt files
 3. `pip install pyinstaller`
+   * or if it been installed previously: `pip install pyinstaller --upgrade`
 4. `pip install pyqt5`
-5. Find and copy the installation path for PyQt5 (example: "C:\Python\Python35\Lib\site-packages\PyQt5\Qt\bin")
+   * or if it been installed previously: `pip install pyqt5 --upgrade`
+5. Find and copy the installation path for PyQt5 (example: `C:\Python\Python35\Lib\site-packages\PyQt5\Qt\bin`)
 6. Create an empty directory where you can unzip the files, preferrably with a path without any spaces
 7. Download the latest code (can be found on the github main page under the green "clone or download" button
 8. If you have tried to build previously: Remove the `build` and `dist` directories:
