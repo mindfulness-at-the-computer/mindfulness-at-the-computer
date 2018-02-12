@@ -1,6 +1,7 @@
 import sys
 import os
 import unittest
+import random
 from PyQt5 import QtTest
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
@@ -19,6 +20,9 @@ import mc.gui.safe_delete_dlg
 import mc.gui.toggle_switch_wt
 
 
+SEED_INT = 1
+
+
 class BreathingPhrasesTest(unittest.TestCase):
 
     @classmethod
@@ -26,15 +30,11 @@ class BreathingPhrasesTest(unittest.TestCase):
         mc.mc_global.testing_bool = True
 
     def setUp(self):
+        random.seed(SEED_INT)  # making sure that the number will be pseudo-random
         self.bpl = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
 
     def tearDown(self):
         mc.db.Helper.close_db()
-        # os.remove(mc.mc_global.get_database_filename())
-        # self.bpl.close()
-        # self.bpl.deleteLater()
-        # mc.mc_global.clear_widget_and_layout_children(self.bpl)
-        # QtTest.QTest.waitForEvents()
 
     def test_create(self):
         pass
