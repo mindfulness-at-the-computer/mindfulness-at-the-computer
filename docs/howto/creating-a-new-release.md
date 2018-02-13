@@ -12,9 +12,9 @@ Documentation:
 ### Building on Ubuntu
 
 1. Install Python (PyInstaller now works with version 3.6 of Python): `sudo apt-get install python3`
-2. `pip3 install pyinstaller`
-   * Please verify that you can access pyinstaller by trying to run `pyinstaller` from the command line. If this does not work (pyinstaller not available even though it seems like the installation was successful) you may need to use `sudo -H pip3 install pyinstaller` to install pyinstaller instead
-3. `pip3 install pyqt5`
+2. `sudo pip3 install pyinstaller`
+   * Please verify that you can access pyinstaller by trying to run `pyinstaller` from the command line
+3. `sudo pip3 install pyqt5`
 3. Go to the base application directory
 4. `pyinstaller mindfulness-at-the-computer-linux.spec`
 
