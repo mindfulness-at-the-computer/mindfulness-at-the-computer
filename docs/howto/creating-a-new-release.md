@@ -36,7 +36,25 @@ glibc is also specific for 32 or 64 bit so builds will only work on that archite
 
 ### Building on MacOS
 
-TBD
+1. Install Python (PyInstaller now works with version 3.6 of Python): `brew install python3`
+2. Go to the base application directory
+3. Create and activate a virtual environment: see [this article](using-virtual-environment.md)
+4. Install pyinstaller: `pip install pyinstaller`
+5. `pyinstaller --windowed mindfulness-at-the-computer-macos.spec`. This will give you a `dist` folder with two subfolders:
+    - mindfulness-at-the-computer
+    - mindfulness-at-the-computer.app
+6. Keep `mindfulness-at-the-computer.app` and delete the other folder
+7. Go to the `dist` folder and add a symlink to the /Applications folder: `ln -s /Applications Applications`. 
+   PyCharm might not like this and start indexing the Applications folder as well.
+   You might want to close PyCharm before doing this.
+8. Open the disk utilities with spotlight `cmd-space utility`
+9. Create a new dmg file: `cmd-shift-n`
+10. Select the dist folder in your project. 
+11. In the `Save As` field enter the name of the dmg file: `mindfulness-at-the-computer`
+12. From the `Image Format` drop-down select `read only` then click `Save`
+
+You will now have a mindfulness-at-the-computer.dmg file at the selected location.
+
 
 ### Building on Windows
 
