@@ -33,6 +33,7 @@ class BreathingHistoryWt(QtWidgets.QWidget):
         vbox_l2 = QtWidgets.QVBoxLayout()
         self.setLayout(vbox_l2)
 
+        vbox_l2.addWidget(QtWidgets.QLabel("Breathing History"))
         self.breathing_graphicsview = QtWidgets.QGraphicsView()  # QGraphicsScene
         vbox_l2.addWidget(self.breathing_graphicsview)
         self.breathing_graphicsscene = QtWidgets.QGraphicsScene()
