@@ -87,6 +87,7 @@ def get_base_dir() -> str:
 
 def get_database_filename(i_backup_timestamp: str = "") -> str:
     if testing_bool:
+        # return "test.db"
         return ":memory:"
     else:
         database_filename_str = DATABASE_FILE_STR
