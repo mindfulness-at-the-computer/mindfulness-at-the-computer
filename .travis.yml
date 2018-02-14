@@ -5,6 +5,12 @@ install:
   - "pip install -r requirements.txt"
   - pip install coverage
   - pip install codecov
+addons:
+  apt:
+    sources:
+      - travis-ci/sqlite3
+    packages:
+      - sqlite3
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
