@@ -1,6 +1,13 @@
 language: python
 python:
   - "3.6"
+sudo: required
+addons:
+  apt:
+    sources:
+      - sourceline: "deb http://us.archive.ubuntu.com/ubuntu/ xenial main universe"
+    packages:
+      - xvfb
 install:
   - "pip install -r requirements.txt"
   - pip install coverage
