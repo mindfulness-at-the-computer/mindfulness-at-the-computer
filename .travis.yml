@@ -9,7 +9,7 @@ addons:
     packages:
       - xvfb
 install:
-  - "pip install -r requirements.txt"
+  - "pip install -r requirements-travis.txt"
   - pip install coverage
   - pip install codecov
 before_script:
