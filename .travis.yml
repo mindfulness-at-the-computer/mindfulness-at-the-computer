@@ -20,9 +20,9 @@ before_script:
   - sleep 3 # give xvfb some time to start
 script:
   - coverage run --source=. -m unittest discover -s test
-  - coverage report -m
+  # - coverage report -m
   - coverage xml
-  - python -m unittest discover -s test
+  # - python -m unittest discover -s test
   # -Please note: If this fails there may be a problem with the versions of the applications in requirements.txt
   #  This was a problem for Qt 5.10, for more info see this page: https://bugreports.qt.io/browse/QTBUG-64928
 after_success:
