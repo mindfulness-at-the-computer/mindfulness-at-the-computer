@@ -58,23 +58,27 @@ You will now have a mindfulness-at-the-computer.dmg file at the selected locatio
 
 ### Building on Windows
 
-1. Install Python (PyInstaller works with 3.6 which is the latest Python version at the time of writing). Use these settings:
-   * Install Python only for the current user (otherwise there may be problems with permissions later on)
-   * Add the path (you have to restart to get the path to work)
-2. Start cmd *with admin privelige*
+1. Install Windows
+   * It seems to be better to build on Windows 7. The Windows 10 build binary file has failed to start for us, but the Windows 7 has always worked once the build has been completed. More info here: http://pyinstaller.readthedocs.io/en/stable/usage.html#windows
+   * If you build on Windows 7 please make sure that SP1 (service pack 1) is installed, as this is needed for the Python installer to run
+2. Install Python (PyInstaller works with 3.6 which is the latest Python version at the time of writing). *Please use these settings*:
+   * Install Python *only for the current user* (otherwise there may be problems with permissions later on)
+   * *Add the path* (you have to restart to get the path to work)
+3. Start cmd *with admin privelige*
    * We need admin priveliges, otherwise we may get permission denied for the PyQt files
-3. `pip install pyinstaller`
-   * or if it been installed previously: `pip install pyinstaller --upgrade`
 4. `pip install pyqt5`
    * or if it been installed previously: `pip install pyqt5 --upgrade`
-5. Find and copy the installation path for PyQt5 (example: `C:\Python\Python35\Lib\site-packages\PyQt5\Qt\bin`)
-6. Create an empty directory where you can unzip the files, preferrably with a path without any spaces
-7. Download the latest code (can be found on the github main page under the green "clone or download" button
-8. If you have tried to build previously: Remove the `build` and `dist` directories:
+5. `pip install pyinstaller`
+   * or if it been installed previously: `pip install pyinstaller --upgrade`
+   * Please note that the pyinstaller version may not be compatible with the latest python version. (At the time of writing this is not a problem, but it has been in the past)
+6. Find and copy the installation path for PyQt5 (example: `C:\Python\Python35\Lib\site-packages\PyQt5\Qt\bin`)
+7. Create an empty directory where you can unzip the files, preferrably with a path without any spaces
+8. Download the latest code (can be found on the github main page under the green "clone or download" button
+9. If you have tried to build previously: Remove the `build` and `dist` directories:
    * `rmdir /s build`
    * `rmdir /s dist`
-9. Go to the base application directory
-10. `pyinstaller --paths [pyqt5 install directory] mindfulness-at-the-computer-windows.spec`
+10. Go to the base application directory
+11. `pyinstaller --paths [pyqt5 install directory] mindfulness-at-the-computer-windows.spec`
     * For example: `pyinstaller --paths C:\Python\Python35\Lib\site-packages\PyQt5\Qt\bin mindfulness-at-the-computer-windows.spec`
     * `--paths` has to be used: https://stackoverflow.com/questions/42880859/importerror-dll-load-failed-the-specified-module-could-not-be-found-failed-to
 
@@ -84,11 +88,6 @@ Please verify that there is an `.exe` file (`mindfulness-at-the-computer.exe`) a
 
 As the last step, you can create a zip file from all the contents of the `./dist/mindfulness-at-the-computer` directory
 
-#### Windows 7 and 10
-
-It seems to be better to build on Windows 7. The Windows 10 build binary file has failed to start for us, but the Windows 7 has always worked once the build has been completed
-
-More info here: http://pyinstaller.readthedocs.io/en/stable/usage.html#windows
 
 
 ## 2. Manual testing
