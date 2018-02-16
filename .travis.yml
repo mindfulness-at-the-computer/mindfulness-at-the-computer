@@ -11,16 +11,22 @@ addons:
 install:
   - "pip install -r requirements.txt"
   - pip install coverage
-  - pip install codecov
+  - pip install codacy-coverage
+  # - pip install codecov
 before_script:
+  - "export CODACY_PROJECT_TOKEN=2598da6f2a5e481b9eba889208bc337c"
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 script:
-#  - coverage run --source=. -m unittest discover -s test
-#  - coverage report -m
-  - python -m unittest discover -s test  # when running tests manually you must use "python3" on some systems
-#after_success:
+  - coverage run --source=. -m unittest discover -s test
+  - coverage report -m
+  - coverage xml
+  - python -m unittest discover -s test
+  # -Please note: If this fails there may be a problem with the versions of the applications in requirements.txt
+  #  This was a problem for Qt 5.10, for more info see this page: https://bugreports.qt.io/browse/QTBUG-64928
+after_success:
 #  - codecov
+  - python-codacy-coverage -r coverage.xml
 notifications:
   email: false
