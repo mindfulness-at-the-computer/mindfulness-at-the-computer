@@ -84,13 +84,22 @@ You will now have a mindfulness-at-the-computer.dmg file at the selected locatio
 
 The resulting `exe` and `dll` files will be in the `./dist/mindfulness-at-the-computer` directory. (There will also be an executable in the `./build/mindfulness-at-the-computer` directory but this should not be used because it has the wrong references)
 
-Please verify that there is an `.exe` file (`mindfulness-at-the-computer.exe`) and try to run it
-
 As the last step, you can create a zip file from all the contents of the `./dist/mindfulness-at-the-computer` directory
+
+Please verify that there is an `.exe` file (`mindfulness-at-the-computer.exe`) and try to run it. Important that this is done after creating the zip file because otherwise the user will start the application with a db file already existing and with an incorrect audio path as well as not showing the intro wizard
 
 
 
 ## 2. Manual testing
+
+The most important things to test after building:
+1. Start by unzipping the file (rather than starting with the result of the build, since this will risk that the application is distributed with a db file inside the zip file)
+2. Verify that the intro wizard is shown
+3. Verify that the audio is playing
+4. Verify that the breathing notifications, breathing dialogs and rest reminder and rest fullscreen window can be seen
+5. Verify that you can the application behaves as expected with regards to closing, opening, minimizing to task bar, minimizing to system tray
+6. Verify that you can add a new entry in the breathing phrase list
+7. Verify that you can add a new entry in the rest action list
 
 
 
