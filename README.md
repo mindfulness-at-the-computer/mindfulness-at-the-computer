@@ -56,3 +56,9 @@ Have a look at these links for more information.
 * http://franticworld.com/what-is-mindfulness/
 * https://www.youtube.com/watch?v=3nwwKbM_vJc&t=1s
 * https://www.youtube.com/watch?v=mjtfyuTTQFY
+
+## Motivation
+
+> *“Don't do anything except with the joy of a small child feeding a hungry duck”*
+
+By feeding the hungry duck, you are helping their wellbeing and making them happy. You’re not feeding it just because you feel like you *should* or *ought* to, but because it makes both of you happy. That’s how we’d love for you to help with this project! When you contribute, not only are you are helping this project, you are helping others who will use this application, helping them to be mindful whilst working at the computer and to be aware of their breathing and wellbeing. 
