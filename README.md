@@ -28,6 +28,12 @@ Social: [**Gitter chat**](https://gitter.im/mindfulness-at-the-computer/Lobby)
 chat room and we will try to help you. Also we try to provide documentation
 useful for newcomers
 
+## Motivation when contributing to this project
+
+> *“Don't do anything except with the joy of a small child feeding a hungry duck”*
+
+By feeding the hungry duck, you are helping their wellbeing and making them happy. You’re not feeding it just because you feel like you *should* or *ought* to, but because it makes both of you happy. That’s how we’d love for you to help with this project! When you contribute, not only are you are helping this project, you are helping others who will use this application, helping them to be mindful whilst working at the computer and to be aware of their breathing and wellbeing. 
+
 ## Developer documentation
 
 Most documents are located in the [docs directory](docs/). There's also a [wiki](wiki) that is open for editing
