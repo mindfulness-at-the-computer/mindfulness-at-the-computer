@@ -26,33 +26,38 @@ class RestDlg(QtWidgets.QDialog):
         vbox_l2.addStretch(1)
         vbox_l2.addLayout(hbox_l3)
         vbox_l2.addStretch(1)
-        vbox_l4 = QtWidgets.QVBoxLayout()
-        hbox_l3.addStretch(1)
-        hbox_l3.addLayout(vbox_l4)
-        hbox_l3.addStretch(1)
+        # vbox_l4 = QtWidgets.QVBoxLayout()
+        hbox_l3.addStretch(2)
+        # hbox_l3.addLayout(vbox_l4)
 
         # Main area
         self.main_area_qgb = QtWidgets.QGroupBox("Rest Actions")
-        vbox_l4.addWidget(self.main_area_qgb)
+        hbox_l3.addWidget(self.main_area_qgb, stretch=3)
 
         self.actions_list_vbox_l4 = QtWidgets.QVBoxLayout()
         self.main_area_qgb.setLayout(self.actions_list_vbox_l4)
 
         walking_mindfully_qll = QtWidgets.QLabel("Please move and walk mindfully when leaving the computer")
-        walking_mindfully_qll.setFont(mc_global.get_font_medium())
-        vbox_l4.addWidget(walking_mindfully_qll)
-        vbox_l4.addStretch(1)
+        walking_mindfully_qll.setFont(mc_global.get_font_xxlarge())
+        walking_mindfully_qll.setWordWrap(True)
+        hbox_l3.addWidget(walking_mindfully_qll, stretch=3)
+
+        hbox_l3.addStretch(2)
+
 
         buttons_hbox_l3 = QtWidgets.QHBoxLayout()
-        vbox_l4.addLayout(buttons_hbox_l3)
+        vbox_l2.addLayout(buttons_hbox_l3)
+        buttons_hbox_l3.addStretch(3)
 
         self.close_qpb = QtWidgets.QPushButton("Close")
-        buttons_hbox_l3.addWidget(self.close_qpb)
+        buttons_hbox_l3.addWidget(self.close_qpb, stretch=2)
         self.close_qpb.clicked.connect(self.on_close_clicked)
 
         self.close_and_breathe_qpb = QtWidgets.QPushButton("Close and Breathe")
-        buttons_hbox_l3.addWidget(self.close_and_breathe_qpb)
+        buttons_hbox_l3.addWidget(self.close_and_breathe_qpb, stretch=2)
         self.close_and_breathe_qpb.clicked.connect(self.on_close_and_breathe_clicked)
+
+        buttons_hbox_l3.addStretch(3)
 
         self.setup_rest_action_list()
 
