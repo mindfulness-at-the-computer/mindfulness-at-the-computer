@@ -40,6 +40,14 @@ class MainWin(QtWidgets.QMainWindow):
         self.intro_dlg = None
         self.breathing_notification = None
         self.breathing_dialog = None
+        self.sound_effect = None
+        try:
+            self.sound_effect = QtMultimedia.QSoundEffect(self)
+            # -PLEASE NOTE: A parent has to be given here, otherwise we will not hear anything
+        except NameError:
+            logging.debug(
+                "NameError - Cannot play audio since QtMultimedia has not been imported"
+            )
 
         self.active_breathing_phrase_qgb = QtWidgets.QGroupBox("Active Breathing Phrase")
         self.br_settings_wt = mc.gui.breathing_settings_wt.BreathingSettingsWt()
@@ -502,17 +510,12 @@ class MainWin(QtWidgets.QMainWindow):
             self._play_audio(audio_path_str, volume_int)
 
     def _play_audio(self, i_audio_path: str, i_volume: int) -> None:
-        try:
-            sound_effect = QtMultimedia.QSoundEffect(self)
-            # -PLEASE NOTE: A parent has to be given here, otherwise we will not hear anything
-            # noinspection PyCallByClass
-            sound_effect.setSource(QtCore.QUrl.fromLocalFile(i_audio_path))
-            sound_effect.setVolume(float(i_volume / 100))
-            sound_effect.play()
-        except NameError:
-            logging.debug(
-                "NameError - Cannot play audio since QtMultimedia has not been imported"
-            )
+        if self.sound_effect is None:
+            return
+        # noinspection PyCallByClass
+        self.sound_effect.setSource(QtCore.QUrl.fromLocalFile(i_audio_path))
+        self.sound_effect.setVolume(float(i_volume / 100))
+        self.sound_effect.play()
 
     def on_breathing_dialog_closed(self, i_ib_list, i_ob_list):
         self.breathing_history_wt.add_from_dialog(i_ib_list, i_ob_list)
