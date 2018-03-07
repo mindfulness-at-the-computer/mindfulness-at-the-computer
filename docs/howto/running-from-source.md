@@ -4,10 +4,14 @@
 If you don't see a download option for the platform of your choice, or you just prefer running from source for other reasons, you can follow these steps to start the application:
 
 ### Windows or GNU/Linux Systems
+
+
+
 1. Download the Python 3.x installation package for your platform: https://www.python.org/downloads/
 2. Install Python 3.x
 3. On the command line: `pip install --upgrade pip` (On Ubuntu use `sudo -H` and `pip3` instead of `pip`)
 4. On the command line: `pip install PyQt5` (On Ubuntu use `sudo -H` and `pip3` instead of `pip`)
+  * *Windows: At the time of writing you need to use PyQt 5.9 rather than 5.10 as there is a strange bluetooth error for 5.10* `pip install PyQt5==5.9.2`
 5. Download the project files from GitHub, by clicking on *the green "Clone or download" button* and then "Download ZIP"
 6. Unzip the downloaded file
 7. Change directory to where the software files have been extracted
