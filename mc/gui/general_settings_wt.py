@@ -18,6 +18,7 @@ class RunOnStartupWt(QtWidgets.QWidget):
         self.run_on_startup.setChecked(bool(mc.model.SettingsM.run_on_startup))
         self.setLayout(hbox_l2)
 
+    @classmethod
     def on_run_on_startup_toggled(self, i_checked_bool):
         if platform == "linux" or platform == "linux2":
             pass
