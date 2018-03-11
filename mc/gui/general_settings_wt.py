@@ -1,3 +1,4 @@
+import mc.mc_global
 import mc.model
 import os
 from PyQt5 import QtWidgets
@@ -23,12 +24,12 @@ class RunOnStartupWt(QtWidgets.QWidget):
         if platform == "linux" or platform == "linux2":
             pass
         elif platform == "darwin":
-            source_dir = os.path.dirname(os.path.dirname(__file__) + "/../../user_files/")
-            target_dir = os.path.join(os.path.expanduser("~"), "Library/LaunchAgents/")
             plist = "com.matc.mindfulness-at-the-computer.plist"
+            source_file = mc.mc_global.get_user_files_path(plist)
+            target_dir = os.path.join(os.path.expanduser("~"), "Library/LaunchAgents/")
 
             if i_checked_bool and os.path.isdir("/Applications/mindfulness-at-the-computer.app"):
-                copyfile(os.path.join(source_dir, plist), os.path.join(target_dir, plist))
+                copyfile(source_file, os.path.join(target_dir, plist))
 
             elif os.path.isfile(os.path.join(target_dir, plist)):
                 os.remove(os.path.join(target_dir, plist))
