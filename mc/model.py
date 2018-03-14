@@ -725,7 +725,7 @@ def populate_db_with_setup_data() -> None:
         mc.mc_global.BreathingPhraseType.in_out
     )
     PhrasesM.add(
-        "Happy, Safe",
+        "Happy, At Peace",
         "May I be happy",
         "May I be peaceful",
         "happy",
@@ -741,7 +741,7 @@ def populate_db_with_setup_data() -> None:
         mc.mc_global.BreathingPhraseType.in_out
     )
 
-    """    
+    """
     PhrasesM.add(
         "Compassion",
         "Breathing in compassion to myself",
