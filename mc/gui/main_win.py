@@ -24,6 +24,7 @@ import mc.gui.rest_notification
 import mc.gui.rest_dlg
 import mc.gui.intro_dlg
 import mc.gui.rest_prepare
+import mc.gui.breathing_prepare
 
 
 class MainWin(QtWidgets.QMainWindow):
@@ -498,6 +499,10 @@ class MainWin(QtWidgets.QMainWindow):
             self._play_audio(audio_path_str, volume_int)
 
     def open_breathing_dialog(self):
+        self.breathing_prepare = mc.gui.breathing_prepare.BreathingPrepareDlg()
+        self.breathing_prepare.closed_signal.connect(self.on_breathing_prepare_closed)
+
+    def on_breathing_prepare_closed(self):
         self.breathing_dialog = mc.gui.breathing_dlg.BreathingDlg()
         self.breathing_dialog.close_signal.connect(self.on_breathing_dialog_closed)
         self.breathing_dialog.phrase_changed_signal.connect(self.on_breathing_dialog_phrase_changed)
