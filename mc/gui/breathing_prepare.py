@@ -29,12 +29,14 @@ class BreathingPrepareDlg(QtWidgets.QFrame):
         self.setMinimumHeight(80)
 
         self.title_qll = QtWidgets.QLabel("Breathing break soon")
-        vbox_l2.addWidget(self.title_qll)
         self.title_qll.setWordWrap(True)
+        self.title_qll.setFont(mc.mc_global.get_font_large())
+        vbox_l2.addWidget(self.title_qll)
 
         self.reminder_qll = QtWidgets.QLabel("Please slow down and prepare for your breathing break. Please adjust your posture")
-        vbox_l2.addWidget(self.reminder_qll)
         self.reminder_qll.setWordWrap(True)
+        self.reminder_qll.setFont(mc.mc_global.get_font_medium())
+        vbox_l2.addWidget(self.reminder_qll)
 
 
         """
@@ -76,7 +78,7 @@ class BreathingPrepareDlg(QtWidgets.QFrame):
         self.xpos_int = (screen_qrect.right() / 2) - (self.sizeHint().width() / 2)
         self.ypos_upper_int = screen_qrect.top() + 30
         self.ypos_lower_int = screen_qrect.bottom() - 30 - self.sizeHint().height()
-        self.ypos_int = self.ypos_upper_int
+        self.ypos_int = self.ypos_lower_int
         self.move(self.xpos_int, self.ypos_int)
 
         self.shown_qtimer = None
