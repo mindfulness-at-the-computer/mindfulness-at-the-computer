@@ -10,7 +10,7 @@ WINDOW_FLAGS = (
     | QtCore.Qt.BypassWindowManagerHint
 )
 
-SHOWN_TIMER_TIME_INT = 3000
+SHOWN_TIMER_TIME_INT = 5000
 
 # TODO: Change name to "notification"?
 class BreathingPrepareDlg(QtWidgets.QFrame):
