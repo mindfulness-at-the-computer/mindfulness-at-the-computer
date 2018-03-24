@@ -484,6 +484,11 @@ class MainWin(QtWidgets.QMainWindow):
             self.commence_breathing_notification()
 
     def commence_breathing_notification(self):
+        # Skipping the breathing notification if the breathing dialog is shown
+        logging.debug("self.breathing_dialog.isVisible = " + str(self.breathing_dialog.isVisible()))
+        if self.breathing_dialog.isVisible():
+            return
+
         notification_type_int = mc.model.SettingsM.get().breathing_reminder_notification_type_int
 
         if (notification_type_int == mc.mc_global.NotificationType.Both.value
