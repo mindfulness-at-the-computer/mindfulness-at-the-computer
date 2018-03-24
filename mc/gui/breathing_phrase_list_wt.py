@@ -29,6 +29,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         # self.list_widget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         vbox_l2.addWidget(self.list_widget)
         self.list_widget.itemSelectionChanged.connect(self.on_selection_changed)
+        self.list_widget.setSpacing(mc.mc_global.LIST_ITEM_SPACING_INT)
 
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)

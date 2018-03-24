@@ -23,6 +23,7 @@ class RestActionListWt(QtWidgets.QWidget):
         # Rest actions
         self.list_widget = QtWidgets.QListWidget()
         vbox_l2.addWidget(self.list_widget)
+        self.list_widget.setSpacing(mc.mc_global.LIST_ITEM_SPACING_INT)
 
         self.list_widget.itemSelectionChanged.connect(self.on_selection_changed)
         hbox_l3 = QtWidgets.QHBoxLayout()
