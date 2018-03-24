@@ -3,6 +3,7 @@ import sys
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
+
 try:
     # noinspection PyUnresolvedReferences
     from PyQt5 import QtMultimedia
@@ -102,9 +103,11 @@ class MainWin(QtWidgets.QMainWindow):
     def _setup_add_first_panel_to_main_container(self, main_container_hbox_l3):
         first_panel_vbox_l4 = self._setup_new_panel_in_main_window(main_container_hbox_l3)
         self._setup_configure_active_breathing_phrase(first_panel_vbox_l4)
-        self.run_on_startup_wt.run_on_startup.toggled.connect(self.run_on_startup_wt.on_run_on_startup_toggled)
+        self.run_on_startup_wt.run_on_startup_qcb.toggled.connect(self.run_on_startup_wt.on_run_on_startup_toggled)
         first_panel_vbox_l4.addWidget(self.breathing_history_wt)
-        first_panel_vbox_l4.addWidget(self.run_on_startup_wt)
+
+        if QtCore.QSysInfo.kernelType() == 'darwin':
+            first_panel_vbox_l4.addWidget(self.run_on_startup_wt)
 
     def _setup_configure_active_breathing_phrase(self, panel_vbox_l4):
         self.title_text_qll = QtWidgets.QLabel(self.tr("title"))
