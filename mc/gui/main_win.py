@@ -57,7 +57,10 @@ class MainWin(QtWidgets.QMainWindow):
         self.rest_settings_wt = mc.gui.rest_settings_wt.RestSettingsWt()
         self.rest_action_list_wt = mc.gui.rest_action_list_wt.RestActionListWt()
         self.breathing_history_wt = mc.gui.breathing_history_wt.BreathingHistoryWt()
-        self.run_on_startup_wt = mc.gui.general_settings_wt.RunOnStartupWt()
+
+        if QtCore.QSysInfo.kernelType() == 'darwin':
+            self.run_on_startup_wt = mc.gui.general_settings_wt.RunOnStartupWt()
+            self.run_on_startup_wt.run_on_startup_qcb.toggled.connect(self.run_on_startup_wt.on_run_on_startup_toggled)
 
         self._setup_initialize()
 
@@ -103,10 +106,9 @@ class MainWin(QtWidgets.QMainWindow):
     def _setup_add_first_panel_to_main_container(self, main_container_hbox_l3):
         first_panel_vbox_l4 = self._setup_new_panel_in_main_window(main_container_hbox_l3)
         self._setup_configure_active_breathing_phrase(first_panel_vbox_l4)
-        self.run_on_startup_wt.run_on_startup_qcb.toggled.connect(self.run_on_startup_wt.on_run_on_startup_toggled)
         first_panel_vbox_l4.addWidget(self.breathing_history_wt)
 
-        if QtCore.QSysInfo.kernelType() == 'darwin':
+        if hasattr(self, 'run_on_startup_wt'):
             first_panel_vbox_l4.addWidget(self.run_on_startup_wt)
 
     def _setup_configure_active_breathing_phrase(self, panel_vbox_l4):
