@@ -24,6 +24,7 @@ import mc.gui.rest_notification
 import mc.gui.rest_dlg
 import mc.gui.intro_dlg
 import mc.gui.rest_prepare
+import mc.gui.breathing_prepare
 
 
 class MainWin(QtWidgets.QMainWindow):
@@ -75,7 +76,7 @@ class MainWin(QtWidgets.QMainWindow):
         # Startup actions
         if not mc.mc_global.db_file_exists_at_application_startup_bl and not mc.mc_global.testing_bool:
             self.show_intro_dialog()
-        self.open_breathing_dialog()
+        self.open_breathing_prepare()
 
         self.setup_systray()
 
@@ -477,7 +478,7 @@ class MainWin(QtWidgets.QMainWindow):
         if (mc.mc_global.breathing_notification_counter_int
         > mc.model.SettingsM.get().breathing_reminder_nr_before_dialog_int):
             mc.mc_global.breathing_notification_counter_int = 0
-            self.open_breathing_dialog()
+            self.open_breathing_prepare()
         else:
             self.commence_breathing_notification()
 
@@ -496,6 +497,10 @@ class MainWin(QtWidgets.QMainWindow):
             audio_path_str = settings.breathing_reminder_audio_path_str
             volume_int = settings.breathing_reminder_volume_int
             self._play_audio(audio_path_str, volume_int)
+
+    def open_breathing_prepare(self):
+        self.breathing_prepare = mc.gui.breathing_prepare.BreathingPrepareDlg()
+        self.breathing_prepare.closed_signal.connect(self.open_breathing_dialog)
 
     def open_breathing_dialog(self):
         self.breathing_dialog = mc.gui.breathing_dlg.BreathingDlg()
