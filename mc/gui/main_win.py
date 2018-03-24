@@ -3,6 +3,7 @@ import sys
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
+
 try:
     # noinspection PyUnresolvedReferences
     from PyQt5 import QtMultimedia
@@ -16,6 +17,7 @@ import mc.mc_global
 import mc.gui.breathing_history_wt
 import mc.gui.breathing_settings_wt
 import mc.gui.breathing_phrase_list_wt
+import mc.gui.general_settings_wt
 import mc.gui.rest_settings_wt
 import mc.gui.rest_dlg
 import mc.gui.breathing_dlg
@@ -57,6 +59,10 @@ class MainWin(QtWidgets.QMainWindow):
         self.rest_settings_wt = mc.gui.rest_settings_wt.RestSettingsWt()
         self.rest_action_list_wt = mc.gui.rest_action_list_wt.RestActionListWt()
         self.breathing_history_wt = mc.gui.breathing_history_wt.BreathingHistoryWt()
+
+        if QtCore.QSysInfo.kernelType() == 'darwin':
+            self.run_on_startup_wt = mc.gui.general_settings_wt.RunOnStartupWt()
+            self.run_on_startup_wt.run_on_startup_qcb.toggled.connect(self.run_on_startup_wt.on_run_on_startup_toggled)
 
         self._setup_initialize()
 
@@ -104,19 +110,22 @@ class MainWin(QtWidgets.QMainWindow):
         self._setup_configure_active_breathing_phrase(first_panel_vbox_l4)
         first_panel_vbox_l4.addWidget(self.breathing_history_wt)
 
+        if hasattr(self, 'run_on_startup_wt'):
+            first_panel_vbox_l4.addWidget(self.run_on_startup_wt)
+
     def _setup_configure_active_breathing_phrase(self, panel_vbox_l4):
-        panel_vbox_l4.addWidget(self.active_breathing_phrase_qgb)
-        active_breathing_phrase_vbox_l5 = QtWidgets.QVBoxLayout()
-        self.active_breathing_phrase_qgb.setLayout(active_breathing_phrase_vbox_l5)
         self.title_text_qll = QtWidgets.QLabel(self.tr("title"))
-        active_breathing_phrase_vbox_l5.addWidget(self.title_text_qll)
         self.title_text_qll.setWordWrap(True)
         self.in_text_qll = QtWidgets.QLabel(self.tr("in"))
-        active_breathing_phrase_vbox_l5.addWidget(self.in_text_qll)
         self.in_text_qll.setWordWrap(True)
         self.out_text_qll = QtWidgets.QLabel(self.tr("out"))
-        active_breathing_phrase_vbox_l5.addWidget(self.out_text_qll)
         self.out_text_qll.setWordWrap(True)
+        active_breathing_phrase_vbox_l5 = QtWidgets.QVBoxLayout()
+        active_breathing_phrase_vbox_l5.addWidget(self.title_text_qll)
+        active_breathing_phrase_vbox_l5.addWidget(self.in_text_qll)
+        active_breathing_phrase_vbox_l5.addWidget(self.out_text_qll)
+        self.active_breathing_phrase_qgb.setLayout(active_breathing_phrase_vbox_l5)
+        panel_vbox_l4.addWidget(self.active_breathing_phrase_qgb)
 
     def _setup_add_breathing_phrase_list_to_main_container(self, main_container_hbox_l3):
         breathing_phrase_list_vbox_l4 = self._setup_new_panel_in_main_window(main_container_hbox_l3)
