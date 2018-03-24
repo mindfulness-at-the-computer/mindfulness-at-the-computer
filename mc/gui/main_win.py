@@ -25,6 +25,7 @@ import mc.gui.rest_dlg
 import mc.gui.intro_dlg
 import mc.gui.rest_prepare
 import mc.gui.breathing_prepare
+import mc.gui.sysinfo_dlg
 
 
 class MainWin(QtWidgets.QMainWindow):
@@ -545,17 +546,20 @@ class MainWin(QtWidgets.QMainWindow):
         # Python: webbrowser.get(url_str) --- doesn't work
 
     def show_sysinfo_box(self):
+        self._sysinfo_dlg = mc.gui.sysinfo_dlg.SysinfoDialog()
+        self._sysinfo_dlg.show()
 
+        """
         info_str = '\n'.join([
             descr_str + ": " + str(value) for (descr_str, value) in mc.mc_global.sys_info_telist
         ])
-
         # noinspection PyCallByClass
         QtWidgets.QMessageBox.about(
             self,
             "System Information",
             info_str
         )
+        """
 
     def show_about_box(self):
         # noinspection PyCallByClass
