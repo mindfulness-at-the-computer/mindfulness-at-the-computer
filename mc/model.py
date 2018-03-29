@@ -434,7 +434,8 @@ class SettingsM:
         i_breathing_reminder_phrase_setup: int,
         i_breathing_reminder_nr_before_dialog: int,
         i_breathing_reminder_dialog_audio_active: int,
-        i_breathing_reminder_dialog_close_on_active: int
+        i_breathing_reminder_dialog_close_on_active: int,
+        i_run_on_startup: int
     ) -> None:
         self.rest_reminder_active_bool = True if i_rest_reminder_active else False
         self.rest_reminder_interval_int = i_rest_reminder_interval
@@ -451,6 +452,7 @@ class SettingsM:
         self.breathing_reminder_dialog_audio_active_bool = True if i_breathing_reminder_dialog_audio_active else False
         self.breathing_reminder_dialog_close_on_active_bool = \
             True if i_breathing_reminder_dialog_close_on_active else False
+        self.run_on_startup_bool = True if i_run_on_startup else False
 
     @property
     def rest_reminder_active(self) -> bool:
@@ -516,6 +518,18 @@ class SettingsM:
         self._update(
             db.Schema.SettingsTable.Cols.rest_reminder_notification_type,
             i_new_notification_type.value
+        )
+
+    @property
+    def run_on_startup(self) -> bool:
+        return self.run_on_startup_bool
+
+    @run_on_startup.setter
+    def run_on_startup(self, i_new_run_on_startup: bool) -> None:
+        new_run_on_startup_as_int = db.SQLITE_TRUE_INT if i_new_run_on_startup else db.SQLITE_FALSE_INT
+        self._update(
+            db.Schema.SettingsTable.Cols.run_on_startup,
+            new_run_on_startup_as_int
         )
 
     @staticmethod
