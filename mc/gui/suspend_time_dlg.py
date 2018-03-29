@@ -21,7 +21,7 @@ SLIDER_MIN_MINUTES_INT = 0
 # -this must be zero so that the ticks are in the right positions, if we have 1 here for example, the ticks will be
 #  off by one
 SLIDER_MAX_MINUTES_INT = 180
-DEFAULT_SUSPENT_MINUTES_INT = 30
+DEFAULT_SUSPENT_MINUTES_INT = 60
 
 
 class SuspendTimeDialog(QtWidgets.QDialog):
@@ -54,8 +54,15 @@ class SuspendTimeDialog(QtWidgets.QDialog):
         vbox_l2.addWidget(self.suspend_time_qsr)
 
         self.suspend_time_qll = QtWidgets.QLabel()
-        # self.suspend_time_qll.setFont(mc.mc_global.get_font_large())
+        self.suspend_time_qll.setFont(mc.mc_global.get_font_large())
+        self.suspend_time_qll.setWordWrap(True)
         vbox_l2.addWidget(self.suspend_time_qll)
+
+        self.help_qll= QtWidgets.QLabel(
+            "To resume after having suspended the application, drag the slider to the far left"
+        )
+        self.help_qll.setWordWrap(True)
+        vbox_l2.addWidget(self.help_qll)
 
         self.button_box = QtWidgets.QDialogButtonBox(
             QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Cancel,
@@ -75,8 +82,13 @@ class SuspendTimeDialog(QtWidgets.QDialog):
     def update_gui(self):
         self.updating_gui_bool = True
 
-        self.suspend_time_qll.setText(
-            "Application will be suspended for " + str(self.suspend_time_qsr.value()) + " minutes"
-        )
+        if self.suspend_time_qsr.value() == 0:
+            self.suspend_time_qll.setText(
+                "Application will resume in normal mode"
+            )
+        else:
+            self.suspend_time_qll.setText(
+                "Application will be suspended for " + str(self.suspend_time_qsr.value()) + " minutes"
+            )
 
         self.updating_gui_bool = False

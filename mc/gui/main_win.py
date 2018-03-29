@@ -303,8 +303,9 @@ class MainWin(QtWidgets.QMainWindow):
             self.suspend_qtimer.stop()
 
     def start_suspend_timer(self, i_minutes: int):
-        if i_minutes < 1:
-            return
+        if i_minutes == 0:
+            logging.debug("Resuming application (after suspending)")
+            self.stop_suspend_timer()
         logging.debug("Suspending the application for " + str(i_minutes) + " minutes")
 
         self.stop_rest_timer()
@@ -523,7 +524,7 @@ class MainWin(QtWidgets.QMainWindow):
 
     # noinspection PyAttributeOutsideInit
     def breathing_timer_timeout(self):
-        if not mc.model.breathing_reminder_active():
+        if not self.breathing_reminder_active():
             return
         if mc.mc_global.rest_window_shown_bool:
             return
@@ -672,14 +673,9 @@ class MainWin(QtWidgets.QMainWindow):
         # TODO: Update the three references to this function
         icon_file_name_str = "icon.png"
         settings = mc.model.SettingsM.get()
-        breathing_reminder_active_bl = (
-            (mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT)
-            and
-            settings.breathing_reminder_active_bool
-        )
-        if breathing_reminder_active_bl and settings.rest_reminder_active:
+        if self.breathing_reminder_active() and settings.rest_reminder_active:
             icon_file_name_str = "icon-br.png"
-        elif breathing_reminder_active_bl:
+        elif self.breathing_reminder_active():
             icon_file_name_str = "icon-b.png"
         elif settings.rest_reminder_active:
             icon_file_name_str = "icon-r.png"
@@ -689,6 +685,15 @@ class MainWin(QtWidgets.QMainWindow):
 
         ret_icon_path_str = mc.mc_global.get_app_icon_path(icon_file_name_str)
         return ret_icon_path_str
+
+    def breathing_reminder_active(self) -> bool:
+        settings = mc.model.SettingsM.get()
+        breathing_reminder_active_bl = (
+            (mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT)
+            and
+            settings.breathing_reminder_active_bool
+        )
+        return breathing_reminder_active_bl
 
     def update_systray(self):
         if self.tray_icon is None:
