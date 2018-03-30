@@ -120,15 +120,25 @@ def get_user_audio_path(i_file_name: str="") -> str:
     return user_audio_path_str
 
 
+def get_app_icon_path(i_file_name: str) -> str:
+    ret_icon_path_str = os.path.join(get_base_dir(), ICONS_DIR_STR, i_file_name)
+    return ret_icon_path_str
+
+
 def get_icon_path(i_file_name: str) -> str:
     ret_icon_path_str = os.path.join(get_base_dir(), ICONS_DIR_STR, OPEN_ICONIC_ICONS_DIR_STR, i_file_name)
     return ret_icon_path_str
 
 
+"""
+def get_icon_path(i_filename: str) -> str:
+    return os.path.join(get_base_dir(), ICONS_DIR_STR, i_filename)
+
 def get_app_icon_path() -> str:
     icon_file_name_str = "icon.png"
     ret_icon_path_str = os.path.join(get_base_dir(), ICONS_DIR_STR, icon_file_name_str)
     return ret_icon_path_str
+"""
 
 
 def get_user_files_path(i_file_name: str) -> str:
