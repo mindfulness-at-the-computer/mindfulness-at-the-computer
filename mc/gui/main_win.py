@@ -546,12 +546,6 @@ class MainWin(QtWidgets.QMainWindow):
             volume_int = settings.breathing_reminder_volume_int
             self._play_audio(audio_path_str, volume_int)
 
-    def open_intention_form(self):
-        row_nr = self.intentions_model.rowCount()
-        self.intentions_model.insertRow(row_nr)
-        self.intention_form.mapper.toLast()
-        self.intention_form.show()
-
     def open_intention_widget(self):
         self.intention_widget.show()
 
