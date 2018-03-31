@@ -3,6 +3,7 @@ import sys
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
+from mc import db
 
 try:
     # noinspection PyUnresolvedReferences
@@ -28,6 +29,7 @@ import mc.gui.intro_dlg
 import mc.gui.rest_prepare
 import mc.gui.breathing_prepare
 import mc.gui.sysinfo_dlg
+import mc.gui.intention_wt
 
 
 class MainWin(QtWidgets.QMainWindow):
@@ -59,6 +61,11 @@ class MainWin(QtWidgets.QMainWindow):
         self.rest_settings_wt = mc.gui.rest_settings_wt.RestSettingsWt()
         self.rest_action_list_wt = mc.gui.rest_action_list_wt.RestActionListWt()
         self.breathing_history_wt = mc.gui.breathing_history_wt.BreathingHistoryWt()
+
+        db.Helper.get_new_db_connection()
+        self.intentions_model = mc.model.IntentionsM()
+        self.intention_form = mc.gui.intention_wt.IntentionForm(self.intentions_model)
+        self.intention_widget = mc.gui.intention_wt.IntentionWidget(self.intentions_model)
 
         if QtCore.QSysInfo.kernelType() == 'darwin':
             self.run_on_startup_wt = mc.gui.general_settings_wt.RunOnStartupWt()
@@ -257,6 +264,12 @@ class MainWin(QtWidgets.QMainWindow):
 
         self.tray_menu.addSeparator()
 
+        self.tray_open_intention_widget_qaction = QtWidgets.QAction(self.tr("Open My intentions"))
+        self.tray_open_intention_widget_qaction.triggered.connect(self.open_intention_widget)
+        self.tray_menu.addAction(self.tray_open_intention_widget_qaction)
+
+        self.tray_menu.addSeparator()
+
         self.tray_restore_action = QtWidgets.QAction(self.tr("Open Settings"))
         self.tray_menu.addAction(self.tray_restore_action)
         self.tray_restore_action.triggered.connect(self.restore_window)
@@ -349,6 +362,9 @@ class MainWin(QtWidgets.QMainWindow):
         self.update_breathing_timer()
         self.update_gui()
 
+    def on_rest_widget_closed_and_intention_widget_opened(self):
+        self.intention_widget.list_view_buttons.on_add_clicked()
+
     def restore_window(self):
         self.raise_()
         self.showNormal()
@@ -385,6 +401,7 @@ class MainWin(QtWidgets.QMainWindow):
     def on_rest_rest(self):
         self.rest_widget = mc.gui.rest_dlg.RestDlg()
         self.rest_widget.close_signal.connect(self.on_rest_widget_closed)
+        self.rest_widget.intention_signal.connect(self.on_rest_widget_closed_and_intention_widget_opened)
 
     def on_rest_skip(self):
         mc.mc_global.rest_reminder_minutes_passed_int = 0
@@ -528,6 +545,15 @@ class MainWin(QtWidgets.QMainWindow):
             audio_path_str = settings.breathing_reminder_audio_path_str
             volume_int = settings.breathing_reminder_volume_int
             self._play_audio(audio_path_str, volume_int)
+
+    def open_intention_form(self):
+        row_nr = self.intentions_model.rowCount()
+        self.intentions_model.insertRow(row_nr)
+        self.intention_form.mapper.toLast()
+        self.intention_form.show()
+
+    def open_intention_widget(self):
+        self.intention_widget.show()
 
     def _play_audio(self, i_audio_path: str, i_volume: int) -> None:
         if self.sound_effect is None:

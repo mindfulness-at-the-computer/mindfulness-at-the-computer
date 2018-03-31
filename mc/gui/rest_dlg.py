@@ -1,5 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
+from PyQt5.QtCore import QSysInfo
+
 from mc import model, mc_global
 
 
@@ -7,7 +9,8 @@ class RestDlg(QtWidgets.QDialog):
     # result_signal = QtCore.pyqtSignal(int)
     # -used both for wait and for closing
     close_signal = QtCore.pyqtSignal(bool)
-    # -the boolean indicates whether or not we want the breathing dialog to open
+    intention_signal = QtCore.pyqtSignal(bool)
+    # -the boolean indicates whether or not we want the breathing or intention dialog to open
 
     def __init__(self):
         super().__init__()
@@ -57,6 +60,10 @@ class RestDlg(QtWidgets.QDialog):
         buttons_hbox_l3.addWidget(self.close_and_breathe_qpb, stretch=2)
         self.close_and_breathe_qpb.clicked.connect(self.on_close_and_breathe_clicked)
 
+        self.close_and_set_intention_qpb = QtWidgets.QPushButton("Close and set an intention")
+        buttons_hbox_l3.addWidget(self.close_and_set_intention_qpb, stretch=2)
+        self.close_and_set_intention_qpb.clicked.connect(self.on_close_and_set_intention_clicked)
+
         buttons_hbox_l3.addStretch(3)
 
         self.setup_rest_action_list()
@@ -68,23 +75,29 @@ class RestDlg(QtWidgets.QDialog):
             "selection-color:#000000;"
         )
 
-        self.showFullScreen()
+        #  On MacOs showFullScreen has unwanted side effects. Therefore we choose showFullScreen on MacOS
+        if QSysInfo.kernelType() == "darwin":
+            self.showMaximized()
+        else:
+            self.showFullScreen()
 
         mc_global.rest_window_shown_bool = True
 
     def on_close_clicked(self):
-        self.showNormal()
-        # -for MacOS. showNormal is used here rather than showMinimized to avoid animation
         self.close_signal.emit(False)
         mc_global.rest_window_shown_bool = False
         self.close()
 
     def on_close_and_breathe_clicked(self):
-        self.showMinimized()
-        # -for MacOS
         self.close_signal.emit(True)
         mc_global.rest_window_shown_bool = False
         self.close()
+
+    def on_close_and_set_intention_clicked(self):
+        self.intention_signal.emit(True)
+        mc_global.rest_window_shown_bool = False
+        self.close()
+
 
     def setup_rest_action_list(self):
         rest_action_list = model.RestActionsM.get_all()

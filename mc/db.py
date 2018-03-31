@@ -2,6 +2,10 @@ import datetime
 import shutil
 import sqlite3
 import logging
+
+from PyQt5.QtSql import QSqlDatabase
+from PyQt5.QtWidgets import QMessageBox
+
 from mc import mc_global
 from mc import model
 
@@ -76,6 +80,14 @@ def initial_schema_and_setup(i_db_conn: sqlite3.Connection) -> None:
         + " DEFAULT " + str(mc_global.NotificationType.Both.value) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_phrase_setup + " INTEGER NOT NULL"
         + " DEFAULT " + str(mc_global.PhraseSetup.Switch.value)
+        + ")"
+    )
+
+    i_db_conn.execute(
+        "CREATE TABLE " + Schema.IntentionsTable.name + "("
+        + Schema.IntentionsTable.Cols.id + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+        + Schema.IntentionsTable.Cols.vertical_order + " INTEGER NOT NULL, "
+        + Schema.IntentionsTable.Cols.text + " TEXT NOT NULL "
         + ")"
     )
 
@@ -208,6 +220,7 @@ class Helper(object):
         Helper.drop_db_table(i_db_conn, Schema.PhrasesTable.name)
         Helper.drop_db_table(i_db_conn, Schema.RestActionsTable.name)
         Helper.drop_db_table(i_db_conn, Schema.SettingsTable.name)
+        Helper.drop_db_table(i_db_conn, Schema.IntentionsTable.name)
 
     @staticmethod
     def drop_db_table(i_db_conn, i_table_name: sqlite3.Connection) -> None:
@@ -219,6 +232,20 @@ class Helper(object):
             Helper.__db_connection.close()
             Helper.__db_connection = None
             logging.debug("Database closed")
+
+    # In an attempt to move towards using PyQt5.QtSql a new database connection is introduced
+    # Gradually, the sqlite3.Connection will be replaced with the PyQt5.QtSql functionality
+
+    @staticmethod
+    def get_new_db_connection():
+        db = QSqlDatabase.addDatabase('QSQLITE')
+        db.setDatabaseName(mc_global.get_database_filename())
+        if not db.open():
+            QMessageBox.critical(None, "Cannot open database",
+                                 "Unable to establish a database connection.\n"
+                                 "Click Cancel to exit.",
+                                 QMessageBox.Cancel)
+            return False
 
 
 class Schema:
@@ -244,6 +271,14 @@ class Schema:
             vertical_order = "vertical_order"
             title = "title"
             image_path = "image_path"
+
+    class IntentionsTable:
+        name = "intentions"
+
+        class Cols:
+            id = "id"
+            vertical_order = "vertical_order"
+            text = "text"
 
     class SettingsTable:
         name = "settings"

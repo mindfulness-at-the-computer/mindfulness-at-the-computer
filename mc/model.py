@@ -3,13 +3,15 @@ import os
 import enum
 import logging
 import typing
-from mc import db
 import mc.mc_global
+from PyQt5 import QtCore
+from PyQt5.QtSql import QSqlTableModel
+from mc import db
 
 
 class MoveDirectionEnum(enum.Enum):
-    up = 1
-    down = 2
+    up = -1
+    down = 1
 
 
 class MinOrMaxEnum(enum.Enum):
@@ -698,6 +700,14 @@ class SettingsM:
             (i_new_phrase_setup, str(db.SINGLE_SETTINGS_ID_INT))
         )
         db_connection.commit()
+
+
+class IntentionsM(QSqlTableModel):
+    def __init__(self):
+        QSqlTableModel.__init__(self)
+        self.setTable('intentions')
+        self.setSort(1, QtCore.Qt.AscendingOrder)
+        self.select()
 
 
 def export_all() -> None:
