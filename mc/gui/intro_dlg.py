@@ -140,7 +140,7 @@ class SystemTrayPage(QtWidgets.QWidget):
         description_qll.setFont(mc.mc_global.get_font_xlarge())
 
         system_tray_qll = QtWidgets.QLabel()
-        system_tray_qll.setPixmap(QtGui.QPixmap(mc.model.get_app_systray_icon_path()))
+        system_tray_qll.setPixmap(QtGui.QPixmap(mc.mc_global.get_app_icon_path("icon-br.png")))
         system_tray_qll.setAlignment(QtCore.Qt.AlignHCenter)
 
         vbox_l3 = QtWidgets.QVBoxLayout()

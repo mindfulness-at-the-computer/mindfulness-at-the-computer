@@ -1,5 +1,6 @@
 import logging
 import sys
+import os
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
@@ -28,6 +29,7 @@ import mc.gui.rest_dlg
 import mc.gui.intro_dlg
 import mc.gui.rest_prepare
 import mc.gui.breathing_prepare
+import mc.gui.suspend_time_dlg
 import mc.gui.sysinfo_dlg
 import mc.gui.intention_wt
 
@@ -42,6 +44,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.tray_icon = None
         self.rest_reminder_qtimer = None
         self.breathing_qtimer = None
+        self.suspend_qtimer = None
         self.rest_prepare_dialog = None
         self.intro_dlg = None
         self.breathing_notification = None
@@ -98,7 +101,7 @@ class MainWin(QtWidgets.QMainWindow):
 
     def _setup_initialize(self):
         self.setGeometry(100, 64, 900, 670)
-        self.setWindowIcon(QtGui.QIcon(mc.mc_global.get_app_icon_path()))
+        self.setWindowIcon(QtGui.QIcon(mc.mc_global.get_app_icon_path("icon.png")))
         self._setup_set_window_title()
         self.setStyleSheet(
             "selection-background-color:" + mc.mc_global.MC_LIGHT_GREEN_COLOR_STR + ";"
@@ -201,7 +204,7 @@ class MainWin(QtWidgets.QMainWindow):
         don't know why, potential bug.
         """
         self.tray_icon = QtWidgets.QSystemTrayIcon(
-            QtGui.QIcon(mc.model.get_app_systray_icon_path()),
+            QtGui.QIcon(self.get_app_systray_icon_path()),
             self
         )
         # self.tray_icon.activated.connect(self.on_systray_activated)
@@ -270,6 +273,9 @@ class MainWin(QtWidgets.QMainWindow):
 
         self.tray_menu.addSeparator()
 
+        self.tray_suspend_action = QtWidgets.QAction(self.tr("Suspend Application"))
+        self.tray_menu.addAction(self.tray_suspend_action)
+        self.tray_suspend_action.triggered.connect(self.on_suspend_application_clicked)
         self.tray_restore_action = QtWidgets.QAction(self.tr("Open Settings"))
         self.tray_menu.addAction(self.tray_restore_action)
         self.tray_restore_action.triggered.connect(self.restore_window)
@@ -314,6 +320,32 @@ class MainWin(QtWidgets.QMainWindow):
         self.sys_tray.breathing_enabled_qaction.setEnabled(i_details_enabled)
 
         self.update_gui(mc.mc_global.EventSource.breathing_list_phrase_updated)
+
+    def stop_suspend_timer(self):
+        if self.suspend_qtimer is not None and self.suspend_qtimer.isActive():
+            self.suspend_qtimer.stop()
+
+    def start_suspend_timer(self, i_minutes: int):
+        if i_minutes == 0:
+            logging.debug("Resuming application (after suspending)")
+            self.stop_suspend_timer()
+        logging.debug("Suspending the application for " + str(i_minutes) + " minutes")
+
+        self.stop_rest_timer()
+        self.stop_breathing_timer()
+
+        self.suspend_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
+        self.suspend_qtimer.setSingleShot(True)  # <-------
+        self.suspend_qtimer.timeout.connect(self.suspend_timer_timeout)
+        self.suspend_qtimer.start(i_minutes * 60 * 1000)
+        self.update_gui()
+
+    def suspend_timer_timeout(self):
+        self.stop_suspend_timer()  # -making sure that this is stopped, just in case
+
+        self.start_rest_timer()
+        self.start_breathing_timer()
+        self.update_gui()
 
     def update_rest_timer(self):
         settings = mc.model.SettingsM.get()
@@ -453,6 +485,11 @@ class MainWin(QtWidgets.QMainWindow):
         preferences_menu = self.menu_bar.addMenu("&Preferences")
         """
 
+        options_menu = self.menu_bar.addMenu("&Options")
+        suspend_application_action = QtWidgets.QAction("Suspend application", self)
+        options_menu.addAction(suspend_application_action)
+        suspend_application_action.triggered.connect(self.on_suspend_application_clicked)
+
         debug_menu = self.menu_bar.addMenu("&Debug")
         update_gui_action = QtWidgets.QAction("Update GUI", self)
         debug_menu.addAction(update_gui_action)
@@ -484,6 +521,24 @@ class MainWin(QtWidgets.QMainWindow):
         help_menu.addAction(sysinfo_action)
         sysinfo_action.triggered.connect(self.show_sysinfo_box)
 
+    def on_suspend_application_clicked(self):
+
+        self._suspend_time_dlg = mc.gui.suspend_time_dlg.SuspendTimeDialog()
+        self._suspend_time_dlg.finished.connect(self.on_suspend_time_dlg_finished)
+        self._suspend_time_dlg.show()
+        """
+        minutes_to_suspend_te = QtWidgets.QInputDialog.getInt(
+            self, "title", "label", value=0, min=0, max=180
+        )
+        logging.debug("minutes_to_suspend_te = " + str(minutes_to_suspend_te))
+        """
+
+    def on_suspend_time_dlg_finished(self, i_result: int):
+        if i_result == QtWidgets.QDialog.Accepted:
+            self.start_suspend_timer(self._suspend_time_dlg.suspend_time_qsr.value())
+        else:
+            pass
+
     def show_intro_dialog(self):
         self.intro_dlg = mc.gui.intro_dlg.IntroDlg()
         self.intro_dlg.close_signal.connect(self.on_intro_dialog_closed)
@@ -496,7 +551,7 @@ class MainWin(QtWidgets.QMainWindow):
 
     # noinspection PyAttributeOutsideInit
     def breathing_timer_timeout(self):
-        if not mc.model.breathing_reminder_active():
+        if not self.breathing_reminder_active():
             return
         if mc.mc_global.rest_window_shown_bool:
             return
@@ -652,13 +707,39 @@ class MainWin(QtWidgets.QMainWindow):
 
             self.update_systray()
 
+    def get_app_systray_icon_path(self) -> str:
+        # TODO: Update the three references to this function
+        icon_file_name_str = "icon.png"
+        settings = mc.model.SettingsM.get()
+        if self.breathing_reminder_active() and settings.rest_reminder_active:
+            icon_file_name_str = "icon-br.png"
+        elif self.breathing_reminder_active():
+            icon_file_name_str = "icon-b.png"
+        elif settings.rest_reminder_active:
+            icon_file_name_str = "icon-r.png"
+
+        if self.suspend_qtimer is not None and self.suspend_qtimer.isActive():
+            icon_file_name_str = "icon-suspend.png"
+
+        ret_icon_path_str = mc.mc_global.get_app_icon_path(icon_file_name_str)
+        return ret_icon_path_str
+
+    def breathing_reminder_active(self) -> bool:
+        settings = mc.model.SettingsM.get()
+        breathing_reminder_active_bl = (
+            (mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT)
+            and
+            settings.breathing_reminder_active_bool
+        )
+        return breathing_reminder_active_bl
+
     def update_systray(self):
         if self.tray_icon is None:
             return
         settings = mc.model.SettingsM.get()
 
         # Icon
-        self.tray_icon.setIcon(QtGui.QIcon(mc.model.get_app_systray_icon_path()))
+        self.tray_icon.setIcon(QtGui.QIcon(self.get_app_systray_icon_path()))
         # self.tray_icon.show()
 
         # Menu

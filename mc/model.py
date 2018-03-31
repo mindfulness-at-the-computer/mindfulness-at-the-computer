@@ -825,27 +825,3 @@ def populate_db_with_setup_data() -> None:
 def populate_db_with_test_data() -> None:
     populate_db_with_setup_data()
 
-
-def breathing_reminder_active() -> bool:
-    settings = SettingsM.get()
-    ret_value_bool = (
-        (mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT)
-        and
-        settings.breathing_reminder_active_bool
-    )
-    return ret_value_bool
-
-
-def get_app_systray_icon_path() -> str:
-    icon_file_name_str = "icon.png"
-    settings = SettingsM.get()
-    b_active = breathing_reminder_active()
-    if b_active and settings.rest_reminder_active:
-        icon_file_name_str = "icon-br.png"
-    elif b_active:
-        icon_file_name_str = "icon-b.png"
-    elif settings.rest_reminder_active:
-        icon_file_name_str = "icon-r.png"
-
-    ret_icon_path_str = os.path.join(mc.mc_global.get_base_dir(), mc.mc_global.ICONS_DIR_STR, icon_file_name_str)
-    return ret_icon_path_str
