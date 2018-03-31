@@ -75,7 +75,7 @@ class RestDlg(QtWidgets.QDialog):
             "selection-color:#000000;"
         )
 
-        #  On MacOs showFullScreen has unwanted side effects. Therefore we choose showFullScreen on MacOS
+        #  On MacOs showFullScreen has unwanted side effects. Therefore we choose showMaximized on MacOS
         if QSysInfo.kernelType() == "darwin":
             self.showMaximized()
         else:
