@@ -48,8 +48,7 @@ def initial_schema_and_setup(i_db_conn: sqlite3.Connection) -> None:
         "CREATE TABLE " + Schema.RestActionsTable.name + "("
         + Schema.RestActionsTable.Cols.id + " INTEGER PRIMARY KEY, "
         + Schema.RestActionsTable.Cols.vertical_order + " INTEGER NOT NULL, "
-        + Schema.RestActionsTable.Cols.title + " TEXT NOT NULL, "
-        + Schema.RestActionsTable.Cols.image_path + " TEXT NOT NULL"
+        + Schema.RestActionsTable.Cols.title + " TEXT NOT NULL"
         + ")"
     )
 
@@ -137,12 +136,21 @@ class Helper(object):
             if current_db_ver_it < min(upgrade_steps) and mc_global.db_file_exists_at_application_startup_bl:
                 database_tables_dropped_bool = True
                 backup_db_file()
-                model.export_all()
-                Helper.drop_all_db_tables(Helper.__db_connection)
                 mc_global.db_upgrade_message_str = (
-                    "Database upgraded, all user entries have been removed,"
-                    "you can find them in this file: /user_files/exported.csv"
+                    "Database upgraded, all user entries have been removed. "
+                    "The old db has been backed up, and is available in the user_files directory. "
                 )
+                try:
+                    model.export_all()
+                    # -please note that there is a high likelihood that this fails, the reason is that the tables
+                    #  have now been changed
+                    mc_global.db_upgrade_message_str += (
+                        "Some of the old db contents has also been exported to a text file "
+                        "that you can find here: /user_files/exported.csv"
+                    )
+                except:
+                    pass
+                Helper.drop_all_db_tables(Helper.__db_connection)
             for upgrade_step_nr_int in range(current_db_ver_it + 1, target_db_ver_it + 1):
                 if upgrade_step_nr_int in upgrade_steps:
                     upgrade_steps[upgrade_step_nr_int](Helper.__db_connection)
@@ -203,7 +211,6 @@ class Schema:
             id = "id"
             vertical_order = "vertical_order"
             title = "title"
-            image_path = "image_path"
 
     class SettingsTable:
         name = "settings"

@@ -262,13 +262,11 @@ class RestActionsM:
         self,
         i_id: int,
         i_vertical_order: int,
-        i_title: str,
-        i_image_path: str
+        i_title: str
     ) -> None:
         self._id_int = i_id
         self._vert_order_int = i_vertical_order
         self._title_str = i_title
-        self._image_path_str = i_image_path
 
     @property
     def id(self) -> int:
@@ -289,15 +287,6 @@ class RestActionsM:
         self._title_str = i_new_title
         self._update(db.Schema.RestActionsTable.Cols.title, i_new_title)
 
-    @property
-    def image_path(self) -> str:
-        return self._image_path_str
-
-    @image_path.setter
-    def image_path(self, i_new_path: str) -> None:
-        self._image_path_str = i_new_path
-        self._update(db.Schema.RestActionsTable.Cols.image_path, i_new_path)
-
     def _update(self, i_col_name: str, i_new_value) -> None:
         db_exec(
             "UPDATE " + db.Schema.PhrasesTable.name
@@ -307,16 +296,15 @@ class RestActionsM:
         )
 
     @staticmethod
-    def add(i_title: str, i_image_path: str) -> None:
+    def add(i_title: str) -> None:
         vertical_order_last_pos_int = RestActionsM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)
         # -this is the last pos before the new entry has been added, therefore + 1 is added below
         db_exec(
             "INSERT INTO " + db.Schema.RestActionsTable.name + "("
             + db.Schema.RestActionsTable.Cols.vertical_order + ", "
-            + db.Schema.RestActionsTable.Cols.title + ", "
-            + db.Schema.RestActionsTable.Cols.image_path
-            + ") VALUES (?, ?, ?)",
-            (vertical_order_last_pos_int + 1, i_title, i_image_path)
+            + db.Schema.RestActionsTable.Cols.title
+            + ") VALUES (?, ?)",
+            (vertical_order_last_pos_int + 1, i_title)
         )
 
     @staticmethod
@@ -774,42 +762,15 @@ def populate_db_with_setup_data() -> None:
     )
     """
 
-    RestActionsM.add(
-        "Making a cup of tea",
-        mc.mc_global.get_user_images_path("tea.png")
-    )
-    RestActionsM.add(
-        "Filling a water bottle for my desk",
-        ""
-    )
-    RestActionsM.add(
-        "Stretching my arms",
-        ""
-    )
-    RestActionsM.add(
-        "Opening a window",
-        mc.mc_global.get_user_images_path("window.png")
-    )
-    RestActionsM.add(
-        "Watering the plants",
-        ""
-    )
-    RestActionsM.add(
-        "Cleaning/organizing my space",
-        ""
-    )
-    RestActionsM.add(
-        "Eating something healthy",
-        mc.mc_global.get_user_images_path("oranges-with-flower.png")
-    )
-    RestActionsM.add(
-        "Slow mindful walking inside",
-        mc.mc_global.get_user_images_path("footprint.png")
-    )
-    RestActionsM.add(
-        "Walking outside",
-        mc.mc_global.get_user_images_path("boots-and-autumn-leaves.png")
-    )
+    RestActionsM.add("Making a cup of tea")
+    RestActionsM.add("Filling a water bottle for my desk")
+    RestActionsM.add("Stretching my arms")
+    RestActionsM.add("Opening a window")
+    RestActionsM.add("Watering the plants")
+    RestActionsM.add("Cleaning/organizing my space")
+    RestActionsM.add("Eating something healthy")
+    RestActionsM.add("Slow mindful walking inside")
+    RestActionsM.add("Walking outside")
 
 
 def populate_db_with_test_data() -> None:
