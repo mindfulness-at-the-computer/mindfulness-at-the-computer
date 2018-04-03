@@ -319,7 +319,7 @@ class BreathingInitSetupPage(QtWidgets.QWidget):
 
     def on_play_audio_toggled(self, i_checked: bool):
         mc.model.SettingsM.update_breathing_dialog_audio_active(i_checked)
-        if not mc.model.SettingsM.get().breathing_reminder_audio_path_str:
+        if not mc.model.SettingsM.get().breathing_reminder_audio_filename_str:
             mc.model.SettingsM.update_breathing_reminder_audio_path("small_bell_long[cc0].wav")
         self.update_gui_time_overview()
 

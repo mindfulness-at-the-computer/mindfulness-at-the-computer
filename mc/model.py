@@ -423,12 +423,12 @@ class SettingsM:
         i_id: int,  # unused
         i_rest_reminder_active: int,
         i_rest_reminder_interval: int,
-        i_rest_reminder_audio_path: str,
+        i_rest_reminder_audio_filename: str,
         i_rest_reminder_volume: int,
         i_rest_reminder_notification_type: int,
         i_breathing_reminder_active: int,
         i_breathing_reminder_interval: int,
-        i_breathing_reminder_audio_path: str,
+        i_breathing_reminder_audio_filename: str,
         i_breathing_reminder_volume: int,
         i_breathing_reminder_notification_type: int,
         i_breathing_reminder_phrase_setup: int,
@@ -439,12 +439,12 @@ class SettingsM:
     ) -> None:
         self.rest_reminder_active_bool = True if i_rest_reminder_active else False
         self.rest_reminder_interval_int = i_rest_reminder_interval
-        self.rest_reminder_audio_path_str = i_rest_reminder_audio_path
+        self.rest_reminder_audio_filename_str = i_rest_reminder_audio_filename
         self.rest_reminder_volume_int = i_rest_reminder_volume
         self.rest_reminder_notification_type_int = i_rest_reminder_notification_type
         self.breathing_reminder_active_bool = True if i_breathing_reminder_active else False
         self.breathing_reminder_interval_int = i_breathing_reminder_interval
-        self.breathing_reminder_audio_path_str = i_breathing_reminder_audio_path
+        self.breathing_reminder_audio_filename_str = i_breathing_reminder_audio_filename
         self.breathing_reminder_volume_int = i_breathing_reminder_volume
         self.breathing_reminder_notification_type_int = i_breathing_reminder_notification_type
         self.breathing_reminder_phrase_setup_int = i_breathing_reminder_phrase_setup
@@ -484,7 +484,7 @@ class SettingsM:
 
     @rest_reminder_audio_path.setter
     def rest_reminder_audio_path(self, i_new_path: str) -> None:
-        self.rest_reminder_audio_path_str = i_new_path
+        self.rest_reminder_audio_filename_str = i_new_path
         self._update(
             db.Schema.SettingsTable.Cols.rest_reminder_audio_path,
             i_new_path

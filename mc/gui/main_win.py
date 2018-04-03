@@ -399,7 +399,7 @@ class MainWin(QtWidgets.QMainWindow):
         if (notification_type_int == mc.mc_global.NotificationType.Both.value
         or notification_type_int == mc.mc_global.NotificationType.Audio.value):
             settings = mc.model.SettingsM.get()
-            audio_path_str = settings.rest_reminder_audio_path_str
+            audio_path_str = settings.rest_reminder_audio_filename_str
             volume_int = settings.rest_reminder_volume_int
             self._play_audio(audio_path_str, volume_int)
 
@@ -564,7 +564,7 @@ class MainWin(QtWidgets.QMainWindow):
         if (notification_type_int == mc.mc_global.NotificationType.Both.value
         or notification_type_int == mc.mc_global.NotificationType.Audio.value):
             settings = mc.model.SettingsM.get()
-            audio_path_str = settings.breathing_reminder_audio_path_str
+            audio_path_str = settings.breathing_reminder_audio_filename_str
             volume_int = settings.breathing_reminder_volume_int
             self._play_audio(audio_path_str, volume_int)
 
@@ -580,15 +580,17 @@ class MainWin(QtWidgets.QMainWindow):
 
         settings = mc.model.SettingsM.get()
         if settings.breathing_reminder_dialog_audio_active_bool:
-            audio_path_str = settings.breathing_reminder_audio_path_str
+            audio_path_str = settings.breathing_reminder_audio_filename_str
             volume_int = settings.breathing_reminder_volume_int
             self._play_audio(audio_path_str, volume_int)
 
-    def _play_audio(self, i_audio_path: str, i_volume: int) -> None:
+    def _play_audio(self, i_audio_filename: str, i_volume: int) -> None:
         if self.sound_effect is None:
             return
+        audio_path_str = mc.mc_global.get_user_audio_path(i_audio_filename)
         # noinspection PyCallByClass
-        self.sound_effect.setSource(QtCore.QUrl.fromLocalFile(i_audio_path))
+        audio_source_qurl = QtCore.QUrl.fromLocalFile(audio_path_str)
+        self.sound_effect.setSource(audio_source_qurl)
         self.sound_effect.setVolume(float(i_volume / 100))
         self.sound_effect.play()
 

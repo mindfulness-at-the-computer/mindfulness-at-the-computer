@@ -38,7 +38,9 @@ def initial_schema_and_setup(i_db_conn: sqlite3.Connection) -> None:
         + Schema.PhrasesTable.Cols.ib_phrase + " TEXT NOT NULL, "
         + Schema.PhrasesTable.Cols.ob_phrase + " TEXT NOT NULL, "
         + Schema.PhrasesTable.Cols.ib_short_phrase + " TEXT NOT NULL DEFAULT '', "
-        + Schema.PhrasesTable.Cols.ob_short_phrase + " TEXT NOT NULL DEFAULT ''"
+        + Schema.PhrasesTable.Cols.ob_short_phrase + " TEXT NOT NULL DEFAULT '', "
+        + Schema.PhrasesTable.Cols.type + " INTEGER NOT NULL"
+        + " DEFAULT " + str(mc_global.BreathingPhraseType.in_out.value)
         + ")"
     )
 
@@ -75,7 +77,15 @@ def initial_schema_and_setup(i_db_conn: sqlite3.Connection) -> None:
         + Schema.SettingsTable.Cols.breathing_reminder_notification_type + " INTEGER NOT NULL"
         + " DEFAULT " + str(mc_global.NotificationType.Both.value) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_phrase_setup + " INTEGER NOT NULL"
-        + " DEFAULT " + str(mc_global.PhraseSetup.Switch.value)
+        + " DEFAULT " + str(mc_global.PhraseSetup.Switch.value) + ", "
+        + Schema.SettingsTable.Cols.breathing_reminder_nr_before_dialog + " INTEGER NOT NULL"
+        + " DEFAULT " + str(DEFAULT_BREATHING_REMINDER_NR_BEFORE_DIALOG_INT) + ", "
+        + Schema.SettingsTable.Cols.breathing_reminder_dialog_audio_active + " INTEGER NOT NULL"
+        + " DEFAULT " + str(SQLITE_TRUE_INT) + ", "
+        + Schema.SettingsTable.Cols.breathing_reminder_dialog_close_on_hover + " INTEGER NOT NULL"
+        + " DEFAULT " + str(SQLITE_FALSE_INT) + ", "
+        + Schema.SettingsTable.Cols.run_on_startup + " INTEGER NOT NULL"
+        + " DEFAULT " + str(SQLITE_FALSE_INT)
         + ")"
     )
 
@@ -102,58 +112,8 @@ def upgrade_1_2(i_db_conn):
 """
 
 
-def upgrade_1_2(i_db_conn: sqlite3.Connection) -> None:
-    backup_db_file()
-    i_db_conn.execute(
-        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
-        + Schema.SettingsTable.Cols.breathing_reminder_nr_before_dialog + " INTEGER DEFAULT "
-        + str(DEFAULT_BREATHING_REMINDER_NR_BEFORE_DIALOG_INT)
-    )
-
-
-def upgrade_2_3(i_db_conn: sqlite3.Connection) -> None:
-    backup_db_file()
-    i_db_conn.execute(
-        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
-        + Schema.SettingsTable.Cols.breathing_reminder_dialog_audio_active + " INTEGER DEFAULT "
-        + str(SQLITE_TRUE_INT)
-    )
-
-
-def upgrade_3_4(i_db_conn: sqlite3.Connection) -> None:
-    backup_db_file()
-    i_db_conn.execute(
-        "ALTER TABLE " + Schema.PhrasesTable.name + " ADD COLUMN "
-        + Schema.PhrasesTable.Cols.type + " INTEGER DEFAULT "
-        + str(mc_global.BreathingPhraseType.in_out.value)
-    )
-
-
-def upgrade_4_5(i_db_conn: sqlite3.Connection) -> None:
-    backup_db_file()
-    i_db_conn.execute(
-        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
-        + Schema.SettingsTable.Cols.breathing_reminder_dialog_close_on_hover + " INTEGER DEFAULT "
-        + str(SQLITE_FALSE_INT)
-    )
-
-
-def upgrade_5_6(i_db_conn: sqlite3.Connection) -> None:
-    backup_db_file()
-    i_db_conn.execute(
-        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
-        + Schema.SettingsTable.Cols.run_on_startup + " INTEGER DEFAULT "
-        + str(SQLITE_FALSE_INT)
-    )
-
-
 upgrade_steps = {
-    10: initial_schema_and_setup,
-    11: upgrade_1_2,
-    12: upgrade_2_3,
-    13: upgrade_3_4,
-    14: upgrade_4_5,
-    15: upgrade_5_6
+    20: initial_schema_and_setup,
 }
 
 
