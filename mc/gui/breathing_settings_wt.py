@@ -245,6 +245,7 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         br_enabled = settings.breathing_reminder_active_bool
         self.toggle_switch.update_gui(br_enabled)
 
+
         breathing_reminder_interval_minutes_int = settings.breathing_reminder_interval_int
         self.breathing_reminder_interval_qsb.setValue(breathing_reminder_interval_minutes_int)
         """
@@ -258,6 +259,9 @@ class BreathingSettingsWt(QtWidgets.QWidget):
             settings.breathing_reminder_notification_type_int
         )
         self.notification_type_qcb.setCurrentText(breathing_notification_type_enum.name)
+
+        self.phrase_selection_qcb.setCurrentText(settings.breathing_dialog_phrase_selection.name)
+
         phrase_setup_enum = mc.mc_global.PhraseSetup(
             settings.breathing_reminder_phrase_setup_int
         )

@@ -285,14 +285,17 @@ class RestActionsM:
     @title.setter
     def title(self, i_new_title: str) -> None:
         self._title_str = i_new_title
-        self._update(db.Schema.RestActionsTable.Cols.title, i_new_title)
+        self._update_obj(db.Schema.RestActionsTable.Cols.title, i_new_title)
 
-    def _update(self, i_col_name: str, i_new_value) -> None:
+    def _update_obj(self, i_col_name: str, i_new_value) -> None:
+        RestActionsM._update(self._id_int, i_col_name, i_new_value)
+
+    def _update(i_id: int, i_col_name: str, i_new_value):
         db_exec(
             "UPDATE " + db.Schema.PhrasesTable.name
             + " SET " + i_col_name + " = ?"
             + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
-            (i_new_value, str(self._id_int))
+            (i_new_value, str(i_id))
         )
 
     @staticmethod
@@ -355,18 +358,10 @@ class RestActionsM:
         other = RestActionsM.get_by_vert_order(main_sort_order_int, i_move_direction)
         other_id_int = other.id
         other_sort_order_int = other._vert_order_int
-        db_exec(
-            "UPDATE " + db.Schema.RestActionsTable.name
-            + " SET " + db.Schema.RestActionsTable.Cols.vertical_order + " = ?"
-            + " WHERE " + db.Schema.RestActionsTable.Cols.id + " = ?",
-            (str(other_sort_order_int), str(main_id_int))
-        )
-        db_exec(
-            "UPDATE " + db.Schema.RestActionsTable.name
-            + " SET " + db.Schema.RestActionsTable.Cols.vertical_order + " = ?"
-            + " WHERE " + db.Schema.RestActionsTable.Cols.id + " = ?",
-            (str(main_sort_order_int), str(other_id_int))
-        )
+
+        RestActionsM._update(main_id_int, db.Schema.RestActionsTable.Cols.vertical_order, other_sort_order_int)
+        RestActionsM._update(other_id_int, db.Schema.RestActionsTable.Cols.vertical_order, main_sort_order_int)
+
         return True
 
     @staticmethod
@@ -592,78 +587,45 @@ class SettingsM:
 
     @staticmethod
     def update_rest_reminder_active(i_reminder_active: bool) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        new_value_bool_as_int = db.SQLITE_TRUE_INT if i_reminder_active else db.SQLITE_FALSE_INT
-        logging.debug("new_value_bool_as_int = " + str(new_value_bool_as_int))
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.rest_reminder_active + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (new_value_bool_as_int, db.SINGLE_SETTINGS_ID_INT)
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.rest_reminder_active,
+            db.SQLITE_TRUE_INT if i_reminder_active else db.SQLITE_FALSE_INT
         )
-        db_connection.commit()
-        logging.debug("result=" + str(SettingsM.get().rest_reminder_active))
 
     @staticmethod
     def update_rest_reminder_interval(i_reminder_interval: int) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.rest_reminder_interval + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (str(i_reminder_interval), db.SINGLE_SETTINGS_ID_INT)
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.rest_reminder_interval,
+            i_reminder_interval
         )
-        db_connection.commit()
 
     @staticmethod
     def update_breathing_reminder_active(i_reminder_active: bool) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_active + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (db.SQLITE_TRUE_INT if i_reminder_active else db.SQLITE_FALSE_INT, db.SINGLE_SETTINGS_ID_INT)
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_active,
+            db.SQLITE_TRUE_INT if i_reminder_active else db.SQLITE_FALSE_INT
         )
-        db_connection.commit()
 
     @staticmethod
     def update_breathing_reminder_interval(i_reminder_interval: int) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_interval + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (str(i_reminder_interval), db.SINGLE_SETTINGS_ID_INT)
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_interval,
+            i_reminder_interval
         )
-        db_connection.commit()
 
     @staticmethod
     def update_breathing_reminder_audio_path(i_new_audio_path: str) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_audio_path + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (i_new_audio_path, str(db.SINGLE_SETTINGS_ID_INT))
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_audio_path,
+            i_new_audio_path
         )
-        db_connection.commit()
 
     @staticmethod
     def update_breathing_reminder_volume(i_new_volume: int) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_volume + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (i_new_volume, str(db.SINGLE_SETTINGS_ID_INT))
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_volume,
+            i_new_volume
         )
-        db_connection.commit()
 
     @staticmethod
     def update_breathing_reminder_nr_per_dialog(i_new_nr_per_dialog: int) -> None:
@@ -674,27 +636,17 @@ class SettingsM:
 
     @staticmethod
     def update_breathing_reminder_notification_type(i_new_notification_type: int) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_notification_type + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (i_new_notification_type, str(db.SINGLE_SETTINGS_ID_INT))
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_notification_type,
+            i_new_notification_type
         )
-        db_connection.commit()
 
     @staticmethod
     def update_breathing_reminder_notification_phrase_setup(i_new_phrase_setup: int) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_phrase_setup + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (i_new_phrase_setup, str(db.SINGLE_SETTINGS_ID_INT))
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_phrase_setup,
+            i_new_phrase_setup
         )
-        db_connection.commit()
 
     @staticmethod
     def update_breathing_dialog_phrase_selection(i_new_phrase_selection: int) -> None:
