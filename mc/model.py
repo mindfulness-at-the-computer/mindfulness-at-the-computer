@@ -423,6 +423,8 @@ class SettingsM:
         i_breathing_reminder_nr_before_dialog: int,
         i_breathing_reminder_dialog_audio_active: int,
         i_breathing_reminder_dialog_close_on_active: int,
+        i_breathing_reminder_text: str,
+        i_breathing_dialog_phrase_selection: int,
         i_run_on_startup: int
     ) -> None:
         self.rest_reminder_active_bool = True if i_rest_reminder_active else False
@@ -440,7 +442,14 @@ class SettingsM:
         self.breathing_reminder_dialog_audio_active_bool = True if i_breathing_reminder_dialog_audio_active else False
         self.breathing_reminder_dialog_close_on_active_bool = \
             True if i_breathing_reminder_dialog_close_on_active else False
+        self.breathing_reminder_text_str = i_breathing_reminder_text
+        self.breathing_dialog_phrase_selection_int = i_breathing_dialog_phrase_selection
         self.run_on_startup_bool = True if i_run_on_startup else False
+
+    @property
+    def breathing_dialog_phrase_selection(self) -> mc.mc_global.PhraseSelection:
+        ret_phrase_selection = mc.mc_global.PhraseSelection(self.breathing_dialog_phrase_selection_int)
+        return ret_phrase_selection
 
     @property
     def rest_reminder_active(self) -> bool:
@@ -686,6 +695,13 @@ class SettingsM:
             (i_new_phrase_setup, str(db.SINGLE_SETTINGS_ID_INT))
         )
         db_connection.commit()
+
+    @staticmethod
+    def update_breathing_dialog_phrase_selection(i_new_phrase_selection: int) -> None:
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_dialog_phrase_selection,
+            i_new_phrase_selection
+        )
 
 
 def export_all() -> None:

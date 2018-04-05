@@ -83,6 +83,10 @@ def initial_schema_and_setup(i_db_conn: sqlite3.Connection) -> None:
         + " DEFAULT " + str(SQLITE_TRUE_INT) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_dialog_close_on_hover + " INTEGER NOT NULL"
         + " DEFAULT " + str(SQLITE_FALSE_INT) + ", "
+        + Schema.SettingsTable.Cols.breathing_reminder_text + " TEXT NOT NULL"
+        + " DEFAULT ''" + ", "
+        + Schema.SettingsTable.Cols.breathing_dialog_phrase_selection + " INTEGER NOT NULL"
+        + " DEFAULT " + str(mc_global.PhraseSelection.same.value) + ", "
         + Schema.SettingsTable.Cols.run_on_startup + " INTEGER NOT NULL"
         + " DEFAULT " + str(SQLITE_FALSE_INT)
         + ")"
@@ -231,6 +235,8 @@ class Schema:
             breathing_reminder_nr_before_dialog = "breathing_reminder_nr_before_dialog"
             breathing_reminder_dialog_audio_active = "breathing_reminder_dialog_audio_active"
             breathing_reminder_dialog_close_on_hover = "breathing_reminder_dialog_close_on_hover"
+            breathing_reminder_text = "breathing_reminder_text"
+            breathing_dialog_phrase_selection = "breathing_dialog_phrase_selection"
             run_on_startup = "run_on_startup"
 
 

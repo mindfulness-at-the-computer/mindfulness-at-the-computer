@@ -35,7 +35,7 @@ class BreathingDlg(QtWidgets.QFrame):
         # (left, right, top, bottom) = vbox_l2.getContentsMargins()
         # vbox_l2.setContentsMargins(0, 0, 5, 5)
 
-        self._breath_phrase_id_list = []
+        self._breath_phrase_id_list = []  # -used for the history
 
         self._start_time_ft = TIME_NOT_SET_FT
         settings = mc.model.SettingsM.get()

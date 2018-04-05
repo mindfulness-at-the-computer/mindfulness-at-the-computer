@@ -60,11 +60,29 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         hbox_l4.addWidget(QtWidgets.QLabel(self.tr("minutes")))
         hbox_l4.addStretch(1)
 
+        """
+        self.notification_text_qpb = QtWidgets.QPushButton("Set text")
+        self.notification_text_qpb.clicked.connect(self.on_notification_text_button_clicked)
+        vbox_l3.addWidget(self.notification_text_qpb)
+        """
+
         # Dialog
         self.dialog_qgb = QtWidgets.QGroupBox(self.tr("Dialog"))
         vbox_l2.addWidget(self.dialog_qgb)
         vbox_l3 = QtWidgets.QVBoxLayout()
         self.dialog_qgb.setLayout(vbox_l3)
+
+        hbox_l4 = QtWidgets.QHBoxLayout()
+        vbox_l3.addLayout(hbox_l4)
+        hbox_l4.addWidget(QtWidgets.QLabel(self.tr("Phrase selection: ")))
+        hbox_l4.addStretch(1)
+        self.phrase_selection_qcb = QtWidgets.QComboBox()
+        self.phrase_selection_qcb.activated.connect(self.on_phrase_selection_activated)
+        self.phrase_selection_qcb.addItems([
+            mc.mc_global.PhraseSelection.same.name,
+            mc.mc_global.PhraseSelection.random.name
+        ])
+        hbox_l4.addWidget(self.phrase_selection_qcb)
 
         hbox_l4 = QtWidgets.QHBoxLayout()
         vbox_l3.addLayout(hbox_l4)
@@ -124,6 +142,18 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         self.setDisabled(True)
 
         self.update_gui()
+
+    def on_phrase_selection_activated(self, i_index: int):
+        # -activated is only triggered on user action
+        mc.model.SettingsM.update_breathing_dialog_phrase_selection(i_index)
+
+    """
+    def on_notification_text_button_clicked(self):
+        if self.updating_gui_bool:
+            return
+        return_text_str = QtWidgets.QInputDialog.getMultiLineText(self, "Multi line text dialog", "text", "text")
+        asdf
+    """
 
     def on_dialog_close_on_hover_toggled(self, i_checked: bool):
         if self.updating_gui_bool:
