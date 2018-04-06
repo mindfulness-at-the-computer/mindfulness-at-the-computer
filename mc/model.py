@@ -64,7 +64,7 @@ class PhrasesM:
     @title.setter
     def title(self, i_new_title: str) -> None:
         self._title_str = i_new_title
-        self._update(db.Schema.PhrasesTable.Cols.title, i_new_title)
+        self._update_obj(db.Schema.PhrasesTable.Cols.title, i_new_title)
 
     @property
     def vert_order(self) -> int:
@@ -73,7 +73,7 @@ class PhrasesM:
     @vert_order.setter
     def vert_order(self, i_new_vert_order: int) -> None:
         self._vert_order_int = i_new_vert_order
-        self._update(db.Schema.PhrasesTable.Cols.vertical_order, i_new_vert_order)
+        self._update_obj(db.Schema.PhrasesTable.Cols.vertical_order, i_new_vert_order)
 
     @property
     def ib(self) -> str:
@@ -82,7 +82,7 @@ class PhrasesM:
     @ib.setter
     def ib(self, i_new_ib: str) -> None:
         self._ib_str = i_new_ib
-        self._update(db.Schema.PhrasesTable.Cols.ib_phrase, i_new_ib)
+        self._update_obj(db.Schema.PhrasesTable.Cols.ib_phrase, i_new_ib)
 
     @property
     def ob(self) -> str:
@@ -91,7 +91,7 @@ class PhrasesM:
     @ob.setter
     def ob(self, i_new_ob: str) -> None:
         self._ib_str = i_new_ob
-        self._update(db.Schema.PhrasesTable.Cols.ob_phrase, i_new_ob)
+        self._update_obj(db.Schema.PhrasesTable.Cols.ob_phrase, i_new_ob)
 
     @property
     def ib_short(self) -> str:
@@ -100,7 +100,7 @@ class PhrasesM:
     @ib_short.setter
     def ib_short(self, i_new_ib_short: str) -> None:
         self._ib_short_str = i_new_ib_short
-        self._update(db.Schema.PhrasesTable.Cols.ib_short_phrase, i_new_ib_short)
+        self._update_obj(db.Schema.PhrasesTable.Cols.ib_short_phrase, i_new_ib_short)
 
     @property
     def ob_short(self) -> str:
@@ -109,7 +109,7 @@ class PhrasesM:
     @ob_short.setter
     def ob_short(self, i_new_ob_short: str) -> None:
         self._ob_short_str = i_new_ob_short
-        self._update(db.Schema.PhrasesTable.Cols.ob_short_phrase, i_new_ob_short)
+        self._update_obj(db.Schema.PhrasesTable.Cols.ob_short_phrase, i_new_ob_short)
 
     @property
     def type(self) -> mc.mc_global.BreathingPhraseType:
@@ -118,7 +118,29 @@ class PhrasesM:
     @type.setter
     def type(self, i_new_type: mc.mc_global.BreathingPhraseType) -> None:
         self._type_enum = i_new_type
-        self._update(db.Schema.PhrasesTable.Cols.type, i_new_type.value)
+        self._update_obj(db.Schema.PhrasesTable.Cols.type, i_new_type.value)
+
+    """
+    def _update_obj(self, i_col_name: str, i_new_value) -> None:
+        db_exec(
+            "UPDATE " + db.Schema.PhrasesTable.name
+            + " SET " + i_col_name + " = ?"
+            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
+            (i_new_value, str(self._id_int))
+        )
+    """
+
+    def _update_obj(self, i_col_name: str, i_new_value) -> None:
+        PhrasesM._update(self._id_int, i_col_name, i_new_value)
+
+    @staticmethod
+    def _update(i_id: int, i_col_name: str, i_new_value):
+        db_exec(
+            "UPDATE " + db.Schema.PhrasesTable.name
+            + " SET " + i_col_name + " = ?"
+            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
+            (i_new_value, str(i_id))
+        )
 
     @staticmethod
     def add(i_title: str, i_ib: str, i_ob: str, ib_short: str, ob_short: str,
@@ -182,14 +204,6 @@ class PhrasesM:
         else:
             return False
 
-    def _update(self, i_col_name: str, i_new_value) -> None:
-        db_exec(
-            "UPDATE " + db.Schema.PhrasesTable.name
-            + " SET " + i_col_name + " = ?"
-            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
-            (i_new_value, str(self._id_int))
-        )
-
     @staticmethod
     def update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
         if i_id == mc.mc_global.NO_PHRASE_SELECTED_INT:
@@ -207,18 +221,13 @@ class PhrasesM:
         other = PhrasesM._get_by_vert_order(main_sort_order_int, i_move_direction)
         other_id_int = other._id_int
         other_sort_order_int = other._vert_order_int
-        db_exec(
-            "UPDATE " + db.Schema.PhrasesTable.name
-            + " SET " + db.Schema.PhrasesTable.Cols.vertical_order + " = ?"
-            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
-            (str(other_sort_order_int), str(main_id_int))
-        )
-        db_exec(
-            "UPDATE " + db.Schema.PhrasesTable.name
-            + " SET " + db.Schema.PhrasesTable.Cols.vertical_order + " = ?"
-            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
-            (str(main_sort_order_int), str(other_id_int))
-        )
+
+        PhrasesM._update(main_id_int, db.Schema.PhrasesTable.Cols.vertical_order, other_sort_order_int)
+        PhrasesM._update(other_id_int, db.Schema.PhrasesTable.Cols.vertical_order, main_sort_order_int)
+
+        ########TODO: problem here, mo0ving in the other direction?!
+
+
         return True
 
     @staticmethod
@@ -290,11 +299,12 @@ class RestActionsM:
     def _update_obj(self, i_col_name: str, i_new_value) -> None:
         RestActionsM._update(self._id_int, i_col_name, i_new_value)
 
+    @staticmethod
     def _update(i_id: int, i_col_name: str, i_new_value):
         db_exec(
-            "UPDATE " + db.Schema.PhrasesTable.name
+            "UPDATE " + db.Schema.RestActionsTable.name
             + " SET " + i_col_name + " = ?"
-            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
+            + " WHERE " + db.Schema.RestActionsTable.Cols.id + " = ?",
             (i_new_value, str(i_id))
         )
 
