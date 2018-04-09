@@ -2,9 +2,11 @@ import csv
 import os
 import enum
 import logging
+import datetime
 import typing
 from mc import db
 import mc.mc_global
+from PyQt5 import QtWidgets
 
 
 class MoveDirectionEnum(enum.Enum):
@@ -695,17 +697,28 @@ class SettingsM:
         )
 
 
-def export_all() -> None:
-    csv_writer = csv.writer(open(mc.mc_global.get_user_files_path("exported.csv"), "w"))
-    # csv_writer.writeheader()
+def export_all() -> str:
+    date_sg = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    file_path_str = mc.mc_global.get_user_files_path(date_sg + "_exported.csv")
+    csv_writer = csv.writer(open(file_path_str, "w"))
+
+    """
+    csv_writer.writeheader(
+        "Title", "In-breath phrase", "Out-breath phrase", "Shortened in-breath phrase", "Shortened out-breath phrase"
+    )
+    """
+
     csv_writer.writerow(("",))
     csv_writer.writerow(("===== Breathing Phrases =====",))
     for phrase in PhrasesM.get_all():
         csv_writer.writerow((phrase.title, phrase.ib, phrase.ob, phrase.ib_short, phrase.ob_short))
+
     csv_writer.writerow(("",))
     csv_writer.writerow(("===== Rest Actions =====",))
     for rest_action in RestActionsM.get_all():
         csv_writer.writerow((rest_action.title,))
+
+    return file_path_str
 
 
 def populate_db_with_setup_data() -> None:
