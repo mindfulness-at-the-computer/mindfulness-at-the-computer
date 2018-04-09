@@ -355,6 +355,7 @@ class GraphicsView(QtWidgets.QGraphicsView):
         # self.setTextWidth(self.textWidth() + 1)
 
     def frame_change_breathing_out(self, i_frame_nr_int):
+        logging.debug("[frame_change_breathing_out] mc.mc_global.active_phrase_id_it = " + str(mc.mc_global.active_phrase_id_it))
         phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
         if phrase.type == mc.mc_global.BreathingPhraseType.in_out:
             self.text_gi.setScale(self._peak_scale_ft - 0.0005 * i_frame_nr_int)

@@ -204,8 +204,9 @@ class PhrasesM:
         else:
             return False
 
+    """
     @staticmethod
-    def update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
+    def update_sort_order(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
         if i_id == mc.mc_global.NO_PHRASE_SELECTED_INT:
             return False
         main_id_int = i_id
@@ -227,6 +228,34 @@ class PhrasesM:
 
         ########TODO: problem here, mo0ving in the other direction?!
 
+
+        return True
+    """
+
+    @staticmethod
+    def update_sort_order(i_id: int, i_sort_order: int) -> None:
+        PhrasesM._update(i_id, db.Schema.PhrasesTable.Cols.vertical_order, i_sort_order)
+
+    @staticmethod
+    def update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
+        if i_id == mc.mc_global.NO_PHRASE_SELECTED_INT:
+            return False
+        main_id_int = i_id
+        main_sort_order_int = PhrasesM.get(i_id)._vert_order_int
+        if i_move_direction == MoveDirectionEnum.up:
+            if (main_sort_order_int <= PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.min)
+            or main_sort_order_int > PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)):
+                return False
+        elif i_move_direction == MoveDirectionEnum.down:
+            if (main_sort_order_int < PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.min)
+            or main_sort_order_int >= PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)):
+                return False
+        other = PhrasesM._get_by_vert_order(main_sort_order_int, i_move_direction)
+        other_id_int = other._id_int
+        other_sort_order_int = other._vert_order_int
+
+        PhrasesM._update(main_id_int, db.Schema.PhrasesTable.Cols.vertical_order, other_sort_order_int)
+        PhrasesM._update(other_id_int, db.Schema.PhrasesTable.Cols.vertical_order, main_sort_order_int)
 
         return True
 
