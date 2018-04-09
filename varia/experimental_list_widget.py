@@ -100,7 +100,6 @@ class RestActionsComposite(QtWidgets.QWidget):
             return
         model.RestActionsM.add(
             self.rest_add_action_qle.text().strip(),
-            ""
         )
         self.update_gui()
         self.list_widget.setCurrentRow(self.list_widget.count() - 1)

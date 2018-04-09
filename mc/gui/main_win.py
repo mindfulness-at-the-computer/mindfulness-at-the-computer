@@ -1,6 +1,8 @@
 import logging
 import sys
 import os
+import random
+
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
@@ -399,7 +401,7 @@ class MainWin(QtWidgets.QMainWindow):
         if (notification_type_int == mc.mc_global.NotificationType.Both.value
         or notification_type_int == mc.mc_global.NotificationType.Audio.value):
             settings = mc.model.SettingsM.get()
-            audio_path_str = settings.rest_reminder_audio_path_str
+            audio_path_str = settings.rest_reminder_audio_filename_str
             volume_int = settings.rest_reminder_volume_int
             self._play_audio(audio_path_str, volume_int)
 
@@ -558,13 +560,13 @@ class MainWin(QtWidgets.QMainWindow):
         if (notification_type_int == mc.mc_global.NotificationType.Both.value
         or notification_type_int == mc.mc_global.NotificationType.Visual.value):
             self.breathing_notification = mc.gui.breathing_notification.BreathingNotification()
-            self.breathing_notification.breathe_signal.connect(self.on_breathing_dialog_breathe_clicked)
+            self.breathing_notification.breathe_signal.connect(self.on_breathing_notification_breathe_clicked)
             self.breathing_notification.show()
 
         if (notification_type_int == mc.mc_global.NotificationType.Both.value
         or notification_type_int == mc.mc_global.NotificationType.Audio.value):
             settings = mc.model.SettingsM.get()
-            audio_path_str = settings.breathing_reminder_audio_path_str
+            audio_path_str = settings.breathing_reminder_audio_filename_str
             volume_int = settings.breathing_reminder_volume_int
             self._play_audio(audio_path_str, volume_int)
 
@@ -572,23 +574,33 @@ class MainWin(QtWidgets.QMainWindow):
         self.breathing_prepare = mc.gui.breathing_prepare.BreathingPrepareDlg()
         self.breathing_prepare.closed_signal.connect(self.open_breathing_dialog)
 
-    def open_breathing_dialog(self):
+    def open_breathing_dialog(self, i_mute_override: bool=False):
+
+        if mc.model.SettingsM.get().breathing_dialog_phrase_selection == mc.mc_global.PhraseSelection.random:
+            phrases_list = mc.model.PhrasesM.get_all()
+            randomly_selected_phrase = random.choice(phrases_list)
+            mc.mc_global.active_phrase_id_it = randomly_selected_phrase.id
+        else:
+            pass
+
         self.breathing_dialog = mc.gui.breathing_dlg.BreathingDlg()
         self.breathing_dialog.close_signal.connect(self.on_breathing_dialog_closed)
         self.breathing_dialog.phrase_changed_signal.connect(self.on_breathing_dialog_phrase_changed)
         self.breathing_dialog.show()
 
         settings = mc.model.SettingsM.get()
-        if settings.breathing_reminder_dialog_audio_active_bool:
-            audio_path_str = settings.breathing_reminder_audio_path_str
+        if settings.breathing_reminder_dialog_audio_active_bool and not i_mute_override:
+            audio_path_str = settings.breathing_reminder_audio_filename_str
             volume_int = settings.breathing_reminder_volume_int
             self._play_audio(audio_path_str, volume_int)
 
-    def _play_audio(self, i_audio_path: str, i_volume: int) -> None:
+    def _play_audio(self, i_audio_filename: str, i_volume: int) -> None:
         if self.sound_effect is None:
             return
+        audio_path_str = mc.mc_global.get_user_audio_path(i_audio_filename)
         # noinspection PyCallByClass
-        self.sound_effect.setSource(QtCore.QUrl.fromLocalFile(i_audio_path))
+        audio_source_qurl = QtCore.QUrl.fromLocalFile(audio_path_str)
+        self.sound_effect.setSource(audio_source_qurl)
         self.sound_effect.setVolume(float(i_volume / 100))
         self.sound_effect.play()
 
@@ -599,11 +611,8 @@ class MainWin(QtWidgets.QMainWindow):
     def on_breathing_dialog_phrase_changed(self):
         self.update_gui()
 
-    def on_breathing_dialog_breathe_clicked(self):
-        self.breathing_dialog = mc.gui.breathing_dlg.BreathingDlg()
-        self.breathing_dialog.close_signal.connect(self.on_breathing_dialog_closed)
-        self.breathing_dialog.phrase_changed_signal.connect(self.on_breathing_dialog_phrase_changed)
-        self.breathing_dialog.show()
+    def on_breathing_notification_breathe_clicked(self):
+        self.open_breathing_dialog(i_mute_override=True)
 
     def debug_clear_breathing_phrase_selection(self):
         self.br_phrase_list_wt.list_widget.clearSelection()

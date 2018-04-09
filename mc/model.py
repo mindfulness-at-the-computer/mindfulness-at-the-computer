@@ -64,7 +64,7 @@ class PhrasesM:
     @title.setter
     def title(self, i_new_title: str) -> None:
         self._title_str = i_new_title
-        self._update(db.Schema.PhrasesTable.Cols.title, i_new_title)
+        self._update_obj(db.Schema.PhrasesTable.Cols.title, i_new_title)
 
     @property
     def vert_order(self) -> int:
@@ -73,7 +73,7 @@ class PhrasesM:
     @vert_order.setter
     def vert_order(self, i_new_vert_order: int) -> None:
         self._vert_order_int = i_new_vert_order
-        self._update(db.Schema.PhrasesTable.Cols.vertical_order, i_new_vert_order)
+        self._update_obj(db.Schema.PhrasesTable.Cols.vertical_order, i_new_vert_order)
 
     @property
     def ib(self) -> str:
@@ -82,7 +82,7 @@ class PhrasesM:
     @ib.setter
     def ib(self, i_new_ib: str) -> None:
         self._ib_str = i_new_ib
-        self._update(db.Schema.PhrasesTable.Cols.ib_phrase, i_new_ib)
+        self._update_obj(db.Schema.PhrasesTable.Cols.ib_phrase, i_new_ib)
 
     @property
     def ob(self) -> str:
@@ -91,7 +91,7 @@ class PhrasesM:
     @ob.setter
     def ob(self, i_new_ob: str) -> None:
         self._ib_str = i_new_ob
-        self._update(db.Schema.PhrasesTable.Cols.ob_phrase, i_new_ob)
+        self._update_obj(db.Schema.PhrasesTable.Cols.ob_phrase, i_new_ob)
 
     @property
     def ib_short(self) -> str:
@@ -100,7 +100,7 @@ class PhrasesM:
     @ib_short.setter
     def ib_short(self, i_new_ib_short: str) -> None:
         self._ib_short_str = i_new_ib_short
-        self._update(db.Schema.PhrasesTable.Cols.ib_short_phrase, i_new_ib_short)
+        self._update_obj(db.Schema.PhrasesTable.Cols.ib_short_phrase, i_new_ib_short)
 
     @property
     def ob_short(self) -> str:
@@ -109,7 +109,7 @@ class PhrasesM:
     @ob_short.setter
     def ob_short(self, i_new_ob_short: str) -> None:
         self._ob_short_str = i_new_ob_short
-        self._update(db.Schema.PhrasesTable.Cols.ob_short_phrase, i_new_ob_short)
+        self._update_obj(db.Schema.PhrasesTable.Cols.ob_short_phrase, i_new_ob_short)
 
     @property
     def type(self) -> mc.mc_global.BreathingPhraseType:
@@ -118,7 +118,29 @@ class PhrasesM:
     @type.setter
     def type(self, i_new_type: mc.mc_global.BreathingPhraseType) -> None:
         self._type_enum = i_new_type
-        self._update(db.Schema.PhrasesTable.Cols.type, i_new_type.value)
+        self._update_obj(db.Schema.PhrasesTable.Cols.type, i_new_type.value)
+
+    """
+    def _update_obj(self, i_col_name: str, i_new_value) -> None:
+        db_exec(
+            "UPDATE " + db.Schema.PhrasesTable.name
+            + " SET " + i_col_name + " = ?"
+            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
+            (i_new_value, str(self._id_int))
+        )
+    """
+
+    def _update_obj(self, i_col_name: str, i_new_value) -> None:
+        PhrasesM._update(self._id_int, i_col_name, i_new_value)
+
+    @staticmethod
+    def _update(i_id: int, i_col_name: str, i_new_value):
+        db_exec(
+            "UPDATE " + db.Schema.PhrasesTable.name
+            + " SET " + i_col_name + " = ?"
+            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
+            (i_new_value, str(i_id))
+        )
 
     @staticmethod
     def add(i_title: str, i_ib: str, i_ob: str, ib_short: str, ob_short: str,
@@ -182,13 +204,37 @@ class PhrasesM:
         else:
             return False
 
-    def _update(self, i_col_name: str, i_new_value) -> None:
-        db_exec(
-            "UPDATE " + db.Schema.PhrasesTable.name
-            + " SET " + i_col_name + " = ?"
-            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
-            (i_new_value, str(self._id_int))
-        )
+    """
+    @staticmethod
+    def update_sort_order(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
+        if i_id == mc.mc_global.NO_PHRASE_SELECTED_INT:
+            return False
+        main_id_int = i_id
+        main_sort_order_int = PhrasesM.get(i_id)._vert_order_int
+        if i_move_direction == MoveDirectionEnum.up:
+            if (main_sort_order_int <= PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.min)
+            or main_sort_order_int > PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)):
+                return False
+        elif i_move_direction == MoveDirectionEnum.down:
+            if (main_sort_order_int < PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.min)
+            or main_sort_order_int >= PhrasesM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)):
+                return False
+        other = PhrasesM._get_by_vert_order(main_sort_order_int, i_move_direction)
+        other_id_int = other._id_int
+        other_sort_order_int = other._vert_order_int
+
+        PhrasesM._update(main_id_int, db.Schema.PhrasesTable.Cols.vertical_order, other_sort_order_int)
+        PhrasesM._update(other_id_int, db.Schema.PhrasesTable.Cols.vertical_order, main_sort_order_int)
+
+        ########TODO: problem here, mo0ving in the other direction?!
+
+
+        return True
+    """
+
+    @staticmethod
+    def update_sort_order(i_id: int, i_sort_order: int) -> None:
+        PhrasesM._update(i_id, db.Schema.PhrasesTable.Cols.vertical_order, i_sort_order)
 
     @staticmethod
     def update_sort_order_move_up_down(i_id: int, i_move_direction: MoveDirectionEnum) -> bool:
@@ -207,18 +253,10 @@ class PhrasesM:
         other = PhrasesM._get_by_vert_order(main_sort_order_int, i_move_direction)
         other_id_int = other._id_int
         other_sort_order_int = other._vert_order_int
-        db_exec(
-            "UPDATE " + db.Schema.PhrasesTable.name
-            + " SET " + db.Schema.PhrasesTable.Cols.vertical_order + " = ?"
-            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
-            (str(other_sort_order_int), str(main_id_int))
-        )
-        db_exec(
-            "UPDATE " + db.Schema.PhrasesTable.name
-            + " SET " + db.Schema.PhrasesTable.Cols.vertical_order + " = ?"
-            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
-            (str(main_sort_order_int), str(other_id_int))
-        )
+
+        PhrasesM._update(main_id_int, db.Schema.PhrasesTable.Cols.vertical_order, other_sort_order_int)
+        PhrasesM._update(other_id_int, db.Schema.PhrasesTable.Cols.vertical_order, main_sort_order_int)
+
         return True
 
     @staticmethod
@@ -262,13 +300,11 @@ class RestActionsM:
         self,
         i_id: int,
         i_vertical_order: int,
-        i_title: str,
-        i_image_path: str
+        i_title: str
     ) -> None:
         self._id_int = i_id
         self._vert_order_int = i_vertical_order
         self._title_str = i_title
-        self._image_path_str = i_image_path
 
     @property
     def id(self) -> int:
@@ -287,36 +323,30 @@ class RestActionsM:
     @title.setter
     def title(self, i_new_title: str) -> None:
         self._title_str = i_new_title
-        self._update(db.Schema.RestActionsTable.Cols.title, i_new_title)
+        self._update_obj(db.Schema.RestActionsTable.Cols.title, i_new_title)
 
-    @property
-    def image_path(self) -> str:
-        return self._image_path_str
+    def _update_obj(self, i_col_name: str, i_new_value) -> None:
+        RestActionsM._update(self._id_int, i_col_name, i_new_value)
 
-    @image_path.setter
-    def image_path(self, i_new_path: str) -> None:
-        self._image_path_str = i_new_path
-        self._update(db.Schema.RestActionsTable.Cols.image_path, i_new_path)
-
-    def _update(self, i_col_name: str, i_new_value) -> None:
+    @staticmethod
+    def _update(i_id: int, i_col_name: str, i_new_value):
         db_exec(
-            "UPDATE " + db.Schema.PhrasesTable.name
+            "UPDATE " + db.Schema.RestActionsTable.name
             + " SET " + i_col_name + " = ?"
-            + " WHERE " + db.Schema.PhrasesTable.Cols.id + " = ?",
-            (i_new_value, str(self._id_int))
+            + " WHERE " + db.Schema.RestActionsTable.Cols.id + " = ?",
+            (i_new_value, str(i_id))
         )
 
     @staticmethod
-    def add(i_title: str, i_image_path: str) -> None:
+    def add(i_title: str) -> None:
         vertical_order_last_pos_int = RestActionsM._get_highest_or_lowest_sort_value(MinOrMaxEnum.max)
         # -this is the last pos before the new entry has been added, therefore + 1 is added below
         db_exec(
             "INSERT INTO " + db.Schema.RestActionsTable.name + "("
             + db.Schema.RestActionsTable.Cols.vertical_order + ", "
-            + db.Schema.RestActionsTable.Cols.title + ", "
-            + db.Schema.RestActionsTable.Cols.image_path
-            + ") VALUES (?, ?, ?)",
-            (vertical_order_last_pos_int + 1, i_title, i_image_path)
+            + db.Schema.RestActionsTable.Cols.title
+            + ") VALUES (?, ?)",
+            (vertical_order_last_pos_int + 1, i_title)
         )
 
     @staticmethod
@@ -367,18 +397,10 @@ class RestActionsM:
         other = RestActionsM.get_by_vert_order(main_sort_order_int, i_move_direction)
         other_id_int = other.id
         other_sort_order_int = other._vert_order_int
-        db_exec(
-            "UPDATE " + db.Schema.RestActionsTable.name
-            + " SET " + db.Schema.RestActionsTable.Cols.vertical_order + " = ?"
-            + " WHERE " + db.Schema.RestActionsTable.Cols.id + " = ?",
-            (str(other_sort_order_int), str(main_id_int))
-        )
-        db_exec(
-            "UPDATE " + db.Schema.RestActionsTable.name
-            + " SET " + db.Schema.RestActionsTable.Cols.vertical_order + " = ?"
-            + " WHERE " + db.Schema.RestActionsTable.Cols.id + " = ?",
-            (str(main_sort_order_int), str(other_id_int))
-        )
+
+        RestActionsM._update(main_id_int, db.Schema.RestActionsTable.Cols.vertical_order, other_sort_order_int)
+        RestActionsM._update(other_id_int, db.Schema.RestActionsTable.Cols.vertical_order, main_sort_order_int)
+
         return True
 
     @staticmethod
@@ -423,28 +445,30 @@ class SettingsM:
         i_id: int,  # unused
         i_rest_reminder_active: int,
         i_rest_reminder_interval: int,
-        i_rest_reminder_audio_path: str,
+        i_rest_reminder_audio_filename: str,
         i_rest_reminder_volume: int,
         i_rest_reminder_notification_type: int,
         i_breathing_reminder_active: int,
         i_breathing_reminder_interval: int,
-        i_breathing_reminder_audio_path: str,
+        i_breathing_reminder_audio_filename: str,
         i_breathing_reminder_volume: int,
         i_breathing_reminder_notification_type: int,
         i_breathing_reminder_phrase_setup: int,
         i_breathing_reminder_nr_before_dialog: int,
         i_breathing_reminder_dialog_audio_active: int,
         i_breathing_reminder_dialog_close_on_active: int,
+        i_breathing_reminder_text: str,
+        i_breathing_dialog_phrase_selection: int,
         i_run_on_startup: int
     ) -> None:
         self.rest_reminder_active_bool = True if i_rest_reminder_active else False
         self.rest_reminder_interval_int = i_rest_reminder_interval
-        self.rest_reminder_audio_path_str = i_rest_reminder_audio_path
+        self.rest_reminder_audio_filename_str = i_rest_reminder_audio_filename
         self.rest_reminder_volume_int = i_rest_reminder_volume
         self.rest_reminder_notification_type_int = i_rest_reminder_notification_type
         self.breathing_reminder_active_bool = True if i_breathing_reminder_active else False
         self.breathing_reminder_interval_int = i_breathing_reminder_interval
-        self.breathing_reminder_audio_path_str = i_breathing_reminder_audio_path
+        self.breathing_reminder_audio_filename_str = i_breathing_reminder_audio_filename
         self.breathing_reminder_volume_int = i_breathing_reminder_volume
         self.breathing_reminder_notification_type_int = i_breathing_reminder_notification_type
         self.breathing_reminder_phrase_setup_int = i_breathing_reminder_phrase_setup
@@ -452,7 +476,14 @@ class SettingsM:
         self.breathing_reminder_dialog_audio_active_bool = True if i_breathing_reminder_dialog_audio_active else False
         self.breathing_reminder_dialog_close_on_active_bool = \
             True if i_breathing_reminder_dialog_close_on_active else False
+        self.breathing_reminder_text_str = i_breathing_reminder_text
+        self.breathing_dialog_phrase_selection_int = i_breathing_dialog_phrase_selection
         self.run_on_startup_bool = True if i_run_on_startup else False
+
+    @property
+    def breathing_dialog_phrase_selection(self) -> mc.mc_global.PhraseSelection:
+        ret_phrase_selection = mc.mc_global.PhraseSelection(self.breathing_dialog_phrase_selection_int)
+        return ret_phrase_selection
 
     @property
     def rest_reminder_active(self) -> bool:
@@ -484,7 +515,7 @@ class SettingsM:
 
     @rest_reminder_audio_path.setter
     def rest_reminder_audio_path(self, i_new_path: str) -> None:
-        self.rest_reminder_audio_path_str = i_new_path
+        self.rest_reminder_audio_filename_str = i_new_path
         self._update(
             db.Schema.SettingsTable.Cols.rest_reminder_audio_path,
             i_new_path
@@ -595,78 +626,45 @@ class SettingsM:
 
     @staticmethod
     def update_rest_reminder_active(i_reminder_active: bool) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        new_value_bool_as_int = db.SQLITE_TRUE_INT if i_reminder_active else db.SQLITE_FALSE_INT
-        logging.debug("new_value_bool_as_int = " + str(new_value_bool_as_int))
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.rest_reminder_active + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (new_value_bool_as_int, db.SINGLE_SETTINGS_ID_INT)
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.rest_reminder_active,
+            db.SQLITE_TRUE_INT if i_reminder_active else db.SQLITE_FALSE_INT
         )
-        db_connection.commit()
-        logging.debug("result=" + str(SettingsM.get().rest_reminder_active))
 
     @staticmethod
     def update_rest_reminder_interval(i_reminder_interval: int) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.rest_reminder_interval + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (str(i_reminder_interval), db.SINGLE_SETTINGS_ID_INT)
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.rest_reminder_interval,
+            i_reminder_interval
         )
-        db_connection.commit()
 
     @staticmethod
     def update_breathing_reminder_active(i_reminder_active: bool) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_active + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (db.SQLITE_TRUE_INT if i_reminder_active else db.SQLITE_FALSE_INT, db.SINGLE_SETTINGS_ID_INT)
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_active,
+            db.SQLITE_TRUE_INT if i_reminder_active else db.SQLITE_FALSE_INT
         )
-        db_connection.commit()
 
     @staticmethod
     def update_breathing_reminder_interval(i_reminder_interval: int) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_interval + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (str(i_reminder_interval), db.SINGLE_SETTINGS_ID_INT)
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_interval,
+            i_reminder_interval
         )
-        db_connection.commit()
 
     @staticmethod
     def update_breathing_reminder_audio_path(i_new_audio_path: str) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_audio_path + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (i_new_audio_path, str(db.SINGLE_SETTINGS_ID_INT))
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_audio_path,
+            i_new_audio_path
         )
-        db_connection.commit()
 
     @staticmethod
     def update_breathing_reminder_volume(i_new_volume: int) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_volume + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (i_new_volume, str(db.SINGLE_SETTINGS_ID_INT))
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_volume,
+            i_new_volume
         )
-        db_connection.commit()
 
     @staticmethod
     def update_breathing_reminder_nr_per_dialog(i_new_nr_per_dialog: int) -> None:
@@ -677,27 +675,24 @@ class SettingsM:
 
     @staticmethod
     def update_breathing_reminder_notification_type(i_new_notification_type: int) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_notification_type + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (i_new_notification_type, str(db.SINGLE_SETTINGS_ID_INT))
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_notification_type,
+            i_new_notification_type
         )
-        db_connection.commit()
 
     @staticmethod
     def update_breathing_reminder_notification_phrase_setup(i_new_phrase_setup: int) -> None:
-        db_connection = db.Helper.get_db_connection()
-        db_cursor = db_connection.cursor()
-        db_cursor.execute(
-            "UPDATE " + db.Schema.SettingsTable.name
-            + " SET " + db.Schema.SettingsTable.Cols.breathing_reminder_phrase_setup + " = ?"
-            + " WHERE " + db.Schema.SettingsTable.Cols.id + " = ?",
-            (i_new_phrase_setup, str(db.SINGLE_SETTINGS_ID_INT))
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_phrase_setup,
+            i_new_phrase_setup
         )
-        db_connection.commit()
+
+    @staticmethod
+    def update_breathing_dialog_phrase_selection(i_new_phrase_selection: int) -> None:
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_dialog_phrase_selection,
+            i_new_phrase_selection
+        )
 
 
 def export_all() -> None:
@@ -774,42 +769,15 @@ def populate_db_with_setup_data() -> None:
     )
     """
 
-    RestActionsM.add(
-        "Making a cup of tea",
-        mc.mc_global.get_user_images_path("tea.png")
-    )
-    RestActionsM.add(
-        "Filling a water bottle for my desk",
-        ""
-    )
-    RestActionsM.add(
-        "Stretching my arms",
-        ""
-    )
-    RestActionsM.add(
-        "Opening a window",
-        mc.mc_global.get_user_images_path("window.png")
-    )
-    RestActionsM.add(
-        "Watering the plants",
-        ""
-    )
-    RestActionsM.add(
-        "Cleaning/organizing my space",
-        ""
-    )
-    RestActionsM.add(
-        "Eating something healthy",
-        mc.mc_global.get_user_images_path("oranges-with-flower.png")
-    )
-    RestActionsM.add(
-        "Slow mindful walking inside",
-        mc.mc_global.get_user_images_path("footprint.png")
-    )
-    RestActionsM.add(
-        "Walking outside",
-        mc.mc_global.get_user_images_path("boots-and-autumn-leaves.png")
-    )
+    RestActionsM.add("Making a cup of tea")
+    RestActionsM.add("Filling a water bottle for my desk")
+    RestActionsM.add("Stretching my arms")
+    RestActionsM.add("Opening a window")
+    RestActionsM.add("Watering the plants")
+    RestActionsM.add("Cleaning/organizing my space")
+    RestActionsM.add("Eating something healthy")
+    RestActionsM.add("Slow mindful walking inside")
+    RestActionsM.add("Walking outside")
 
 
 def populate_db_with_test_data() -> None:

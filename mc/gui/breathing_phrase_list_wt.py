@@ -88,29 +88,73 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         self.edit_texts_qpb.setDisabled(status)
 
     def on_move_up_clicked(self):
-        self.move_up_down(mc.model.MoveDirectionEnum.up)
+        self.move_current_row_up_down(mc.model.MoveDirectionEnum.up)
 
     def on_move_down_clicked(self):
-        self.move_up_down(mc.model.MoveDirectionEnum.down)
-
-    def move_up_down(self, i_up_down: mc.model.MoveDirectionEnum):
-        mc.model.PhrasesM.update_sort_order_move_up_down(
-            mc.mc_global.active_phrase_id_it,
-            i_up_down
-        )
-        self.update_gui()
-        self.update_selected()
+        self.move_current_row_up_down(mc.model.MoveDirectionEnum.down)
 
     def on_move_to_top_clicked(self):
-        while True:
-            result_bool = mc.model.PhrasesM.update_sort_order_move_up_down(
-                mc.mc_global.active_phrase_id_it,
-                mc.model.MoveDirectionEnum.up
+        current_row_int = self.list_widget.currentRow()
+        current_list_widget_item = self.list_widget.item(current_row_int)
+        item_widget = self.list_widget.itemWidget(current_list_widget_item)
+        self.list_widget.takeItem(current_row_int)
+        # -IMPORTANT: item is removed from list only after the item widget has been extracted.
+        #  The reason for this is that if we take the item away from the list the associated
+        #  widget (in our case a CustomLabel) will not come with us (which makes sense
+        #  if the widget is stored in the list somehow)
+
+        self.list_widget.insertItem(0, current_list_widget_item)  # -0 for the topmost position
+        self.list_widget.setItemWidget(current_list_widget_item, item_widget)
+        self.list_widget.setCurrentRow(0)
+
+        self.update_db_sort_order_for_all_rows()
+
+    def update_db_sort_order_for_all_rows(self):
+        logging.debug("update_db_sort_order_for_all_rows")
+        count = 0
+        while count < self.list_widget.count():
+            q_list_item_widget = self.list_widget.item(count)
+            custom_label = self.list_widget.itemWidget(q_list_item_widget)
+            id_int = custom_label.entry_id
+            row_int = self.list_widget.row(q_list_item_widget)
+            mc.model.PhrasesM.update_sort_order(
+                id_int,
+                row_int
             )
-            if not result_bool:
-                break
+            logging.debug("id_int = " + str(id_int) + ", row_int = " + str(row_int))
+            count += 1
+
         self.update_gui()
         self.update_selected()
+
+    def move_current_row_up_down(self, i_move_direction: mc.model.MoveDirectionEnum) -> bool:
+        current_row_int = self.list_widget.currentRow()
+        current_list_widget_item = self.list_widget.item(current_row_int)
+        item_widget = self.list_widget.itemWidget(current_list_widget_item)
+        self.list_widget.takeItem(current_row_int)
+        # -IMPORTANT: item is removed from list only after the item widget has been extracted.
+        #  The reason for this is that if we take the item away from the list the associated
+        #  widget (in our case a CustomLabel) will not come with us (which makes sense
+        #  if the widget is stored in the list somehow)
+        if i_move_direction == mc.model.MoveDirectionEnum.up:
+            # if main_sort_order_int == 0 or main_sort_order_int > len(QuestionM.get_all()):
+            if current_row_int >= 0:
+                self.list_widget.insertItem(current_row_int - 1, current_list_widget_item)
+                self.list_widget.setItemWidget(current_list_widget_item, item_widget)
+                self.list_widget.setCurrentRow(current_row_int - 1)
+            else:
+                return False
+        elif i_move_direction == mc.model.MoveDirectionEnum.down:
+            # if main_sort_order_int < 0 or main_sort_order_int >= len(QuestionM.get_all()):
+            if current_row_int < self.list_widget.count():
+                self.list_widget.insertItem(current_row_int + 1, current_list_widget_item)
+                self.list_widget.setItemWidget(current_list_widget_item, item_widget)
+                self.list_widget.setCurrentRow(current_row_int + 1)
+            else:
+                return False
+
+        self.update_db_sort_order_for_all_rows()
+        return True
 
     def update_selected(self):
         for i in range(0, self.list_widget.count()):
@@ -119,6 +163,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             logging.debug("custom_qll.entry_id = " + str(phrase_qll.entry_id))
             if phrase_qll.entry_id == mc.mc_global.active_phrase_id_it:
                 item.setSelected(True)
+                self.list_widget.setCurrentItem(item)  # -important that we add this as well
                 return
 
     def on_edit_texts_clicked(self):

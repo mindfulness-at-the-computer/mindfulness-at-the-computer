@@ -134,7 +134,8 @@ class RestSettingsWt(QtWidgets.QWidget):
         )
         new_file_path_str = audio_file_result_tuple[0]
         if new_file_path_str:
-            mc.model.SettingsM.get().rest_reminder_audio_path = new_file_path_str
+            new_filename_str = os.path.basename(new_file_path_str)  # -we store the name instead of the path
+            mc.model.SettingsM.get().rest_reminder_audio_filename = new_filename_str
         else:
             pass
         self.update_gui_audio_details()
@@ -143,7 +144,7 @@ class RestSettingsWt(QtWidgets.QWidget):
         self.updating_gui_bool = True
         settings = mc.model.SettingsM.get()
 
-        audio_path_str = settings.rest_reminder_audio_path_str
+        audio_path_str = settings.rest_reminder_audio_filename_str
         audio_file_name_str = os.path.basename(audio_path_str)
         if audio_file_name_str:
             self.audio_path_qll.setText(audio_file_name_str)

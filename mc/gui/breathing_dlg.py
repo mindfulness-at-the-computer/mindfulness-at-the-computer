@@ -35,7 +35,7 @@ class BreathingDlg(QtWidgets.QFrame):
         # (left, right, top, bottom) = vbox_l2.getContentsMargins()
         # vbox_l2.setContentsMargins(0, 0, 5, 5)
 
-        self._breath_phrase_id_list = []
+        self._breath_phrase_id_list = []  # -used for the history
 
         self._start_time_ft = TIME_NOT_SET_FT
         settings = mc.model.SettingsM.get()
@@ -355,6 +355,7 @@ class GraphicsView(QtWidgets.QGraphicsView):
         # self.setTextWidth(self.textWidth() + 1)
 
     def frame_change_breathing_out(self, i_frame_nr_int):
+        logging.debug("[frame_change_breathing_out] mc.mc_global.active_phrase_id_it = " + str(mc.mc_global.active_phrase_id_it))
         phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
         if phrase.type == mc.mc_global.BreathingPhraseType.in_out:
             self.text_gi.setScale(self._peak_scale_ft - 0.0005 * i_frame_nr_int)

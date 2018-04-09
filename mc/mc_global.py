@@ -54,8 +54,6 @@ MC_DARK_GREEN_COLOR_STR = "#7fcc19"  # "#7fcc19"
 MC_DARKER_GREEN_COLOR_STR = "#548811"  # "#7fcc19"
 
 
-
-
 class PhraseSetup(enum.Enum):
     Long = 0
     Switch = 1
@@ -71,6 +69,11 @@ class NotificationType(enum.Enum):
 class BreathingPhraseType(enum.Enum):
     in_out = 0
     single = 1
+
+
+class PhraseSelection(enum.Enum):
+    same = 0
+    random = 1
 
 
 breathing_state = BreathingState.inactive
