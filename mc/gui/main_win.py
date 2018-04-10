@@ -453,7 +453,7 @@ class MainWin(QtWidgets.QMainWindow):
         file_menu = self.menu_bar.addMenu(self.tr("&File"))
         export_action = QtWidgets.QAction(self.tr("Export data"), self)
         file_menu.addAction(export_action)
-        export_action.triggered.connect(mc.model.export_all)
+        export_action.triggered.connect(self.export_data_to_csv)
         minimize_to_tray_action = QtWidgets.QAction(self.tr("Minimize to tray"), self)
         file_menu.addAction(minimize_to_tray_action)
         minimize_to_tray_action.triggered.connect(self.minimize_to_tray)
@@ -505,6 +505,14 @@ class MainWin(QtWidgets.QMainWindow):
         sysinfo_action = QtWidgets.QAction(self.tr("System Information"), self)
         help_menu.addAction(sysinfo_action)
         sysinfo_action.triggered.connect(self.show_sysinfo_box)
+
+    def export_data_to_csv(self):
+        file_path_str = mc.model.export_all()
+        QtWidgets.QMessageBox.information(
+            self,
+            "Data exported",
+            "Data exported to file " + '<a href="' + 'file:///' + file_path_str + '">' + file_path_str + '</a>'
+        )
 
     def on_suspend_application_clicked(self):
 
