@@ -9,6 +9,7 @@ import mc.model
 TIME_NOT_SET_FT = 0.0
 BR_WIDTH_FT = 50.0
 BR_HEIGHT_FT = 50.0
+MIN_SCALE_FT = 0.7
 
 
 class BreathingDlg(QtWidgets.QFrame):
@@ -93,13 +94,13 @@ class BreathingDlg(QtWidgets.QFrame):
         self._ob_length_ft_list = []
 
         # Animation
-        self._ib_qtimeline = QtCore.QTimeLine(duration=10000)
+        self._ib_qtimeline = QtCore.QTimeLine(duration=8000)
         self._ib_qtimeline.setFrameRange(1, 1000)
         self._ib_qtimeline.setCurveShape(QtCore.QTimeLine.LinearCurve)
         self._ib_qtimeline.frameChanged.connect(
             self._breathing_graphicsview_l3.frame_change_breathing_in
         )
-        self._ob_qtimeline = QtCore.QTimeLine(duration=20000)
+        self._ob_qtimeline = QtCore.QTimeLine(duration=16000)
         self._ob_qtimeline.setFrameRange(1, 2000)
         self._ob_qtimeline.setCurveShape(QtCore.QTimeLine.LinearCurve)
         self._ob_qtimeline.frameChanged.connect(
@@ -239,6 +240,10 @@ class BreathingDlg(QtWidgets.QFrame):
                 self._ib_length_ft_list,
                 self._ob_length_ft_list
             )
+
+            self._ib_qtimeline.stop()
+            self._ob_qtimeline.stop()
+
             self.close()
 
     def update_gui(self):
@@ -347,21 +352,25 @@ class GraphicsView(QtWidgets.QGraphicsView):
 
     def frame_change_breathing_in(self, i_frame_nr_int):
         phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+
+        new_scale_int_ft = 1 + 0.001 * i_frame_nr_int
+
         if phrase.type == mc.mc_global.BreathingPhraseType.in_out:
-            self.text_gi.setScale(1 + 0.001 * i_frame_nr_int)
-        else:
-            pass
-        self._custom_gi.setScale(1 + 0.001 * i_frame_nr_int)
+            self.text_gi.setScale(new_scale_int_ft)
+        self._custom_gi.setScale(new_scale_int_ft)
         # self.setTextWidth(self.textWidth() + 1)
 
     def frame_change_breathing_out(self, i_frame_nr_int):
         logging.debug("[frame_change_breathing_out] mc.mc_global.active_phrase_id_it = " + str(mc.mc_global.active_phrase_id_it))
         phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+
+        new_scale_int_ft = self._peak_scale_ft - 0.0005 * i_frame_nr_int
+        if new_scale_int_ft < MIN_SCALE_FT:
+            new_scale_int_ft = MIN_SCALE_FT
+
         if phrase.type == mc.mc_global.BreathingPhraseType.in_out:
-            self.text_gi.setScale(self._peak_scale_ft - 0.0005 * i_frame_nr_int)
-        else:
-            pass
-        self._custom_gi.setScale(self._peak_scale_ft - 0.0005 * i_frame_nr_int)
+            self.text_gi.setScale(new_scale_int_ft)
+        self._custom_gi.setScale(new_scale_int_ft)
         # self.setTextWidth(self.textWidth() + 1)
 
 
