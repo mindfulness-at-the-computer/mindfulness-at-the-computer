@@ -76,7 +76,7 @@ def initial_schema_and_setup(i_db_conn: sqlite3.Connection) -> None:
         + Schema.SettingsTable.Cols.breathing_reminder_notification_type + " INTEGER NOT NULL"
         + " DEFAULT " + str(mc_global.NotificationType.Both.value) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_phrase_setup + " INTEGER NOT NULL"
-        + " DEFAULT " + str(mc_global.PhraseSetup.Switch.value) + ", "
+        + " DEFAULT " + str(mc_global.PhraseSetup.Long.value) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_nr_before_dialog + " INTEGER NOT NULL"
         + " DEFAULT " + str(DEFAULT_BREATHING_REMINDER_NR_BEFORE_DIALOG_INT) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_dialog_audio_active + " INTEGER NOT NULL"

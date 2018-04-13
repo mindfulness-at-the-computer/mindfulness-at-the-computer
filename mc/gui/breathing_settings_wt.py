@@ -86,19 +86,6 @@ class BreathingSettingsWt(QtWidgets.QWidget):
 
         hbox_l4 = QtWidgets.QHBoxLayout()
         vbox_l3.addLayout(hbox_l4)
-        hbox_l4.addWidget(QtWidgets.QLabel(self.tr("Phrase setup: ")))
-        hbox_l4.addStretch(1)
-        self.phrase_setup_qcb = QtWidgets.QComboBox()
-        hbox_l4.addWidget(self.phrase_setup_qcb)
-        self.phrase_setup_qcb.activated.connect(self.on_phrase_setup_activated)
-        self.phrase_setup_qcb.addItems([
-            mc.mc_global.PhraseSetup.Long.name,
-            mc.mc_global.PhraseSetup.Switch.name,
-            mc.mc_global.PhraseSetup.Short.name
-        ])
-
-        hbox_l4 = QtWidgets.QHBoxLayout()
-        vbox_l3.addLayout(hbox_l4)
         hbox_l4.addWidget(QtWidgets.QLabel(self.tr("Show after")))
         self.notifications_per_dialog_qsb = QtWidgets.QSpinBox()
         hbox_l4.addWidget(self.notifications_per_dialog_qsb)
@@ -265,7 +252,6 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         phrase_setup_enum = mc.mc_global.PhraseSetup(
             settings.breathing_reminder_phrase_setup_int
         )
-        self.phrase_setup_qcb.setCurrentText(phrase_setup_enum.name)
 
         self.dialog_audio_qcb.setChecked(settings.breathing_reminder_dialog_audio_active_bool)
 

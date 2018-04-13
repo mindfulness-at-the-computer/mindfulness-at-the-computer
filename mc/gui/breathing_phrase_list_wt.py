@@ -227,8 +227,6 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             phrase.title = self.edit_dialog.breath_title_qle.text()
             phrase.ib = self.edit_dialog.in_breath_phrase_qle.text()
             phrase.ob = self.edit_dialog.out_breath_phrase_qle.text()
-            phrase.ib_short = self.edit_dialog.short_in_breath_phrase_qle.text()
-            phrase.ob_short = self.edit_dialog.short_out_breath_phrase_qle.text()
             if self.edit_dialog.in_out_qrb.isChecked():
                 phrase.type = mc.mc_global.BreathingPhraseType.in_out
             else:
@@ -346,16 +344,6 @@ class EditDialog(QtWidgets.QDialog):
         self.out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob)
         vbox.addWidget(self.out_breath_phrase_qle)
 
-        vbox.addWidget(QtWidgets.QLabel("Shortened"))
-
-        self.short_in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib_short)
-        vbox.addWidget(QtWidgets.QLabel(self.tr("Short in breath phrase")))
-        vbox.addWidget(self.short_in_breath_phrase_qle)
-
-        self.short_out_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ob_short)
-        vbox.addWidget(QtWidgets.QLabel(self.tr("Short out breath phrase")))
-        vbox.addWidget(self.short_out_breath_phrase_qle)
-
         self.button_box = QtWidgets.QDialogButtonBox(
             QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Cancel,
             QtCore.Qt.Horizontal,
@@ -385,7 +373,6 @@ class EditDialog(QtWidgets.QDialog):
             return
         if i_checked:
             self.out_breath_phrase_qle.clear()
-            self.short_out_breath_phrase_qle.clear()
             # If the user has just opened the edit dialog and selected single we remove the ib text
             if self.in_breath_phrase_qle.text() == BREATHING_IN_DEFAULT_PHRASE:
                 self.in_breath_phrase_qle.clear()
@@ -396,10 +383,8 @@ class EditDialog(QtWidgets.QDialog):
 
         if self.in_out_qrb.isChecked():
             self.out_breath_phrase_qle.show()
-            self.short_out_breath_phrase_qle.show()
         else:
             self.out_breath_phrase_qle.hide()
-            self.short_out_breath_phrase_qle.hide()
 
         self.adjustSize()
 
