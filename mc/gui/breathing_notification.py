@@ -23,7 +23,7 @@ class BreathingNotification(QtWidgets.QFrame):
     close_signal = QtCore.pyqtSignal()
     # wait_signal = QtCore.pyqtSignal()
 
-    def __init__(self):
+    def __init__(self, i_preparatory: bool=False):
         super().__init__(None, WINDOW_FLAGS)
 
         # self.setWindowFlags()
@@ -33,6 +33,8 @@ class BreathingNotification(QtWidgets.QFrame):
 
         # | QtCore.Qt.WindowStaysOnTopHint
         # | QtCore.Qt.X11BypassWindowManagerHint
+
+        self.preparatory_bool = i_preparatory
 
         self.setFocusPolicy(QtCore.Qt.NoFocus)
 
@@ -44,8 +46,12 @@ class BreathingNotification(QtWidgets.QFrame):
 
         self.image_qll = QtWidgets.QLabel()
         hbox_l2.addWidget(self.image_qll)
+
+        image_filename_str = "stones.png"
+        if self.preparatory_bool:
+            image_filename_str = "flower-and-stones.png"
         self.image_qll.setPixmap(
-            QtGui.QPixmap(mc.mc_global.get_user_images_path("stones.png"))
+            QtGui.QPixmap(mc.mc_global.get_user_images_path(image_filename_str))
         )
         self.image_qll.setScaledContents(True)
         self.resize_image()
@@ -53,11 +59,16 @@ class BreathingNotification(QtWidgets.QFrame):
         vbox_l3 = QtWidgets.QVBoxLayout()
         hbox_l2.addLayout(vbox_l3)
 
-        phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-        self.ib_qll = QtWidgets.QLabel(phrase.ib)
-        vbox_l3.addWidget(self.ib_qll)
-        self.ob_qll = QtWidgets.QLabel(phrase.ob)
-        vbox_l3.addWidget(self.ob_qll)
+        if self.preparatory_bool:
+            self.prep_qll = QtWidgets.QLabel("Please slow down and prepare for your breathing break. Please adjust your posture")
+            self.prep_qll.setWordWrap(True)
+            vbox_l3.addWidget(self.prep_qll)
+        else:
+            phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+            self.ib_qll = QtWidgets.QLabel(phrase.ib)
+            vbox_l3.addWidget(self.ib_qll)
+            self.ob_qll = QtWidgets.QLabel(phrase.ob)
+            vbox_l3.addWidget(self.ob_qll)
 
         hbox_l4 = QtWidgets.QHBoxLayout()
         vbox_l3.addLayout(hbox_l4)
@@ -96,7 +107,11 @@ class BreathingNotification(QtWidgets.QFrame):
         self.shown_qtimer.start(SHOWN_TIMER_TIME_INT)
 
     def shown_timer_timeout(self):
-        self.on_close_button_clicked()
+        if self.preparatory_bool:
+            self.breathe_signal.emit()
+            self.close()
+        else:
+            self.on_close_button_clicked()
 
     # overridden
     def mousePressEvent(self, i_qmouseevent):

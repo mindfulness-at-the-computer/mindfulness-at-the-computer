@@ -579,8 +579,15 @@ class MainWin(QtWidgets.QMainWindow):
             self._play_audio(audio_path_str, volume_int)
 
     def open_breathing_prepare(self):
+
+        self.breathing_notification = mc.gui.breathing_notification.BreathingNotification(i_preparatory=True)
+        self.breathing_notification.breathe_signal.connect(self.on_breathing_notification_breathe_clicked)
+        self.breathing_notification.show()
+
+        """
         self.breathing_prepare = mc.gui.breathing_prepare.BreathingPrepareDlg()
         self.breathing_prepare.closed_signal.connect(self.open_breathing_dialog)
+        """
 
     def open_breathing_dialog(self, i_mute_override: bool=False):
 
