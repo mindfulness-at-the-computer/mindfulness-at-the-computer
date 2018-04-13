@@ -311,6 +311,8 @@ class EditDialog(QtWidgets.QDialog):
 
         self.setModal(True)
 
+        self.setMinimumWidth(250)
+
         self.updating_gui_bool = False
 
         # If a phrase is not selected, default to phrase with id 1
@@ -324,18 +326,6 @@ class EditDialog(QtWidgets.QDialog):
         self.breath_title_qle = QtWidgets.QLineEdit(active_phrase.title)
         vbox.addWidget(QtWidgets.QLabel(self.tr("Title")))
         vbox.addWidget(self.breath_title_qle)
-
-        self.group_qbg = QtWidgets.QButtonGroup(self)
-
-        self.in_out_qrb = QtWidgets.QRadioButton("In and out phrase")
-        vbox.addWidget(self.in_out_qrb)
-        self.group_qbg.addButton(self.in_out_qrb)
-        self.in_out_qrb.toggled.connect(self.on_in_out_toggled)
-
-        self.single_qrb = QtWidgets.QRadioButton("Single phrase")
-        vbox.addWidget(self.single_qrb)
-        self.group_qbg.addButton(self.single_qrb)
-        self.single_qrb.toggled.connect(self.on_single_toggled)
 
         vbox.addWidget(QtWidgets.QLabel("Phrase(s)"))
         self.in_breath_phrase_qle = QtWidgets.QLineEdit(active_phrase.ib)
@@ -354,37 +344,10 @@ class EditDialog(QtWidgets.QDialog):
         self.button_box.rejected.connect(self.reject)
         # -accept and reject are "slots" built into Qt
 
-        if active_phrase.type == mc.mc_global.BreathingPhraseType.single:
-            self.single_qrb.setChecked(True)
-        else:
-            self.in_out_qrb.setChecked(True)
-
-        self.update_gui()
-
-    # noinspection PyUnusedLocal
-    def on_in_out_toggled(self, i_checked: bool):
-        if self.updating_gui_bool:
-            return
-        # self.out_breath_phrase_qle.setText(BREATHING_IN_DEFAULT_PHRASE)
-        self.update_gui()
-
-    def on_single_toggled(self, i_checked: bool):
-        if self.updating_gui_bool:
-            return
-        if i_checked:
-            self.out_breath_phrase_qle.clear()
-            # If the user has just opened the edit dialog and selected single we remove the ib text
-            if self.in_breath_phrase_qle.text() == BREATHING_IN_DEFAULT_PHRASE:
-                self.in_breath_phrase_qle.clear()
         self.update_gui()
 
     def update_gui(self):
         self.updating_gui_bool = True
-
-        if self.in_out_qrb.isChecked():
-            self.out_breath_phrase_qle.show()
-        else:
-            self.out_breath_phrase_qle.hide()
 
         self.adjustSize()
 
