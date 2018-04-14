@@ -227,10 +227,6 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             phrase.title = self.edit_dialog.breath_title_qle.text()
             phrase.ib = self.edit_dialog.in_breath_phrase_qle.text()
             phrase.ob = self.edit_dialog.out_breath_phrase_qle.text()
-            if self.edit_dialog.in_out_qrb.isChecked():
-                phrase.type = mc.mc_global.BreathingPhraseType.in_out
-            else:
-                phrase.type = mc.mc_global.BreathingPhraseType.single
         else:
             pass
 
