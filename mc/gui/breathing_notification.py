@@ -49,7 +49,7 @@ class BreathingNotification(QtWidgets.QFrame):
 
         image_filename_str = "stones.png"
         if self.preparatory_bool:
-            image_filename_str = "flower-and-stones.png"
+            image_filename_str = "bikkhu-hands.png"
         self.image_qll.setPixmap(
             QtGui.QPixmap(mc.mc_global.get_user_images_path(image_filename_str))
         )
