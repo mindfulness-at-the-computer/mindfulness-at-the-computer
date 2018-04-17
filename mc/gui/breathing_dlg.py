@@ -239,25 +239,25 @@ class CustomGraphicsView(QtWidgets.QGraphicsView):
         if mc.mc_global.breathing_state == mc.mc_global.BreathingState.breathing_in:
             return
 
-        small_qsize = QtCore.QSizeF(BR_WIDTH_FT, BR_HEIGHT_FT)
+        hover_rectangle_qsize = QtCore.QSizeF(BR_WIDTH_FT, BR_HEIGHT_FT)
         # noinspection PyCallByClass
         pos_pointf = QtWidgets.QGraphicsItem.mapFromItem(
             self._breathing_gi,
             self._breathing_gi,
-            self._breathing_gi.x() + (self._breathing_gi.boundingRect().width() - small_qsize.width()) / 2,
-            self._breathing_gi.y() + (self._breathing_gi.boundingRect().height() - small_qsize.height()) / 2
+            self._breathing_gi.x() + (self._breathing_gi.boundingRect().width() - hover_rectangle_qsize.width()) / 2,
+            self._breathing_gi.y() + (self._breathing_gi.boundingRect().height() - hover_rectangle_qsize.height()) / 2
         )
         # -widget coords
-        small_widget_coords_qrect = QtCore.QRectF(pos_pointf, small_qsize)
+        hover_rectangle_coords_qrect = QtCore.QRectF(pos_pointf, hover_rectangle_qsize)
 
         cursor = QtGui.QCursor()  # -screen coords
         cursor_pos_widget_coords_qp = self.mapFromGlobal(cursor.pos())  # -widget coords
 
         logging.debug("cursor.pos() = " + str(cursor.pos()))
         logging.debug("cursor_pos_widget_coords_qp = " + str(cursor_pos_widget_coords_qp))
-        logging.debug("small_widget_coords_qrect = " + str(small_widget_coords_qrect))
+        logging.debug("hover_rectangle_coords_qrect = " + str(hover_rectangle_coords_qrect))
 
-        if small_widget_coords_qrect.contains(cursor_pos_widget_coords_qp):
+        if hover_rectangle_coords_qrect.contains(cursor_pos_widget_coords_qp):
             mc.mc_global.breathing_state = mc.mc_global.BreathingState.breathing_in
             self.ib_signal.emit()
             self.text_gi.update_pos_and_origin_point(VIEW_WIDTH_INT, VIEW_HEIGHT_INT)
