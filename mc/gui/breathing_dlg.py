@@ -10,6 +10,8 @@ TIME_NOT_SET_FT = 0.0
 BR_WIDTH_FT = 50.0
 BR_HEIGHT_FT = 50.0
 MIN_SCALE_FT = 0.7
+HISTORY_IB_MAX = 4.0
+HISTORY_OB_MAX = 7.0
 
 
 class BreathingDlg(QtWidgets.QFrame):
@@ -122,7 +124,10 @@ class BreathingDlg(QtWidgets.QFrame):
 
         now = time.time()
         if self._start_time_ft != TIME_NOT_SET_FT:
-            self._ob_length_ft_list.append(now - self._start_time_ft)
+            diff = now - self._start_time_ft
+            if diff > HISTORY_OB_MAX:
+                diff = HISTORY_OB_MAX
+            self._ob_length_ft_list.append(diff)
         self._start_time_ft = now
 
         are_switching_bool = settings.breathing_reminder_phrase_setup_int == mc.mc_global.PhraseSetup.Switch.value
@@ -150,7 +155,10 @@ class BreathingDlg(QtWidgets.QFrame):
         self._ib_qtimeline.stop()
 
         now = time.time()
-        self._ib_length_ft_list.append(now - self._start_time_ft)
+        diff = now - self._start_time_ft
+        if diff > HISTORY_IB_MAX:
+            diff = HISTORY_IB_MAX
+        self._ib_length_ft_list.append(diff)
         self._start_time_ft = now
 
         if phrase.type == mc.mc_global.BreathingPhraseType.single:
@@ -233,7 +241,10 @@ class BreathingDlg(QtWidgets.QFrame):
 
             if len(self._ob_length_ft_list) < len(self._ib_length_ft_list):
                 now = time.time()
-                self._ob_length_ft_list.append(now - self._start_time_ft)
+                diff = now - self._start_time_ft
+                if diff > HISTORY_OB_MAX:
+                    diff = HISTORY_OB_MAX
+                self._ob_length_ft_list.append(diff)
 
             self._cursor_qtimer.stop()
             self.close_signal.emit(
