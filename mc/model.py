@@ -453,7 +453,7 @@ class SettingsM:
         i_breathing_reminder_active: int,
         i_breathing_reminder_interval: int,
         i_breathing_reminder_audio_filename: str,
-        i_breathing_reminder_volume: int,
+        i_breathing_reminder_audio_volume: int,
         i_breathing_reminder_notification_type: int,
         i_breathing_reminder_phrase_setup: int,
         i_breathing_reminder_nr_before_dialog: int,
@@ -461,6 +461,8 @@ class SettingsM:
         i_breathing_reminder_dialog_close_on_active: int,
         i_breathing_reminder_text: str,
         i_breathing_dialog_phrase_selection: int,
+        i_prep_reminder_audio_filename: str,
+        i_prep_reminder_audio_volume: int,
         i_run_on_startup: int
     ) -> None:
         self.rest_reminder_active_bool = True if i_rest_reminder_active else False
@@ -471,7 +473,7 @@ class SettingsM:
         self.breathing_reminder_active_bool = True if i_breathing_reminder_active else False
         self.breathing_reminder_interval_int = i_breathing_reminder_interval
         self.breathing_reminder_audio_filename_str = i_breathing_reminder_audio_filename
-        self.breathing_reminder_volume_int = i_breathing_reminder_volume
+        self.breathing_reminder_audio_volume_int = i_breathing_reminder_audio_volume
         self.breathing_reminder_notification_type_int = i_breathing_reminder_notification_type
         self.breathing_reminder_phrase_setup_int = i_breathing_reminder_phrase_setup
         self.breathing_reminder_nr_before_dialog_int = i_breathing_reminder_nr_before_dialog
@@ -480,7 +482,25 @@ class SettingsM:
             True if i_breathing_reminder_dialog_close_on_active else False
         self.breathing_reminder_text_str = i_breathing_reminder_text
         self.breathing_dialog_phrase_selection_int = i_breathing_dialog_phrase_selection
+        self.prep_reminder_audio_filename_str = i_prep_reminder_audio_filename
+        self.prep_reminder_audio_volume_int = i_prep_reminder_audio_volume
         self.run_on_startup_bool = True if i_run_on_startup else False
+
+    @property
+    def prep_reminder_audio_volume(self) -> int:
+        return self.prep_reminder_audio_volume_int
+
+    @prep_reminder_audio_volume.setter
+    def prep_reminder_audio_volume(self, i_new_prep_reminder_audio_volume):
+        self.prep_reminder_audio_volume_int = i_new_prep_reminder_audio_volume
+
+    @property
+    def prep_reminder_audio_filename(self) -> str:
+        return self.prep_reminder_audio_filename_str
+
+    @prep_reminder_audio_filename.setter
+    def prep_reminder_audio_filename(self, i_new_prep_reminder_audio_filename: str):
+        self.prep_reminder_audio_filename_str = i_new_prep_reminder_audio_filename
 
     @property
     def breathing_dialog_phrase_selection(self) -> mc.mc_global.PhraseSelection:
@@ -512,15 +532,15 @@ class SettingsM:
         )
 
     @property
-    def rest_reminder_audio_path(self) -> str:
-        return self.rest_reminder_audio_path
+    def rest_reminder_audio_filename(self) -> str:
+        return self.rest_reminder_audio_filename
 
-    @rest_reminder_audio_path.setter
-    def rest_reminder_audio_path(self, i_new_path: str) -> None:
-        self.rest_reminder_audio_filename_str = i_new_path
+    @rest_reminder_audio_filename.setter
+    def rest_reminder_audio_filename(self, i_new_filename: str) -> None:
+        self.rest_reminder_audio_filename_str = i_new_filename
         self._update(
-            db.Schema.SettingsTable.Cols.rest_reminder_audio_path,
-            i_new_path
+            db.Schema.SettingsTable.Cols.rest_reminder_audio_filename,
+            i_new_filename
         )
 
     @property
@@ -590,10 +610,10 @@ class SettingsM:
         # -the asterisk (*) will "expand" the tuple into separate arguments for the function header
 
     @staticmethod
-    def update_rest_reminder_audio_path(i_new_audio_path: str) -> None:
+    def update_rest_reminder_audio_filename(i_new_audio_filename: str) -> None:
         SettingsM._update(
-            db.Schema.SettingsTable.Cols.rest_reminder_audio_path,
-            i_new_audio_path
+            db.Schema.SettingsTable.Cols.rest_reminder_audio_filename,
+            i_new_audio_filename
         )
 
     @staticmethod
@@ -655,16 +675,30 @@ class SettingsM:
         )
 
     @staticmethod
-    def update_breathing_reminder_audio_path(i_new_audio_path: str) -> None:
+    def update_prep_reminder_audio_filename(i_new_audio_filename: str) -> None:
         SettingsM._update(
-            db.Schema.SettingsTable.Cols.breathing_reminder_audio_path,
-            i_new_audio_path
+            db.Schema.SettingsTable.Cols.prep_reminder_audio_filename,
+            i_new_audio_filename
+        )
+
+    @staticmethod
+    def update_breathing_reminder_audio_filename(i_new_audio_filename: str) -> None:
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.breathing_reminder_audio_filename,
+            i_new_audio_filename
         )
 
     @staticmethod
     def update_breathing_reminder_volume(i_new_volume: int) -> None:
         SettingsM._update(
             db.Schema.SettingsTable.Cols.breathing_reminder_volume,
+            i_new_volume
+        )
+
+    @staticmethod
+    def update_prep_reminder_audio_volume(i_new_volume: int) -> None:
+        SettingsM._update(
+            db.Schema.SettingsTable.Cols.prep_reminder_audio_volume,
             i_new_volume
         )
 

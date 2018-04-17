@@ -60,6 +60,20 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         hbox_l4.addWidget(QtWidgets.QLabel(self.tr("minutes")))
         hbox_l4.addStretch(1)
 
+        vbox_l3.addWidget(self.h_line())
+        self.notif_select_audio_qpb = QtWidgets.QPushButton(self.tr("Select audio"))
+        vbox_l3.addWidget(self.notif_select_audio_qpb)
+        self.notif_select_audio_qpb.clicked.connect(self.on_notif_select_audio_clicked)
+        self.notif_audio_path_qll = QtWidgets.QLabel(NO_AUDIO_SELECTED_STR)
+        vbox_l3.addWidget(self.notif_audio_path_qll)
+        self.notif_audio_path_qll.setWordWrap(True)
+        self.notif_volume_qsr = QtWidgets.QSlider()
+        vbox_l3.addWidget(self.notif_volume_qsr)
+        self.notif_volume_qsr.setOrientation(QtCore.Qt.Horizontal)
+        self.notif_volume_qsr.setMinimum(0)
+        self.notif_volume_qsr.setMaximum(100)
+        self.notif_volume_qsr.valueChanged.connect(self.notif_volume_changed)
+
         """
         self.notification_text_qpb = QtWidgets.QPushButton("Set text")
         self.notification_text_qpb.clicked.connect(self.on_notification_text_button_clicked)
@@ -93,35 +107,29 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         hbox_l4.addWidget(QtWidgets.QLabel(self.tr("notifications")))
         hbox_l4.addStretch(1)
 
+        """
         self.dialog_audio_qcb = QtWidgets.QCheckBox(self.tr("Play Audio"))
         vbox_l3.addWidget(self.dialog_audio_qcb)
         self.dialog_audio_qcb.toggled.connect(self.on_dialog_audio_toggled)
+        """
 
         self.dialog_close_on_hover_qcb = QtWidgets.QCheckBox(self.tr("Close on hover"))
         vbox_l3.addWidget(self.dialog_close_on_hover_qcb)
         self.dialog_close_on_hover_qcb.toggled.connect(self.on_dialog_close_on_hover_toggled)
 
-        self.test_breathing_dialog_qpb = QtWidgets.QPushButton(self.tr("Open breathing dialog"))
-        vbox_l3.addWidget(self.test_breathing_dialog_qpb)
-        self.test_breathing_dialog_qpb.clicked.connect(self.on_open_breathing_dialog_button_clicked)
-
-        # Audio
-        self.audio_qgb = QtWidgets.QGroupBox(self.tr("Audio"))
-        vbox_l2.addWidget(self.audio_qgb)
-        vbox_l3 = QtWidgets.QVBoxLayout()
-        self.audio_qgb.setLayout(vbox_l3)
-        self.select_audio_qpb = QtWidgets.QPushButton(self.tr("Select audio"))
-        vbox_l3.addWidget(self.select_audio_qpb)
-        self.select_audio_qpb.clicked.connect(self.on_select_audio_clicked)
-        self.audio_path_qll = QtWidgets.QLabel(NO_AUDIO_SELECTED_STR)
-        vbox_l3.addWidget(self.audio_path_qll)
-        self.audio_path_qll.setWordWrap(True)
-        self.volume_qsr = QtWidgets.QSlider()
-        vbox_l3.addWidget(self.volume_qsr)
-        self.volume_qsr.setOrientation(QtCore.Qt.Horizontal)
-        self.volume_qsr.setMinimum(0)
-        self.volume_qsr.setMaximum(100)
-        self.volume_qsr.valueChanged.connect(self.volume_changed)
+        vbox_l3.addWidget(self.h_line())
+        self.prep_select_audio_qpb = QtWidgets.QPushButton(self.tr("Select audio"))
+        vbox_l3.addWidget(self.prep_select_audio_qpb)
+        self.prep_select_audio_qpb.clicked.connect(self.on_prep_select_audio_clicked)
+        self.prep_audio_path_qll = QtWidgets.QLabel(NO_AUDIO_SELECTED_STR)
+        vbox_l3.addWidget(self.prep_audio_path_qll)
+        self.prep_audio_path_qll.setWordWrap(True)
+        self.prep_volume_qsr = QtWidgets.QSlider()
+        vbox_l3.addWidget(self.prep_volume_qsr)
+        self.prep_volume_qsr.setOrientation(QtCore.Qt.Horizontal)
+        self.prep_volume_qsr.setMinimum(0)
+        self.prep_volume_qsr.setMaximum(100)
+        self.prep_volume_qsr.valueChanged.connect(self.prep_volume_changed)
 
         vbox_l2.addStretch(1)
 
@@ -129,6 +137,11 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         self.setDisabled(True)
 
         self.update_gui()
+
+    def h_line(self):
+        horizontal_line = QtWidgets.QFrame()
+        horizontal_line.setFrameShape(QtWidgets.QFrame.HLine)
+        return horizontal_line
 
     def on_phrase_selection_activated(self, i_index: int):
         # -activated is only triggered on user action
@@ -165,12 +178,17 @@ class BreathingSettingsWt(QtWidgets.QWidget):
             return
         mc.model.SettingsM.update_breathing_reminder_nr_per_dialog(i_new_value)
 
-    def volume_changed(self, i_value: int):
+    def prep_volume_changed(self, i_value: int):
+        if self.updating_gui_bool:
+            return
+        mc.model.SettingsM.update_prep_reminder_audio_volume(i_value)
+
+    def notif_volume_changed(self, i_value: int):
         if self.updating_gui_bool:
             return
         mc.model.SettingsM.update_breathing_reminder_volume(i_value)
 
-    def on_select_audio_clicked(self):
+    def on_prep_select_audio_clicked(self):
         # noinspection PyCallByClass
         audio_file_result_tuple = QtWidgets.QFileDialog.getOpenFileName(
             self,
@@ -181,30 +199,62 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         new_file_path_str = audio_file_result_tuple[0]
         if new_file_path_str:
             new_filename_str = os.path.basename(new_file_path_str)  # -we store the name instead of the path
-            mc.model.SettingsM.update_breathing_reminder_audio_path(new_filename_str)
+            mc.model.SettingsM.update_prep_reminder_audio_filename(new_filename_str)
         else:
             pass
-        self.update_gui_audio_details()
+        self.prep_update_gui_audio_details()
+        self.notif_update_gui_audio_details()
 
-    def update_gui_audio_details(self):
+    def on_notif_select_audio_clicked(self):
+        # noinspection PyCallByClass
+        audio_file_result_tuple = QtWidgets.QFileDialog.getOpenFileName(
+            self,
+            self.tr("Please choose a wav audio file"),
+            mc_global.get_user_audio_path(),
+            self.tr("Wav files (*.wav)")
+        )
+        new_file_path_str = audio_file_result_tuple[0]
+        if new_file_path_str:
+            new_filename_str = os.path.basename(new_file_path_str)  # -we store the name instead of the path
+            mc.model.SettingsM.update_breathing_reminder_audio_filename(new_filename_str)
+        else:
+            pass
+        self.prep_update_gui_audio_details()
+        self.notif_update_gui_audio_details()
+
+    def prep_update_gui_audio_details(self):
+        self.updating_gui_bool = True
+        settings = mc.model.SettingsM.get()
+
+        audio_path_str = settings.prep_reminder_audio_filename
+        audio_file_name_str = os.path.basename(audio_path_str)
+        if audio_file_name_str:
+            self.prep_audio_path_qll.setText(audio_file_name_str)
+        else:
+            self.prep_audio_path_qll.setText(NO_AUDIO_SELECTED_STR)
+
+        #self.dialog_audio_qcb.setChecked(settings.breathing_reminder_dialog_audio_active_bool)
+        self.dialog_close_on_hover_qcb.setChecked(settings.breathing_reminder_dialog_close_on_active_bool)
+        self.prep_volume_qsr.setValue(settings.prep_reminder_audio_volume)
+
+        self.updating_gui_bool = False
+
+    def notif_update_gui_audio_details(self):
         self.updating_gui_bool = True
         settings = mc.model.SettingsM.get()
 
         audio_path_str = settings.breathing_reminder_audio_filename_str
         audio_file_name_str = os.path.basename(audio_path_str)
         if audio_file_name_str:
-            self.audio_path_qll.setText(audio_file_name_str)
+            self.notif_audio_path_qll.setText(audio_file_name_str)
         else:
-            self.audio_path_qll.setText(NO_AUDIO_SELECTED_STR)
+            self.notif_audio_path_qll.setText(NO_AUDIO_SELECTED_STR)
 
-        self.dialog_audio_qcb.setChecked(settings.breathing_reminder_dialog_audio_active_bool)
+        #self.dialog_audio_qcb.setChecked(settings.breathing_reminder_dialog_audio_active_bool)
         self.dialog_close_on_hover_qcb.setChecked(settings.breathing_reminder_dialog_close_on_active_bool)
-        self.volume_qsr.setValue(settings.breathing_reminder_volume_int)
+        self.notif_volume_qsr.setValue(settings.breathing_reminder_audio_volume_int)
 
         self.updating_gui_bool = False
-
-    def on_open_breathing_dialog_button_clicked(self):
-        self.breathe_now_button_clicked_signal.emit()
 
     def on_switch_toggled(self, i_checked_bool):
         if self.updating_gui_bool:
@@ -240,7 +290,8 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         self.breathing_reminder_length_qsb.setValue(breathing_reminder_length_minutes_int)
         """
 
-        self.update_gui_audio_details()
+        self.prep_update_gui_audio_details()
+        self.notif_update_gui_audio_details()
 
         breathing_notification_type_enum = mc.mc_global.NotificationType(
             settings.breathing_reminder_notification_type_int
@@ -253,7 +304,7 @@ class BreathingSettingsWt(QtWidgets.QWidget):
             settings.breathing_reminder_phrase_setup_int
         )
 
-        self.dialog_audio_qcb.setChecked(settings.breathing_reminder_dialog_audio_active_bool)
+        #self.dialog_audio_qcb.setChecked(settings.breathing_reminder_dialog_audio_active_bool)
 
         self.notifications_per_dialog_qsb.setValue(
             settings.breathing_reminder_nr_before_dialog_int
