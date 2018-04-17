@@ -7,8 +7,6 @@ import mc.mc_global
 import mc.model
 
 TIME_NOT_SET_FT = 0.0
-BR_WIDTH_FT = 50.0
-BR_HEIGHT_FT = 50.0
 MIN_SCALE_FT = 0.7
 HISTORY_IB_MAX = 4.0
 HISTORY_OB_MAX = 7.0
@@ -38,7 +36,7 @@ class BreathingDlg(QtWidgets.QFrame):
         self._ib_length_ft_list = []
         self._ob_length_ft_list = []
 
-        self._breathing_graphicsview_l3 = GraphicsView()
+        self._breathing_graphicsview_l3 = CustomGraphicsView()
         self._breathing_graphicsview_l3.ib_signal.connect(self._start_breathing_in)
         self._breathing_graphicsview_l3.ob_signal.connect(self._start_breathing_out)
         vbox_l2.addWidget(self._breathing_graphicsview_l3)
@@ -160,7 +158,6 @@ class BreathingDlg(QtWidgets.QFrame):
                 diff = HISTORY_OB_MAX
             self._ob_length_ft_list.append(diff)
 
-        self._cursor_qtimer.stop()
         self.close_signal.emit(
             self._ib_length_ft_list,
             self._ob_length_ft_list
@@ -189,7 +186,13 @@ class CustomPushButton(QtWidgets.QPushButton):
         self.entered_signal.emit()
 
 
-class GraphicsView(QtWidgets.QGraphicsView):
+VIEW_WIDTH_INT = 330
+VIEW_HEIGHT_INT = 160
+BR_WIDTH_FT = 50.0
+BR_HEIGHT_FT = 50.0
+
+
+class CustomGraphicsView(QtWidgets.QGraphicsView):
     ib_signal = QtCore.pyqtSignal()
     ob_signal = QtCore.pyqtSignal()
 
@@ -198,11 +201,9 @@ class GraphicsView(QtWidgets.QGraphicsView):
         super().__init__()
         self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self._view_width_int = 330
-        self._view_height_int = 160
-        self.setFixedWidth(self._view_width_int)
-        self.setFixedHeight(self._view_height_int)
-        t_brush = QtGui.QBrush(QtGui.QColor("#ffffff"))
+        self.setFixedWidth(VIEW_WIDTH_INT)
+        self.setFixedHeight(VIEW_HEIGHT_INT)
+        t_brush = QtGui.QBrush(QtGui.QColor(mc.mc_global.MC_WHITE_COLOR_STR))
         self.setBackgroundBrush(t_brush)
         self.setRenderHints(
             QtGui.QPainter.Antialiasing |
@@ -213,41 +214,41 @@ class GraphicsView(QtWidgets.QGraphicsView):
         self._graphics_scene = QtWidgets.QGraphicsScene()
         self.setScene(self._graphics_scene)
 
-        # Custom dynamic breathing graphic
-        self._custom_gi = BreathingGraphicsObject()
-        self._graphics_scene.addItem(self._custom_gi)
-        self._custom_gi.update_pos_and_origin_point(self._view_width_int, self._view_height_int)
-        self._custom_gi.enter_signal.connect(self._ib_start)
-        self._custom_gi.leave_signal.connect(self._ob_start)
+        # Custom dynamic breathing graphic (may be possible to change this in the future)
+        self._breathing_gi = BreathingGraphicsObject()
+        self._graphics_scene.addItem(self._breathing_gi)
+        self._breathing_gi.update_pos_and_origin_point(VIEW_WIDTH_INT, VIEW_HEIGHT_INT)
+        self._breathing_gi.hover_signal.connect(self._breathing_gi_hover)
+        # -Please note that for breathing in we use a static sized rectangle (instead of the one the user sees),
+        # this is the reason for using "hover" instead of "enter above"
+        self._breathing_gi.leave_signal.connect(self._breathing_gi_leave)
 
         # Text
         self.text_gi = TextGraphicsItem()
-        self._graphics_scene.addItem(self.text_gi)
-        self.text_gi.setAcceptHoverEvents(False)
-        # -so that the underlying item will not be disturbed
+        self.text_gi.setAcceptHoverEvents(False)  # -so that the underlying item will not be disturbed
         ib_str = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it).ib
-        # self.text_gi.setPlainText(ib_str)
         self.text_gi.setHtml(mc.mc_global.get_html(ib_str))
         self.text_gi.setTextWidth(200)
-        self.text_gi.update_pos_and_origin_point(self._view_width_int, self._view_height_int)
+        self.text_gi.update_pos_and_origin_point(VIEW_WIDTH_INT, VIEW_HEIGHT_INT)
         self.text_gi.setDefaultTextColor(QtGui.QColor(mc.mc_global.MC_DARKER_GREEN_COLOR_STR))
+        self._graphics_scene.addItem(self.text_gi)
 
         self._peak_scale_ft = 1
 
-    def _ib_start(self):
+    def _breathing_gi_hover(self):
         if mc.mc_global.breathing_state == mc.mc_global.BreathingState.breathing_in:
             return
 
         small_qsize = QtCore.QSizeF(BR_WIDTH_FT, BR_HEIGHT_FT)
         # noinspection PyCallByClass
         pos_pointf = QtWidgets.QGraphicsItem.mapFromItem(
-            self._custom_gi, self._custom_gi,
-            self._custom_gi.x() + (self._custom_gi.boundingRect().width() - small_qsize.width()) / 2,
-            self._custom_gi.y() + (self._custom_gi.boundingRect().height() - small_qsize.height()) / 2
+            self._breathing_gi,
+            self._breathing_gi,
+            self._breathing_gi.x() + (self._breathing_gi.boundingRect().width() - small_qsize.width()) / 2,
+            self._breathing_gi.y() + (self._breathing_gi.boundingRect().height() - small_qsize.height()) / 2
         )
         # -widget coords
         small_widget_coords_qrect = QtCore.QRectF(pos_pointf, small_qsize)
-        # QtWidgets.QGraphicsItem
 
         cursor = QtGui.QCursor()  # -screen coords
         cursor_pos_widget_coords_qp = self.mapFromGlobal(cursor.pos())  # -widget coords
@@ -259,41 +260,34 @@ class GraphicsView(QtWidgets.QGraphicsView):
         if small_widget_coords_qrect.contains(cursor_pos_widget_coords_qp):
             mc.mc_global.breathing_state = mc.mc_global.BreathingState.breathing_in
             self.ib_signal.emit()
-            self.text_gi.update_pos_and_origin_point(self._view_width_int, self._view_height_int)
-            self._custom_gi.update_pos_and_origin_point(self._view_width_int, self._view_height_int)
+            self.text_gi.update_pos_and_origin_point(VIEW_WIDTH_INT, VIEW_HEIGHT_INT)
+            self._breathing_gi.update_pos_and_origin_point(VIEW_WIDTH_INT, VIEW_HEIGHT_INT)
 
-    def _ob_start(self):
+    def _breathing_gi_leave(self):
         if mc.mc_global.breathing_state != mc.mc_global.BreathingState.breathing_in:
             return
         mc.mc_global.breathing_state = mc.mc_global.BreathingState.breathing_out
 
-        self._peak_scale_ft = self._custom_gi.scale()
+        self._peak_scale_ft = self._breathing_gi.scale()
         self.ob_signal.emit()
-        self.text_gi.update_pos_and_origin_point(self._view_width_int, self._view_height_int)
-        self._custom_gi.update_pos_and_origin_point(self._view_width_int, self._view_height_int)
+        self.text_gi.update_pos_and_origin_point(VIEW_WIDTH_INT, VIEW_HEIGHT_INT)
+        self._breathing_gi.update_pos_and_origin_point(VIEW_WIDTH_INT, VIEW_HEIGHT_INT)
 
     def frame_change_breathing_in(self, i_frame_nr_int):
         phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-
         new_scale_int_ft = 1 + 0.001 * i_frame_nr_int
-
         if phrase.type == mc.mc_global.BreathingPhraseType.in_out:
             self.text_gi.setScale(new_scale_int_ft)
-        self._custom_gi.setScale(new_scale_int_ft)
-        # self.setTextWidth(self.textWidth() + 1)
+        self._breathing_gi.setScale(new_scale_int_ft)
 
     def frame_change_breathing_out(self, i_frame_nr_int):
-        logging.debug("[frame_change_breathing_out] mc.mc_global.active_phrase_id_it = " + str(mc.mc_global.active_phrase_id_it))
         phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-
         new_scale_int_ft = self._peak_scale_ft - 0.0005 * i_frame_nr_int
         if new_scale_int_ft < MIN_SCALE_FT:
             new_scale_int_ft = MIN_SCALE_FT
-
         if phrase.type == mc.mc_global.BreathingPhraseType.in_out:
             self.text_gi.setScale(new_scale_int_ft)
-        self._custom_gi.setScale(new_scale_int_ft)
-        # self.setTextWidth(self.textWidth() + 1)
+        self._breathing_gi.setScale(new_scale_int_ft)
 
 
 class TextGraphicsItem(QtWidgets.QGraphicsTextItem):
@@ -311,7 +305,7 @@ class TextGraphicsItem(QtWidgets.QGraphicsTextItem):
 
 
 class BreathingGraphicsObject(QtWidgets.QGraphicsObject):
-    enter_signal = QtCore.pyqtSignal()
+    hover_signal = QtCore.pyqtSignal()
     leave_signal = QtCore.pyqtSignal()
 
     def __init__(self):
@@ -330,7 +324,7 @@ class BreathingGraphicsObject(QtWidgets.QGraphicsObject):
 
     # Overridden
     def hoverMoveEvent(self, i_qgraphicsscenehoverevent):
-        self.enter_signal.emit()
+        self.hover_signal.emit()
 
     # Overridden
     def hoverLeaveEvent(self, i_qgraphicsscenehoverevent):
