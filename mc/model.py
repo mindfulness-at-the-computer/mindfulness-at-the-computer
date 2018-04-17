@@ -163,7 +163,7 @@ class PhrasesM:
         )
 
     @staticmethod
-    def get(i_id: int) -> tuple:
+    def get(i_id: int):  # -cannot write type PhrasesM here, unknown why
         db_cursor_result = db_exec(
             "SELECT * FROM " + db.Schema.PhrasesTable.name
             + " WHERE " + db.Schema.PhrasesTable.Cols.id + "=?",
