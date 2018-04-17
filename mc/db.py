@@ -14,7 +14,7 @@ NO_BREATHING_REMINDER_INT = -1
 DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT = 30
 DEFAULT_BREATHING_REMINDER_INTERVAL_MINUTES_INT = 5
 SINGLE_SETTINGS_ID_INT = 0
-MAX_VOLUME_INT = 100
+DEFAULT_VOLUME_INT = 50
 DEFAULT_BREATHING_REMINDER_NR_BEFORE_DIALOG_INT = 3
 
 
@@ -62,7 +62,7 @@ def initial_schema_and_setup(i_db_conn: sqlite3.Connection) -> None:
         + Schema.SettingsTable.Cols.rest_reminder_audio_filename + " TEXT NOT NULL"
         + " DEFAULT '" + mc_global.WIND_CHIMES_FILENAME_STR + "'" + ", "
         + Schema.SettingsTable.Cols.rest_reminder_volume + " INTEGER NOT NULL"
-        + " DEFAULT " + str(MAX_VOLUME_INT) + ", "
+        + " DEFAULT " + str(DEFAULT_VOLUME_INT) + ", "
         + Schema.SettingsTable.Cols.rest_reminder_notification_type + " INTEGER NOT NULL"
         + " DEFAULT " + str(mc_global.NotificationType.Both.value) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_active + " INTEGER NOT NULL"
@@ -72,7 +72,7 @@ def initial_schema_and_setup(i_db_conn: sqlite3.Connection) -> None:
         + Schema.SettingsTable.Cols.breathing_reminder_audio_filename + " TEXT NOT NULL"
         + " DEFAULT '" + mc_global.SMALL_BELL_SHORT_FILENAME_STR + "'" + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_volume + " INTEGER NOT NULL"
-        + " DEFAULT " + str(MAX_VOLUME_INT) + ", "
+        + " DEFAULT " + str(DEFAULT_VOLUME_INT) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_notification_type + " INTEGER NOT NULL"
         + " DEFAULT " + str(mc_global.NotificationType.Both.value) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_phrase_setup + " INTEGER NOT NULL"
@@ -90,7 +90,7 @@ def initial_schema_and_setup(i_db_conn: sqlite3.Connection) -> None:
         + Schema.SettingsTable.Cols.prep_reminder_audio_filename + " TEXT NOT NULL"
         + " DEFAULT '" + mc_global.SMALL_BELL_LONG_FILENAME_STR + "'" + ", "
         + Schema.SettingsTable.Cols.prep_reminder_audio_volume + " INTEGER NOT NULL"
-        + " DEFAULT " + str(MAX_VOLUME_INT) + ", "
+        + " DEFAULT " + str(DEFAULT_VOLUME_INT) + ", "
         + Schema.SettingsTable.Cols.run_on_startup + " INTEGER NOT NULL"
         + " DEFAULT " + str(SQLITE_FALSE_INT)
         + ")"
