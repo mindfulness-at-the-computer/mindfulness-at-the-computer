@@ -487,6 +487,13 @@ class SettingsM:
         self.run_on_startup_bool = True if i_run_on_startup else False
 
     @property
+    def breathing_reminder_notification_type(self):
+        ret_breathing_notification_type_enum = mc.mc_global.NotificationType(
+            self.breathing_reminder_notification_type_int
+        )
+        return ret_breathing_notification_type_enum
+
+    @property
     def prep_reminder_audio_volume(self) -> int:
         return self.prep_reminder_audio_volume_int
 
