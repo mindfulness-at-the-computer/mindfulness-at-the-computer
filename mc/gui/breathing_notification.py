@@ -18,10 +18,8 @@ IMAGE_GOAL_HEIGHT_INT = 70
 
 
 class BreathingNotification(QtWidgets.QFrame):
-    # close_signal = QtCore.pyqtSignal(list, list)
     breathe_signal = QtCore.pyqtSignal()
     close_signal = QtCore.pyqtSignal()
-    # wait_signal = QtCore.pyqtSignal()
 
     def __init__(self, i_preparatory: bool=False):
         super().__init__(None, WINDOW_FLAGS)
@@ -35,6 +33,7 @@ class BreathingNotification(QtWidgets.QFrame):
         # | QtCore.Qt.X11BypassWindowManagerHint
 
         self.preparatory_bool = i_preparatory
+        # -whether or not this is a notification which will be followed by a breathing dialog
 
         self.setFocusPolicy(QtCore.Qt.NoFocus)
 
@@ -60,7 +59,9 @@ class BreathingNotification(QtWidgets.QFrame):
         hbox_l2.addLayout(vbox_l3)
 
         if self.preparatory_bool:
-            self.prep_qll = QtWidgets.QLabel("Please slow down and prepare for your breathing break. Please adjust your posture")
+            self.prep_qll = QtWidgets.QLabel(
+                self.tr("Please slow down and prepare for your breathing break. Please adjust your posture")
+            )
             self.prep_qll.setWordWrap(True)
             vbox_l3.addWidget(self.prep_qll)
         else:
@@ -87,15 +88,15 @@ class BreathingNotification(QtWidgets.QFrame):
         self.skip_qpb.setFlat(True)
         self.skip_qpb.hide()
 
-        self.show()  # -done after all the widget have been added so that the right size is set
-        self.raise_()
-        self.showNormal()
-
-        # Set position - done after show to get the right size hint
+        # Set position - done right before show to get the right size hint and to avoid flickering
         screen_qrect = QtWidgets.QApplication.desktop().availableGeometry()
         xpos_int = screen_qrect.right() - self.sizeHint().width() - 30
         ypos_int = screen_qrect.bottom() - self.sizeHint().height() - 30
         self.move(xpos_int, ypos_int)
+
+        self.show()  # -done after all the widgets have been added so that the right size is set
+        self.raise_()
+        self.showNormal()
 
         self.shown_qtimer = None
         self.start_shown_timer()
@@ -115,19 +116,19 @@ class BreathingNotification(QtWidgets.QFrame):
 
     # overridden
     def mousePressEvent(self, i_qmouseevent):
-        if self.breathe_qpb.isEnabled():
-            self.close_signal.emit()
-            self.close()
+        self.on_close_button_clicked()
 
     def on_breathe_button_clicked(self):
-        if self.breathe_qpb.isEnabled():
-            self.close()  # -closing first to avoid collision between dialogs
-            self.breathe_signal.emit()
+        self.exit()  # -closing first to avoid collision between dialogs
+        self.breathe_signal.emit()
 
     def on_close_button_clicked(self):
-        if self.breathe_qpb.isEnabled():
-            self.close_signal.emit()
-            self.close()
+        self.exit()
+        self.close_signal.emit()
+
+    def exit(self):
+        self.close()
+        self.shown_qtimer.stop()
 
     def resize_image(self):
         if self.image_qll.pixmap() is None:

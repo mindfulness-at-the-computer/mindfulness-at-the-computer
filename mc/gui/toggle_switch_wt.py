@@ -13,8 +13,7 @@ class ToggleSwitchWt(QtWidgets.QWidget):
 
         vbox = QtWidgets.QVBoxLayout()
         self.setLayout(vbox)
-        # (left, right, top, bottom) = vbox.getContentsMargins()
-        vbox.setContentsMargins(0, 0, 5, 5)
+        vbox.setContentsMargins(0, 0, 5, 5)  # (left, right, top, bottom)
 
         hbox = QtWidgets.QHBoxLayout()
         vbox.addLayout(hbox)
@@ -48,11 +47,6 @@ class ToggleSwitchWt(QtWidgets.QWidget):
             return
         self.toggled_signal.emit(not i_checked)
         self.update_gui(not i_checked)
-        """
-        if i_checked:
-            self.toggled_signal.emit(False)
-            self.update_gui(False)
-        """
 
     def update_gui(self, i_enabled: bool):
         self.updating_gui_bool = True

@@ -3,10 +3,6 @@ from PyQt5 import QtCore
 
 
 class SafeDeleteDlg(QtWidgets.QDialog):
-    """
-    Inspiration: Answer by lou here:
-    https://stackoverflow.com/questions/18196799/how-can-i-show-a-pyqt-modal-dialog-and-get-data-out-of-its-controls-once-its-clo
-    """
     def __init__(self, i_description_str: str, i_parent=None) -> None:
         super(SafeDeleteDlg, self).__init__(i_parent)
 

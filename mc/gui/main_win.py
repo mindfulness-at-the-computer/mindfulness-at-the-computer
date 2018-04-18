@@ -29,7 +29,6 @@ import mc.gui.rest_notification
 import mc.gui.rest_dlg
 import mc.gui.intro_dlg
 import mc.gui.rest_prepare
-import mc.gui.breathing_prepare
 import mc.gui.suspend_time_dlg
 import mc.gui.sysinfo_dlg
 
