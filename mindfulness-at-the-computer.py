@@ -16,9 +16,10 @@ if __name__ == "__main__":
 
     logging.basicConfig(level=logging.DEBUG)  # -by default only warnings and higher are shown
 
-    # Application information
+    matc_qapplication = QtWidgets.QApplication(sys.argv)
 
-    mc.mc_global.sys_info_telist.append(("Application name", mc.mc_global.APPLICATION_VERSION_STR))
+    # Application information
+    mc.mc_global.sys_info_telist.append(("Application name", mc.mc_global.APPLICATION_TITLE_STR))
     mc.mc_global.sys_info_telist.append(("Application version", mc.mc_global.APPLICATION_VERSION_STR))
     db_conn = mc.db.Helper.get_db_connection()
     mc.mc_global.sys_info_telist.append(("Application database schema version", mc.db.get_schema_version(db_conn)))
@@ -28,9 +29,6 @@ if __name__ == "__main__":
     mc.mc_global.sys_info_telist.append(("Qt version", QtCore.qVersion()))
     # noinspection PyUnresolvedReferences
     mc.mc_global.sys_info_telist.append(("PyQt (Python module) version", PyQt5.Qt.PYQT_VERSION_STR))
-
-    matc_qapplication = QtWidgets.QApplication(sys.argv)
-
     desktop_widget = matc_qapplication.desktop()
     mc.mc_global.sys_info_telist.append(("Virtual desktop", str(desktop_widget.isVirtualDesktop())))
     mc.mc_global.sys_info_telist.append(("Screen count", str(desktop_widget.screenCount())))

@@ -15,28 +15,21 @@ import mc.gui.rest_notification
 import mc.gui.rest_dlg
 import mc.gui.intro_dlg
 import mc.gui.rest_prepare
-import mc.gui.breathing_prepare
 
 SLIDER_MIN_MINUTES_INT = 0
-# -this must be zero so that the ticks are in the right positions, if we have 1 here for example, the ticks will be
-#  off by one
+# -this must be 0 so that the ticks are in the right positions
+# -the 0 position is used by the application to go back to normal mode
 SLIDER_MAX_MINUTES_INT = 180
-DEFAULT_SUSPENT_MINUTES_INT = 60
+DEFAULT_SUSPEND_MINUTES_INT = 60
 
 
 class SuspendTimeDialog(QtWidgets.QDialog):
-    """
-    Inspiration: Answer by lou here:
-    https://stackoverflow.com/questions/18196799/how-can-i-show-a-pyqt-modal-dialog-and-get-data-out-of-its-controls-once-its-clo
-    """
     def __init__(self, i_parent=None):
         super(SuspendTimeDialog, self).__init__(i_parent)
 
         self.setModal(True)
 
         self.updating_gui_bool = False
-
-        active_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
 
         vbox_l2 = QtWidgets.QVBoxLayout(self)
 
@@ -49,7 +42,7 @@ class SuspendTimeDialog(QtWidgets.QDialog):
         self.suspend_time_qsr.setFixedWidth(320)
         # self.suspend_time_qsr.setSingleStep(5)
         self.suspend_time_qsr.setPageStep(30)
-        self.suspend_time_qsr.setValue(DEFAULT_SUSPENT_MINUTES_INT)
+        self.suspend_time_qsr.setValue(DEFAULT_SUSPEND_MINUTES_INT)
         self.suspend_time_qsr.valueChanged.connect(self.on_suspend_time_slider_value_changed)
         vbox_l2.addWidget(self.suspend_time_qsr)
 

@@ -26,8 +26,8 @@ class RestSettingsWt(QtWidgets.QWidget):
         self.setLayout(vbox_l2)
 
         self.rest_reminder_switch = mc.gui.toggle_switch_wt.ToggleSwitchWt()
-        vbox_l2.addWidget(self.rest_reminder_switch)
         self.rest_reminder_switch.toggled_signal.connect(self.on_switch_toggled)
+        vbox_l2.addWidget(self.rest_reminder_switch)
 
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
@@ -43,11 +43,11 @@ class RestSettingsWt(QtWidgets.QWidget):
 
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
-        self.rest_reminder_qsr = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)  # .QProgressBar()
-        hbox_l3.addWidget(self.rest_reminder_qsr)
+        self.rest_reminder_qsr = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)  # Previously: QProgressBar()
         self.rest_reminder_qsr.setTickPosition(QtWidgets.QSlider.NoTicks)
         self.rest_reminder_qsr.valueChanged.connect(self.on_rest_reminder_slider_value_changed)
         self.rest_reminder_qsr.setPageStep(5)
+        hbox_l3.addWidget(self.rest_reminder_qsr)
 
         self.rest_reminder_reset_qpb = QtWidgets.QPushButton()  # -"Reset timer"
         self.rest_reminder_reset_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("reload-2x.png")))
@@ -55,62 +55,37 @@ class RestSettingsWt(QtWidgets.QWidget):
         self.rest_reminder_reset_qpb.clicked.connect(self.on_rest_reset_clicked)
         hbox_l3.addWidget(self.rest_reminder_reset_qpb)
 
-        """
-        self.slider = QtWidgets.QSlider(QtCore.Qt.Horizontal, self)
-        vbox_l2.addWidget(self.slider)
-        self.slider.setMinimum(1)
-        self.slider.setMaximum(100)
-        self.slider.setValue(20)
-        """
-        # self.rest_reminder_qprb.set
-        # self.rest_reminder_qprb.setTextVisible(False)
-        """
-        base_qcolor = QtGui.QColor(41, 163, 41, 0)
-        base_qpalette = QtGui.QPalette()
-        base_qpalette.setColor(QtGui.QPalette.Base, base_qcolor)
-        self.rest_reminder_qprb.setPalette(base_qpalette)
-        """
-        # self.rest_reminder_qprb.setStyleSheet("background-color: #f4fde7;")
-
-        # Take break button
-        # vbox_l2.addWidget(CustomFrame())
-        self.rest_reminder_test_qpb = QtWidgets.QPushButton(self.tr("Take a break now"))  # -from the computer
-        vbox_l2.addWidget(self.rest_reminder_test_qpb)
-        self.rest_reminder_test_qpb.clicked.connect(self.on_rest_test_clicked)
-
         hbox_l3 = QtWidgets.QHBoxLayout()
         vbox_l2.addLayout(hbox_l3)
         hbox_l3.addWidget(QtWidgets.QLabel(self.tr("Notification type: ")))
         hbox_l3.addStretch(1)
         self.notification_type_qcb = QtWidgets.QComboBox()
-        hbox_l3.addWidget(self.notification_type_qcb)
         self.notification_type_qcb.addItems([
             mc.mc_global.NotificationType.Visual.name,
             mc.mc_global.NotificationType.Audio.name,
             mc.mc_global.NotificationType.Both.name
         ])
         self.notification_type_qcb.activated.connect(self.on_notification_type_activated)
+        hbox_l3.addWidget(self.notification_type_qcb)
 
         self.audio_qgb = QtWidgets.QGroupBox(self.tr("Audio"))
         vbox_l2.addWidget(self.audio_qgb)
         vbox_l3 = QtWidgets.QVBoxLayout()
         self.audio_qgb.setLayout(vbox_l3)
         self.select_audio_qpb = QtWidgets.QPushButton(self.tr("Select audio"))
-        vbox_l3.addWidget(self.select_audio_qpb)
         self.select_audio_qpb.clicked.connect(self.on_select_audio_clicked)
+        vbox_l3.addWidget(self.select_audio_qpb)
         self.audio_path_qll = QtWidgets.QLabel(NO_AUDIO_SELECTED_STR)
-        vbox_l3.addWidget(self.audio_path_qll)
         self.audio_path_qll.setWordWrap(True)
+        vbox_l3.addWidget(self.audio_path_qll)
         self.volume_qsr = QtWidgets.QSlider()
-        vbox_l3.addWidget(self.volume_qsr)
         self.volume_qsr.setOrientation(QtCore.Qt.Horizontal)
         self.volume_qsr.setMinimum(0)
         self.volume_qsr.setMaximum(100)
         self.volume_qsr.valueChanged.connect(self.volume_changed)
+        vbox_l3.addWidget(self.volume_qsr)
 
         vbox_l2.addStretch(1)
-
-        # vbox_l2.addWidget(QtWidgets.QLabel("<i>All changes are automatically saved</i>"))
 
         self.update_gui()
 
@@ -121,8 +96,8 @@ class RestSettingsWt(QtWidgets.QWidget):
     def volume_changed(self, i_value: int):
         if self.updating_gui_bool:
             return
-        # Prev: mc.model.SettingsM.update_rest_reminder_volume(i_value)
         mc.model.SettingsM.get().rest_reminder_volume = i_value
+        # -prev: mc.model.SettingsM.update_rest_reminder_volume(i_value)
 
     def on_select_audio_clicked(self):
         # noinspection PyCallByClass
@@ -164,9 +139,6 @@ class RestSettingsWt(QtWidgets.QWidget):
     def on_rest_reset_clicked(self):
         self.rest_reset_button_clicked_signal.emit()
 
-    def on_rest_test_clicked(self):
-        self.rest_now_button_clicked_signal.emit()
-
     def on_switch_toggled(self, i_checked_bool):
         if self.updating_gui_bool:
             return
@@ -179,7 +151,6 @@ class RestSettingsWt(QtWidgets.QWidget):
         # (there is no problem when running normally, that is without debug)
         if self.updating_gui_bool:
             return
-        # mc_global.rest_reminder_minutes_remaining_int = i_new_value
         mc.model.SettingsM.update_rest_reminder_interval(i_new_value)
 
         rest_reminder_interval_minutes_int = mc.model.SettingsM.get().rest_reminder_interval_int

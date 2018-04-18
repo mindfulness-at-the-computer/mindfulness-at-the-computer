@@ -10,13 +10,10 @@ WINDOW_FLAGS = (
 )
 
 SHOWN_TIMER_TIME_INT = 8000
+MIN_HEIGHT_INT = 80
 
 
 class RestPrepareDlg(QtWidgets.QFrame):
-    rest_signal = QtCore.pyqtSignal()
-    skip_signal = QtCore.pyqtSignal()
-    wait_signal = QtCore.pyqtSignal()
-
     def __init__(self):
         super().__init__(None, WINDOW_FLAGS)
 
@@ -26,13 +23,13 @@ class RestPrepareDlg(QtWidgets.QFrame):
         vbox_l2 = QtWidgets.QVBoxLayout()
         self.setLayout(vbox_l2)
 
-        self.setMinimumHeight(80)
+        self.setMinimumHeight(MIN_HEIGHT_INT)
 
-        self.title_qll = QtWidgets.QLabel("Please prepare for rest")
+        self.title_qll = QtWidgets.QLabel(self.tr("Please prepare for rest"))
         vbox_l2.addWidget(self.title_qll)
         self.title_qll.setWordWrap(True)
 
-        self.reminder_qll = QtWidgets.QLabel("One minute left until the next rest")
+        self.reminder_qll = QtWidgets.QLabel(self.tr("One minute left until the next rest"))
         vbox_l2.addWidget(self.reminder_qll)
         self.reminder_qll.setWordWrap(True)
 
@@ -51,11 +48,6 @@ class RestPrepareDlg(QtWidgets.QFrame):
 
         self.setStyleSheet("background-color: #101010; color: #999999;")
 
-        # self.setStyleSheet("QPushButton {background-color: red;}")
-        # border-style: outset;border-width: 2px;border-color: beige;
-        # self.setStyleSheet("QPushButton {border-style: solid;border-width: 1px;border-color: black;}")
-        # self.setStyleSheet("QPushButton:hover {background-color:green;}")
-
     def start_shown_timer(self):
         self.shown_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
         self.shown_qtimer.setSingleShot(True)
@@ -68,17 +60,3 @@ class RestPrepareDlg(QtWidgets.QFrame):
     # overridden
     def mousePressEvent(self, i_qmouseevent):
         self.close()
-
-    """
-    def on_rest_button_clicked(self):
-        self.rest_signal.emit()
-        self.close()
-
-    def on_skip_button_clicked(self):
-        self.skip_signal.emit()
-        self.close()
-
-    def on_wait_button_clicked(self):
-        self.wait_signal.emit()
-        self.close()
-    """
