@@ -575,12 +575,33 @@ class MainWin(QtWidgets.QMainWindow):
         or notification_type_int == mc.mc_global.NotificationType.Audio.value):
             settings = mc.model.SettingsM.get()
             audio_path_str = settings.breathing_reminder_audio_filename_str
-            volume_int = settings.breathing_reminder_volume_int
+            volume_int = settings.breathing_reminder_audio_volume_int
             self._play_audio(audio_path_str, volume_int)
 
     def open_breathing_prepare(self):
+        # Skipping the breathing notification if the breathing dialog is shown
+        if self.breathing_dialog and self.breathing_dialog.isVisible():
+            return
+
+        notification_type_int = mc.model.SettingsM.get().breathing_reminder_notification_type_int
+
+        if (notification_type_int == mc.mc_global.NotificationType.Both.value
+        or notification_type_int == mc.mc_global.NotificationType.Visual.value):
+            self.breathing_notification = mc.gui.breathing_notification.BreathingNotification(i_preparatory=True)
+            self.breathing_notification.breathe_signal.connect(self.on_breathing_notification_breathe_clicked)
+            self.breathing_notification.show()
+
+        if (notification_type_int == mc.mc_global.NotificationType.Both.value
+        or notification_type_int == mc.mc_global.NotificationType.Audio.value):
+            settings = mc.model.SettingsM.get()
+            audio_path_str = settings.prep_reminder_audio_filename
+            volume_int = settings.prep_reminder_audio_volume
+            self._play_audio(audio_path_str, volume_int)
+
+        """
         self.breathing_prepare = mc.gui.breathing_prepare.BreathingPrepareDlg()
         self.breathing_prepare.closed_signal.connect(self.open_breathing_dialog)
+        """
 
     def open_breathing_dialog(self, i_mute_override: bool=False):
 
@@ -595,12 +616,6 @@ class MainWin(QtWidgets.QMainWindow):
         self.breathing_dialog.close_signal.connect(self.on_breathing_dialog_closed)
         self.breathing_dialog.phrase_changed_signal.connect(self.on_breathing_dialog_phrase_changed)
         self.breathing_dialog.show()
-
-        settings = mc.model.SettingsM.get()
-        if settings.breathing_reminder_dialog_audio_active_bool and not i_mute_override:
-            audio_path_str = settings.breathing_reminder_audio_filename_str
-            volume_int = settings.breathing_reminder_volume_int
-            self._play_audio(audio_path_str, volume_int)
 
     def _play_audio(self, i_audio_filename: str, i_volume: int) -> None:
         if self.sound_effect is None:

@@ -14,7 +14,7 @@ NO_BREATHING_REMINDER_INT = -1
 DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT = 30
 DEFAULT_BREATHING_REMINDER_INTERVAL_MINUTES_INT = 5
 SINGLE_SETTINGS_ID_INT = 0
-MAX_VOLUME_INT = 100
+DEFAULT_VOLUME_INT = 50
 DEFAULT_BREATHING_REMINDER_NR_BEFORE_DIALOG_INT = 3
 
 
@@ -59,20 +59,20 @@ def initial_schema_and_setup(i_db_conn: sqlite3.Connection) -> None:
         + " DEFAULT " + str(SQLITE_TRUE_INT) + ", "
         + Schema.SettingsTable.Cols.rest_reminder_interval + " INTEGER NOT NULL"
         + " DEFAULT " + str(DEFAULT_REST_REMINDER_INTERVAL_MINUTES_INT) + ", "
-        + Schema.SettingsTable.Cols.rest_reminder_audio_path + " TEXT NOT NULL"
-        + " DEFAULT '" + mc_global.get_user_audio_path(mc_global.WIND_CHIMES_FILENAME_STR) + "'" + ", "
+        + Schema.SettingsTable.Cols.rest_reminder_audio_filename + " TEXT NOT NULL"
+        + " DEFAULT '" + mc_global.WIND_CHIMES_FILENAME_STR + "'" + ", "
         + Schema.SettingsTable.Cols.rest_reminder_volume + " INTEGER NOT NULL"
-        + " DEFAULT " + str(MAX_VOLUME_INT) + ", "
+        + " DEFAULT " + str(DEFAULT_VOLUME_INT) + ", "
         + Schema.SettingsTable.Cols.rest_reminder_notification_type + " INTEGER NOT NULL"
         + " DEFAULT " + str(mc_global.NotificationType.Both.value) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_active + " INTEGER NOT NULL"
         + " DEFAULT " + str(SQLITE_TRUE_INT) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_interval + " INTEGER NOT NULL"
         + " DEFAULT " + str(DEFAULT_BREATHING_REMINDER_INTERVAL_MINUTES_INT) + ", "
-        + Schema.SettingsTable.Cols.breathing_reminder_audio_path + " TEXT NOT NULL"
-        + " DEFAULT '" + mc_global.get_user_audio_path(mc_global.SMALL_BELL_SHORT_FILENAME_STR) + "'" + ", "
+        + Schema.SettingsTable.Cols.breathing_reminder_audio_filename + " TEXT NOT NULL"
+        + " DEFAULT '" + mc_global.SMALL_BELL_SHORT_FILENAME_STR + "'" + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_volume + " INTEGER NOT NULL"
-        + " DEFAULT " + str(MAX_VOLUME_INT) + ", "
+        + " DEFAULT " + str(DEFAULT_VOLUME_INT) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_notification_type + " INTEGER NOT NULL"
         + " DEFAULT " + str(mc_global.NotificationType.Both.value) + ", "
         + Schema.SettingsTable.Cols.breathing_reminder_phrase_setup + " INTEGER NOT NULL"
@@ -87,6 +87,10 @@ def initial_schema_and_setup(i_db_conn: sqlite3.Connection) -> None:
         + " DEFAULT ''" + ", "
         + Schema.SettingsTable.Cols.breathing_dialog_phrase_selection + " INTEGER NOT NULL"
         + " DEFAULT " + str(mc_global.PhraseSelection.same.value) + ", "
+        + Schema.SettingsTable.Cols.prep_reminder_audio_filename + " TEXT NOT NULL"
+        + " DEFAULT '" + mc_global.SMALL_BELL_LONG_FILENAME_STR + "'" + ", "
+        + Schema.SettingsTable.Cols.prep_reminder_audio_volume + " INTEGER NOT NULL"
+        + " DEFAULT " + str(DEFAULT_VOLUME_INT) + ", "
         + Schema.SettingsTable.Cols.run_on_startup + " INTEGER NOT NULL"
         + " DEFAULT " + str(SQLITE_FALSE_INT)
         + ")"
@@ -116,7 +120,7 @@ def upgrade_1_2(i_db_conn):
 
 
 upgrade_steps = {
-    20: initial_schema_and_setup,
+    22: initial_schema_and_setup,
 }
 
 
@@ -223,12 +227,12 @@ class Schema:
             id = "id"  # key
             rest_reminder_active = "rest_reminder_active"
             rest_reminder_interval = "rest_reminder_interval"
-            rest_reminder_audio_path = "rest_reminder_audio_path"
+            rest_reminder_audio_filename = "rest_reminder_audio_filename"
             rest_reminder_volume = "rest_reminder_volume"
             rest_reminder_notification_type = "rest_reminder_notification_type"
             breathing_reminder_active = "breathing_reminder_active"
             breathing_reminder_interval = "breathing_reminder_interval"
-            breathing_reminder_audio_path = "breathing_reminder_audio_path"
+            breathing_reminder_audio_filename = "breathing_reminder_audio_filename"
             breathing_reminder_volume = "breathing_reminder_volume"
             breathing_reminder_notification_type = "breathing_reminder_notification_type"
             breathing_reminder_phrase_setup = "breathing_reminder_phrase_setup"
@@ -237,6 +241,8 @@ class Schema:
             breathing_reminder_dialog_close_on_hover = "breathing_reminder_dialog_close_on_hover"
             breathing_reminder_text = "breathing_reminder_text"
             breathing_dialog_phrase_selection = "breathing_dialog_phrase_selection"
+            prep_reminder_audio_filename = "prep_reminder_audio_filename"
+            prep_reminder_audio_volume = "prep_reminder_audio_volume"
             run_on_startup = "run_on_startup"
 
 

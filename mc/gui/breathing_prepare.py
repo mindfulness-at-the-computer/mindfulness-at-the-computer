@@ -38,37 +38,6 @@ class BreathingPrepareDlg(QtWidgets.QFrame):
         self.reminder_qll.setFont(mc.mc_global.get_font_medium())
         vbox_l2.addWidget(self.reminder_qll)
 
-
-        """
-        self.time_remaining_qpb = QtWidgets.QProgressBar()
-        vbox_l2.addWidget(self.time_remaining_qpb)
-
-
-        hbox_l3 = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(hbox_l3)
-
-        self.rest_qpb = QtWidgets.QPushButton(self.tr("Breathe"))
-        hbox_l3.addWidget(self.rest_qpb, stretch=1)
-        self.rest_qpb.setFont(mc.mc_global.get_font_large(i_bold=False))
-        # self.rest_qpb.clicked.connect(self.on_rest_button_clicked)
-        self.rest_qpb.setStyleSheet("background-color:" + mc.mc_global.MC_DARK_GREEN_COLOR_STR + "; color:#000000;")
-
-        hbox_l3.addStretch(1)
-        self.move_qpb = QtWidgets.QPushButton(self.tr("Move"))  # alt: Arrows for where to move
-        hbox_l3.addWidget(self.move_qpb)
-        self.move_qpb.setFlat(True)
-        self.wait_qpb = QtWidgets.QPushButton(self.tr("Wait"))
-        hbox_l3.addWidget(self.wait_qpb)
-        self.wait_qpb.setFlat(True)
-        # self.wait_qpb.clicked.connect(self.on_wait_button_clicked)
-        self.skip_qpb = QtWidgets.QPushButton(self.tr("Skip"))
-        hbox_l3.addWidget(self.skip_qpb)
-        self.skip_qpb.setFlat(True)
-        # self.skip_qpb.clicked.connect(self.on_skip_button_clicked)
-        hbox_l3.addStretch(1)
-
-        """
-
         self.show()  # -done after all the widget have been added so that the right size is set
         self.raise_()
         self.showNormal()
@@ -83,15 +52,6 @@ class BreathingPrepareDlg(QtWidgets.QFrame):
 
         self.shown_qtimer = None
         self.start_shown_timer()
-
-        ##### self.setStyleSheet("background-color: #101010; color: #999999;")
-
-        # self.setStyleSheet("QPushButton {background-color: red;}")
-        # border-style: outset;border-width: 2px;border-color: beige;
-        # self.setStyleSheet("QPushButton {border-style: solid;border-width: 1px;border-color: black;}")
-        # self.setStyleSheet("QPushButton:hover {background-color:green;}")
-
-    #TODO: On hover - moving
 
     def start_shown_timer(self):
         self.shown_qtimer = QtCore.QTimer(self)  # -please remember to send "self" to the timer
@@ -118,17 +78,3 @@ class BreathingPrepareDlg(QtWidgets.QFrame):
     # overridden
     def mousePressEvent(self, i_qmouseevent):
         self.close_prepare_frame()
-
-    """
-    def on_rest_button_clicked(self):
-        self.rest_signal.emit()
-        self.close()
-
-    def on_skip_button_clicked(self):
-        self.skip_signal.emit()
-        self.close()
-
-    def on_wait_button_clicked(self):
-        self.wait_signal.emit()
-        self.close()
-    """
