@@ -3,6 +3,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 import mc.gui.safe_delete_dlg
+import mc.gui.warning_dlg
 import mc.model
 import mc.mc_global
 
@@ -199,6 +200,9 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
     def add_new_phrase_button_clicked(self):
         text_sg = self.add_to_list_qle.text().strip()  # strip is needed to remove a newline at the end (why?)
         if not (text_sg and text_sg.strip()):
+            conf_result_bool = mc.gui.warning_dlg.WarningDlg.get_safe_confirmation_dialog(
+                self.tr("You have to write a new item before you press 'Add'.")
+            )
             return
         mc.model.PhrasesM.add(
             text_sg,
