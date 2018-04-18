@@ -5,6 +5,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 import mc.gui.safe_delete_dlg
+import mc.gui.warning_dlg
 from mc import model, mc_global
 
 
@@ -115,6 +116,9 @@ class RestActionListWt(QtWidgets.QWidget):
 
     def add_rest_action_clicked(self):
         if not(self.rest_add_action_qle.text().strip()):
+            conf_result_bool = mc.gui.warning_dlg.WarningDlg.get_safe_confirmation_dialog(
+                self.tr("You have to write an item before you press 'Add'.")
+            )
             return
         model.RestActionsM.add(
             self.rest_add_action_qle.text().strip()
