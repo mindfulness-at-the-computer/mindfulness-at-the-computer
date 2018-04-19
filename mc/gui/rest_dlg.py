@@ -4,8 +4,6 @@ from mc import model, mc_global
 
 
 class RestDlg(QtWidgets.QDialog):
-    # result_signal = QtCore.pyqtSignal(int)
-    # -used both for wait and for closing
     close_signal = QtCore.pyqtSignal(bool)
     # -the boolean indicates whether or not we want the breathing dialog to open
 

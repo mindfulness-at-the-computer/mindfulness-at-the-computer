@@ -1,9 +1,9 @@
+import logging
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 import mc.mc_global
 import mc.gui.breathing_dlg
-import logging
 
 BAR_HEIGHT_FT = 12.0
 LARGE_MARGIN_FT = 10.0
@@ -23,8 +23,6 @@ class BreathingHistoryWt(QtWidgets.QWidget):
         self.ib_qtimer = None
         self.ob_qtimer = None
         self.updating_gui_bool = False
-        # self.breathing_rest_counter_int = 0
-        # self.breath_counter_int = 0
         self.new_cycle_bool = True
 
         self.in_breath_graphics_qgri_list = []
@@ -58,12 +56,7 @@ class BreathingHistoryWt(QtWidgets.QWidget):
             logging.debug("in and out length = " + str(in_length_ft) + ", " + str(out_length_ft))
         self.new_cycle_bool = True
 
-    def add_new_breathing_rect(
-        self,
-        i_io: mc.mc_global.BreathingState,
-        i_length: int=1
-    ):
-
+    def add_new_breathing_rect(self, i_io: mc.mc_global.BreathingState, i_length: int=1):
         if i_io == mc.mc_global.BreathingState.breathing_out:
             self.new_cycle_bool = False
 

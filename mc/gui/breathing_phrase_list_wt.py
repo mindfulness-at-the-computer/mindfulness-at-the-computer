@@ -285,27 +285,13 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
 
 class CustomQLabel(QtWidgets.QLabel):
     entry_id = mc.mc_global.NO_PHRASE_SELECTED_INT  # -"static"
-    # mouse_pressed_signal = QtCore.pyqtSignal(QtGui.QMouseEvent, int)
 
     def __init__(self, i_text_sg, i_entry_id=mc.mc_global.NO_PHRASE_SELECTED_INT):
         super().__init__(i_text_sg)
         self.entry_id = i_entry_id
 
-    """
-    # Overridden
-    # Please note that this is the event handler (not an event!)
-    def mousePressEvent(self, i_qmouseevent):
-        super(CustomQLabel, self).mousePressEvent(i_qmouseevent)
-        # -self is automatically sent as the 1st argument
-        #self.mouse_pressed_signal.emit(i_qmouseevent, self.entry_id)
-    """
-
 
 class EditDialog(QtWidgets.QDialog):
-    """
-    Inspiration: Answer by lou here:
-    https://stackoverflow.com/questions/18196799/how-can-i-show-a-pyqt-modal-dialog-and-get-data-out-of-its-controls-once-its-clo
-    """
     def __init__(self, i_parent=None):
         super(EditDialog, self).__init__(i_parent)
 

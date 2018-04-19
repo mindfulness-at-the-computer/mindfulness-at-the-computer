@@ -179,10 +179,6 @@ class RestQLabel(QtWidgets.QLabel):
 
 
 class EditDialog(QtWidgets.QDialog):
-    """
-    Inspiration: Answer by lou here:
-    https://stackoverflow.com/questions/18196799/how-can-i-show-a-pyqt-modal-dialog-and-get-data-out-of-its-controls-once-its-clo
-    """
     def __init__(self, i_parent=None):
         super(EditDialog, self).__init__(i_parent)
 
@@ -253,17 +249,6 @@ class EditDialog(QtWidgets.QDialog):
         if dialog_result == QtWidgets.QDialog.Accepted:
             rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
             rest_action.title = dialog.rest_action_title_qle.text()
-            # rest_action.image_path = dialog.temporary_image_file_path_str
-            """
-            model.RestActionsM.update_title(
-                mc_global.active_rest_action_id_it,
-                dialog.rest_action_title_qle.text()
-            )
-            model.RestActionsM.update_rest_action_image_path(
-                mc_global.active_rest_action_id_it,
-                dialog.temporary_image_file_path_str
-            )
-            """
         else:
             pass
 
