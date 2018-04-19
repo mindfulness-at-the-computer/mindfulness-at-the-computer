@@ -7,9 +7,14 @@ import mc.mc_global
 import mc.model
 
 TIME_NOT_SET_FT = 0.0
+
 MIN_SCALE_FT = 0.7
 HISTORY_IB_MAX = 4.0
 HISTORY_OB_MAX = 7.0
+TIME_LINE_IB_DURATION_INT = 8000
+TIME_LINE_OB_DURATION_INT = 16000
+TIME_LINE_IB_FRAME_RANGE_INT = 1000
+TIME_LINE_OB_FRAME_RANGE_INT = 2000
 
 
 class BreathingDlg(QtWidgets.QFrame):
@@ -75,14 +80,14 @@ class BreathingDlg(QtWidgets.QFrame):
         self.move(self._xpos_int, self._ypos_int)
 
         # Animation
-        self._ib_qtimeline = QtCore.QTimeLine(duration=8000)
-        self._ib_qtimeline.setFrameRange(1, 1000)
+        self._ib_qtimeline = QtCore.QTimeLine(duration=TIME_LINE_IB_DURATION_INT)
+        self._ib_qtimeline.setFrameRange(1, TIME_LINE_IB_FRAME_RANGE_INT)
         self._ib_qtimeline.setCurveShape(QtCore.QTimeLine.LinearCurve)
         self._ib_qtimeline.frameChanged.connect(
             self._breathing_graphicsview_l3.frame_change_breathing_in
         )
-        self._ob_qtimeline = QtCore.QTimeLine(duration=16000)
-        self._ob_qtimeline.setFrameRange(1, 2000)
+        self._ob_qtimeline = QtCore.QTimeLine(duration=TIME_LINE_OB_DURATION_INT)
+        self._ob_qtimeline.setFrameRange(1, TIME_LINE_OB_FRAME_RANGE_INT)
         self._ob_qtimeline.setCurveShape(QtCore.QTimeLine.LinearCurve)
         self._ob_qtimeline.frameChanged.connect(
             self._breathing_graphicsview_l3.frame_change_breathing_out
