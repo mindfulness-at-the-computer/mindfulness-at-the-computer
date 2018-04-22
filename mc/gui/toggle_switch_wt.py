@@ -22,12 +22,14 @@ class ToggleSwitchWt(QtWidgets.QWidget):
         hbox.addWidget(self.on_qpb)
         self.on_qpb.setFixedWidth(40)
         self.on_qpb.setCheckable(True)
+        self.on_qpb.setToolTip(self.tr("Enable notification"))
         self.on_qpb.toggled.connect(self.on_on_toggled)
 
         self.off_qpb = QtWidgets.QPushButton(self.tr("Off"))
         hbox.addWidget(self.off_qpb)
         self.off_qpb.setFixedWidth(45)
         self.off_qpb.setCheckable(True)
+        self.off_qpb.setToolTip(self.tr("Disable notification"))
         self.off_qpb.toggled.connect(self.on_off_toggled)
 
         self.state_qll = QtWidgets.QLabel(self.tr("Enabled"))
