@@ -120,7 +120,7 @@ def upgrade_1_2(i_db_conn):
 
 
 upgrade_steps = {
-    22: initial_schema_and_setup,
+    23: initial_schema_and_setup,
 }
 
 
