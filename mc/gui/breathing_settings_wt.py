@@ -42,9 +42,9 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         hbox_l4.addStretch(1)
         self.notification_type_qcb = QtWidgets.QComboBox()
         self.notification_type_qcb.addItems([
-            mc.mc_global.NotificationType.Visual.name,
-            mc.mc_global.NotificationType.Audio.name,
-            mc.mc_global.NotificationType.Both.name
+            "Visual + Audio",
+            "Visual",
+            "Audio"
         ])
         self.notification_type_qcb.activated.connect(self.on_notification_type_activated)
         hbox_l4.addWidget(self.notification_type_qcb)

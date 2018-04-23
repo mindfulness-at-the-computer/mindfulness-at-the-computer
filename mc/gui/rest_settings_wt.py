@@ -61,10 +61,10 @@ class RestSettingsWt(QtWidgets.QWidget):
         hbox_l3.addStretch(1)
         self.notification_type_qcb = QtWidgets.QComboBox()
         self.notification_type_qcb.addItems([
-            mc.mc_global.NotificationType.Visual.name,
-            mc.mc_global.NotificationType.Audio.name,
-            mc.mc_global.NotificationType.Both.name
+            "Visual + Audio",
+            "Visual"
         ])
+        #asdf
         self.notification_type_qcb.activated.connect(self.on_notification_type_activated)
         hbox_l3.addWidget(self.notification_type_qcb)
 

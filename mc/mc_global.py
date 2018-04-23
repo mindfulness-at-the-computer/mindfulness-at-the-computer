@@ -63,9 +63,9 @@ class PhraseSetup(enum.Enum):
 
 
 class NotificationType(enum.Enum):
-    Visual = 0
-    Audio = 1
-    Both = 2
+    Both = 0
+    Visual = 1
+    Audio = 2
 
 
 class BreathingPhraseType(enum.Enum):
