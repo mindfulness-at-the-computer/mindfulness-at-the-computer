@@ -76,17 +76,17 @@ class BreathingNotification(QtWidgets.QFrame):
 
         hbox_l4.addStretch(1)
 
-        self.breathe_qpb = QtWidgets.QPushButton(self.tr("Open Dialog"))
-        hbox_l4.addWidget(self.breathe_qpb)
-        self.breathe_qpb.setFlat(True)
-        self.breathe_qpb.clicked.connect(self.on_breathe_button_clicked)
-        self.breathe_qpb.setFont(mc.mc_global.get_font_small())
+        self.close_qpb = QtWidgets.QPushButton(self.tr("Close"))
+        self.close_qpb.setFlat(True)
+        self.close_qpb.setFont(mc.mc_global.get_font_small())
+        self.close_qpb.clicked.connect(self.on_close_button_clicked)
+        hbox_l4.addWidget(self.close_qpb)
 
-        self.skip_qpb = QtWidgets.QPushButton(self.tr("Close"))
-        hbox_l4.addWidget(self.skip_qpb)
-        self.skip_qpb.clicked.connect(self.on_close_button_clicked)
-        self.skip_qpb.setFlat(True)
-        self.skip_qpb.hide()
+        self.breathe_qpb = QtWidgets.QPushButton(self.tr("Show Dialog"))
+        # self.breathe_qpb.setFlat(True)
+        self.breathe_qpb.setFont(mc.mc_global.get_font_small())
+        self.breathe_qpb.clicked.connect(self.on_breathe_button_clicked)
+        hbox_l4.addWidget(self.breathe_qpb)
 
         # Set position - done right before show to get the right size hint and to avoid flickering
         screen_qrect = QtWidgets.QApplication.desktop().availableGeometry()
