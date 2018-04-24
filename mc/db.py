@@ -156,7 +156,7 @@ class Helper(object):
                         "Some of the old db contents has also been exported to a text file "
                         "that you can find here: /user_files/exported.csv"
                     )
-                except:
+                except Exception:
                     pass
                 Helper.drop_all_db_tables(Helper.__db_connection)
             for upgrade_step_nr_int in range(current_db_ver_it + 1, target_db_ver_it + 1):
@@ -186,7 +186,7 @@ class Helper(object):
         Helper.drop_db_table(i_db_conn, Schema.SettingsTable.name)
 
     @staticmethod
-    def drop_db_table(i_db_conn, i_table_name: sqlite3.Connection) -> None:
+    def drop_db_table(i_db_conn: sqlite3.Connection, i_table_name: str) -> None:
         i_db_conn.execute("DROP TABLE IF EXISTS " + i_table_name)
 
     @staticmethod

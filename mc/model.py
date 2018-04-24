@@ -1,12 +1,9 @@
 import csv
-import os
 import enum
-import logging
 import datetime
 import typing
 from mc import db
 import mc.mc_global
-from PyQt5 import QtWidgets
 
 
 class MoveDirectionEnum(enum.Enum):
@@ -836,4 +833,3 @@ def populate_db_with_setup_data() -> None:
 
 def populate_db_with_test_data() -> None:
     populate_db_with_setup_data()
-

@@ -2,18 +2,9 @@ import logging
 import sys
 import os
 import random
-
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
-
-try:
-    # noinspection PyUnresolvedReferences
-    from PyQt5 import QtMultimedia
-except ImportError:
-    logging.debug("ImportError for QtMultimedia - maybe because there's no sound card available")
-    # -If the system does not have a sound card (as for example Travis CI)
-    # -An alternative to this approach is to use this: http://doc.qt.io/qt-5/qaudiodeviceinfo.html#availableDevices
 import mc.gui.rest_action_list_wt
 import mc.model
 import mc.mc_global
@@ -31,6 +22,13 @@ import mc.gui.intro_dlg
 import mc.gui.rest_prepare
 import mc.gui.suspend_time_dlg
 import mc.gui.sysinfo_dlg
+try:
+    # noinspection PyUnresolvedReferences
+    from PyQt5 import QtMultimedia
+except ImportError:
+    logging.debug("ImportError for QtMultimedia - maybe because there's no sound card available")
+    # -If the system does not have a sound card (as for example Travis CI)
+    # -An alternative to this approach is to use this: http://doc.qt.io/qt-5/qaudiodeviceinfo.html#availableDevices
 
 
 class MainWin(QtWidgets.QMainWindow):
@@ -48,6 +46,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.intro_dlg = None
         self.breathing_notification = None
         self.breathing_dialog = None
+        self._suspend_time_dlg = None
         self.sound_effect = None
         try:
             self.sound_effect = QtMultimedia.QSoundEffect(self)
@@ -507,6 +506,7 @@ class MainWin(QtWidgets.QMainWindow):
 
     def export_data_to_csv(self):
         file_path_str = mc.model.export_all()
+        # noinspection PyCallByClass
         QtWidgets.QMessageBox.information(
             self,
             "Data exported",
@@ -514,16 +514,9 @@ class MainWin(QtWidgets.QMainWindow):
         )
 
     def on_suspend_application_clicked(self):
-
         self._suspend_time_dlg = mc.gui.suspend_time_dlg.SuspendTimeDialog()
         self._suspend_time_dlg.finished.connect(self.on_suspend_time_dlg_finished)
         self._suspend_time_dlg.show()
-        """
-        minutes_to_suspend_te = QtWidgets.QInputDialog.getInt(
-            self, "title", "label", value=0, min=0, max=180
-        )
-        logging.debug("minutes_to_suspend_te = " + str(minutes_to_suspend_te))
-        """
 
     def on_suspend_time_dlg_finished(self, i_result: int):
         if i_result == QtWidgets.QDialog.Accepted:
