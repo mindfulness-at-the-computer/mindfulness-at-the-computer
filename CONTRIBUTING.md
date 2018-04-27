@@ -80,8 +80,8 @@ Periodically, you'll need the sync your repo with mine (the upstream). GitHub ha
 ## Translations
 
 We need help localizing the application. Helping with translations is easy:
-* You can use our [**crowdin project page**](https://crowdin.com/project/mindfulness-at-the-computer) to enter your translations
-* You can find a list of translators on [this wiki page](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/wiki/Translators)
+* You can add your name to our list of translators on [this wiki page](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/wiki/Translators)
+* You can [**join us on crowdin**](https://crwd.in/mindfulness-at-the-computer) which is the system we use for adding translations and enter your translations there
 
 ## Website
 
