@@ -15,6 +15,7 @@ import mc.gui.rest_settings_wt
 import mc.gui.rest_dlg
 import mc.gui.safe_delete_dlg
 import mc.gui.toggle_switch_wt
+import mc.gui.warning_dlg
 
 
 test_app = QtWidgets.QApplication(sys.argv)
@@ -81,6 +82,11 @@ class MainTest(unittest.TestCase):
         QtTest.QTest.waitForEvents()
         # self.assertFalse(safe_delete_dialog.description_qll.isVisibleTo(safe_delete_dialog))
 
+    def test_add_dlg(self):
+        add_dlg = mc.gui.warning_dlg.WarningDlg("testing")
+        ok_dialog_button = add_dlg.button_box.button(QtWidgets.QDialogButtonBox.Ok)
+        QtTest.QTest.mouseClick(ok_dialog_button, QtCore.Qt.LeftButton)
+        QtTest.QTest.waitForEvents()
 
     """
     def test_starting_breathing(self):
@@ -97,7 +103,7 @@ if __name__ == "__main__":
 def __init__(self, *args, **kwargs):
     super(MainTest, self).__init__(*args, **kwargs)
     # -https://stackoverflow.com/questions/17353213/init-for-unittest-testcase
-    
+
 pl_widget.list_widget.itemWidget()
 
 Things to test:
@@ -117,7 +123,7 @@ Things to test:
         QtTest.QTest.mouseClick(take_break_qpb, QtCore.Qt.LeftButton)
         QtTest.QTest.mouseClick(rr_dlg.close_qpb, QtCore.Qt.LeftButton)
 
- 
+
 """
 
 # TODO: Make sure that this is the first time the application has been started
