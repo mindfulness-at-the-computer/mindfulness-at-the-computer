@@ -13,6 +13,7 @@ import mc.gui.breathing_settings_wt
 import mc.gui.breathing_phrase_list_wt
 import mc.gui.general_settings_wt
 import mc.gui.rest_settings_wt
+import mc.gui.settings_page_wt
 import mc.gui.rest_dlg
 import mc.gui.breathing_dlg
 import mc.gui.breathing_notification
@@ -62,6 +63,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.rest_settings_wt = mc.gui.rest_settings_wt.RestSettingsWt()
         self.rest_action_list_wt = mc.gui.rest_action_list_wt.RestActionListWt()
         self.breathing_history_wt = mc.gui.breathing_history_wt.BreathingHistoryWt()
+        self.settings_page_wt = mc.gui.settings_page_wt.SettingsPageWt()
 
         if QtCore.QSysInfo.kernelType() == 'darwin':
             self.run_on_startup_wt = mc.gui.general_settings_wt.RunOnStartupWt()
@@ -266,6 +268,11 @@ class MainWin(QtWidgets.QMainWindow):
         self.tray_restore_action = QtWidgets.QAction(self.tr("Open Settings"))
         self.tray_menu.addAction(self.tray_restore_action)
         self.tray_restore_action.triggered.connect(self.restore_window)
+
+        self.tray_settings_action = QtWidgets.QAction(self.tr("Open New Settings"))
+        self.tray_menu.addAction(self.tray_settings_action)
+        self.tray_settings_action.triggered.connect(self.on_open_new_settings_clicked)
+
         self.tray_quit_action = QtWidgets.QAction(self.tr("Quit"))
         self.tray_menu.addAction(self.tray_quit_action)
         self.tray_quit_action.triggered.connect(self.exit_application)
@@ -523,6 +530,9 @@ class MainWin(QtWidgets.QMainWindow):
             self.start_suspend_timer(self._suspend_time_dlg.suspend_time_qsr.value())
         else:
             pass
+
+    def on_open_new_settings_clicked(self):
+        self.settings_page_wt.show()
 
     def show_intro_dialog(self):
         self.intro_dlg = mc.gui.intro_dlg.IntroDlg()

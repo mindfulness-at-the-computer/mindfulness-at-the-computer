@@ -29,6 +29,12 @@ if __name__ == "__main__":
     mc.mc_global.sys_info_telist.append(("Qt version", QtCore.qVersion()))
     # noinspection PyUnresolvedReferences
     mc.mc_global.sys_info_telist.append(("PyQt (Python module) version", PyQt5.Qt.PYQT_VERSION_STR))
+
+    # set stylesheet
+    stream = QtCore.QFile(os.path.join(mc.mc_global.get_base_dir(), "matc.qss"))
+    stream.open(QtCore.QIODevice.ReadOnly)
+    matc_qapplication.setStyleSheet(QtCore.QTextStream(stream).readAll())
+
     desktop_widget = matc_qapplication.desktop()
     mc.mc_global.sys_info_telist.append(("Virtual desktop", str(desktop_widget.isVirtualDesktop())))
     mc.mc_global.sys_info_telist.append(("Screen count", str(desktop_widget.screenCount())))

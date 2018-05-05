@@ -1,0 +1,42 @@
+QCheckBox::indicator:unchecked {
+    image: url(checkbox_unchecked.png);
+}
+
+QCheckBox::indicator:checked {
+    image: url(checkbox_checked.png);
+}
+
+H1 {
+    font-family: Verdana, Arial;
+    font-size: 18px;
+}
+
+H2 {
+    font-family: Verdana, Arial;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+QRadioButton::indicator::unchecked#both_qrb {
+   image: url(both_unchecked.png);
+}
+
+QRadioButton::indicator::checked#both_qrb {
+   image: url(both_checked.png);
+}
+
+QRadioButton::indicator::unchecked#visual_qrb {
+   image: url(visual_unchecked.png);
+}
+
+QRadioButton::indicator::checked#visual_qrb {
+   image: url(visual_checked.png);
+}
+
+QRadioButton::indicator::unchecked#audio_qrb {
+   image: url(audio_unchecked.png);
+}
+
+QRadioButton::indicator::checked#audio_qrb {
+   image: url(audio_checked.png);
+}
