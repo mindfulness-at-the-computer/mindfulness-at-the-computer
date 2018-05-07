@@ -79,7 +79,7 @@ You will now have a mindfulness-at-the-computer.dmg file at the selected locatio
    * `rmdir /s dist`
 10. Go to the base application directory
 11. `pyinstaller --paths [pyqt5 install directory] mindfulness-at-the-computer-windows.spec`
-    * For example: `pyinstaller --paths C:\Python\Python35\Lib\site-packages\PyQt5\Qt\bin mindfulness-at-the-computer-windows.spec`
+    * For example: `pyinstaller --paths C:\Python\Python36\Lib\site-packages\PyQt5\Qt\bin mindfulness-at-the-computer-windows.spec`
     * `--paths` has to be used: https://stackoverflow.com/questions/42880859/importerror-dll-load-failed-the-specified-module-could-not-be-found-failed-to
 
 The resulting `exe` and `dll` files will be in the `./dist/mindfulness-at-the-computer` directory. (There will also be an executable in the `./build/mindfulness-at-the-computer` directory but this should not be used because it has the wrong references)
