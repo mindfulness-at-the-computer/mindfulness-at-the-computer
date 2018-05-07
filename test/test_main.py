@@ -88,6 +88,13 @@ class MainTest(unittest.TestCase):
         QtTest.QTest.mouseClick(ok_dialog_button, QtCore.Qt.LeftButton)
         QtTest.QTest.waitForEvents()
 
+    def test_choose_music_button(self):
+        choose_music = mc.gui.rest_dlg.RestDlg()
+        if choose_music.choose_music_qpb.isEnabled():
+            self.assertTrue(choose_music.on_choose_music_clicked)
+        else:
+            self.assertFalse(choose_music.on_choose_music_clicked)
+
     """
     def test_starting_breathing(self):
         main_win_widget = mc.gui.main_win.MbMainWindow()
