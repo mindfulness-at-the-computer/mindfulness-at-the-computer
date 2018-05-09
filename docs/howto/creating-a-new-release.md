@@ -12,11 +12,12 @@ Documentation:
 ### Building on Ubuntu
 
 1. Install Python (PyInstaller now works with version 3.6 of Python): `sudo apt-get install python3`
-2. `sudo pip3 install pyinstaller`
+1. `sudo apt-get install python3-pip`
+1. `sudo pip3 install pyinstaller`
    * Please verify that you can access pyinstaller by trying to run `pyinstaller` from the command line
-3. `sudo pip3 install pyqt5`
-3. Go to the base application directory
-4. `pyinstaller mindfulness-at-the-computer-linux.spec`
+1. `sudo pip3 install pyqt5`
+1. Go to the base application directory
+1. `pyinstaller mindfulness-at-the-computer-linux.spec`
 
 This process will create an executable file with supporting .so files
 
