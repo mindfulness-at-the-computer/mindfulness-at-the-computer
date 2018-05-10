@@ -76,6 +76,8 @@ class MainWin(QtWidgets.QMainWindow):
         self._setup_add_first_panel_to_main_container(main_container_hbox_l3)
         self._setup_add_breathing_phrase_list_to_main_container(main_container_hbox_l3)
         self._setup_add_rest_action_list_to_main_container(main_container_hbox_l3)
+        
+        self.setup_systray()
 
         # Setup of Menu
         self.menu_bar = self.menuBar()
@@ -89,8 +91,6 @@ class MainWin(QtWidgets.QMainWindow):
         if not mc.mc_global.db_file_exists_at_application_startup_bl and not mc.mc_global.testing_bool:
             self.show_intro_dialog()
         self.open_breathing_prepare()
-
-        self.setup_systray()
 
         self.minimize_to_tray()
 
@@ -347,9 +347,11 @@ class MainWin(QtWidgets.QMainWindow):
             self.start_rest_timer()
         else:
             self.stop_rest_timer()
+        self.update_tooltip()
         self.update_gui(mc.mc_global.EventSource.rest_settings_changed)
 
     def on_rest_slider_value_changed(self):
+        self.update_tooltip()
         self.update_gui(mc.mc_global.EventSource.rest_slider_value_changed)
 
     def stop_rest_timer(self):
@@ -420,6 +422,7 @@ class MainWin(QtWidgets.QMainWindow):
     def on_rest_wait(self):
         mc.mc_global.rest_reminder_minutes_passed_int -= 2
         self.update_gui()
+        self.update_tooltip()
 
     def on_rest_rest(self):
         self.rest_widget = mc.gui.rest_dlg.RestDlg()
@@ -428,6 +431,7 @@ class MainWin(QtWidgets.QMainWindow):
     def on_rest_skip(self):
         mc.mc_global.rest_reminder_minutes_passed_int = 0
         self.update_gui()
+        self.update_tooltip()
 
     def on_breathing_settings_changed(self):
         self.update_breathing_timer()
@@ -562,7 +566,7 @@ class MainWin(QtWidgets.QMainWindow):
     def commence_breathing_notification(self):
         # Skipping the breathing notification if the breathing dialog is shown
         logging.debug("self.breathing_dialog.isVisible = " + str(self.breathing_dialog.isVisible()))
-        if self.breathing_dialog.isVisible():
+        if self.breathing_dialog and self.breathing_dialog.isVisible():
             return
 
         notification_type_int = mc.model.SettingsM.get().breathing_reminder_notification_type_int
@@ -763,7 +767,22 @@ class MainWin(QtWidgets.QMainWindow):
             mc.mc_global.rest_reminder_minutes_passed_int,
             mc.model.SettingsM.get().rest_reminder_interval_int
         )
-
+    
+    def update_tooltip(self):
+        #Adds tooltip on the systray icon showing the amount of time left until the next break
+        settings = mc.model.SettingsM.get()
+        if settings.rest_reminder_active:
+            self.tray_icon.setToolTip(
+                self.tr(
+                    str(
+                        mc.model.SettingsM.get().rest_reminder_interval_int
+                        - mc.mc_global.rest_reminder_minutes_passed_int
+                    )
+                    + " minute/s left until next rest"
+                )
+            )
+        else:
+            self.tray_icon.setToolTip(self.tr("Rest breaks disabled"))
 
 class SystemTray:
     def __init__(self):
