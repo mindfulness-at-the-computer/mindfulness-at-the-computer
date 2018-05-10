@@ -1,9 +1,9 @@
 QCheckBox::indicator:unchecked {
-    image: url(checkbox_unchecked.png);
+    image: url(checkbox_unchecked.svg);
 }
 
 QCheckBox::indicator:checked {
-    image: url(checkbox_checked.png);
+    image: url(checkbox_checked.svg);
 }
 
 H1 {
@@ -18,25 +18,111 @@ H2 {
 }
 
 QRadioButton::indicator::unchecked#both_qrb {
-   image: url(both_unchecked.png);
+   image: url(both_unchecked.svg);
 }
 
 QRadioButton::indicator::checked#both_qrb {
-   image: url(both_checked.png);
+   image: url(both_checked.svg);
 }
 
 QRadioButton::indicator::unchecked#visual_qrb {
-   image: url(visual_unchecked.png);
+   image: url(visual_unchecked.svg);
 }
 
 QRadioButton::indicator::checked#visual_qrb {
-   image: url(visual_checked.png);
+   image: url(visual_checked.svg);
 }
 
 QRadioButton::indicator::unchecked#audio_qrb {
-   image: url(audio_unchecked.png);
+   image: url(audio_unchecked.svg);
 }
 
 QRadioButton::indicator::checked#audio_qrb {
-   image: url(audio_checked.png);
+   image: url(audio_checked.svg);
+}
+
+QRadioButton::indicator::unchecked#same_qrb {
+   image: url(same_unchecked.svg);
+}
+
+QRadioButton::indicator::checked#same_qrb {
+   image: url(same_checked.svg);
+}
+
+QRadioButton::indicator::unchecked#random_qrb {
+   image: url(random_unchecked.svg);
+}
+
+QRadioButton::indicator::checked#random_qrb {
+   image: url(random_checked.svg);
+}
+
+QSpinBox {
+    padding-right: 20px; /* make room for the arrows */
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid #B3B3B3;
+    border-radius: 15px;
+}
+
+QSpinBox::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right; /* position at the top right corner */
+
+    width: 20px;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+    border-color: #B3B3B3;
+    padding-right: 2px;
+}
+
+QSpinBox::up-arrow {
+    image: url(up.svg);
+    width: 7px;
+    height: 7px;
+}
+
+QSpinBox::up-arrow:disabled, QSpinBox::up-arrow:off { /* off state when value is max */
+   image: url(up_disabled.svg);
+}
+
+QSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right; /* position at bottom right corner */
+
+    width: 20px;
+    border-left: 1px solid;
+    border-color: #B3B3B3;
+    padding-right: 2px;
+}
+
+QSpinBox::down-arrow {
+    image: url(down.svg);
+    width: 7px;
+    height: 7px;
+}
+
+QSpinBox::down-arrow:disabled,
+QSpinBox::down-arrow:off { /* off state when value in min */
+   image: url(down_disabled.svg);
+}
+
+QGroupBox {
+    border: none;
+}
+
+QPushButton#notif_select_audio_qpb {
+    border: 1px solid #B3B3B3;
+    border-radius: 10px;
+    height: 20px;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f6f7fa, stop: 1 #dadbde);
+    min-width: 200px;
+}
+
+QPushButton:pressed#notif_select_audio_qpb {
+    border: 1px solid #B3B3B3;
+    border-radius: 10px;
+    height: 20px;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);
 }
