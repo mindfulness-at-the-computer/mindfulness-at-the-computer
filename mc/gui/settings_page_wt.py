@@ -1,6 +1,6 @@
 import mc.mc_global
 import mc.model
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtCore
 from mc.gui.reusable_components import *
 
 
@@ -54,7 +54,7 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         notification_type_qhl = QtWidgets.QGridLayout()
         notification_type_qhl.setColumnMinimumWidth(0, 120)
         notification_type_qhl.setColumnMinimumWidth(1, 120)
-        notification_type_qhl.setColumnMinimumWidth(2, 120)
+        notification_type_qhl.setColumnMinimumWidth(2, 125)
         notification_type_qhl.setColumnStretch(3, 1)
         notification_type_qhl.addWidget(self.both_qrb, 0, 0)
         notification_type_qhl.addWidget(self.visual_qrb, 0, 1)
@@ -79,7 +79,7 @@ class BreathingSettingsWt(QtWidgets.QWidget):
 
         dialog_type_qhl = QtWidgets.QGridLayout()
         dialog_type_qhl.setColumnMinimumWidth(0, 120)
-        dialog_type_qhl.setColumnMinimumWidth(1, 120)
+        dialog_type_qhl.setColumnMinimumWidth(1, 125)
         dialog_type_qhl.setColumnStretch(2, 1)
         dialog_type_qhl.addWidget(self.same_qrb, 0, 0)
         dialog_type_qhl.addWidget(self.random_qrb, 0, 1)
