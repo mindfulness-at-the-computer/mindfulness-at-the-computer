@@ -17,44 +17,58 @@ H2 {
     font-weight: bold;
 }
 
-QRadioButton::indicator::unchecked#both_qrb {
-   image: url(both_unchecked.svg);
+RadioButtonLeft, RadioButtonMiddle, RadioButtonRight {
+    spacing: -110;
 }
 
-QRadioButton::indicator::checked#both_qrb {
-   image: url(both_checked.svg);
+RadioButtonLeft::indicator::unchecked {
+    border: 1px solid #B3B3B3;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background: #ffffff;
+    width: 120px;
+    height: 22px;
 }
 
-QRadioButton::indicator::unchecked#visual_qrb {
-   image: url(visual_unchecked.svg);
+RadioButtonLeft::indicator::checked {
+    border: 1px solid #B3B3B3;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background: #44db5e;
+    width: 120px;
+    height: 22px;
 }
 
-QRadioButton::indicator::checked#visual_qrb {
-   image: url(visual_checked.svg);
+RadioButtonMiddle::indicator::unchecked {
+    border: 1px solid #B3B3B3;
+    background: #ffffff;
+    width: 120px;
+    height: 22px;
 }
 
-QRadioButton::indicator::unchecked#audio_qrb {
-   image: url(audio_unchecked.svg);
+RadioButtonMiddle::indicator::checked {
+    border: 1px solid #B3B3B3;
+    background: #44db5e;
+    width: 120px;
+    height: 22px;
 }
 
-QRadioButton::indicator::checked#audio_qrb {
-   image: url(audio_checked.svg);
+RadioButtonRight::indicator::unchecked {
+    border: 1px solid #B3B3B3;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: #ffffff;
+    width: 120px;
+    height: 22px;
 }
 
-QRadioButton::indicator::unchecked#same_qrb {
-   image: url(same_unchecked.svg);
-}
-
-QRadioButton::indicator::checked#same_qrb {
-   image: url(same_checked.svg);
-}
-
-QRadioButton::indicator::unchecked#random_qrb {
-   image: url(random_unchecked.svg);
-}
-
-QRadioButton::indicator::checked#random_qrb {
-   image: url(random_checked.svg);
+RadioButtonRight::indicator::checked {
+    border: 1px solid #B3B3B3;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: #44db5e;
+    width: 120px;
+    height: 22px;
 }
 
 QSpinBox {
@@ -89,7 +103,7 @@ QSpinBox::up-arrow:disabled, QSpinBox::up-arrow:off { /* off state when value is
 
 QSpinBox::down-button {
     subcontrol-origin: border;
-    subcontrol-position: bottom right; /* position at bottom right corner */
+    subcontrol-position: bottom right;
 
     width: 20px;
     border-left: 1px solid;

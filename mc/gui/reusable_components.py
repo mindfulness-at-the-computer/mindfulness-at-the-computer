@@ -29,3 +29,27 @@ class RaisedHorizontalLine(QtWidgets.QFrame):
         super().__init__(*__args)
         self.setFrameShape(self.HLine)
         self.setFrameShadow(self.Raised)
+
+
+class RadioButtonLeft(QtWidgets.QRadioButton):
+    """
+    The left button of a radio button group
+    """
+    def __init__(self, *__args):
+        super().__init__(*__args)
+
+
+class RadioButtonMiddle(QtWidgets.QRadioButton):
+    """
+    One of the middle buttons of a radio button group
+    """
+    def __init__(self, *__args):
+        super().__init__(*__args)
+
+
+class RadioButtonRight(QtWidgets.QRadioButton):
+    """
+    The right button of a radio button group
+    """
+    def __init__(self, *__args):
+        super().__init__(*__args)

@@ -1,17 +1,37 @@
 import mc.mc_global
 import mc.model
 from PyQt5 import QtWidgets, QtCore
-from mc.gui.reusable_components import H1, H2, SunkenHorizontalLine, RaisedHorizontalLine
+from mc.gui.reusable_components import *
 
 
 class SettingsPageWt(QtWidgets.QTabWidget):
     def __init__(self):
         super().__init__()
-        self.breathing_settings_wt = QtWidgets.QWidget()
+        self.breathing_settings_wt = BreathingSettingsWt()
+        self.resting_settings_wt = RestingSettingsWt()
+        self._init_ui()
+
+    def _init_ui(self):
+        self.setGeometry(100, 64, 900, 670)
+
+        self.setTabPosition(self.West)
+
+        self.addTab(self.breathing_settings_wt, self.tr("Breathing"))
+        self.addTab(self.resting_settings_wt, self.tr("Resting"))
+
+
+class BreathingSettingsWt(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
         self.turn_breathing_on_off_qcb = QtWidgets.QCheckBox()
-        self.breathing_reminder_interval_qsb = QtWidgets.QSpinBox()
-        self.show_after_qsb = QtWidgets.QSpinBox()
+        self.both_qrb = RadioButtonLeft(self.tr("Visual + Audio"))
+        self.visual_qrb = RadioButtonMiddle(self.tr("Visual"))
+        self.audio_qrb = RadioButtonRight(self.tr("Audio"))
+        self.notification_interval_qsb = QtWidgets.QSpinBox()
         self.close_on_hover_qcb = QtWidgets.QCheckBox()
+        self.same_qrb = RadioButtonLeft(self.tr("Same"))
+        self.random_qrb = RadioButtonRight(self.tr("Random"))
+        self.show_after_qsb = QtWidgets.QSpinBox()
         self.notif_select_audio_qpb = QtWidgets.QPushButton(self.tr("Select audio"))
         self.notif_volume_qsr = QtWidgets.QSlider()
 
@@ -19,66 +39,37 @@ class SettingsPageWt(QtWidgets.QTabWidget):
 
     def _init_ui(self):
         settings = mc.model.SettingsM.get()
-        self.setGeometry(100, 64, 900, 670)
-
-        self.setTabPosition(self.West)
-        self.addTab(self.breathing_settings_wt, self.tr("Breathing"))
 
         # initializing the values of the controls
         self.turn_breathing_on_off_qcb.setChecked(settings.breathing_reminder_active_bool)
         self.close_on_hover_qcb.setChecked(settings.breathing_reminder_dialog_audio_active_bool)
         self.notif_select_audio_qpb.setObjectName("notif_select_audio_qpb")
 
-        # Setting up the radio buttons for the notification type
-        both_qrb = QtWidgets.QRadioButton()
-        both_qrb.setObjectName("both_qrb")
-
-        visual_qrb = QtWidgets.QRadioButton()
-        visual_qrb.setObjectName("visual_qrb")
-
-        audio_qrb = QtWidgets.QRadioButton()
-        audio_qrb.setObjectName("audio_qrb")
-
-        same_qrb = QtWidgets.QRadioButton()
-        same_qrb.setObjectName("same_qrb")
-
-        random_qrb = QtWidgets.QRadioButton()
-        random_qrb.setObjectName("random_qrb")
-
+        # General settings
         on_off_qhl = QtWidgets.QHBoxLayout()
         on_off_qhl.addWidget(QtWidgets.QLabel(self.tr("Turn the breathing dialog and notifications on or off")))
         on_off_qhl.addStretch(1)
         on_off_qhl.addWidget(self.turn_breathing_on_off_qcb)
 
-        notification_type_qhl = QtWidgets.QHBoxLayout()
-        notification_type_qhl.addWidget(both_qrb)
-        notification_type_qhl.addWidget(visual_qrb)
-        notification_type_qhl.addWidget(audio_qrb)
+        notification_type_qhl = QtWidgets.QGridLayout()
+        notification_type_qhl.setColumnMinimumWidth(0, 120)
+        notification_type_qhl.setColumnMinimumWidth(1, 120)
+        notification_type_qhl.setColumnMinimumWidth(2, 120)
+        notification_type_qhl.setColumnStretch(3, 1)
+        notification_type_qhl.addWidget(self.both_qrb, 0, 0)
+        notification_type_qhl.addWidget(self.visual_qrb, 0, 1)
+        notification_type_qhl.addWidget(self.audio_qrb, 0, 2)
         notification_type_qhl.setSpacing(0)
-        notification_type_qhl.addStretch(1)
         notification_type_qgb = QtWidgets.QGroupBox()
         notification_type_qgb.setLayout(notification_type_qhl)
 
-        dialog_type_qhl = QtWidgets.QHBoxLayout()
-        dialog_type_qhl.addWidget(same_qrb)
-        dialog_type_qhl.addWidget(random_qrb)
-        dialog_type_qhl.setSpacing(0)
-        dialog_type_qhl.addStretch(1)
-        dialog_type_qgb = QtWidgets.QGroupBox()
-        dialog_type_qgb.setLayout(dialog_type_qhl)
+        notification_interval_qhl = QtWidgets.QHBoxLayout()
+        notification_interval_qhl.addWidget(QtWidgets.QLabel(self.tr("Interval every:")))
+        notification_interval_qhl.addWidget(self.notification_interval_qsb)
+        notification_interval_qhl.addWidget(QtWidgets.QLabel(self.tr("minutes")))
+        notification_interval_qhl.addStretch(1)
 
-        breathing_reminder_interval_qhl = QtWidgets.QHBoxLayout()
-        breathing_reminder_interval_qhl.addWidget(QtWidgets.QLabel(self.tr("Interval every:")))
-        breathing_reminder_interval_qhl.addWidget(self.breathing_reminder_interval_qsb)
-        breathing_reminder_interval_qhl.addWidget(QtWidgets.QLabel(self.tr("minutes")))
-        breathing_reminder_interval_qhl.addStretch(1)
-
-        show_after_qhl = QtWidgets.QHBoxLayout()
-        show_after_qhl.addWidget(QtWidgets.QLabel(self.tr("Show after:")))
-        show_after_qhl.addWidget(self.show_after_qsb)
-        show_after_qhl.addWidget(QtWidgets.QLabel(self.tr("notifications")))
-        show_after_qhl.addStretch(1)
-
+        # Settings for the breathing dialog
         dialog_qhl = QtWidgets.QHBoxLayout()
         dialog_qhl.addWidget(H2(self.tr("Dialog")))
         dialog_qhl.addStretch(1)
@@ -86,6 +77,23 @@ class SettingsPageWt(QtWidgets.QTabWidget):
         dialog_qhl.addWidget(self.close_on_hover_qcb)
         dialog_qhl.setSpacing(20)
 
+        dialog_type_qhl = QtWidgets.QGridLayout()
+        dialog_type_qhl.setColumnMinimumWidth(0, 120)
+        dialog_type_qhl.setColumnMinimumWidth(1, 120)
+        dialog_type_qhl.setColumnStretch(2, 1)
+        dialog_type_qhl.addWidget(self.same_qrb, 0, 0)
+        dialog_type_qhl.addWidget(self.random_qrb, 0, 1)
+        dialog_type_qhl.setSpacing(0)
+        dialog_type_qgb = QtWidgets.QGroupBox()
+        dialog_type_qgb.setLayout(dialog_type_qhl)
+
+        show_after_qhl = QtWidgets.QHBoxLayout()
+        show_after_qhl.addWidget(QtWidgets.QLabel(self.tr("Show after:")))
+        show_after_qhl.addWidget(self.show_after_qsb)
+        show_after_qhl.addWidget(QtWidgets.QLabel(self.tr("notifications")))
+        show_after_qhl.addStretch(1)
+
+        # Settings for audio
         self.notif_volume_qsr.setOrientation(QtCore.Qt.Horizontal)
         self.notif_volume_qsr.setMinimum(0)
         self.notif_volume_qsr.setMaximum(100)
@@ -93,6 +101,7 @@ class SettingsPageWt(QtWidgets.QTabWidget):
         audio_qhl.addWidget(self.notif_select_audio_qpb)
         audio_qhl.addWidget(self.notif_volume_qsr)
 
+        # PUT EVERYTHING ON THE PAGE......
         grid = QtWidgets.QGridLayout()
 
         # first grid column
@@ -102,7 +111,7 @@ class SettingsPageWt(QtWidgets.QTabWidget):
         grid.addWidget(QtWidgets.QLabel(self.tr("Notification type")), 4, 0)
         grid.addWidget(notification_type_qgb, 5, 0)
         grid.addWidget(SunkenHorizontalLine(), 6, 0)
-        grid.addLayout(breathing_reminder_interval_qhl, 7, 0)
+        grid.addLayout(notification_interval_qhl, 7, 0)
         grid.addWidget(QtWidgets.QLabel(), 8, 0)
         grid.addLayout(dialog_qhl, 9, 0)
         grid.addWidget(RaisedHorizontalLine(), 10, 0)
@@ -125,5 +134,9 @@ class SettingsPageWt(QtWidgets.QTabWidget):
         vbox_l2.addStretch(1)
         vbox_l2.addLayout(grid)
         vbox_l2.addStretch(3)
-        self.breathing_settings_wt.setLayout(vbox_l2)
+        self.setLayout(vbox_l2)
 
+
+class RestingSettingsWt(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
