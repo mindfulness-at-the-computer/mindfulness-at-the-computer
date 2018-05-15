@@ -376,9 +376,9 @@ class BreathingDialogComing(QtWidgets.QWidget):
         vbox_l2 = QtWidgets.QVBoxLayout()
         vbox_l2.addSpacing(MARGIN_TOP_INT)
         vbox_l2.addWidget(title_qll)
-        vbox_l2.addStretch(2)
+        vbox_l2.addStretch(3)
         vbox_l2.addWidget(text_qll)
-        vbox_l2.addStretch(2)
+        vbox_l2.addStretch(3)
         vbox_l2.addWidget(relaunch_wizard_qll)
         vbox_l2.addStretch(1)
 
