@@ -86,7 +86,7 @@ def initial_schema_and_setup(i_db_conn: sqlite3.Connection) -> None:
         + Schema.SettingsTable.Cols.breathing_reminder_text + " TEXT NOT NULL"
         + " DEFAULT ''" + ", "
         + Schema.SettingsTable.Cols.breathing_dialog_phrase_selection + " INTEGER NOT NULL"
-        + " DEFAULT " + str(mc_global.PhraseSelection.same.value) + ", "
+        + " DEFAULT " + str(mc_global.PhraseSelection.random.value) + ", "
         + Schema.SettingsTable.Cols.prep_reminder_audio_filename + " TEXT NOT NULL"
         + " DEFAULT '" + mc_global.SMALL_BELL_LONG_FILENAME_STR + "'" + ", "
         + Schema.SettingsTable.Cols.prep_reminder_audio_volume + " INTEGER NOT NULL"
