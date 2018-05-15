@@ -366,7 +366,7 @@ class BreathingDialogComing(QtWidgets.QWidget):
         text_qll.setFont(mc.mc_global.get_font_xlarge())
 
         relaunch_wizard_qll = QtWidgets.QLabel(
-            '<p>You can start this wizard again by choosing "Help" -> "Intro Wizard" in the settings '
+            '<p>You can start this wizard again by choosing "Help" -> "Show intro wizard" in the settings '
             'window (available from the system tray icon menu)</p>'
         )
         relaunch_wizard_qll.setWordWrap(True)
