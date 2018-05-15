@@ -365,11 +365,21 @@ class BreathingDialogComing(QtWidgets.QWidget):
         text_qll.setWordWrap(True)
         text_qll.setFont(mc.mc_global.get_font_xlarge())
 
+        relaunch_wizard_qll = QtWidgets.QLabel(
+            '<p>You can start this wizard again by choosing "Help" -> "Intro Wizard" in the settings '
+            'window (available from the system tray icon menu)</p>'
+        )
+        relaunch_wizard_qll.setWordWrap(True)
+        relaunch_wizard_qll.setFont(mc.mc_global.get_font_medium())
+        relaunch_wizard_qll.setAlignment(QtCore.Qt.AlignCenter)
+
         vbox_l2 = QtWidgets.QVBoxLayout()
         vbox_l2.addSpacing(MARGIN_TOP_INT)
         vbox_l2.addWidget(title_qll)
-        vbox_l2.addStretch(1)
+        vbox_l2.addStretch(2)
         vbox_l2.addWidget(text_qll)
+        vbox_l2.addStretch(2)
+        vbox_l2.addWidget(relaunch_wizard_qll)
         vbox_l2.addStretch(1)
 
         self.setLayout(vbox_l2)
