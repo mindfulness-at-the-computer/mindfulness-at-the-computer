@@ -17,18 +17,10 @@ class H2(QtWidgets.QLabel):
         super().__init__(*__args)
 
 
-class SunkenHorizontalLine(QtWidgets.QFrame):
+class HorizontalLine(QtWidgets.QFrame):
     def __init__(self, *__args):
         super().__init__(*__args)
         self.setFrameShape(self.HLine)
-        self.setFrameShadow(self.Sunken)
-
-
-class RaisedHorizontalLine(QtWidgets.QFrame):
-    def __init__(self, *__args):
-        super().__init__(*__args)
-        self.setFrameShape(self.HLine)
-        self.setFrameShadow(self.Raised)
 
 
 class RadioButtonLeft(QtWidgets.QRadioButton):

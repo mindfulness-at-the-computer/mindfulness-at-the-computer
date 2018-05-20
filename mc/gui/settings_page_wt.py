@@ -1,6 +1,8 @@
 import mc.mc_global
 import mc.model
 from PyQt5 import QtCore
+
+from mc.gui.breathing_phrase_list_wt import BreathingPhraseListWt
 from mc.gui.reusable_components import *
 
 
@@ -107,30 +109,28 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         # first grid column
         grid.addLayout(on_off_qhl, 0, 0)
         grid.addWidget(H2(self.tr("Notifications")), 2, 0)
-        grid.addWidget(RaisedHorizontalLine(), 3, 0)
+        grid.addWidget(HorizontalLine(), 3, 0)
         grid.addWidget(QtWidgets.QLabel(self.tr("Notification type")), 4, 0)
         grid.addWidget(notification_type_qgb, 5, 0)
-        grid.addWidget(SunkenHorizontalLine(), 6, 0)
         grid.addLayout(notification_interval_qhl, 7, 0)
         grid.addWidget(QtWidgets.QLabel(), 8, 0)
         grid.addLayout(dialog_qhl, 9, 0)
-        grid.addWidget(RaisedHorizontalLine(), 10, 0)
+        grid.addWidget(HorizontalLine(), 10, 0)
         grid.addWidget(QtWidgets.QLabel(self.tr("Do you always want the same phrase or a random one?")), 11, 0)
         grid.addWidget(dialog_type_qgb, 12, 0)
-        grid.addWidget(SunkenHorizontalLine(), 13, 0)
         grid.addLayout(show_after_qhl, 14, 0)
         grid.addWidget(QtWidgets.QLabel(), 15, 1)
         grid.addWidget(H2(self.tr("Audio")), 16, 0)
-        grid.addWidget(RaisedHorizontalLine(), 17, 0)
+        grid.addWidget(HorizontalLine(), 17, 0)
         grid.addLayout(audio_qhl, 18, 0)
 
         # second grid column
-        grid.addWidget(QtWidgets.QLabel(self.tr("These are the sentences that appear in the `breathing dialog`")), 0, 2)
-        grid.addWidget(QtWidgets.QLabel(self.tr("They also appear in the `breathing notification`")), 1, 2)
+        grid.addWidget(QtWidgets.QLabel(self.tr("These are the sentences that appear in the `breathing dialog`")), 0, 1)
+        grid.addWidget(QtWidgets.QLabel(self.tr("They also appear in the `breathing notification`")), 1, 1)
 
         vbox_l2 = QtWidgets.QVBoxLayout()
         vbox_l2.addWidget(H1(self.tr("Settings for Breathing")))
-        vbox_l2.addWidget(SunkenHorizontalLine())
+        vbox_l2.addWidget(HorizontalLine())
         vbox_l2.addStretch(1)
         vbox_l2.addLayout(grid)
         vbox_l2.addStretch(3)
