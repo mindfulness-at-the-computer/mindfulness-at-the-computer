@@ -119,8 +119,18 @@ def upgrade_1_2(i_db_conn):
 """
 
 
+def upgrade_23_24(i_db_conn):
+    backup_db_file()
+    i_db_conn.execute(
+        "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
+        + Schema.SettingsTable.Cols.nr_times_started_since_last_feedback_notif + " INTEGER DEFAULT 0"
+    )
+    # number_of_times_started or started since last notification
+
+
 upgrade_steps = {
     23: initial_schema_and_setup,
+    24: upgrade_23_24
 }
 
 
@@ -244,6 +254,7 @@ class Schema:
             prep_reminder_audio_filename = "prep_reminder_audio_filename"
             prep_reminder_audio_volume = "prep_reminder_audio_volume"
             run_on_startup = "run_on_startup"
+            nr_times_started_since_last_feedback_notif = "nr_times_started_since_last_feedback_notif"
 
 
 def backup_db_file() -> None:
