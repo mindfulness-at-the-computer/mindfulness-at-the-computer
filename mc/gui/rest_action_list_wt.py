@@ -183,7 +183,7 @@ class EditDialog(QtWidgets.QDialog):
         super(EditDialog, self).__init__(i_parent)
 
         rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
-        self.temporary_image_file_path_str = rest_action.image_path
+        # self.temporary_image_file_path_str = rest_action.image_path
 
         assert mc_global.active_rest_action_id_it != mc_global.NO_REST_ACTION_SELECTED_INT
         active_rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
@@ -198,6 +198,7 @@ class EditDialog(QtWidgets.QDialog):
         self.rest_action_title_qle = QtWidgets.QLineEdit(active_rest_action.title)
         title_vbox.addWidget(self.rest_action_title_qle)
 
+        """
         # Image
         image_qgb = QtWidgets.QGroupBox(self.tr("Image"))
         vbox.addWidget(image_qgb)
@@ -215,6 +216,7 @@ class EditDialog(QtWidgets.QDialog):
         image_vbox.addWidget(self.remove_image_qpb)
         self.remove_image_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("x-2x.png")))
         self.remove_image_qpb.clicked.connect(self.on_remove_image_clicked)
+        """
 
         self.update_gui_details()
 
@@ -231,6 +233,7 @@ class EditDialog(QtWidgets.QDialog):
     def update_gui_details(self):
         assert mc_global.active_rest_action_id_it != mc_global.NO_REST_ACTION_SELECTED_INT
 
+        """
         if self.temporary_image_file_path_str:
             if os.path.isfile(self.temporary_image_file_path_str):
                 self.details_image_path_qll.setText(os.path.basename(
@@ -240,6 +243,7 @@ class EditDialog(QtWidgets.QDialog):
                 self.details_image_path_qll.setText(self.tr("image does not exist"))
         else:
             self.details_image_path_qll.setText(self.tr("(no image set)"))
+        """
 
     @staticmethod
     def launch_edit_dialog():
@@ -265,11 +269,11 @@ class EditDialog(QtWidgets.QDialog):
         new_file_path_str = image_file_result_tuple[0]
         logging.debug("new_file_path_str = " + new_file_path_str)
         if new_file_path_str:
-            self.temporary_image_file_path_str = new_file_path_str
+            # self.temporary_image_file_path_str = new_file_path_str
             self.update_gui_details()
         else:
             pass
 
     def on_remove_image_clicked(self):
-        self.temporary_image_file_path_str = ""
+        # self.temporary_image_file_path_str = ""
         self.update_gui_details()
