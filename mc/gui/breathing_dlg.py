@@ -61,7 +61,7 @@ class BreathingDlg(QtWidgets.QFrame):
         hbox_l3.addWidget(self._close_qpb)
 
         self._help_qll = QtWidgets.QLabel(
-            self.tr("Hover over the central area breathing in and over the background breathing out")
+            self.tr("Hover over the green box breathing in and outside the green box breathing out")
         )
         font = self._help_qll.font()
         font.setItalic(True)
