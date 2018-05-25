@@ -144,3 +144,45 @@ QPushButton:pressed#notif_select_audio_qpb {
 HorizontalLine {
     color: #B3B3B3;
 }
+
+QListWidget {
+    show-decoration-selected: 1; /* make the selection span the entire width of the view */
+}
+
+QListWidget::item {
+    height: 30px;
+    padding-left: 5px;
+    border-bottom: 1px solid #B3B3B3
+}
+
+QListWidget::item:selected {
+}
+
+QListWidget::item:selected:!active {
+    background: #EFEFEF;
+}
+
+QListWidget::item:selected:active {
+    background: #EFEFEF;
+}
+
+QListWidget::item:hover {
+    background: #F7F7F7;
+}
+
+PushButton {
+    border: 1px solid #B3B3B3;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f6f7fa, stop: 1 #dadbde);
+    width: 60px;
+    height: 22px;
+    margin-bottom: 3px;
+}
+
+PushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+QLineEdit#add_to_list_qle {
+    border: 1px solid #B3B3B3;
+    height: 22;
+}

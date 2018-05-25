@@ -37,10 +37,13 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         self.notif_select_audio_qpb = QtWidgets.QPushButton(self.tr("Select audio"))
         self.notif_volume_qsr = QtWidgets.QSlider()
 
+        self.phrases_qlw = BreathingPhraseListWt()
+
         self._init_ui()
 
     def _init_ui(self):
         settings = mc.model.SettingsM.get()
+        self.phrases_qlw.setObjectName('phrases_qlw')
 
         # initializing the values of the controls
         self.turn_breathing_on_off_qcb.setChecked(settings.breathing_reminder_active_bool)
@@ -53,6 +56,7 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         on_off_qhl.addStretch(1)
         on_off_qhl.addWidget(self.turn_breathing_on_off_qcb)
 
+        # Notification settings
         notification_type_qhl = QtWidgets.QGridLayout()
         notification_type_qhl.setColumnMinimumWidth(0, 120)
         notification_type_qhl.setColumnMinimumWidth(1, 120)
@@ -125,8 +129,9 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         grid.addLayout(audio_qhl, 18, 0)
 
         # second grid column
-        grid.addWidget(QtWidgets.QLabel(self.tr("These are the sentences that appear in the `breathing dialog`")), 0, 1)
-        grid.addWidget(QtWidgets.QLabel(self.tr("They also appear in the `breathing notification`")), 1, 1)
+        grid.addWidget(QtWidgets.QLabel(self.tr("These are the sentences that appear in the `breathing dialog`")), 0, 2)
+        grid.addWidget(QtWidgets.QLabel(self.tr("They also appear in the `breathing notification`")), 1, 2)
+        grid.addWidget(BreathingPhraseListWt(), 2, 1, 18, 2)
 
         vbox_l2 = QtWidgets.QVBoxLayout()
         vbox_l2.addWidget(H1(self.tr("Settings for Breathing")))
