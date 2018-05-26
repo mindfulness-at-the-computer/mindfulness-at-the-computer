@@ -173,9 +173,7 @@ QListWidget::item:hover {
 PushButton {
     border: 1px solid #B3B3B3;
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f6f7fa, stop: 1 #dadbde);
-    width: 60px;
     height: 22px;
-    margin-bottom: 3px;
 }
 
 PushButton:pressed {
