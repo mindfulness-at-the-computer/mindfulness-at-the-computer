@@ -83,6 +83,12 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         button_bar_grid.addWidget(self.delete_phrase_qpb, 0, 5)
         button_bar_grid.setColumnStretch(4, 1)
 
+        # spacing doesn't work the same on different operating systems.
+        # on macos the default value of -1 gives the best result
+        # on linux it should be 2
+        if QtCore.QSysInfo.kernelType() == "linux":
+            button_bar_grid.setHorizontalSpacing(2)
+
         breathing_list_grid.addWidget(
             QtWidgets.QLabel(self.tr("These are the sentences that appear in the `breathing dialog`")), 0, 0, 1, 3
         )
