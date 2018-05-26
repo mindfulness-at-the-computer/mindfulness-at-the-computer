@@ -89,7 +89,7 @@ We need help localizing the application. Helping with translations is easy:
 
 ## Website
 
-The website has a separate github repo: https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer.github.io
+The website has a separate GitHub repo: https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer.github.io
 
 ***
 

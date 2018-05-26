@@ -685,7 +685,7 @@ class MainWin(QtWidgets.QMainWindow):
             (
                 '<html>'
                 'Originally created by Tord Dellsén'
-                '<a href="https://sunyatazero.github.io/"> Github website</a><br>'
+                '<a href="https://sunyatazero.github.io/"> GitHub website</a><br>'
                 '<a href="https://github.com/SunyataZero/mindfulness-at-the-computer/graphs/contributors">'
                 'All contributors</a><br>'
                 'Photography for application icon by Torgny Dellsén '

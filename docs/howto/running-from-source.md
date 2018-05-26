@@ -11,7 +11,7 @@ If you don't see a download option for the platform of your choice, or you just 
 2. Install Python 3.x
 3. On the command line: `pip install --upgrade pip` (On Ubuntu use `sudo -H` and `pip3` instead of `pip`)
 4. On the command line: `pip install PyQt5` (On Ubuntu use `sudo -H` and `pip3` instead of `pip`)
-  * *Windows: At the time of writing you need to use PyQt 5.9 rather than 5.10 as there is a strange bluetooth error for 5.10* `pip install PyQt5==5.9.2`
+  * *Windows: At the time of writing you need to use PyQt 5.9 rather than 5.10 as there is a strange Bluetooth error for 5.10* `pip install PyQt5==5.9.2`
 5. Download the project files from GitHub, by clicking on *the green "Clone or download" button* and then "Download ZIP"
 6. Unzip the downloaded file
 7. Change directory to where the software files have been extracted

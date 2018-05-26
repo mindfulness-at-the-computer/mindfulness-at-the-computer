@@ -74,7 +74,7 @@ You will now have a mindfulness-at-the-computer.dmg file at the selected locatio
    * Please note that the pyinstaller version may not be compatible with the latest python version. (At the time of writing this is not a problem, but it has been in the past)
 6. Find and copy the installation path for PyQt5 (example: `C:\Python\Python35\Lib\site-packages\PyQt5\Qt\bin`)
 7. Create an empty directory where you can unzip the files, preferably with a path without any spaces
-8. Download the latest code (can be found on the github main page under the green "clone or download" button
+8. Download the latest code (can be found on the GitHub main page under the green "clone or download" button
 9. If you have tried to build previously: Remove the `build` and `dist` directories:
    * `rmdir /s build`
    * `rmdir /s dist`
