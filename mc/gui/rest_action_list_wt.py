@@ -8,7 +8,7 @@ import mc.gui.safe_delete_dlg
 import mc.gui.warning_dlg
 import mc.mc_global
 from mc import model, mc_global
-from mc.gui.reusable_components import PhrasesList, PushButton
+from mc.gui.reusable_components import PhrasesList, PushButton, ButtonGrid, PageGrid
 
 
 class RestActionListWt(QtWidgets.QWidget):
@@ -72,7 +72,7 @@ class RestActionListWt(QtWidgets.QWidget):
         self.delete_qpb.setToolTip(self.tr("Delete the selected rest action"))
         self.delete_qpb.clicked.connect(self.on_delete_clicked)
 
-        button_bar_grid = QtWidgets.QGridLayout()
+        button_bar_grid = ButtonGrid()
         button_bar_grid.addWidget(self.edit_texts_qpb, 0, 0)
         button_bar_grid.addWidget(self.move_to_top_qpb, 0, 1)
         button_bar_grid.addWidget(self.move_up_qpb, 0, 2)
@@ -86,7 +86,7 @@ class RestActionListWt(QtWidgets.QWidget):
         if QtCore.QSysInfo.kernelType() == "linux":
             button_bar_grid.setHorizontalSpacing(2)
 
-        rest_action_list_grid = QtWidgets.QGridLayout()
+        rest_action_list_grid = PageGrid()
         if QtCore.QSysInfo.kernelType() == "linux":
             rest_action_list_grid.setVerticalSpacing(15)
         rest_action_list_grid.addWidget(

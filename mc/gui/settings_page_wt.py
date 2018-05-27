@@ -57,7 +57,7 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         on_off_qhl.addWidget(self.turn_breathing_on_off_qcb)
 
         # Notification settings
-        notification_type_grid = QtWidgets.QGridLayout()
+        notification_type_grid = PageGrid()
         notification_type_grid.setColumnMinimumWidth(0, 120)
         notification_type_grid.setColumnMinimumWidth(1, 120)
         notification_type_grid.setColumnMinimumWidth(2, 125)
@@ -83,7 +83,7 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         dialog_qhl.addWidget(self.close_on_hover_qcb)
         dialog_qhl.setSpacing(20)
 
-        dialog_type_grid = QtWidgets.QGridLayout()
+        dialog_type_grid = PageGrid()
         dialog_type_grid.setColumnMinimumWidth(0, 120)
         dialog_type_grid.setColumnMinimumWidth(1, 125)
         dialog_type_grid.setColumnStretch(2, 1)
@@ -108,7 +108,7 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         audio_qhl.addWidget(self.notif_volume_qsr)
 
         # PUT EVERYTHING ON THE PAGE......
-        grid = QtWidgets.QGridLayout()
+        grid = PageGrid()
 
         # first grid column
         grid.addLayout(on_off_qhl, 0, 0)
@@ -172,7 +172,7 @@ class RestSettingsWt(QtWidgets.QWidget):
         on_off_qhl.addWidget(self.turn_rest_on_off_qcb)
 
         # Notification settings
-        notification_type_grid = QtWidgets.QGridLayout()
+        notification_type_grid = PageGrid()
         notification_type_grid.setColumnMinimumWidth(0, 120)
         notification_type_grid.setColumnMinimumWidth(1, 120)
         notification_type_grid.setColumnMinimumWidth(2, 125)
@@ -210,7 +210,7 @@ class RestSettingsWt(QtWidgets.QWidget):
         audio_qhl.addWidget(self.notif_volume_qsr)
 
         # PUT EVERYTHING ON THE PAGE......
-        grid = QtWidgets.QGridLayout()
+        grid = PageGrid()
 
         # first grid column
         grid.addLayout(on_off_qhl, 0, 0)

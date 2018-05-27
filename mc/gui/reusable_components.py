@@ -1,4 +1,5 @@
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
+from mc import mc_global
 
 
 class H1(QtWidgets.QLabel):
@@ -58,3 +59,18 @@ class PushButton(QtWidgets.QPushButton):
 class PhrasesList(QtWidgets.QListWidget):
     def __init__(self, *__args):
         super().__init__(*__args)
+
+
+class PageGrid(QtWidgets.QGridLayout):
+    def __init__(self, *__args):
+        super().__init__(*__args)
+        if QtCore.QSysInfo.kernelType() == "linux":
+            self.setVerticalSpacing(mc_global.GRID_VERTICAL_SPACING_LINUX)
+
+
+class ButtonGrid(QtWidgets.QGridLayout):
+    def __init__(self, *__args):
+        super().__init__(*__args)
+        if QtCore.QSysInfo.kernelType() == "linux":
+            self.setHorizontalSpacing(mc_global.BUTTON_BAR_HORIZONTAL_SPACING_LINUX)
+
