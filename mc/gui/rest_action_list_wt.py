@@ -87,6 +87,8 @@ class RestActionListWt(QtWidgets.QWidget):
             button_bar_grid.setHorizontalSpacing(2)
 
         rest_action_list_grid = QtWidgets.QGridLayout()
+        if QtCore.QSysInfo.kernelType() == "linux":
+            rest_action_list_grid.setVerticalSpacing(15)
         rest_action_list_grid.addWidget(
             QtWidgets.QLabel(self.tr("These are the actions that appear in the `rest dialog`")), 0, 0, 1, 3
         )

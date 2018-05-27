@@ -88,6 +88,8 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             button_bar_grid.setHorizontalSpacing(2)
 
         breathing_list_grid = QtWidgets.QGridLayout()
+        if QtCore.QSysInfo.kernelType() == "linux":
+            breathing_list_grid.setVerticalSpacing(15)
         breathing_list_grid.addWidget(
             QtWidgets.QLabel(self.tr("These are the sentences that appear in the `breathing dialog`")), 0, 0, 1, 3
         )
