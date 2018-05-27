@@ -6,7 +6,9 @@ from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 import mc.gui.safe_delete_dlg
 import mc.gui.warning_dlg
+import mc.mc_global
 from mc import model, mc_global
+from mc.gui.reusable_components import PhrasesList, PushButton
 
 
 class RestActionListWt(QtWidgets.QWidget):
@@ -18,61 +20,84 @@ class RestActionListWt(QtWidgets.QWidget):
 
         self.updating_gui_bool = False
 
-        vbox_l2 = QtWidgets.QVBoxLayout()
-        self.setLayout(vbox_l2)
-
         # Rest actions
-        self.list_widget = QtWidgets.QListWidget()
-        vbox_l2.addWidget(self.list_widget)
-        self.list_widget.setSpacing(mc.mc_global.LIST_ITEM_SPACING_INT)
-
+        self.list_widget = PhrasesList()
         self.list_widget.itemSelectionChanged.connect(self.on_selection_changed)
-        hbox_l3 = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(hbox_l3)
+
         self.rest_add_action_qle = QtWidgets.QLineEdit()
-        hbox_l3.addWidget(self.rest_add_action_qle)
+        self.rest_add_action_qle.setObjectName("add_to_list_qle")
         self.rest_add_action_qle.setPlaceholderText(self.tr("New item"))
-        self.rest_add_action_qpb = QtWidgets.QPushButton(self.tr("Add"))
-        hbox_l3.addWidget(self.rest_add_action_qpb)
-        self.rest_add_action_qpb.clicked.connect(self.add_rest_action_clicked)
+        self.rest_add_action_qle.setFixedWidth(305)
+        QtWidgets.QShortcut(
+            QtGui.QKeySequence(QtCore.Qt.Key_Return),
+            self.rest_add_action_qle,
+            member=self.add_rest_action_clicked,
+            context=QtCore.Qt.WidgetShortcut
+        )
+
+        self.add_new_phrase_qpb = PushButton(self.tr("Add"))
+        self.add_new_phrase_qpb.setFixedWidth(75)
+        self.add_new_phrase_qpb.clicked.connect(self.add_rest_action_clicked)
+        add_new_phrase_qhl = QtWidgets.QHBoxLayout()
+        add_new_phrase_qhl.addWidget(self.add_new_phrase_qpb)
 
         # Details
-
-        hbox_l3 = QtWidgets.QHBoxLayout()
-        vbox_l2.addLayout(hbox_l3)
-
-        self.edit_texts_qpb = QtWidgets.QPushButton()
+        self.edit_texts_qpb = PushButton()
+        self.edit_texts_qpb.setFixedWidth(75)
         self.edit_texts_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("pencil-2x.png")))
         self.edit_texts_qpb.setToolTip(self.tr("Edit the selected rest action"))
         self.edit_texts_qpb.clicked.connect(self.on_edit_texts_clicked)
-        hbox_l3.addWidget(self.edit_texts_qpb)
 
-        self.move_to_top_qpb = QtWidgets.QPushButton()
+        self.move_to_top_qpb = PushButton()
+        self.move_to_top_qpb.setFixedWidth(75)
         self.move_to_top_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("data-transfer-upload-2x.png")))
         self.move_to_top_qpb.setToolTip(self.tr("Move the selected rest action to top"))
         self.move_to_top_qpb.clicked.connect(self.on_move_to_top_clicked)
-        hbox_l3.addWidget(self.move_to_top_qpb)
 
-        self.move_up_qpb = QtWidgets.QPushButton()
+        self.move_up_qpb = PushButton()
+        self.move_up_qpb.setFixedWidth(75)
         self.move_up_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("arrow-top-2x.png")))
         self.move_up_qpb.setToolTip(self.tr("Move the selected rest action up"))
         self.move_up_qpb.clicked.connect(self.on_move_up_clicked)
-        hbox_l3.addWidget(self.move_up_qpb)
 
-        self.move_down_qpb = QtWidgets.QPushButton()
+        self.move_down_qpb = PushButton()
+        self.move_down_qpb.setFixedWidth(75)
         self.move_down_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("arrow-bottom-2x.png")))
         self.move_down_qpb.setToolTip(self.tr("Move the selected rest action down"))
         self.move_down_qpb.clicked.connect(self.on_move_down_clicked)
-        hbox_l3.addWidget(self.move_down_qpb)
 
-        hbox_l3.addStretch(1)
-
-        self.delete_qpb = QtWidgets.QPushButton()
+        self.delete_qpb = PushButton()
+        self.delete_qpb.setFixedWidth(75)
         self.delete_qpb.setIcon(QtGui.QIcon(mc_global.get_icon_path("trash-2x.png")))
         self.delete_qpb.setToolTip(self.tr("Delete the selected rest action"))
         self.delete_qpb.clicked.connect(self.on_delete_clicked)
-        hbox_l3.addWidget(self.delete_qpb)
 
+        button_bar_grid = QtWidgets.QGridLayout()
+        button_bar_grid.addWidget(self.edit_texts_qpb, 0, 0)
+        button_bar_grid.addWidget(self.move_to_top_qpb, 0, 1)
+        button_bar_grid.addWidget(self.move_up_qpb, 0, 2)
+        button_bar_grid.addWidget(self.move_down_qpb, 0, 3)
+        button_bar_grid.addWidget(self.delete_qpb, 0, 5)
+        button_bar_grid.setColumnStretch(4, 1)
+
+        # spacing doesn't work the same on different operating systems.
+        # on macos the default value of -1 gives the best result
+        # on linux it should be 2
+        if QtCore.QSysInfo.kernelType() == "linux":
+            button_bar_grid.setHorizontalSpacing(2)
+
+        rest_action_list_grid = QtWidgets.QGridLayout()
+        rest_action_list_grid.addWidget(
+            QtWidgets.QLabel(self.tr("These are the actions that appear in the `rest dialog`")), 0, 0, 1, 3
+        )
+
+        rest_action_list_grid.addWidget(self.list_widget, 1, 0, 1, 3)
+        rest_action_list_grid.addWidget(self.rest_add_action_qle, 2, 0)
+        rest_action_list_grid.setColumnStretch(1, 1)
+        rest_action_list_grid.addLayout(add_new_phrase_qhl, 2, 2)
+        rest_action_list_grid.addLayout(button_bar_grid, 3, 0, 1, 3)
+
+        self.setLayout(rest_action_list_grid)
         self.update_gui()
 
     def on_edit_texts_clicked(self):
@@ -162,6 +187,7 @@ class RestActionListWt(QtWidgets.QWidget):
         for rest_action in model.RestActionsM.get_all():
             rest_action_title_cll = RestQLabel(rest_action.title, rest_action.id)
             list_item = QtWidgets.QListWidgetItem()
+            list_item.setSizeHint(QtCore.QSize(list_item.sizeHint().width(), mc.mc_global.LIST_ITEM_HEIGHT_INT))
             self.list_widget.addItem(list_item)
             self.list_widget.setItemWidget(list_item, rest_action_title_cll)
 

@@ -141,32 +141,47 @@ QPushButton:pressed#notif_select_audio_qpb {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);
 }
 
+QPushButton#rest_reminder_reset_qpb {
+    border: 1px solid #B3B3B3;
+    border-radius: 10px;
+    height: 20px;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f6f7fa, stop: 1 #dadbde);
+    min-width: 75px;
+}
+
+QPushButton:pressed#rest_reminder_reset_qpb {
+    border: 1px solid #B3B3B3;
+    border-radius: 10px;
+    height: 20px;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
 HorizontalLine {
     color: #B3B3B3;
 }
 
-QListWidget {
+PhrasesList {
     show-decoration-selected: 1; /* make the selection span the entire width of the view */
 }
 
-QListWidget::item {
+PhrasesList::item {
     height: 30px;
     padding-left: 5px;
     border-bottom: 1px solid #B3B3B3
 }
 
-QListWidget::item:selected {
+PhrasesList::item:selected {
 }
 
-QListWidget::item:selected:!active {
+PhrasesList::item:selected:!active {
     background: #EFEFEF;
 }
 
-QListWidget::item:selected:active {
+PhrasesList::item:selected:active {
     background: #EFEFEF;
 }
 
-QListWidget::item:hover {
+PhrasesList::item:hover {
     background: #F7F7F7;
 }
 

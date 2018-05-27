@@ -49,7 +49,12 @@ class RadioButtonRight(QtWidgets.QRadioButton):
 
 class PushButton(QtWidgets.QPushButton):
     """
-    The left button of a radio button group
+    A rectangular button
     """
+    def __init__(self, *__args):
+        super().__init__(*__args)
+
+
+class PhrasesList(QtWidgets.QListWidget):
     def __init__(self, *__args):
         super().__init__(*__args)

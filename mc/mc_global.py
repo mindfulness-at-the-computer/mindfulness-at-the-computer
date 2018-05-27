@@ -17,7 +17,7 @@ NO_REST_ACTION_SELECTED_INT = -1
 NOTHING_SELECTED_INT = -1
 # -TODO: merge these three above into one
 
-LIST_ITEM_SPACING_INT = 4
+LIST_ITEM_HEIGHT_INT = 30
 
 APPLICATION_ICON_NAME_STR = "icon.png"
 DATABASE_FILE_STR = "mindfulness-at-the-computer.db"

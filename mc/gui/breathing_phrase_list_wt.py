@@ -5,8 +5,8 @@ from PyQt5 import QtWidgets
 import mc.gui.safe_delete_dlg
 import mc.gui.warning_dlg
 import mc.model
-import mc.mc_global
-from mc.gui.reusable_components import PushButton
+from mc import mc_global
+from mc.gui.reusable_components import PushButton, PhrasesList
 
 BREATHING_IN_DEFAULT_PHRASE = "Breathing in"
 BREATHING_OUT_DEFAULT_PHRASE = "Breathing out"
@@ -20,12 +20,10 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
 
     def __init__(self):
         super().__init__()
-        breathing_list_grid = QtWidgets.QGridLayout()
-        self.setLayout(breathing_list_grid)
         self.updating_gui_bool = False
         self.edit_dialog = None
 
-        self.list_widget = QtWidgets.QListWidget()
+        self.list_widget = PhrasesList()
         self.list_widget.itemSelectionChanged.connect(self.on_selection_changed)
 
         self.add_to_list_qle = QtWidgets.QLineEdit()
@@ -89,6 +87,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         if QtCore.QSysInfo.kernelType() == "linux":
             button_bar_grid.setHorizontalSpacing(2)
 
+        breathing_list_grid = QtWidgets.QGridLayout()
         breathing_list_grid.addWidget(
             QtWidgets.QLabel(self.tr("These are the sentences that appear in the `breathing dialog`")), 0, 0, 1, 3
         )
@@ -102,6 +101,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         breathing_list_grid.addLayout(add_new_phrase_qhl, 3, 2)
         breathing_list_grid.addLayout(button_bar_grid, 4, 0, 1, 3)
 
+        self.setLayout(breathing_list_grid)
         self.update_gui()
         self.list_widget.setCurrentRow(0)  # -the first row
 
@@ -302,6 +302,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             # self.list_widget.addItem(l_collection.title_str)
             custom_label = CustomQLabel(l_phrase.title, l_phrase.id)
             list_item = QtWidgets.QListWidgetItem()
+            list_item.setSizeHint(QtCore.QSize(list_item.sizeHint().width(), mc_global.LIST_ITEM_HEIGHT_INT))
             self.list_widget.addItem(list_item)
             self.list_widget.setItemWidget(list_item, custom_label)
 
