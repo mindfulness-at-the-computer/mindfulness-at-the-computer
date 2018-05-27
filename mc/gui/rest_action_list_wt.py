@@ -80,12 +80,6 @@ class RestActionListWt(QtWidgets.QWidget):
         button_bar_grid.addWidget(self.delete_qpb, 0, 5)
         button_bar_grid.setColumnStretch(4, 1)
 
-        # spacing doesn't work the same on different operating systems.
-        # on macos the default value of -1 gives the best result
-        # on linux it should be 2
-        if QtCore.QSysInfo.kernelType() == "linux":
-            button_bar_grid.setHorizontalSpacing(2)
-
         rest_action_list_grid = PageGrid()
         if QtCore.QSysInfo.kernelType() == "linux":
             rest_action_list_grid.setVerticalSpacing(15)

@@ -634,7 +634,8 @@ class MainWin(QtWidgets.QMainWindow):
         self.sound_effect.play()
 
     def on_breathing_dialog_closed(self, i_ib_list, i_ob_list):
-        self.breathing_history_wt.add_from_dialog(i_ib_list, i_ob_list)
+        # self.breathing_history_wt.add_from_dialog(i_ib_list, i_ob_list)
+        self.settings_page_wt.breathing_history_wt.breathing_history_wt.add_from_dialog(i_ib_list, i_ob_list)
         self.update_breathing_timer()
 
     def on_breathing_dialog_phrase_changed(self):

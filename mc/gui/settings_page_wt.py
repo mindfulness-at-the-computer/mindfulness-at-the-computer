@@ -1,7 +1,10 @@
+import os
+
 import mc.mc_global
 import mc.model
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtGui
 
+from mc.gui.breathing_history_wt import BreathingHistoryWt
 from mc.gui.breathing_phrase_list_wt import BreathingPhraseListWt
 from mc.gui.rest_action_list_wt import RestActionListWt
 from mc.gui.reusable_components import *
@@ -12,6 +15,7 @@ class SettingsPageWt(QtWidgets.QTabWidget):
         super().__init__()
         self.breathing_settings_wt = BreathingSettingsWt()
         self.resting_settings_wt = RestSettingsWt()
+        self.breathing_history_wt = BreathingHistoryTabWt()
         self._init_ui()
 
     def _init_ui(self):
@@ -21,6 +25,7 @@ class SettingsPageWt(QtWidgets.QTabWidget):
 
         self.addTab(self.breathing_settings_wt, self.tr("Breathing"))
         self.addTab(self.resting_settings_wt, self.tr("Resting"))
+        self.addTab(self.breathing_history_wt, self.tr("History"))
 
 
 class BreathingSettingsWt(QtWidgets.QWidget):
@@ -238,3 +243,27 @@ class RestSettingsWt(QtWidgets.QWidget):
         vbox_l2.addStretch(3)
         self.setLayout(vbox_l2)
 
+
+class BreathingHistoryTabWt(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+        self.breathing_history_wt = BreathingHistoryWt()
+        self._init_ui()
+
+    def _init_ui(self):
+        # self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        # image_path = os.path.join(mc_global.get_user_images_path("emily-campbell-327238-unsplash.jpg"))
+        # self.setStyleSheet(
+        #     "background-image: url(" + image_path + ");"
+        # )
+
+        grid = PageGrid()
+        grid.addWidget(self.breathing_history_wt, 0, 1)
+
+        vbox_l2 = QtWidgets.QVBoxLayout()
+        vbox_l2.addWidget(H1(self.tr("Breathing history")))
+        vbox_l2.addWidget(HorizontalLine())
+        vbox_l2.addStretch(1)
+        vbox_l2.addLayout(grid)
+        vbox_l2.addStretch(3)
+        self.setLayout(vbox_l2)
