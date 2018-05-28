@@ -71,7 +71,7 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         notification_type_grid.addWidget(self.visual_qrb, 0, 1)
         notification_type_grid.addWidget(self.audio_qrb, 0, 2)
         notification_type_grid.setSpacing(0)
-        notification_type_qgb = QtWidgets.QGroupBox()
+        notification_type_qgb = RadioButtonGroupBox()
         notification_type_qgb.setLayout(notification_type_grid)
 
         notification_interval_qhl = QtWidgets.QHBoxLayout()
@@ -95,7 +95,7 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         dialog_type_grid.addWidget(self.same_qrb, 0, 0)
         dialog_type_grid.addWidget(self.random_qrb, 0, 1)
         dialog_type_grid.setSpacing(0)
-        dialog_type_qgb = QtWidgets.QGroupBox()
+        dialog_type_qgb = RadioButtonGroupBox()
         dialog_type_qgb.setLayout(dialog_type_grid)
 
         show_after_qhl = QtWidgets.QHBoxLayout()
@@ -251,12 +251,6 @@ class BreathingHistoryTabWt(QtWidgets.QWidget):
         self._init_ui()
 
     def _init_ui(self):
-        # self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-        # image_path = os.path.join(mc_global.get_user_images_path("emily-campbell-327238-unsplash.jpg"))
-        # self.setStyleSheet(
-        #     "background-image: url(" + image_path + ");"
-        # )
-
         grid = PageGrid()
         grid.addWidget(self.breathing_history_wt, 0, 1)
 

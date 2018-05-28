@@ -122,7 +122,7 @@ QSpinBox::down-arrow:off { /* off state when value in min */
    image: url(down_disabled.svg);
 }
 
-QGroupBox {
+RadioButtonGroupBox {
     border: none;
 }
 

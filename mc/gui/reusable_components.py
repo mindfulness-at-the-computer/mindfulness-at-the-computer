@@ -64,13 +64,17 @@ class PhrasesList(QtWidgets.QListWidget):
 class PageGrid(QtWidgets.QGridLayout):
     def __init__(self, *__args):
         super().__init__(*__args)
-        if QtCore.QSysInfo.kernelType() == "linux":
+        if QtCore.QSysInfo.kernelType() != "darwin":
             self.setVerticalSpacing(mc_global.GRID_VERTICAL_SPACING_LINUX)
 
 
 class ButtonGrid(QtWidgets.QGridLayout):
     def __init__(self, *__args):
         super().__init__(*__args)
-        if QtCore.QSysInfo.kernelType() == "linux":
+        if QtCore.QSysInfo.kernelType() != "darwin":
             self.setHorizontalSpacing(mc_global.BUTTON_BAR_HORIZONTAL_SPACING_LINUX)
 
+
+class RadioButtonGroupBox(QtWidgets.QGroupBox):
+    def __init__(self, *__args):
+        super().__init__(*__args)
