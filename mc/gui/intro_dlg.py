@@ -359,8 +359,8 @@ class BreathingDialogComing(QtWidgets.QWidget):
 
         text_qll = QtWidgets.QLabel(
             "<p>When you click on finish and exit this wizard a breathing dialog will be shown. </p>"
-            "<p><strong>Breathing in:</strong> hover over the green box</p>"
-            "<p><strong>Breathing out:</strong> hover outside the green box</p>"
+            "<p><strong>Breathing in:</strong> Hover over the green box</p>"
+            "<p><strong>Breathing out:</strong> Hover outside the green box</p>"
         )
         text_qll.setWordWrap(True)
         text_qll.setFont(mc.mc_global.get_font_xlarge())
