@@ -122,10 +122,6 @@ QSpinBox::down-arrow:off { /* off state when value in min */
    image: url(down_disabled.svg);
 }
 
-RadioButtonGroupBox {
-    border: none;
-}
-
 QPushButton#notif_select_audio_qpb {
     border: 1px solid #B3B3B3;
     border-radius: 10px;
