@@ -91,6 +91,7 @@ class MainWin(QtWidgets.QMainWindow):
             self.show_intro_dialog()
         self.open_breathing_prepare()
 
+        self.show()
         self.minimize_to_tray()
 
         settings = mc.model.SettingsM.get()
