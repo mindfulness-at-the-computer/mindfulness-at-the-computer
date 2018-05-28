@@ -24,7 +24,7 @@ As the wheel of the cart follows the hoof of the ox.""")
 The mind is the basis for everything.
 Everything is created by my mind, and is ruled by my mind.
 When I speak or act with a clear awareness, happiness stays with me.
-Like my own shadow, it is unshakable.""")
+Like my own shadow, it is unshakeable.""")
         self.quotes_strlist.append("""
 \"I was wronged! I was hurt! I was defeated! I was robbed!\"
 If I cultivate such thought, I will not be free from hatred.""")
