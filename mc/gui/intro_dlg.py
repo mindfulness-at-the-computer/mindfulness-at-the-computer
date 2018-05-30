@@ -60,7 +60,7 @@ class IntroDlg(QtWidgets.QDialog):
         vbox_l2.addWidget(self.wizard_qsw_w3)
         vbox_l2.addLayout(hbox_l3)
 
-        self.setGeometry(300, 300, 650, 500)
+        self.setGeometry(300, 150, 650, 500)
         self.setLayout(vbox_l2)
         self.update_gui()
         self.show()
