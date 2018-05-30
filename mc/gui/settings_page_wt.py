@@ -1,5 +1,3 @@
-import os
-
 import mc.mc_global
 import mc.model
 from PyQt5 import QtGui

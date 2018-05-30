@@ -1,9 +1,9 @@
 QCheckBox::indicator:unchecked {
-    image: url(checkbox_unchecked.svg);
+    image: url(:/checkbox_unchecked.svg);
 }
 
 QCheckBox::indicator:checked {
-    image: url(checkbox_checked.svg);
+    image: url(:/checkbox_checked.svg);
 }
 
 H1 {
@@ -92,13 +92,13 @@ QSpinBox::up-button {
 }
 
 QSpinBox::up-arrow {
-    image: url(up.svg);
+    image: url(:/up.svg);
     width: 7px;
     height: 7px;
 }
 
 QSpinBox::up-arrow:disabled, QSpinBox::up-arrow:off { /* off state when value is max */
-   image: url(up_disabled.svg);
+   image: url(:/up_disabled.svg);
 }
 
 QSpinBox::down-button {
@@ -112,14 +112,14 @@ QSpinBox::down-button {
 }
 
 QSpinBox::down-arrow {
-    image: url(down.svg);
+    image: url(:/down.svg);
     width: 7px;
     height: 7px;
 }
 
 QSpinBox::down-arrow:disabled,
 QSpinBox::down-arrow:off { /* off state when value in min */
-   image: url(down_disabled.svg);
+   image: url(:/down_disabled.svg);
 }
 
 QPushButton#notif_select_audio_qpb {

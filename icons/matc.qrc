@@ -1,0 +1,10 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>checkbox_checked.svg</file>
+    <file>checkbox_unchecked.svg</file>
+    <file>down.svg</file>
+    <file>down_disabled.svg</file>
+    <file>up.svg</file>
+    <file>up_disabled.svg</file>
+</qresource>
+</RCC>

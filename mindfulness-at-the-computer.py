@@ -10,6 +10,10 @@ import mc.gui.main_win
 from mc import mc_global
 import mc.db
 
+# The following import looks like it isn't used, but it is necessary for importing the images.
+import icons.matc_rc
+
+
 if __name__ == "__main__":
     mc_global.db_file_exists_at_application_startup_bl = os.path.isfile(mc_global.get_database_filename())
     # -settings this variable before the file has been created
