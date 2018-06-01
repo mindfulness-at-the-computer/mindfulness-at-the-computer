@@ -21,6 +21,7 @@ import mc.gui.rest_dlg
 import mc.gui.intro_dlg
 import mc.gui.rest_prepare
 import mc.gui.suspend_time_dlg
+import mc.gui.feedback_dlg
 import mc.gui.sysinfo_dlg
 try:
     # noinspection PyUnresolvedReferences
@@ -74,6 +75,8 @@ class MainWin(QtWidgets.QMainWindow):
         self._setup_add_first_panel_to_main_container(main_container_hbox_l3)
         self._setup_add_breathing_phrase_list_to_main_container(main_container_hbox_l3)
         self._setup_add_rest_action_list_to_main_container(main_container_hbox_l3)
+        
+        self.setup_systray()
 
         # Setup of Menu
         self.menu_bar = self.menuBar()
@@ -88,9 +91,19 @@ class MainWin(QtWidgets.QMainWindow):
             self.show_intro_dialog()
         self.open_breathing_prepare()
 
-        self.setup_systray()
-
+        self.show()
         self.minimize_to_tray()
+
+        settings = mc.model.SettingsM.get()
+        if settings.nr_times_started_since_last_feedback_notif != mc.mc_global.FEEDBACK_DIALOG_NOT_SHOWN_AT_STARTUP:
+            if (settings.nr_times_started_since_last_feedback_notif
+            >= mc.mc_global.NR_OF_TIMES_UNTIL_FEEDBACK_SHOWN_INT - 1):
+                self.show_feedback_dialog()
+                settings.nr_times_started_since_last_feedback_notif = 0
+            else:
+                settings.nr_times_started_since_last_feedback_notif += 1
+        else:
+            pass
 
     def _setup_initialize(self):
         self.setGeometry(100, 64, 900, 670)
@@ -340,9 +353,11 @@ class MainWin(QtWidgets.QMainWindow):
             self.start_rest_timer()
         else:
             self.stop_rest_timer()
+        self.update_tooltip()
         self.update_gui(mc.mc_global.EventSource.rest_settings_changed)
 
     def on_rest_slider_value_changed(self):
+        self.update_tooltip()
         self.update_gui(mc.mc_global.EventSource.rest_slider_value_changed)
 
     def stop_rest_timer(self):
@@ -413,6 +428,7 @@ class MainWin(QtWidgets.QMainWindow):
     def on_rest_wait(self):
         mc.mc_global.rest_reminder_minutes_passed_int -= 2
         self.update_gui()
+        self.update_tooltip()
 
     def on_rest_rest(self):
         self.rest_widget = mc.gui.rest_dlg.RestDlg()
@@ -421,6 +437,7 @@ class MainWin(QtWidgets.QMainWindow):
     def on_rest_skip(self):
         mc.mc_global.rest_reminder_minutes_passed_int = 0
         self.update_gui()
+        self.update_tooltip()
 
     def on_breathing_settings_changed(self):
         self.update_breathing_timer()
@@ -500,9 +517,16 @@ class MainWin(QtWidgets.QMainWindow):
         online_help_action = QtWidgets.QAction("Online help", self)
         help_menu.addAction(online_help_action)
         online_help_action.triggered.connect(self.show_online_help)
+        feedback_action = QtWidgets.QAction("Give feedback", self)
+        help_menu.addAction(feedback_action)
+        feedback_action.triggered.connect(self.show_feedback_dialog)
         sysinfo_action = QtWidgets.QAction(self.tr("System Information"), self)
         help_menu.addAction(sysinfo_action)
         sysinfo_action.triggered.connect(self.show_sysinfo_box)
+
+    def show_feedback_dialog(self):
+        feedback_dlg = mc.gui.feedback_dlg.FeedbackDialog()
+        feedback_dlg.exec_()
 
     def export_data_to_csv(self):
         file_path_str = mc.model.export_all()
@@ -662,7 +686,7 @@ class MainWin(QtWidgets.QMainWindow):
             (
                 '<html>'
                 'Originally created by Tord Dellsén'
-                '<a href="https://sunyatazero.github.io/"> Github website</a><br>'
+                '<a href="https://sunyatazero.github.io/"> GitHub website</a><br>'
                 '<a href="https://github.com/SunyataZero/mindfulness-at-the-computer/graphs/contributors">'
                 'All contributors</a><br>'
                 'Photography for application icon by Torgny Dellsén '
@@ -753,7 +777,22 @@ class MainWin(QtWidgets.QMainWindow):
             mc.mc_global.rest_reminder_minutes_passed_int,
             mc.model.SettingsM.get().rest_reminder_interval_int
         )
-
+    
+    def update_tooltip(self):
+        #Adds tooltip on the systray icon showing the amount of time left until the next break
+        settings = mc.model.SettingsM.get()
+        if settings.rest_reminder_active:
+            self.tray_icon.setToolTip(
+                self.tr(
+                    str(
+                        mc.model.SettingsM.get().rest_reminder_interval_int
+                        - mc.mc_global.rest_reminder_minutes_passed_int
+                    )
+                    + " minute/s left until next rest"
+                )
+            )
+        else:
+            self.tray_icon.setToolTip(self.tr("Rest breaks disabled"))
 
 class SystemTray:
     def __init__(self):

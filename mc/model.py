@@ -460,7 +460,8 @@ class SettingsM:
         i_breathing_dialog_phrase_selection: int,
         i_prep_reminder_audio_filename: str,
         i_prep_reminder_audio_volume: int,
-        i_run_on_startup: int
+        i_run_on_startup: int,
+        i_nr_times_started_since_last_feedback_notif: int
     ) -> None:
         self.rest_reminder_active_bool = True if i_rest_reminder_active else False
         self.rest_reminder_interval_int = i_rest_reminder_interval
@@ -482,6 +483,19 @@ class SettingsM:
         self.prep_reminder_audio_filename_str = i_prep_reminder_audio_filename
         self.prep_reminder_audio_volume_int = i_prep_reminder_audio_volume
         self.run_on_startup_bool = True if i_run_on_startup else False
+        self.nr_times_started_since_last_feedback_notif_int = i_nr_times_started_since_last_feedback_notif
+
+    @property
+    def nr_times_started_since_last_feedback_notif(self):
+        return self.nr_times_started_since_last_feedback_notif_int
+
+    @nr_times_started_since_last_feedback_notif.setter
+    def nr_times_started_since_last_feedback_notif(self, i_new_nr_times_started_since_last_feedback_notif: int):
+        self.nr_times_started_since_last_feedback_notif_int = i_new_nr_times_started_since_last_feedback_notif
+        self._update(
+            db.Schema.SettingsTable.Cols.nr_times_started_since_last_feedback_notif,
+            i_new_nr_times_started_since_last_feedback_notif
+        )
 
     @property
     def breathing_reminder_notification_type(self):
@@ -497,6 +511,10 @@ class SettingsM:
     @prep_reminder_audio_volume.setter
     def prep_reminder_audio_volume(self, i_new_prep_reminder_audio_volume):
         self.prep_reminder_audio_volume_int = i_new_prep_reminder_audio_volume
+        self._update(
+            db.Schema.SettingsTable.Cols.prep_reminder_audio_volume,
+            i_new_prep_reminder_audio_volume
+        )
 
     @property
     def prep_reminder_audio_filename(self) -> str:
@@ -505,6 +523,10 @@ class SettingsM:
     @prep_reminder_audio_filename.setter
     def prep_reminder_audio_filename(self, i_new_prep_reminder_audio_filename: str):
         self.prep_reminder_audio_filename_str = i_new_prep_reminder_audio_filename
+        self._update(
+            db.Schema.SettingsTable.Cols.prep_reminder_audio_filename,
+            i_new_prep_reminder_audio_filename
+        )
 
     @property
     def breathing_dialog_phrase_selection(self) -> mc.mc_global.PhraseSelection:
