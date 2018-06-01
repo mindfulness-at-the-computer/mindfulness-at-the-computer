@@ -37,6 +37,9 @@ class MainTest(unittest.TestCase):
     def test_toggle_switch(self):
         ts_widget = mc.gui.toggle_switch_wt.ToggleSwitchWt()
 
+        self.assertEqual(ts_widget.on_qpb.toolTip(),"Enable notification")
+        self.assertEqual(ts_widget.off_qpb.toolTip(),"Disable notification")
+
         QtTest.QTest.mouseClick(ts_widget.off_qpb, QtCore.Qt.LeftButton)
 
         QtTest.QTest.mouseClick(ts_widget.on_qpb, QtCore.Qt.LeftButton)
