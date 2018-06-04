@@ -195,3 +195,12 @@ QLineEdit#add_to_list_qle {
     border: 1px solid #B3B3B3;
     height: 22;
 }
+
+QScrollArea {
+    background-image: url(a_background_image_to_be_determined.jpg);
+    margin: 0;
+}
+
+QScrollArea * {
+    background-color: transparent;
+}

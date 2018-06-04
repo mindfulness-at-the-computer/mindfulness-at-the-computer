@@ -245,9 +245,10 @@ class RestSettingsWt(QtWidgets.QWidget):
         self.setLayout(vbox_l2)
 
 
-class BreathingHistoryTabWt(QtWidgets.QWidget):
+class BreathingHistoryTabWt(QtWidgets.QScrollArea):
     def __init__(self):
         super().__init__()
+        self.setGeometry(100, 64, 900, 670)
         self.breathing_history_wt = BreathingHistoryWt()
         self._init_ui()
 

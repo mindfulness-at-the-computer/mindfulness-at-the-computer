@@ -18,7 +18,6 @@ class BreathingHistoryWt(QtWidgets.QWidget):
         super().__init__()
         self.show()
         self.setMinimumHeight(300)
-        self.setMinimumWidth(270)
 
         self.ib_qtimer = None
         self.ob_qtimer = None
@@ -84,11 +83,11 @@ class BreathingHistoryWt(QtWidgets.QWidget):
         t_stop_qpointf = t_drawrect.bottomRight()
         t_linear_gradient = QtGui.QLinearGradient(t_start_qpointf, t_stop_qpointf)
         if i_io == mc.mc_global.BreathingState.breathing_in:
-            t_linear_gradient.setColorAt(0.0, QtGui.QColor(204, 255, 77))
-            t_linear_gradient.setColorAt(1.0, QtGui.QColor(164, 230, 0))
+            t_linear_gradient.setColorAt(0.0, QtGui.QColor(0, 153, 0))
+            t_linear_gradient.setColorAt(1.0, QtGui.QColor(0, 204, 0))
         else:
-            t_linear_gradient.setColorAt(0.0, QtGui.QColor(219, 255, 128))
-            t_linear_gradient.setColorAt(1.0, QtGui.QColor(183, 255, 0))
+            t_linear_gradient.setColorAt(0.0, QtGui.QColor(51, 255, 51))
+            t_linear_gradient.setColorAt(1.0, QtGui.QColor(102, 255, 102))
 
         # Adding rectangle with gradient
         t_graphics_rect_item = self.breathing_graphicsscene.addRect(
