@@ -156,11 +156,13 @@ HorizontalLine {
     color: #B3B3B3;
 }
 
-PhrasesList {
+PhrasesList,
+TimingOverviewWt {
     show-decoration-selected: 1; /* make the selection span the entire width of the view */
 }
 
-PhrasesList::item {
+PhrasesList::item,
+TimingOverviewWt::item {
     height: 30px;
     padding-left: 5px;
     border-bottom: 1px solid #B3B3B3
