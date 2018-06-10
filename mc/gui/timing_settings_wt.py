@@ -33,17 +33,15 @@ class TimingSettingsWt(QtWidgets.QWidget):
         self._connect_slots_to_signals()
 
     def _init_ui(self):
-        # settings = mc.model.SettingsM.get()
+        settings = mc.model.SettingsM.get()
 
         # configure the slider with the remaining rest time
         self.rest_reminder_qsr.setTickPosition(QtWidgets.QSlider.NoTicks)
-        self.rest_reminder_qsr.valueChanged.connect(self.on_rest_reminder_slider_value_changed)
         self.rest_reminder_qsr.setPageStep(5)
 
         # configure the button that resets the slider
         self.rest_reminder_reset_qpb.setIcon(QtGui.QIcon(mc.mc_global.get_icon_path("reload-2x.png")))
         self.rest_reminder_reset_qpb.setToolTip(self.tr("Reset the rest timer"))
-        self.rest_reminder_reset_qpb.clicked.connect(self.on_rest_reset_clicked)
 
         notification_interval_qhl = QtWidgets.QHBoxLayout()
         notification_interval_qhl.addWidget(QtWidgets.QLabel(self.tr("Interval every:")))
@@ -109,13 +107,15 @@ class TimingSettingsWt(QtWidgets.QWidget):
         self.rest_interval_qsb.valueChanged.connect(
             self.on_rest_interval_value_changed
         )
+        self.rest_reminder_qsr.valueChanged.connect(self.on_rest_reminder_slider_value_changed)
+        self.rest_reminder_reset_qpb.clicked.connect(self.on_rest_reset_clicked)
 
     def on_notifications_per_dialog_qsb_changed(self, i_new_value: int):
         print('on notificatios per dialog changed works')
         if self.updating_gui_bool:
             return
         mc.model.SettingsM.update_breathing_reminder_nr_per_dialog(i_new_value)
-        # self.overview_qlw.on_dlg_after_nr_notifications_value_changed()
+        self.overview_qlw.on_dlg_after_nr_notifications_value_changed(i_new_value)
 
     def on_breathing_interval_value_changed(self, i_new_value: int):
         print('on breathing interval value changed')
@@ -123,7 +123,7 @@ class TimingSettingsWt(QtWidgets.QWidget):
             return
         model.SettingsM.update_breathing_reminder_interval(i_new_value)
         print('breathing settings updated signal emitted')
-        # self.overview_qlw.on_time_btw_notifications_value_changed()
+        self.overview_qlw.on_time_btw_notifications_value_changed(i_new_value)
         self.breathing_settings_updated_signal.emit()
 
     def on_rest_interval_value_changed(self, i_new_value: int):
@@ -140,7 +140,7 @@ class TimingSettingsWt(QtWidgets.QWidget):
         self.rest_reminder_qsr.setMaximum(rest_reminder_interval_minutes_int)
         self.rest_reminder_qsr.setValue(mc_global.rest_reminder_minutes_passed_int)
 
-        # self.overview_qlw.on_time_before_rest_value_changed()
+        self.overview_qlw.on_time_before_rest_value_changed(i_new_value)
         print('rest settings updated signal emitted')
         self.rest_settings_updated_signal.emit()
 

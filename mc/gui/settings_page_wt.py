@@ -10,7 +10,7 @@ class SettingsPageWt(QtWidgets.QTabWidget):
     def __init__(self):
         super().__init__()
         self.breathing_settings_wt = BreathingSettingsWt()
-        self.resting_settings_wt = RestSettingsWt()
+        self.rest_settings_wt = RestSettingsWt()
         self.breathing_history_wt = BreathingHistoryTabWt()
         self.timing_settings_wt = TimingSettingsWt()
         self.breathing_settings_2_wt = BreathingSettings2Wt()
@@ -22,7 +22,7 @@ class SettingsPageWt(QtWidgets.QTabWidget):
         self.setTabPosition(self.West)
 
         self.addTab(self.breathing_settings_2_wt, self.tr("Breathe"))
-        self.addTab(self.resting_settings_wt, self.tr("Resting"))
+        self.addTab(self.rest_settings_wt, self.tr("Resting"))
         self.addTab(self.timing_settings_wt, self.tr("Timers"))
         self.addTab(self.breathing_history_wt, self.tr("History"))
         self.addTab(self.breathing_settings_wt, self.tr("Breathing"))

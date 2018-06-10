@@ -59,12 +59,6 @@ class MainWin(QtWidgets.QMainWindow):
             )
 
         self.active_breathing_phrase_qgb = QtWidgets.QGroupBox("Active Breathing Phrase")
-        self.br_settings_wt = mc.gui.breathing_settings_wt.BreathingSettingsWt()
-        self.br_phrase_list_wt = mc.gui.breathing_phrase_list_wt.BreathingPhraseListWt()
-        self.rest_settings_wt = mc.gui.rest_settings_wt.RestSettingsWt()
-        self.rest_action_list_wt = mc.gui.rest_action_list_wt.RestActionListWt()
-        self.breathing_history_wt = mc.gui.breathing_history_wt.BreathingHistoryWt()
-        self.timing_settings_wt = mc.gui.timing_settings_wt.TimingSettingsWt()
         self.settings_page_wt = mc.gui.settings_page_wt.SettingsPageWt()
 
         # if QtCore.QSysInfo.kernelType() == 'darwin':
@@ -116,16 +110,16 @@ class MainWin(QtWidgets.QMainWindow):
         self.settings_page_wt.breathing_settings_2_wt.phrases_qlw.phrase_changed_signal.connect(
             self.on_breathing_phrase_changed
         )
-        self.settings_page_wt.resting_settings_wt.phrases_qlw.update_signal.connect(
+        self.settings_page_wt.rest_settings_wt.phrases_qlw.update_signal.connect(
             self.on_rest_action_list_updated
         )
-        self.settings_page_wt.resting_settings_wt.phrases_qlw.selection_changed_signal.connect(
+        self.settings_page_wt.rest_settings_wt.phrases_qlw.selection_changed_signal.connect(
             self.on_rest_action_list_row_changed
         )
-        self.settings_page_wt.resting_settings_wt.phrases_qlw.update_signal.connect(
+        self.settings_page_wt.rest_settings_wt.phrases_qlw.update_signal.connect(
             self.on_rest_action_list_updated
         )
-        self.settings_page_wt.resting_settings_wt.phrases_qlw.selection_changed_signal.connect(
+        self.settings_page_wt.rest_settings_wt.phrases_qlw.selection_changed_signal.connect(
             self.on_rest_action_list_row_changed
         )
         self.settings_page_wt.breathing_settings_wt.updated_signal.connect(self.on_breathing_settings_changed)
@@ -218,7 +212,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.tray_menu.addAction(self.sys_tray.rest_enabled_qaction)
         self.sys_tray.rest_enabled_qaction.setCheckable(True)
         self.sys_tray.rest_enabled_qaction.toggled.connect(
-            self.rest_settings_wt.on_switch_toggled
+            self.settings_page_wt.rest_settings_wt.on_switch_toggled
         )
         self.sys_tray.rest_enabled_qaction.setChecked(settings.rest_reminder_active)
         self.sys_tray.rest_progress_qaction = QtWidgets.QAction("")
@@ -239,9 +233,11 @@ class MainWin(QtWidgets.QMainWindow):
         self.sys_tray.breathing_enabled_qaction.setCheckable(True)
         self.sys_tray.breathing_enabled_qaction.setChecked(settings.breathing_reminder_active_bool)
         self.sys_tray.breathing_enabled_qaction.toggled.connect(
-            self.br_settings_wt.on_switch_toggled
+            self.settings_page_wt.breathing_settings_wt.on_switch_toggled
         )
-
+        self.sys_tray.breathing_enabled_qaction.toggled.connect(
+            self.settings_page_wt.breathing_settings_2_wt.on_switch_toggled
+        )
         self.tray_open_breathing_dialog_qaction = QtWidgets.QAction(self.tr("Open Breathing Dialog"))
         self.tray_menu.addAction(self.tray_open_breathing_dialog_qaction)
         self.tray_open_breathing_dialog_qaction.triggered.connect(self.open_breathing_dialog)
@@ -288,7 +284,7 @@ class MainWin(QtWidgets.QMainWindow):
     def on_breathing_list_row_changed(self, i_details_enabled: bool):
         print('on breathing list row changed works')
         self.update_breathing_timer()
-        self.br_settings_wt.setEnabled(i_details_enabled)
+        self.settings_page_wt.breathing_settings_wt.setEnabled(i_details_enabled)
         self.sys_tray.breathing_enabled_qaction.setEnabled(i_details_enabled)
 
         self.update_gui(mc.mc_global.EventSource.breathing_list_selection_changed)
@@ -351,7 +347,7 @@ class MainWin(QtWidgets.QMainWindow):
     def stop_rest_timer(self):
         if self.rest_reminder_qtimer is not None and self.rest_reminder_qtimer.isActive():
             self.rest_reminder_qtimer.stop()
-        self.rest_settings_wt.update_gui()  # -so that the progressbar is updated
+        self.settings_page_wt.rest_settings_wt.update_gui()  # -so that the progressbar is updated
 
     def start_rest_timer(self):
         mc.mc_global.rest_reminder_minutes_passed_int = 0
@@ -371,7 +367,7 @@ class MainWin(QtWidgets.QMainWindow):
         if (mc.mc_global.rest_reminder_minutes_passed_int
         == mc.model.SettingsM.get().rest_reminder_interval_int):
             self.start_rest_reminder()
-        self.rest_settings_wt.rest_reminder_qsr.setValue(
+        self.settings_page_wt.rest_settings_wt.notif_volume_qsr.setValue(
             mc.mc_global.rest_reminder_minutes_passed_int
         )
 
@@ -712,13 +708,15 @@ class MainWin(QtWidgets.QMainWindow):
         #     self.out_text_qll.setText(breathing_phrase.ob)
         #
             if i_event_source != mc.mc_global.EventSource.rest_slider_value_changed:
-                self.rest_settings_wt.update_gui()
-            self.br_settings_wt.update_gui()
+                self.settings_page_wt.rest_settings_wt.update_gui()
+            self.settings_page_wt.breathing_settings_wt.update_gui()
+            self.settings_page_wt.breathing_settings_2_wt.update_gui()
 
             if (i_event_source != mc.mc_global.EventSource.breathing_list_selection_changed
             and i_event_source != mc.mc_global.EventSource.rest_list_selection_changed):
-                self.br_phrase_list_wt.update_gui()
-                self.rest_action_list_wt.update_gui()
+                self.settings_page_wt.breathing_settings_wt.phrases_qlw.update_gui()
+                self.settings_page_wt.breathing_settings_2_wt.phrases_qlw.update_gui()
+                self.settings_page_wt.rest_settings_wt.phrases_qlw.update_gui()
 
             self.update_systray()
 
