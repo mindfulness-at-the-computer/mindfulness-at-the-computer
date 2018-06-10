@@ -11,57 +11,20 @@ class ToggleSwitchWt(QtWidgets.QWidget):
 
         self.updating_gui_bool = False
 
-        vbox = QtWidgets.QVBoxLayout()
-        self.setLayout(vbox)
-        vbox.setContentsMargins(0, 0, 5, 5)  # (left, right, top, bottom)
+        self.turn_on_off_qcb = QtWidgets.QCheckBox()
+        self.turn_on_off_qcb.toggled.connect(self.on_toggled)
+        on_off_qhl = QtWidgets.QHBoxLayout()
+        on_off_qhl.setContentsMargins(0,0,0,0)
+        on_off_qhl.addWidget(QtWidgets.QLabel(self.tr("Turn the breathing dialog and notifications on or off")))
+        on_off_qhl.addStretch(1)
+        on_off_qhl.addWidget(self.turn_on_off_qcb)
+        self.setLayout(on_off_qhl)
 
-        hbox = QtWidgets.QHBoxLayout()
-        vbox.addLayout(hbox)
-
-        self.on_qpb = QtWidgets.QPushButton(self.tr("On"))
-        hbox.addWidget(self.on_qpb)
-        self.on_qpb.setFixedWidth(40)
-        self.on_qpb.setCheckable(True)
-        self.on_qpb.setToolTip(self.tr("Enable notification"))
-        self.on_qpb.toggled.connect(self.on_on_toggled)
-
-        self.off_qpb = QtWidgets.QPushButton(self.tr("Off"))
-        hbox.addWidget(self.off_qpb)
-        self.off_qpb.setFixedWidth(45)
-        self.off_qpb.setCheckable(True)
-        self.off_qpb.setToolTip(self.tr("Disable notification"))
-        self.off_qpb.toggled.connect(self.on_off_toggled)
-
-        self.state_qll = QtWidgets.QLabel(self.tr("Enabled"))
-        hbox.addWidget(self.state_qll)
-        self.state_qll.setFont(mc.mc_global.get_font_medium(i_bold=True))
-
-        hbox.addStretch(1)
-
-    def on_on_toggled(self, i_checked: bool):
+    def on_toggled(self, i_checked: bool):
+        print('on toggled from toggle switch works')
         if self.updating_gui_bool:
             return
         self.toggled_signal.emit(i_checked)
-        self.update_gui(i_checked)
-
-    def on_off_toggled(self, i_checked: bool):
-        if self.updating_gui_bool:
-            return
-        self.toggled_signal.emit(not i_checked)
-        self.update_gui(not i_checked)
 
     def update_gui(self, i_enabled: bool):
-        self.updating_gui_bool = True
-
-        if i_enabled:
-            self.on_qpb.setChecked(True)
-            self.off_qpb.setChecked(False)
-            self.state_qll.setText(self.tr("Enabled"))
-            self.state_qll.setFont(mc.mc_global.get_font_medium(i_bold=True))
-        else:
-            self.on_qpb.setChecked(False)
-            self.off_qpb.setChecked(True)
-            self.state_qll.setText(self.tr("Disabled"))
-            self.state_qll.setFont(mc.mc_global.get_font_medium(i_bold=False))
-
-        self.updating_gui_bool = False
+        pass

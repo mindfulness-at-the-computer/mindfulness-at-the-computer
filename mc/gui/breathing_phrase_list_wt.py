@@ -253,6 +253,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         else:
             pass
 
+        print('emit signal phrase changed')
         self.phrase_changed_signal.emit(True)
 
     def on_selection_changed(self):
@@ -271,6 +272,8 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             mc.mc_global.active_phrase_id_it = mc.mc_global.NO_PHRASE_SELECTED_INT
 
         # self.update_gui_details()
+        print('emit selection changed')
+        print(active_selected_bool)
         self.selection_changed_signal.emit(active_selected_bool)
 
     def on_new_row_selected_from_system_tray(self, i_id_of_selected_item: int):

@@ -205,7 +205,7 @@ class EditDialog(QtWidgets.QDialog):
         super(EditDialog, self).__init__(i_parent)
 
         rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
-        self.temporary_image_file_path_str = rest_action.image_path
+        # self.temporary_image_file_path_str = rest_action.image_path
 
         assert mc_global.active_rest_action_id_it != mc_global.NO_REST_ACTION_SELECTED_INT
         active_rest_action = model.RestActionsM.get(mc_global.active_rest_action_id_it)
@@ -253,15 +253,15 @@ class EditDialog(QtWidgets.QDialog):
     def update_gui_details(self):
         assert mc_global.active_rest_action_id_it != mc_global.NO_REST_ACTION_SELECTED_INT
 
-        if self.temporary_image_file_path_str:
-            if os.path.isfile(self.temporary_image_file_path_str):
-                self.details_image_path_qll.setText(os.path.basename(
-                    self.temporary_image_file_path_str)
-                )
-            else:
-                self.details_image_path_qll.setText(self.tr("image does not exist"))
-        else:
-            self.details_image_path_qll.setText(self.tr("(no image set)"))
+        # if self.temporary_image_file_path_str:
+        #     if os.path.isfile(self.temporary_image_file_path_str):
+        #         self.details_image_path_qll.setText(os.path.basename(
+        #             self.temporary_image_file_path_str)
+        #         )
+        #     else:
+        #         self.details_image_path_qll.setText(self.tr("image does not exist"))
+        # else:
+        #     self.details_image_path_qll.setText(self.tr("(no image set)"))
 
     @staticmethod
     def launch_edit_dialog():

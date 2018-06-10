@@ -1,7 +1,5 @@
 import os
-from PyQt5 import QtCore
-from PyQt5 import QtWidgets
-from mc import model, mc_global
+from mc import model
 import mc.gui.toggle_switch_wt
 from mc.gui.reusable_components import *
 from mc.gui.breathing_phrase_list_wt import BreathingPhraseListWt
@@ -11,8 +9,8 @@ MIN_REST_REMINDER_INT = 1  # -in minutes
 NO_AUDIO_SELECTED_STR = "No audio selected"
 
 
-class BreathingSettingsWt(QtWidgets.QWidget):
-    # rest_settings_updated_signal = QtCore.pyqtSignal()
+class BreathingSettings2Wt(QtWidgets.QWidget):
+    rest_settings_updated_signal = QtCore.pyqtSignal()
     updated_signal = QtCore.pyqtSignal()
     breathe_now_button_clicked_signal = QtCore.pyqtSignal()
     rest_test_button_clicked_signal = QtCore.pyqtSignal()
@@ -129,20 +127,21 @@ class BreathingSettingsWt(QtWidgets.QWidget):
         grid.addWidget(HorizontalLine(), 2, 0)
         grid.addWidget(QtWidgets.QLabel(self.tr("Notification type")), 3, 0)
         grid.addWidget(notification_type_qgb, 4, 0)
-        grid.addLayout(notification_interval_qhl, 5, 0)
-        grid.addWidget(QtWidgets.QLabel(), 6, 0)
-        grid.addWidget(QtWidgets.QLabel(self.tr("Notification Audio")), 7, 0)
-        grid.addLayout(notif_audio_qhl, 8, 0)
+        # grid.addLayout(notification_interval_qhl, 5, 0)
+        # grid.addWidget(QtWidgets.QLabel(), 5, 0)
+        grid.addWidget(QtWidgets.QLabel(self.tr("Notification Audio")), 6, 0)
+        grid.addLayout(notif_audio_qhl, 7, 0)
+        grid.addWidget(QtWidgets.QLabel(), 8, 0)
         grid.addLayout(dialog_qhl, 9, 0)
         grid.addWidget(HorizontalLine(), 10, 0)
         grid.addWidget(QtWidgets.QLabel(self.tr("Do you always want the same phrase or a random one?")), 11, 0)
         grid.addWidget(dialog_type_qgb, 12, 0)
-        grid.addLayout(show_after_qhl, 13, 0)
-        grid.addWidget(QtWidgets.QLabel(self.tr("Dialog Audio")), 14, 0)
-        grid.addLayout(prep_audio_qhl, 15, 0)
+        # grid.addLayout(show_after_qhl, 13, 0)
+        grid.addWidget(QtWidgets.QLabel(self.tr("Dialog Audio")), 13, 0)
+        grid.addLayout(prep_audio_qhl, 14, 0)
 
         # second grid column
-        grid.addWidget(self.phrases_qlw, 0, 1, 15, 1)
+        grid.addWidget(self.phrases_qlw, 0, 1, 14, 1)
 
         vbox_l2 = QtWidgets.QVBoxLayout()
         vbox_l2.addWidget(H1(self.tr("Settings for Breathing")))

@@ -122,7 +122,8 @@ QSpinBox::down-arrow:off { /* off state when value in min */
    image: url(:/down_disabled.svg);
 }
 
-QPushButton#notif_select_audio_qpb {
+QPushButton#notif_select_audio_qpb,
+QPushButton#prep_select_audio_qpb {
     border: 1px solid #B3B3B3;
     border-radius: 10px;
     height: 20px;
@@ -130,7 +131,8 @@ QPushButton#notif_select_audio_qpb {
     min-width: 200px;
 }
 
-QPushButton:pressed#notif_select_audio_qpb {
+QPushButton:pressed#notif_select_audio_qpb,
+QPushButton:pressed#prep_select_audio_qpb {
     border: 1px solid #B3B3B3;
     border-radius: 10px;
     height: 20px;
