@@ -267,11 +267,14 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             # TODO: setDisabled for other
             current_question_qli = self.list_widget.item(selected_row_int)
             customqlabel_widget = self.list_widget.itemWidget(current_question_qli)
+            print('active phrase changed from settings -> db id')
+            print(customqlabel_widget.entry_id)
             mc.mc_global.active_phrase_id_it = customqlabel_widget.entry_id
+            print('the current active phrase set by settings is')
+            print(mc.mc_global.active_phrase_id_it)
         else:
             mc.mc_global.active_phrase_id_it = mc.mc_global.NO_PHRASE_SELECTED_INT
 
-        # self.update_gui_details()
         print('emit selection changed')
         print(active_selected_bool)
         self.selection_changed_signal.emit(active_selected_bool)

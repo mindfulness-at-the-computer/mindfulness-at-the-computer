@@ -409,6 +409,7 @@ class MainWin(QtWidgets.QMainWindow):
             self.update_gui(mc.mc_global.EventSource.breathing_settings_changed_from_settings)
 
     def update_breathing_timer(self):
+        print('breathing timer updated')
         settings = mc.model.SettingsM.get()
         if settings.breathing_reminder_active_bool:
             self.start_breathing_timer()
