@@ -1,19 +1,18 @@
 import logging
 from PyQt5 import QtGui
 
-from mc import model
 import mc.gui.toggle_switch_wt
 from mc.gui.reusable_components import *
+from mc.model import SettingsM
 from mc import mc_global
 
-MIN_REST_REMINDER_INT = 1  # -in minutes
-MAX_REST_REMINDER_INT = 99
+MIN_INTERVAL_INT = 1  # -in minutes
+MAX_INTERVAL_INT = 99
 
 
 class TimingSettingsWt(QtWidgets.QWidget):
-    # updated_signal = QtCore.pyqtSignal()
-    rest_settings_updated_signal = QtCore.pyqtSignal()
-    breathing_settings_updated_signal = QtCore.pyqtSignal()
+    rest_settings_updated_from_settings_signal = QtCore.pyqtSignal(str)
+    breathing_settings_updated_from_settings_signal = QtCore.pyqtSignal(str)
     rest_reset_button_clicked_signal = QtCore.pyqtSignal()
     rest_slider_value_changed_signal = QtCore.pyqtSignal()
 
@@ -33,7 +32,11 @@ class TimingSettingsWt(QtWidgets.QWidget):
         self._connect_slots_to_signals()
 
     def _init_ui(self):
-        settings = mc.model.SettingsM.get()
+        # Limit the input values of the interval spinboxes
+        self.notification_interval_qsb.setMinimum(MIN_INTERVAL_INT)
+        self.notification_interval_qsb.setMaximum(MAX_INTERVAL_INT)
+        self.rest_interval_qsb.setMinimum(MIN_INTERVAL_INT)
+        self.rest_interval_qsb.setMaximum(MAX_INTERVAL_INT)
 
         # configure the slider with the remaining rest time
         self.rest_reminder_qsr.setTickPosition(QtWidgets.QSlider.NoTicks)
@@ -99,50 +102,34 @@ class TimingSettingsWt(QtWidgets.QWidget):
 
     def _connect_slots_to_signals(self):
         self.notification_interval_qsb.valueChanged.connect(
-            self.on_breathing_interval_value_changed
+            self.on_time_btw_notifications_value_changed
         )
         self.show_after_qsb.valueChanged.connect(
-            self.on_notifications_per_dialog_qsb_changed
+            self.on_dlg_after_nr_notifications_value_changed
         )
         self.rest_interval_qsb.valueChanged.connect(
-            self.on_rest_interval_value_changed
+            self.on_time_before_rest_value_changed
         )
         self.rest_reminder_qsr.valueChanged.connect(self.on_rest_reminder_slider_value_changed)
         self.rest_reminder_reset_qpb.clicked.connect(self.on_rest_reset_clicked)
 
-    def on_notifications_per_dialog_qsb_changed(self, i_new_value: int):
-        print('on notificatios per dialog changed works')
-        if self.updating_gui_bool:
-            return
-        mc.model.SettingsM.update_breathing_reminder_nr_per_dialog(i_new_value)
-        self.overview_qlw.on_dlg_after_nr_notifications_value_changed(i_new_value)
+    def on_time_btw_notifications_value_changed(self, i_new_value: int):
+        logging.debug("on_time_btw_notifications_value_changed, i_new_value = " + str(i_new_value))
+        SettingsM.update_breathing_reminder_interval(i_new_value)
+        self.overview_qlw.update_gui_time_overview()
+        self.breathing_settings_updated_from_settings_signal.emit('settings')
 
-    def on_breathing_interval_value_changed(self, i_new_value: int):
-        print('on breathing interval value changed')
-        if self.updating_gui_bool:
-            return
-        model.SettingsM.update_breathing_reminder_interval(i_new_value)
-        print('breathing settings updated signal emitted')
-        self.overview_qlw.on_time_btw_notifications_value_changed(i_new_value)
-        self.breathing_settings_updated_signal.emit()
+    def on_dlg_after_nr_notifications_value_changed(self, i_new_value: int):
+        logging.debug("on_dlg_after_nr_notifications_value_changed, i_new_value = " + str(i_new_value))
+        SettingsM.update_breathing_reminder_nr_per_dialog(i_new_value)
+        self.overview_qlw.update_gui_time_overview()
+        self.breathing_settings_updated_from_settings_signal.emit('settings')
 
-    def on_rest_interval_value_changed(self, i_new_value: int):
-        print('on rest interval value changed')
-        # -PLEASE NOTE: During debug this event is fired twice, this must be a bug in Qt or PyQt
-        # (there is no problem when running normally, that is without debug)
-        if self.updating_gui_bool:
-            return
-        print('changing rest interval in db')
-        mc.model.SettingsM.update_rest_reminder_interval(i_new_value)
-
-        rest_reminder_interval_minutes_int = mc.model.SettingsM.get().rest_reminder_interval_int
-        self.rest_reminder_qsr.setMinimum(0)
-        self.rest_reminder_qsr.setMaximum(rest_reminder_interval_minutes_int)
-        self.rest_reminder_qsr.setValue(mc_global.rest_reminder_minutes_passed_int)
-
-        self.overview_qlw.on_time_before_rest_value_changed(i_new_value)
-        print('rest settings updated signal emitted')
-        self.rest_settings_updated_signal.emit()
+    def on_time_before_rest_value_changed(self, i_new_value: int):
+        logging.debug("on_time_before_rest_value_changed, i_new_value = " + str(i_new_value))
+        SettingsM.update_rest_reminder_interval(i_new_value)
+        self.overview_qlw.update_gui_time_overview()
+        self.rest_settings_updated_from_settings_signal.emit('settings')
 
     def on_rest_reminder_slider_value_changed(self, i_new_value: int):
         print('on rest reminder slider value changed')
@@ -157,12 +144,8 @@ class TimingSettingsWt(QtWidgets.QWidget):
 
     def update_gui(self):
         self.updating_gui_bool = True
-        settings = mc.model.SettingsM.get()
-        # if mc_global.active_phrase_id_it != mc_global.NO_PHRASE_SELECTED_INT:
-        #     self.setDisabled(False)
-        # else:
-        #     self.setDisabled(True)
-        #
+
+        settings = SettingsM.get()
         self.notification_interval_qsb.setValue(settings.breathing_reminder_interval_int)
         self.show_after_qsb.setValue(settings.breathing_reminder_nr_before_dialog_int)
         self.rest_interval_qsb.setValue(settings.rest_reminder_interval_int)
@@ -179,21 +162,6 @@ class TimingOverviewWt(QtWidgets.QListWidget):
         self.settings = mc.model.SettingsM.get()
         self.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
-        self.update_gui_time_overview()
-
-    def on_time_before_rest_value_changed(self, i_new_value: int):
-        logging.debug("on_time_before_rest_value_changed, i_new_value = " + str(i_new_value))
-        mc.model.SettingsM.update_rest_reminder_interval(i_new_value)
-        self.update_gui_time_overview()
-
-    def on_dlg_after_nr_notifications_value_changed(self, i_new_value: int):
-        logging.debug("on_dlg_after_nr_notifications_value_changed, i_new_value = " + str(i_new_value))
-        mc.model.SettingsM.update_breathing_reminder_nr_per_dialog(i_new_value)
-        self.update_gui_time_overview()
-
-    def on_time_btw_notifications_value_changed(self, i_new_value: int):
-        logging.debug("on_time_btw_notifications_value_changed, i_new_value = " + str(i_new_value))
-        mc.model.SettingsM.update_breathing_reminder_interval(i_new_value)
         self.update_gui_time_overview()
 
     def update_gui_time_overview(self):

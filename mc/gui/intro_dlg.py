@@ -8,6 +8,7 @@ import mc.gui.breathing_notification
 import mc.gui.rest_notification
 import mc.gui.rest_dlg
 from mc.gui.timing_settings_wt import TimingOverviewWt
+from mc.model import SettingsM
 import mc.mc_global
 
 NEXT_STR = "Next >>"
@@ -239,6 +240,9 @@ class BreathingDialogPage(QtWidgets.QWidget):
 
 
 class TimingInitSetupPage(QtWidgets.QWidget):
+    rest_settings_updated_from_intro_signal = QtCore.pyqtSignal(str)
+    breathing_settings_updated_from_intro_signal = QtCore.pyqtSignal(str)
+
     def __init__(self):
         super().__init__()
 
@@ -302,7 +306,6 @@ class TimingInitSetupPage(QtWidgets.QWidget):
         self.setLayout(self.grid)
 
         self.overview_qlw.update_gui_time_overview()
-        self.overview_qlw.timing_settings_changed_signal.emit()
 
     def update_gui(self):
         self.updating_gui_bool = True
@@ -315,9 +318,27 @@ class TimingInitSetupPage(QtWidgets.QWidget):
         self.updating_gui_bool = False
 
     def _connect_slots_to_signals(self):
-        self.notification_interval_qsp.valueChanged.connect(self.overview_qlw.on_time_btw_notifications_value_changed)
-        self.show_after_qsb.valueChanged.connect(self.overview_qlw.on_dlg_after_nr_notifications_value_changed)
-        self.rest_interval_qsp.valueChanged.connect(self.overview_qlw.on_time_before_rest_value_changed)
+        self.notification_interval_qsp.valueChanged.connect(self.on_time_btw_notifications_value_changed)
+        self.show_after_qsb.valueChanged.connect(self.on_dlg_after_nr_notifications_value_changed)
+        self.rest_interval_qsp.valueChanged.connect(self.on_time_before_rest_value_changed)
+
+    def on_time_btw_notifications_value_changed(self, i_new_value: int):
+        logging.debug("on_time_btw_notifications_value_changed, i_new_value = " + str(i_new_value))
+        SettingsM.update_breathing_reminder_interval(i_new_value)
+        self.overview_qlw.update_gui_time_overview()
+        self.breathing_settings_updated_from_intro_signal.emit('intro')
+
+    def on_dlg_after_nr_notifications_value_changed(self, i_new_value: int):
+        logging.debug("on_dlg_after_nr_notifications_value_changed, i_new_value = " + str(i_new_value))
+        SettingsM.update_breathing_reminder_nr_per_dialog(i_new_value)
+        self.overview_qlw.update_gui_time_overview()
+        self.breathing_settings_updated_from_intro_signal.emit('intro')
+
+    def on_time_before_rest_value_changed(self, i_new_value: int):
+        logging.debug("on_time_before_rest_value_changed, i_new_value = " + str(i_new_value))
+        SettingsM.update_rest_reminder_interval(i_new_value)
+        self.overview_qlw.update_gui_time_overview()
+        self.rest_settings_updated_from_intro_signal.emit('intro')
 
 
 class BreathingDialogComing(QtWidgets.QWidget):
