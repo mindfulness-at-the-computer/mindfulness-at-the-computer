@@ -10,11 +10,7 @@ NO_AUDIO_SELECTED_STR = "No audio selected"
 
 
 class BreathingSettings2Wt(QtWidgets.QWidget):
-    rest_settings_updated_signal = QtCore.pyqtSignal()
     updated_signal = QtCore.pyqtSignal()
-    breathe_now_button_clicked_signal = QtCore.pyqtSignal()
-    rest_test_button_clicked_signal = QtCore.pyqtSignal()
-    rest_reset_button_clicked_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -127,8 +123,6 @@ class BreathingSettings2Wt(QtWidgets.QWidget):
         grid.addWidget(HorizontalLine(), 2, 0)
         grid.addWidget(QtWidgets.QLabel(self.tr("Notification type")), 3, 0)
         grid.addWidget(notification_type_qgb, 4, 0)
-        # grid.addLayout(notification_interval_qhl, 5, 0)
-        # grid.addWidget(QtWidgets.QLabel(), 5, 0)
         grid.addWidget(QtWidgets.QLabel(self.tr("Notification Audio")), 6, 0)
         grid.addLayout(notif_audio_qhl, 7, 0)
         grid.addWidget(QtWidgets.QLabel(), 8, 0)
@@ -136,7 +130,6 @@ class BreathingSettings2Wt(QtWidgets.QWidget):
         grid.addWidget(HorizontalLine(), 10, 0)
         grid.addWidget(QtWidgets.QLabel(self.tr("Do you always want the same phrase or a random one?")), 11, 0)
         grid.addWidget(dialog_type_qgb, 12, 0)
-        # grid.addLayout(show_after_qhl, 13, 0)
         grid.addWidget(QtWidgets.QLabel(self.tr("Dialog Audio")), 13, 0)
         grid.addLayout(prep_audio_qhl, 14, 0)
 
@@ -172,12 +165,14 @@ class BreathingSettings2Wt(QtWidgets.QWidget):
         self.same_qrb.clicked.connect(self.on_phrase_selection_same_activated)
         self.random_qrb.clicked.connect(self.on_phrase_selection_random_activated)
 
-    def on_phrase_selection_same_activated(self, i_index: int):
+    @classmethod
+    def on_phrase_selection_same_activated(cls):
         print('on phrase selection same activated works')
         # -activated is only triggered on user action (and not programmatically)
         mc.model.SettingsM.update_breathing_dialog_phrase_selection(0)
 
-    def on_phrase_selection_random_activated(self, i_index: int):
+    @classmethod
+    def on_phrase_selection_random_activated(cls):
         print('on phrase selection random activated works')
         # -activated is only triggered on user action (and not programmatically)
         mc.model.SettingsM.update_breathing_dialog_phrase_selection(1)
@@ -188,6 +183,7 @@ class BreathingSettings2Wt(QtWidgets.QWidget):
             return
         mc.model.SettingsM.update_breathing_dialog_close_on_hover(i_checked)
 
+    # TODO find out where this was used
     def on_dialog_audio_toggled(self, i_checked: bool):
         if self.updating_gui_bool:
             return
@@ -198,19 +194,22 @@ class BreathingSettings2Wt(QtWidgets.QWidget):
         # -activated is only triggered on user action (and not programmatically)
         mc.model.SettingsM.update_breathing_reminder_notification_phrase_setup(i_index)
 
-    def on_notification_type_audio_activated(self):
+    @classmethod
+    def on_notification_type_audio_activated(cls):
         print('on notification type audio activated works')
         print(mc_global.NotificationType.Audio.value)
         # -activated is only triggered on user action (and not programmatically)
         mc.model.SettingsM.update_breathing_reminder_notification_type(mc_global.NotificationType.Audio.value)
 
-    def on_notification_type_visual_activated(self):
+    @classmethod
+    def on_notification_type_visual_activated(cls):
         print('on notification type audio activated works')
         print(mc_global.NotificationType.Visual.value)
         # -activated is only triggered on user action (and not programmatically)
         mc.model.SettingsM.update_breathing_reminder_notification_type(mc_global.NotificationType.Visual.value)
 
-    def on_notification_type_both_activated(self):
+    @classmethod
+    def on_notification_type_both_activated(cls):
         print('on notification type audio activated works')
         print(mc_global.NotificationType.Both.value)
         # -activated is only triggered on user action (and not programmatically)
@@ -328,7 +327,6 @@ class BreathingSettings2Wt(QtWidgets.QWidget):
         self.notification_interval_qsb.setValue(settings.breathing_reminder_interval_int)
 
         # TODO: Decide what to do with the active breathing phrase
-        # self.notification_type_qcb.setCurrentText(settings.breathing_reminder_notification_type.name)
         # self.phrase_selection_qcb.setCurrentText(settings.breathing_dialog_phrase_selection.name)
         self.show_after_qsb.setValue(settings.breathing_reminder_nr_before_dialog_int)
 
