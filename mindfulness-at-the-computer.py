@@ -11,7 +11,7 @@ from mc import mc_global
 import mc.db
 
 # The following import looks like it isn't used, but it is necessary for importing the images.
-import icons.matc_rc
+import icons.matc_rc # pylint: disable=unused-import
 
 
 if __name__ == "__main__":

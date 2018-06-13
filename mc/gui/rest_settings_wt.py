@@ -103,18 +103,21 @@ class RestSettingsWt(QtWidgets.QWidget):
         self.notif_select_audio_qpb.clicked.connect(self.on_select_audio_clicked)
         self.notif_volume_qsr.valueChanged.connect(self.volume_changed)
 
+    @classmethod
     def on_notification_type_audio_activated(self, i_index: int):
         print('on notification type audio activated works')
         print(mc_global.NotificationType.Audio.value)
         # -activated is only triggered on user action
         mc.model.SettingsM.update_rest_reminder_notification_type(mc_global.NotificationType.Audio.value)
 
+    @classmethod
     def on_notification_type_visual_activated(self, i_index: int):
         print('on notification type visual activated works')
         print(mc_global.NotificationType.Visual.value)
         # -activated is only triggered on user action
         mc.model.SettingsM.update_rest_reminder_notification_type(mc_global.NotificationType.Visual.value)
 
+    @classmethod
     def on_notification_type_both_activated(self, i_index: int):
         print('on notification type audio activated works')
         print(mc_global.NotificationType.Both.value)
