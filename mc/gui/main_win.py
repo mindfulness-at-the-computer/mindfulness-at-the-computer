@@ -1,6 +1,5 @@
 import logging
 import sys
-import os
 import random
 from PyQt5 import QtCore
 from PyQt5 import QtGui
@@ -50,6 +49,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.breathing_dialog = None
         self._suspend_time_dlg = None
         self.sound_effect = None
+        self.settings_page_wt = mc.gui.settings_page_wt.SettingsPageWt()
         try:
             self.sound_effect = QtMultimedia.QSoundEffect(self)
             # -PLEASE NOTE: A parent has to be given here, otherwise we will not hear anything
@@ -58,8 +58,7 @@ class MainWin(QtWidgets.QMainWindow):
                 "NameError - Cannot play audio since QtMultimedia has not been imported"
             )
 
-        self.active_breathing_phrase_qgb = QtWidgets.QGroupBox("Active Breathing Phrase")
-        self.settings_page_wt = mc.gui.settings_page_wt.SettingsPageWt()
+        # self.active_breathing_phrase_qgb = QtWidgets.QGroupBox("Active Breathing Phrase")
 
         # if QtCore.QSysInfo.kernelType() == 'darwin':
         #     self.run_on_startup_wt = mc.gui.general_settings_wt.RunOnStartupWt()
@@ -116,18 +115,18 @@ class MainWin(QtWidgets.QMainWindow):
         self.settings_page_wt.rest_settings_wt.phrases_qlw.selection_changed_signal.connect(
             self.on_rest_action_list_row_changed
         )
-        self.settings_page_wt.rest_settings_wt.phrases_qlw.update_signal.connect(
-            self.on_rest_action_list_updated
-        )
-        self.settings_page_wt.rest_settings_wt.phrases_qlw.selection_changed_signal.connect(
-            self.on_rest_action_list_row_changed
-        )
         self.settings_page_wt.breathing_settings_wt.updated_signal.connect(self.on_breathing_settings_changed)
         self.settings_page_wt.breathing_settings_2_wt.updated_signal.connect(self.on_breathing_settings_changed)
-        self.settings_page_wt.timing_settings_wt.breathing_settings_updated_signal.connect(self.on_breathing_settings_changed)
-        self.settings_page_wt.timing_settings_wt.rest_settings_updated_signal.connect(self.update_rest_timer)
+        self.settings_page_wt.timing_settings_wt.breathing_settings_updated_from_settings_signal.connect(
+            self.on_breathing_settings_changed
+        )
+        self.settings_page_wt.timing_settings_wt.rest_settings_updated_from_settings_signal.connect(
+            self.update_rest_timer
+        )
         self.settings_page_wt.timing_settings_wt.rest_reset_button_clicked_signal.connect(self.update_rest_timer)
-        self.settings_page_wt.timing_settings_wt.rest_slider_value_changed_signal.connect(self.on_rest_slider_value_changed)
+        self.settings_page_wt.timing_settings_wt.rest_slider_value_changed_signal.connect(
+            self.on_rest_slider_value_changed
+        )
 
     # def _setup_configure_active_breathing_phrase(self, panel_vbox_l4):
     #     self.title_text_qll = QtWidgets.QLabel(self.tr("title"))
@@ -142,21 +141,6 @@ class MainWin(QtWidgets.QMainWindow):
     #     active_breathing_phrase_vbox_l5.addWidget(self.out_text_qll)
     #     self.active_breathing_phrase_qgb.setLayout(active_breathing_phrase_vbox_l5)
     #     panel_vbox_l4.addWidget(self.active_breathing_phrase_qgb)
-
-    def _setup_add_breathing_phrase_list_to_main_container(self, main_container_hbox_l3):
-        breathing_phrase_list_vbox_l4 = self._setup_new_panel_in_main_window(main_container_hbox_l3)
-
-        title_qll = QtWidgets.QLabel("Breathing")
-        breathing_phrase_list_vbox_l4.addWidget(title_qll)
-        title_qll.setFont(mc.mc_global.get_font_large(i_bold=True))
-        title_qll.setContentsMargins(8, 0, 0, 0)
-        # -unknown why we need to set this manually,
-        #  we don't have to do this for the widgets below in the visual layout
-
-        breathing_phrase_list_vbox_l4.addWidget(self.br_phrase_list_wt)
-        self.br_phrase_list_wt.selection_changed_signal.connect(self.on_breathing_list_row_changed)
-        self.br_phrase_list_wt.phrase_changed_signal.connect(self.on_breathing_phrase_changed)
-        self._setup_configure_breathing_settings(breathing_phrase_list_vbox_l4)
 
     def _setup_set_window_title(self):
         if mc.mc_global.testing_bool:
@@ -251,10 +235,6 @@ class MainWin(QtWidgets.QMainWindow):
         self.tray_menu.addAction(self.tray_restore_action)
         self.tray_restore_action.triggered.connect(self.restore_window)
 
-        self.tray_settings_action = QtWidgets.QAction(self.tr("Open New Settings"))
-        self.tray_menu.addAction(self.tray_settings_action)
-        self.tray_settings_action.triggered.connect(self.on_open_new_settings_clicked)
-
         self.tray_quit_action = QtWidgets.QAction(self.tr("Quit"))
         self.tray_menu.addAction(self.tray_quit_action)
         self.tray_quit_action.triggered.connect(self.exit_application)
@@ -296,7 +276,8 @@ class MainWin(QtWidgets.QMainWindow):
     def on_breathing_phrase_changed(self, i_details_enabled):
         print('on breathing phrase changed works')
         self.update_breathing_timer()
-        self.br_settings_wt.setEnabled(i_details_enabled)
+        self.settings_page_wt.breathing_settings_wt.setEnabled(i_details_enabled)
+        self.settings_page_wt.breathing_settings_2_wt.setEnabled(i_details_enabled)
         self.sys_tray.breathing_enabled_qaction.setEnabled(i_details_enabled)
 
         self.update_gui(mc.mc_global.EventSource.breathing_list_phrase_updated)
@@ -329,15 +310,21 @@ class MainWin(QtWidgets.QMainWindow):
         self.start_breathing_timer()
         self.update_gui()
 
-    def update_rest_timer(self):
+    def update_rest_timer(self, origin=None):
         print('update rest timer works')
+
+        if origin:
+            print('origin was: ' + origin)
         settings = mc.model.SettingsM.get()
         if settings.rest_reminder_active:
             self.start_rest_timer()
         else:
             self.stop_rest_timer()
         self.update_tooltip()
-        self.update_gui(mc.mc_global.EventSource.rest_settings_changed)
+        if origin == 'intro':
+            self.update_gui(mc.mc_global.EventSource.rest_settings_changed_from_intro)
+        else:
+            self.update_gui(mc.mc_global.EventSource.rest_settings_changed_from_settings)
 
     def on_rest_slider_value_changed(self):
         print('on rest slider value changed works')
@@ -345,11 +332,13 @@ class MainWin(QtWidgets.QMainWindow):
         self.update_gui(mc.mc_global.EventSource.rest_slider_value_changed)
 
     def stop_rest_timer(self):
+        print('stop rest timer called')
         if self.rest_reminder_qtimer is not None and self.rest_reminder_qtimer.isActive():
             self.rest_reminder_qtimer.stop()
-        self.settings_page_wt.rest_settings_wt.update_gui()  # -so that the progressbar is updated
+        self.settings_page_wt.timing_settings_wt.update_gui()  # -so that the progressbar is updated
 
     def start_rest_timer(self):
+        print('start rest timer called')
         mc.mc_global.rest_reminder_minutes_passed_int = 0
         self.stop_rest_timer()
         self.rest_reminder_qtimer = QtCore.QTimer(self)
@@ -357,6 +346,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.rest_reminder_qtimer.start(60 * 1000)  # -one minute
 
     def rest_timer_timeout(self):
+        print('rest timer timeout called')
         if mc.mc_global.rest_window_shown_bool:
             return
         mc.mc_global.rest_reminder_minutes_passed_int += 1
@@ -424,10 +414,14 @@ class MainWin(QtWidgets.QMainWindow):
         self.update_gui()
         self.update_tooltip()
 
-    def on_breathing_settings_changed(self):
+    def on_breathing_settings_changed(self, origin=None):
         print('on breathing settings changed works')
         self.update_breathing_timer()
-        self.update_gui(mc.mc_global.EventSource.breathing_settings_changed)
+
+        if origin == 'intro':
+            self.update_gui(mc.mc_global.EventSource.breathing_settings_changed_from_intro)
+        else:
+            self.update_gui(mc.mc_global.EventSource.breathing_settings_changed_from_settings)
 
     def update_breathing_timer(self):
         settings = mc.model.SettingsM.get()
@@ -527,13 +521,17 @@ class MainWin(QtWidgets.QMainWindow):
         else:
             pass
 
-    def on_open_new_settings_clicked(self):
-        self.settings_page_wt.show()
-
     def show_intro_dialog(self):
         self.intro_dlg = mc.gui.intro_dlg.IntroDlg()
+        self.intro_dlg.initial_setup.breathing_settings_updated_from_intro_signal.connect(
+            self.on_breathing_settings_changed
+        )
+        self.intro_dlg.initial_setup.rest_settings_updated_from_intro_signal.connect(
+            self.update_rest_timer
+        )
         self.intro_dlg.close_signal.connect(self.on_intro_dialog_closed)
         self.intro_dlg.exec()
+        self.intro_dlg.initial_setup.update_gui()
         self.update_gui()
 
     def on_intro_dialog_closed(self, i_open_breathing_dialog: bool):
@@ -669,8 +667,8 @@ class MainWin(QtWidgets.QMainWindow):
             (
                 '<html>'
                 'Originally created by Tord Dellsén'
-                '<a href="https://sunyatazero.github.io/"> Github website</a><br>'
-                '<a href="https://github.com/SunyataZero/mindfulness-at-the-computer/graphs/contributors">'
+                '<a href="https://mindfulness-at-the-computer.github.io/"> Github website</a><br>'
+                '<a href="https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/graphs/contributors">'
                 'All contributors</a><br>'
                 'Photography for application icon by Torgny Dellsén '
                 '<a href="http://torgnydellsen.zenfolio.com">torgnydellsen.zenfolio.com</a><br>'
@@ -696,29 +694,38 @@ class MainWin(QtWidgets.QMainWindow):
         sys.exit()
 
     def update_gui(self, i_event_source=mc.mc_global.EventSource.undefined):
-        # self.breathing_widget.update_gui()
-        # self.rest_widget.update_gui()
+        if mc.mc_global.active_phrase_id_it == mc.mc_global.NO_PHRASE_SELECTED_INT:
+            pass
+        else:
+            # breathing_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
+            # self.title_text_qll.setText(breathing_phrase.title)
+            # self.in_text_qll.setText(breathing_phrase.ib)
+            # self.out_text_qll.setText(breathing_phrase.ob)
 
-        # if mc.mc_global.active_phrase_id_it == mc.mc_global.NO_PHRASE_SELECTED_INT:
-        #     pass
-        # else:
-        #     breathing_phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
-        #     self.title_text_qll.setText(breathing_phrase.title)
-        #     self.in_text_qll.setText(breathing_phrase.ib)
-        #     self.out_text_qll.setText(breathing_phrase.ob)
-        #
             if i_event_source != mc.mc_global.EventSource.rest_slider_value_changed:
                 self.settings_page_wt.rest_settings_wt.update_gui()
             self.settings_page_wt.breathing_settings_wt.update_gui()
             self.settings_page_wt.breathing_settings_2_wt.update_gui()
 
             if (i_event_source != mc.mc_global.EventSource.breathing_list_selection_changed
-            and i_event_source != mc.mc_global.EventSource.rest_list_selection_changed):
+                and i_event_source != mc.mc_global.EventSource.rest_list_selection_changed):
                 self.settings_page_wt.breathing_settings_wt.phrases_qlw.update_gui()
                 self.settings_page_wt.breathing_settings_2_wt.phrases_qlw.update_gui()
                 self.settings_page_wt.rest_settings_wt.phrases_qlw.update_gui()
 
             self.update_systray()
+
+        # Update the timers pages in intro or settings
+        if (i_event_source == mc.mc_global.EventSource.breathing_settings_changed_from_intro or
+                i_event_source == mc.mc_global.EventSource.rest_settings_changed_from_intro):
+            print('updating settings page')
+            self.settings_page_wt.timing_settings_wt.update_gui()
+
+        if (self.intro_dlg and
+                (i_event_source == mc.mc_global.EventSource.breathing_settings_changed_from_settings or
+                 i_event_source == mc.mc_global.EventSource.rest_settings_changed_from_settings)):
+            print('updating intro settings')
+            self.intro_dlg.initial_setup.update_gui()
 
     def get_app_systray_icon_path(self) -> str:
         # TODO: Update the three references to this function
@@ -778,6 +785,7 @@ class MainWin(QtWidgets.QMainWindow):
             )
         else:
             self.tray_icon.setToolTip(self.tr("Rest breaks disabled"))
+
 
 class SystemTray:
     def __init__(self):
