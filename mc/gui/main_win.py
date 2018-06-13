@@ -342,7 +342,7 @@ class MainWin(QtWidgets.QMainWindow):
         if (mc.mc_global.rest_reminder_minutes_passed_int
         == mc.model.SettingsM.get().rest_reminder_interval_int):
             self.start_rest_reminder()
-        self.settings_page_wt.rest_settings_wt.notif_volume_qsr.setValue(
+        self.settings_page_wt.timing_settings_wt.rest_reminder_qsr.setValue(
             mc.mc_global.rest_reminder_minutes_passed_int
         )
 
@@ -690,6 +690,7 @@ class MainWin(QtWidgets.QMainWindow):
 
             if i_event_source != mc.mc_global.EventSource.rest_slider_value_changed:
                 self.settings_page_wt.rest_settings_wt.update_gui()
+                self.settings_page_wt.timing_settings_wt.update_gui()
             self.settings_page_wt.breathing_settings_wt.update_gui()
 
             if (i_event_source != mc.mc_global.EventSource.breathing_list_selection_changed
