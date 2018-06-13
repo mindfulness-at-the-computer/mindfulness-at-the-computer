@@ -52,13 +52,14 @@ class GeneralSettingsWt(QtWidgets.QScrollArea):
     def __init__(self):
         super().__init__()
         self.setGeometry(100, 64, 900, 670)
-        self.run_on_startup_wt = RunOnStartupWt()
+        self.run_on_startup_wt = None
         self._init_ui()
 
     def _init_ui(self):
         grid = PageGrid()
 
         if QtCore.QSysInfo.kernelType() == 'darwin':
+            self.run_on_startup_wt = RunOnStartupWt()
             grid.addWidget(self.run_on_startup_wt, 0, 1)
             self.run_on_startup_wt.run_on_startup_qcb.toggled.connect(self.run_on_startup_wt.on_run_on_startup_toggled)
 
