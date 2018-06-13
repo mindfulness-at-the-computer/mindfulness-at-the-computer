@@ -9,16 +9,11 @@ from mc.gui.rest_action_list_wt import RestActionListWt
 from mc.gui.reusable_components import PageGrid, H2, HorizontalLine, RadioButtonLeft, RadioButtonMiddle, \
     RadioButtonRight, H1
 
-MIN_REST_REMINDER_INT = 1  # -in minutes
-MAX_REST_REMINDER_INT = 99
 NO_AUDIO_SELECTED_STR = "No audio selected"
 
 
 class RestSettingsWt(QtWidgets.QWidget):
     settings_updated_signal = QtCore.pyqtSignal()
-    rest_now_button_clicked_signal = QtCore.pyqtSignal()
-    rest_reset_button_clicked_signal = QtCore.pyqtSignal()
-    rest_slider_value_changed_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -169,20 +164,6 @@ class RestSettingsWt(QtWidgets.QWidget):
         if self.updating_gui_bool:
             return
         mc.model.SettingsM.get().rest_reminder_active = i_checked_bool
-
-        self.settings_updated_signal.emit()
-
-    def on_rest_interval_value_changed(self, i_new_value: int):
-        # -PLEASE NOTE: During debug this event is fired twice, this must be a bug in Qt or PyQt
-        # (there is no problem when running normally, that is without debug)
-        if self.updating_gui_bool:
-            return
-        mc.model.SettingsM.update_rest_reminder_interval(i_new_value)
-
-        rest_reminder_interval_minutes_int = mc.model.SettingsM.get().rest_reminder_interval_int
-        self.rest_reminder_qsr.setMinimum(0)
-        self.rest_reminder_qsr.setMaximum(rest_reminder_interval_minutes_int)
-        self.rest_reminder_qsr.setValue(mc.mc_global.rest_reminder_minutes_passed_int)
 
         self.settings_updated_signal.emit()
 
