@@ -60,10 +60,6 @@ class MainWin(QtWidgets.QMainWindow):
 
         # self.active_breathing_phrase_qgb = QtWidgets.QGroupBox("Active Breathing Phrase")
 
-        # if QtCore.QSysInfo.kernelType() == 'darwin':
-        #     self.run_on_startup_wt = mc.gui.general_settings_wt.RunOnStartupWt()
-        #     self.run_on_startup_wt.run_on_startup_qcb.toggled.connect(self.run_on_startup_wt.on_run_on_startup_toggled)
-
         self._setup_initialize()
 
         self.setCentralWidget(self.settings_page_wt)
@@ -100,13 +96,7 @@ class MainWin(QtWidgets.QMainWindow):
         self.settings_page_wt.breathing_settings_wt.phrases_qlw.selection_changed_signal.connect(
             self.on_breathing_list_row_changed
         )
-        self.settings_page_wt.breathing_settings_2_wt.phrases_qlw.selection_changed_signal.connect(
-            self.on_breathing_list_row_changed
-        )
         self.settings_page_wt.breathing_settings_wt.phrases_qlw.phrase_changed_signal.connect(
-            self.on_breathing_phrase_changed
-        )
-        self.settings_page_wt.breathing_settings_2_wt.phrases_qlw.phrase_changed_signal.connect(
             self.on_breathing_phrase_changed
         )
         self.settings_page_wt.rest_settings_wt.phrases_qlw.update_signal.connect(
@@ -116,7 +106,6 @@ class MainWin(QtWidgets.QMainWindow):
             self.on_rest_action_list_row_changed
         )
         self.settings_page_wt.breathing_settings_wt.updated_signal.connect(self.on_breathing_settings_changed)
-        self.settings_page_wt.breathing_settings_2_wt.updated_signal.connect(self.on_breathing_settings_changed)
         self.settings_page_wt.timing_settings_wt.breathing_settings_updated_from_settings_signal.connect(
             self.on_breathing_settings_changed
         )
@@ -219,9 +208,6 @@ class MainWin(QtWidgets.QMainWindow):
         self.sys_tray.breathing_enabled_qaction.toggled.connect(
             self.settings_page_wt.breathing_settings_wt.on_switch_toggled
         )
-        self.sys_tray.breathing_enabled_qaction.toggled.connect(
-            self.settings_page_wt.breathing_settings_2_wt.on_switch_toggled
-        )
         self.tray_open_breathing_dialog_qaction = QtWidgets.QAction(self.tr("Open Breathing Dialog"))
         self.tray_menu.addAction(self.tray_open_breathing_dialog_qaction)
         self.tray_open_breathing_dialog_qaction.triggered.connect(self.open_breathing_dialog)
@@ -277,7 +263,6 @@ class MainWin(QtWidgets.QMainWindow):
         print('on breathing phrase changed works')
         self.update_breathing_timer()
         self.settings_page_wt.breathing_settings_wt.setEnabled(i_details_enabled)
-        self.settings_page_wt.breathing_settings_2_wt.setEnabled(i_details_enabled)
         self.sys_tray.breathing_enabled_qaction.setEnabled(i_details_enabled)
 
         self.update_gui(mc.mc_global.EventSource.breathing_list_phrase_updated)
@@ -705,12 +690,10 @@ class MainWin(QtWidgets.QMainWindow):
             if i_event_source != mc.mc_global.EventSource.rest_slider_value_changed:
                 self.settings_page_wt.rest_settings_wt.update_gui()
             self.settings_page_wt.breathing_settings_wt.update_gui()
-            self.settings_page_wt.breathing_settings_2_wt.update_gui()
 
             if (i_event_source != mc.mc_global.EventSource.breathing_list_selection_changed
                 and i_event_source != mc.mc_global.EventSource.rest_list_selection_changed):
                 self.settings_page_wt.breathing_settings_wt.phrases_qlw.update_gui()
-                self.settings_page_wt.breathing_settings_2_wt.phrases_qlw.update_gui()
                 self.settings_page_wt.rest_settings_wt.phrases_qlw.update_gui()
 
             self.update_systray()
