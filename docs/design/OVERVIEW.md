@@ -17,7 +17,7 @@ Other links:
 ## Process
 
 To make changes to the application features please follow this procedure:
-* Discuss with the others in the gitter design room
+* Discuss with the others in the Gitter design room
 * Create issue with the design tag
   * Perhaps also the question tag if it is unsure if this is going to be implemented
 * Update the design documentation

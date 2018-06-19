@@ -1,4 +1,4 @@
-We use markdown the documentation (`docs/` directory and the wiki) as well as for the gitter chat room
+We use markdown the documentation (`docs/` directory and the wiki) as well as for the Gitter chat room
 
 Markdown is designed to be read both rendered and in pure/raw text
 
@@ -6,7 +6,7 @@ Markdown is designed to be read both rendered and in pure/raw text
 
 This guide covers the markdown basics: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 
-Also, in the gitter chat you can press `ctrl`+`shift`+`alt`+`m` to get markdown help
+Also, in the Gitter chat you can press `ctrl`+`shift`+`alt`+`m` to get markdown help
 
 There might be some differences between the different markdown implementations/"flavors"
 
