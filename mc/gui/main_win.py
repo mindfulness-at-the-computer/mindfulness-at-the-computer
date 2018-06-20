@@ -22,6 +22,7 @@ import mc.gui.rest_dlg
 import mc.gui.intro_dlg
 import mc.gui.rest_prepare
 import mc.gui.suspend_time_dlg
+import mc.gui.feedback_dlg
 import mc.gui.sysinfo_dlg
 try:
     # noinspection PyUnresolvedReferences
@@ -81,7 +82,19 @@ class MainWin(QtWidgets.QMainWindow):
             self.show_intro_dialog()
         self.open_breathing_prepare()
 
-        # self.minimize_to_tray()
+        self.show()
+        self.minimize_to_tray()
+
+        settings = mc.model.SettingsM.get()
+        if settings.nr_times_started_since_last_feedback_notif != mc.mc_global.FEEDBACK_DIALOG_NOT_SHOWN_AT_STARTUP:
+            if (settings.nr_times_started_since_last_feedback_notif
+            >= mc.mc_global.NR_OF_TIMES_UNTIL_FEEDBACK_SHOWN_INT - 1):
+                self.show_feedback_dialog()
+                settings.nr_times_started_since_last_feedback_notif = 0
+            else:
+                settings.nr_times_started_since_last_feedback_notif += 1
+        else:
+            pass
 
     def _setup_initialize(self):
         self.setGeometry(100, 64, 900, 670)
@@ -468,9 +481,16 @@ class MainWin(QtWidgets.QMainWindow):
         online_help_action = QtWidgets.QAction("Online help", self)
         help_menu.addAction(online_help_action)
         online_help_action.triggered.connect(self.show_online_help)
+        feedback_action = QtWidgets.QAction("Give feedback", self)
+        help_menu.addAction(feedback_action)
+        feedback_action.triggered.connect(self.show_feedback_dialog)
         sysinfo_action = QtWidgets.QAction(self.tr("System Information"), self)
         help_menu.addAction(sysinfo_action)
         sysinfo_action.triggered.connect(self.show_sysinfo_box)
+
+    def show_feedback_dialog(self):
+        feedback_dlg = mc.gui.feedback_dlg.FeedbackDialog()
+        feedback_dlg.exec_()
 
     def export_data_to_csv(self):
         file_path_str = mc.model.export_all()
@@ -640,6 +660,8 @@ class MainWin(QtWidgets.QMainWindow):
             (
                 '<html>'
                 'Originally created by Tord Dellsén'
+                '<a href="https://sunyatazero.github.io/"> GitHub website</a><br>'
+                '<a href="https://github.com/SunyataZero/mindfulness-at-the-computer/graphs/contributors">'
                 '<a href="https://mindfulness-at-the-computer.github.io/"> Github website</a><br>'
                 '<a href="https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/graphs/contributors">'
                 'All contributors</a><br>'

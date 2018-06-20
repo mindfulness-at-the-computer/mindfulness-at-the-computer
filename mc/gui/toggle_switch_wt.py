@@ -11,7 +11,7 @@ class ToggleSwitchWt(QtWidgets.QWidget):
         self.updating_gui_bool = False
 
         self.turn_on_off_qcb = QtWidgets.QCheckBox()
-        self.turn_on_off_qcb.toggled.connect(self.on_toggled)
+        self.turn_on_off_qcb.toggled.connect(self._on_toggled)
         on_off_qhl = QtWidgets.QHBoxLayout()
         on_off_qhl.setContentsMargins(0,0,0,0)
         on_off_qhl.addWidget(QtWidgets.QLabel(self.tr("Turn the breathing dialog and notifications on or off")))
@@ -19,7 +19,7 @@ class ToggleSwitchWt(QtWidgets.QWidget):
         on_off_qhl.addWidget(self.turn_on_off_qcb)
         self.setLayout(on_off_qhl)
 
-    def on_toggled(self, i_checked: bool):
+    def _on_toggled(self, i_checked: bool):
         if self.updating_gui_bool:
             return
         self.toggled_signal.emit(i_checked)

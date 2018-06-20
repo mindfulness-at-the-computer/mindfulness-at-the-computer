@@ -8,6 +8,10 @@
 
 Unless conversations are clearly of a private nature, we can choose to share them with other team members. The reason for this policy is so that it does not take too long to relay information to others (otherwise the person who wants to relay information would need to wait for an email/chat response from the person she has been in conversation with).
 
+### Reassigning issues
+
+If there hasn't been an update for the progress on an issue in about 1-2 weeks we may reassign the issue to someone else. One reason for this is that we want new volunteers to be able to take on these issues.
+
 ### Conversations about issues in the gitter chat
 
 Please use [the gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby) rather than issue comments for conversations about issues. The goal is that the issue has almost no comments and that a person new to an issue is easily able to grasp what the issue is about. If new information is gained it may be better to update the first issue comment
@@ -85,7 +89,7 @@ We need help localizing the application. Helping with translations is easy:
 
 ## Website
 
-The website has a separate github repo: https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer.github.io
+The website has a separate GitHub repo: https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer.github.io
 
 ***
 

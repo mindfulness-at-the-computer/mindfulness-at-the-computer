@@ -12,11 +12,12 @@ Documentation:
 ### Building on Ubuntu
 
 1. Install Python (PyInstaller now works with version 3.6 of Python): `sudo apt-get install python3`
-2. `sudo pip3 install pyinstaller`
+1. `sudo apt-get install python3-pip`
+1. `sudo pip3 install pyinstaller`
    * Please verify that you can access pyinstaller by trying to run `pyinstaller` from the command line
-3. `sudo pip3 install pyqt5`
-3. Go to the base application directory
-4. `pyinstaller mindfulness-at-the-computer-linux.spec`
+1. `sudo pip3 install pyqt5`
+1. Go to the base application directory
+1. `pyinstaller mindfulness-at-the-computer-linux.spec`
 
 This process will create an executable file with supporting .so files
 
@@ -64,16 +65,16 @@ You will now have a mindfulness-at-the-computer.dmg file at the selected locatio
 2. Install Python (PyInstaller works with 3.6 which is the latest Python version at the time of writing). *Please use these settings*:
    * Install Python *only for the current user* (otherwise there may be problems with permissions later on)
    * *Add the path* (you have to restart to get the path to work)
-3. Start cmd *with admin privelige*
-   * We need admin priveliges, otherwise we may get permission denied for the PyQt files
+3. Start cmd *with admin privilege*
+   * We need admin privileges, otherwise we may get permission denied for the PyQt files
 4. `pip install pyqt5`
    * or if it been installed previously: `pip install pyqt5 --upgrade`
 5. `pip install pyinstaller`
    * or if it been installed previously: `pip install pyinstaller --upgrade`
    * Please note that the pyinstaller version may not be compatible with the latest python version. (At the time of writing this is not a problem, but it has been in the past)
 6. Find and copy the installation path for PyQt5 (example: `C:\Python\Python35\Lib\site-packages\PyQt5\Qt\bin`)
-7. Create an empty directory where you can unzip the files, preferrably with a path without any spaces
-8. Download the latest code (can be found on the github main page under the green "clone or download" button
+7. Create an empty directory where you can unzip the files, preferably with a path without any spaces
+8. Download the latest code (can be found on the GitHub main page under the green "clone or download" button
 9. If you have tried to build previously: Remove the `build` and `dist` directories:
    * `rmdir /s build`
    * `rmdir /s dist`

@@ -55,7 +55,6 @@ if __name__ == "__main__":
 
     matc_qapplication.setQuitOnLastWindowClosed(False)
     matc_main_window = mc.gui.main_win.MainWin()
-    matc_main_window.show()
 
     if mc.mc_global.db_upgrade_message_str:
         # noinspection PyCallByClass
