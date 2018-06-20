@@ -14,7 +14,7 @@ class ToggleSwitchWt(QtWidgets.QWidget):
         self.turn_on_off_qcb.toggled.connect(self._on_toggled)
         on_off_qhl = QtWidgets.QHBoxLayout()
         on_off_qhl.setContentsMargins(0,0,0,0)
-        on_off_qhl.addWidget(QtWidgets.QLabel(self.tr("Turn the breathing dialog and notifications on or off")))
+        on_off_qhl.addWidget(QtWidgets.QLabel(self.tr("Turn the dialog and notifications on or off")))
         on_off_qhl.addStretch(1)
         on_off_qhl.addWidget(self.turn_on_off_qcb)
         self.setLayout(on_off_qhl)
