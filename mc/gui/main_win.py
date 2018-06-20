@@ -228,7 +228,6 @@ class MainWin(QtWidgets.QMainWindow):
         self.tray_icon.setContextMenu(self.tray_menu)
 
     def on_rest_action_list_updated(self):
-        print('on_rest_action_list_updated works')
         self.update_gui(mc.mc_global.EventSource.rest_action_changed)
 
     def on_systray_activated(self, i_reason):
@@ -248,7 +247,6 @@ class MainWin(QtWidgets.QMainWindow):
         logging.debug("===== on_systray_activated exited =====")
 
     def on_breathing_list_row_changed(self, i_details_enabled: bool):
-        print('on breathing list row changed works')
         self.update_breathing_timer()
         self.settings_page_wt.breathing_settings_wt.setEnabled(i_details_enabled)
         self.sys_tray.breathing_enabled_qaction.setEnabled(i_details_enabled)
@@ -256,11 +254,9 @@ class MainWin(QtWidgets.QMainWindow):
         self.update_gui(mc.mc_global.EventSource.breathing_list_selection_changed)
 
     def on_rest_action_list_row_changed(self):
-        print('on rest action list row changed works')
         self.update_gui(mc.mc_global.EventSource.rest_list_selection_changed)
 
     def on_breathing_phrase_changed(self, i_details_enabled):
-        print('on breathing phrase changed works')
         self.update_breathing_timer()
         self.settings_page_wt.breathing_settings_wt.setEnabled(i_details_enabled)
         self.sys_tray.breathing_enabled_qaction.setEnabled(i_details_enabled)
@@ -268,12 +264,10 @@ class MainWin(QtWidgets.QMainWindow):
         self.update_gui(mc.mc_global.EventSource.breathing_list_phrase_updated)
 
     def stop_suspend_timer(self):
-        print('stop suspend timer works')
         if self.suspend_qtimer is not None and self.suspend_qtimer.isActive():
             self.suspend_qtimer.stop()
 
     def start_suspend_timer(self, i_minutes: int):
-        print('start suspend timer works')
         if i_minutes == 0:
             logging.debug("Resuming application (after suspending)")
             self.stop_suspend_timer()
@@ -296,10 +290,8 @@ class MainWin(QtWidgets.QMainWindow):
         self.update_gui()
 
     def update_rest_timer(self, origin=None):
-        print('update rest timer works')
-
         if origin:
-            print('origin was: ' + origin)
+            logging.debug("Rest timer updated from " + origin)
         settings = mc.model.SettingsM.get()
         if settings.rest_reminder_active:
             self.start_rest_timer()
@@ -312,18 +304,15 @@ class MainWin(QtWidgets.QMainWindow):
             self.update_gui(mc.mc_global.EventSource.rest_settings_changed_from_settings)
 
     def on_rest_slider_value_changed(self):
-        print('on rest slider value changed works')
         self.update_tooltip()
         self.update_gui(mc.mc_global.EventSource.rest_slider_value_changed)
 
     def stop_rest_timer(self):
-        print('stop rest timer called')
         if self.rest_reminder_qtimer is not None and self.rest_reminder_qtimer.isActive():
             self.rest_reminder_qtimer.stop()
         self.settings_page_wt.timing_settings_wt.update_gui()  # -so that the progressbar is updated
 
     def start_rest_timer(self):
-        print('start rest timer called')
         mc.mc_global.rest_reminder_minutes_passed_int = 0
         self.stop_rest_timer()
         self.rest_reminder_qtimer = QtCore.QTimer(self)
@@ -331,7 +320,6 @@ class MainWin(QtWidgets.QMainWindow):
         self.rest_reminder_qtimer.start(60 * 1000)  # -one minute
 
     def rest_timer_timeout(self):
-        print('rest timer timeout called')
         if mc.mc_global.rest_window_shown_bool:
             return
         mc.mc_global.rest_reminder_minutes_passed_int += 1
@@ -347,7 +335,6 @@ class MainWin(QtWidgets.QMainWindow):
         )
 
     def on_rest_widget_closed(self, i_open_breathing_dialog: bool):
-        print('on rest widget closed works')
         mc.mc_global.rest_reminder_minutes_passed_int = 0
 
         if i_open_breathing_dialog:
@@ -400,7 +387,6 @@ class MainWin(QtWidgets.QMainWindow):
         self.update_tooltip()
 
     def on_breathing_settings_changed(self, origin=None):
-        print('on breathing settings changed works')
         self.update_breathing_timer()
 
         if origin == 'intro':
@@ -409,7 +395,6 @@ class MainWin(QtWidgets.QMainWindow):
             self.update_gui(mc.mc_global.EventSource.breathing_settings_changed_from_settings)
 
     def update_breathing_timer(self):
-        print('breathing timer updated')
         settings = mc.model.SettingsM.get()
         if settings.breathing_reminder_active_bool:
             self.start_breathing_timer()
@@ -596,7 +581,9 @@ class MainWin(QtWidgets.QMainWindow):
 
         self.breathing_dialog = mc.gui.breathing_dlg.BreathingDlg()
         self.breathing_dialog.close_signal.connect(self.on_breathing_dialog_closed)
-        self.breathing_dialog.phrase_changed_signal.connect(self.on_breathing_dialog_phrase_changed)
+        self.breathing_dialog.phrase_changed_from_breathing_dialog_signal.connect(
+            self.on_breathing_dialog_phrase_changed
+        )
         self.breathing_dialog.show()
 
     def _play_audio(self, i_audio_filename: str, i_volume: int) -> None:
@@ -703,13 +690,13 @@ class MainWin(QtWidgets.QMainWindow):
         # Update the timers pages in intro or settings
         if (i_event_source == mc.mc_global.EventSource.breathing_settings_changed_from_intro or
                 i_event_source == mc.mc_global.EventSource.rest_settings_changed_from_intro):
-            print('updating settings page')
+            logging.debug("Updating settings page because settings have changed from intro")
             self.settings_page_wt.timing_settings_wt.update_gui()
 
         if (self.intro_dlg and
                 (i_event_source == mc.mc_global.EventSource.breathing_settings_changed_from_settings or
                  i_event_source == mc.mc_global.EventSource.rest_settings_changed_from_settings)):
-            print('updating intro settings')
+            logging.debug("Updating intro page because settings have changed from settings")
             self.intro_dlg.initial_setup.update_gui()
 
     def get_app_systray_icon_path(self) -> str:

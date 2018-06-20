@@ -176,7 +176,13 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         self.update_db_sort_order_for_all_rows()
         return True
 
-    def update_selected(self):
+    def update_selected(self, i_default_phrase=1):
+        if mc.mc_global.active_phrase_id_it == mc.mc_global.NO_PHRASE_SELECTED_INT:
+            item = self.list_widget.item(i_default_phrase)
+            item.setSelected(True)
+            self.list_widget.setCurrentItem(item)  # -important that we add this as well
+            return
+
         for i in range(0, self.list_widget.count()):
             item = self.list_widget.item(i)
             phrase_qll = self.list_widget.itemWidget(item)
@@ -210,9 +216,8 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
 
         if conf_result_bool:
             mc.model.PhrasesM.remove(mc.mc_global.active_phrase_id_it)
-            self.list_widget.clearSelection()   # -clearing after entry removed from db
             mc.mc_global.active_phrase_id_it = mc.mc_global.NO_PHRASE_SELECTED_INT
-            self.update_gui()
+            self.update_gui(mc.mc_global.EventSource.breathing_phrase_deleted)
         else:
             pass
 
@@ -243,7 +248,6 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         self.edit_dialog.show()
 
     def on_edit_dialog_finished(self, i_result: int):
-
         if i_result == QtWidgets.QDialog.Accepted:
             assert mc.mc_global.active_phrase_id_it != mc.mc_global.NO_PHRASE_SELECTED_INT
             phrase = mc.model.PhrasesM.get(mc.mc_global.active_phrase_id_it)
@@ -253,7 +257,6 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         else:
             pass
 
-        print('emit signal phrase changed')
         self.phrase_changed_signal.emit(True)
 
     def on_selection_changed(self):
@@ -267,16 +270,10 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             # TODO: setDisabled for other
             current_question_qli = self.list_widget.item(selected_row_int)
             customqlabel_widget = self.list_widget.itemWidget(current_question_qli)
-            print('active phrase changed from settings -> db id')
-            print(customqlabel_widget.entry_id)
             mc.mc_global.active_phrase_id_it = customqlabel_widget.entry_id
-            print('the current active phrase set by settings is')
-            print(mc.mc_global.active_phrase_id_it)
         else:
             mc.mc_global.active_phrase_id_it = mc.mc_global.NO_PHRASE_SELECTED_INT
 
-        print('emit selection changed')
-        print(active_selected_bool)
         self.selection_changed_signal.emit(active_selected_bool)
 
     def on_new_row_selected_from_system_tray(self, i_id_of_selected_item: int):
@@ -289,7 +286,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
                 item.setSelected(True)
                 return
 
-    def update_gui(self):
+    def update_gui(self, i_event_source=mc.mc_global.EventSource.undefined):
         self.updating_gui_bool = True
 
         # If the list is now empty, disabling buttons
@@ -305,6 +302,11 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
             list_item.setSizeHint(QtCore.QSize(list_item.sizeHint().width(), mc_global.LIST_ITEM_HEIGHT_INT))
             self.list_widget.addItem(list_item)
             self.list_widget.setItemWidget(list_item, custom_label)
+
+        if i_event_source == mc.mc_global.EventSource.breathing_phrase_deleted:
+            self.update_selected(0)
+        else:
+            self.update_selected()
 
         self.updating_gui_bool = False
 

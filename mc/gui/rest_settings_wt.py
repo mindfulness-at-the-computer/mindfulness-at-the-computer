@@ -105,34 +105,26 @@ class RestSettingsWt(QtWidgets.QWidget):
 
     @classmethod
     def on_notification_type_audio_activated(self, i_index: int):
-        print('on notification type audio activated works')
-        print(mc_global.NotificationType.Audio.value)
         # -activated is only triggered on user action
         mc.model.SettingsM.update_rest_reminder_notification_type(mc_global.NotificationType.Audio.value)
 
     @classmethod
     def on_notification_type_visual_activated(self, i_index: int):
-        print('on notification type visual activated works')
-        print(mc_global.NotificationType.Visual.value)
         # -activated is only triggered on user action
         mc.model.SettingsM.update_rest_reminder_notification_type(mc_global.NotificationType.Visual.value)
 
     @classmethod
     def on_notification_type_both_activated(self, i_index: int):
-        print('on notification type audio activated works')
-        print(mc_global.NotificationType.Both.value)
         # -activated is only triggered on user action
         mc.model.SettingsM.update_rest_reminder_notification_type(mc_global.NotificationType.Both.value)
 
     def volume_changed(self, i_value: int):
-        print('rest volume changed')
         if self.updating_gui_bool:
             return
         mc.model.SettingsM.get().rest_reminder_volume = i_value
         # -prev: mc.model.SettingsM.update_rest_reminder_volume(i_value)
 
     def on_select_audio_clicked(self):
-        print('select rest audio clicked')
         # noinspection PyCallByClass
         audio_file_result_tuple = QtWidgets.QFileDialog.getOpenFileName(
             self,

@@ -1,6 +1,5 @@
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
-import mc.mc_global
 
 
 class ToggleSwitchWt(QtWidgets.QWidget):
@@ -21,7 +20,6 @@ class ToggleSwitchWt(QtWidgets.QWidget):
         self.setLayout(on_off_qhl)
 
     def on_toggled(self, i_checked: bool):
-        print('on toggled from toggle switch works')
         if self.updating_gui_bool:
             return
         self.toggled_signal.emit(i_checked)

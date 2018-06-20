@@ -19,7 +19,7 @@ TIME_LINE_OB_FRAME_RANGE_INT = 2000
 
 class BreathingDlg(QtWidgets.QFrame):
     close_signal = QtCore.pyqtSignal(list, list)
-    phrase_changed_signal = QtCore.pyqtSignal()
+    phrase_changed_from_breathing_dialog_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -93,8 +93,6 @@ class BreathingDlg(QtWidgets.QFrame):
             self._breathing_graphicsview_l3.frame_change_breathing_out
         )
 
-        print('Initializing the breathing dialog. The current active phrase is')
-        print(mc.mc_global.active_phrase_id_it)
         self.update_gui()
 
     def _start_breathing_in(self):
@@ -147,9 +145,7 @@ class BreathingDlg(QtWidgets.QFrame):
         # for i in range(0, self.phrases_qcb.count() - 1):
         db_id_int = self._phrases_qcb.itemData(i_index)
         mc.mc_global.active_phrase_id_it = db_id_int
-        print('active phrase changed from breathing dialog -> db id')
-        print(mc.mc_global.active_phrase_id_it)
-        self.phrase_changed_signal.emit()
+        self.phrase_changed_from_breathing_dialog_signal.emit()
         self.update_gui()
 
     def _on_close_button_entered(self):
@@ -179,12 +175,7 @@ class BreathingDlg(QtWidgets.QFrame):
 
     def update_gui(self):
         for i in range(0, self._phrases_qcb.count()):
-            print('the current active phrase is')
-            print(mc.mc_global.active_phrase_id_it)
             if self._phrases_qcb.itemData(i) == mc.mc_global.active_phrase_id_it:
-                print('checking which phrase is being set in dialog (db, index)')
-                print(self._phrases_qcb.itemData(i))
-                print(i)
                 self._phrases_qcb.setCurrentIndex(i)
                 break
 

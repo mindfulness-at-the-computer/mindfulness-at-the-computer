@@ -217,6 +217,7 @@ class EventSource(enum.Enum):
     rest_list_selection_changed = 12
     breathing_list_phrase_updated = 21
     breathing_list_selection_changed = 22
+    breathing_phrase_deleted = 23
     rest_settings_changed_from_settings = 31
     rest_settings_changed_from_intro = 32
     rest_slider_value_changed = 34

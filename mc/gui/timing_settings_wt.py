@@ -132,11 +132,9 @@ class TimingSettingsWt(QtWidgets.QWidget):
         self.rest_settings_updated_from_settings_signal.emit('settings')
 
     def on_rest_reminder_slider_value_changed(self, i_new_value: int):
-        print('on rest reminder slider value changed')
         if self.updating_gui_bool:
             return
         mc.mc_global.rest_reminder_minutes_passed_int = i_new_value
-        print('emitting rest slider value changed')
         self.rest_slider_value_changed_signal.emit()
 
     def on_rest_reset_clicked(self):
@@ -165,7 +163,6 @@ class TimingOverviewWt(QtWidgets.QListWidget):
         self.update_gui_time_overview()
 
     def update_gui_time_overview(self):
-        print('timing overview is being updated')
         self.clear()
 
         settings = mc.model.SettingsM.get()
