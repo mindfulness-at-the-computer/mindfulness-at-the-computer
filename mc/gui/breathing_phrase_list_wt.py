@@ -149,6 +149,12 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
 
     def move_current_row_up_down(self, i_move_direction: mc.model.MoveDirectionEnum) -> bool:
         current_row_int = self.list_widget.currentRow()
+        if current_row_int == 0 and i_move_direction == mc.model.MoveDirectionEnum.up:
+            return False
+
+        if current_row_int == self.list_widget.count() - 1 and i_move_direction == mc.model.MoveDirectionEnum.down:
+            return False
+
         current_list_widget_item = self.list_widget.item(current_row_int)
         item_widget = self.list_widget.itemWidget(current_list_widget_item)
         self.list_widget.takeItem(current_row_int)
@@ -158,7 +164,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
         #  if the widget is stored in the list somehow)
         if i_move_direction == mc.model.MoveDirectionEnum.up:
             # if main_sort_order_int == 0 or main_sort_order_int > len(QuestionM.get_all()):
-            if current_row_int >= 0:
+            if current_row_int > 0:
                 self.list_widget.insertItem(current_row_int - 1, current_list_widget_item)
                 self.list_widget.setItemWidget(current_list_widget_item, item_widget)
                 self.list_widget.setCurrentRow(current_row_int - 1)
@@ -166,7 +172,7 @@ class BreathingPhraseListWt(QtWidgets.QWidget):
                 return False
         elif i_move_direction == mc.model.MoveDirectionEnum.down:
             # if main_sort_order_int < 0 or main_sort_order_int >= len(QuestionM.get_all()):
-            if current_row_int < self.list_widget.count():
+            if current_row_int < self.list_widget.count() - 1:
                 self.list_widget.insertItem(current_row_int + 1, current_list_widget_item)
                 self.list_widget.setItemWidget(current_list_widget_item, item_widget)
                 self.list_widget.setCurrentRow(current_row_int + 1)
