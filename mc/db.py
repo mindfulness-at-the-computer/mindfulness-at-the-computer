@@ -23,7 +23,7 @@ def get_schema_version(i_db_conn: sqlite3.Connection) -> int:
     return t_cursor.fetchone()[0]
 
 
-def set_schema_version(i_db_conn, i_version_it: sqlite3.Connection) -> None:
+def set_schema_version(i_db_conn: sqlite3.Connection, i_version_it: sqlite3.Connection) -> None:
     i_db_conn.execute("PRAGMA user_version={:d}".format(i_version_it))
 
 
@@ -110,7 +110,7 @@ def initial_schema_and_setup(i_db_conn: sqlite3.Connection) -> None:
 
 """
 Example of db upgrade code:
-def upgrade_1_2(i_db_conn):
+def upgrade_1_2(i_db_conn: sqlite3.Connection):
     backup_db_file()
     i_db_conn.execute(
         "ALTER TABLE " + DbSchemaM.ObservancesTable.name + " ADD COLUMN "
@@ -119,7 +119,7 @@ def upgrade_1_2(i_db_conn):
 """
 
 
-def upgrade_23_24(i_db_conn):
+def upgrade_23_24(i_db_conn: sqlite3.Connection):
     backup_db_file()
     i_db_conn.execute(
         "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
