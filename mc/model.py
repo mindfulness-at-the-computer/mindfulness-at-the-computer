@@ -133,7 +133,7 @@ class PhrasesM:
         PhrasesM._update(self._id_int, i_col_name, i_new_value)
 
     @staticmethod
-    def _update(i_id: int, i_col_name: str, i_new_value):
+    def _update(i_id: int, i_col_name: str, i_new_value) -> None:
         db_exec(
             "UPDATE " + db.Schema.PhrasesTable.name
             + " SET " + i_col_name + " = ?"
@@ -328,7 +328,7 @@ class RestActionsM:
         RestActionsM._update(self._id_int, i_col_name, i_new_value)
 
     @staticmethod
-    def _update(i_id: int, i_col_name: str, i_new_value):
+    def _update(i_id: int, i_col_name: str, i_new_value) -> None:
         db_exec(
             "UPDATE " + db.Schema.RestActionsTable.name
             + " SET " + i_col_name + " = ?"
@@ -509,7 +509,7 @@ class SettingsM:
         return self.prep_reminder_audio_volume_int
 
     @prep_reminder_audio_volume.setter
-    def prep_reminder_audio_volume(self, i_new_prep_reminder_audio_volume):
+    def prep_reminder_audio_volume(self, i_new_prep_reminder_audio_volume) -> None:
         self.prep_reminder_audio_volume_int = i_new_prep_reminder_audio_volume
         self._update(
             db.Schema.SettingsTable.Cols.prep_reminder_audio_volume,
@@ -521,7 +521,7 @@ class SettingsM:
         return self.prep_reminder_audio_filename_str
 
     @prep_reminder_audio_filename.setter
-    def prep_reminder_audio_filename(self, i_new_prep_reminder_audio_filename: str):
+    def prep_reminder_audio_filename(self, i_new_prep_reminder_audio_filename: str) -> None:
         self.prep_reminder_audio_filename_str = i_new_prep_reminder_audio_filename
         self._update(
             db.Schema.SettingsTable.Cols.prep_reminder_audio_filename,
