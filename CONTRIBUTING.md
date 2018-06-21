@@ -12,9 +12,9 @@ Unless conversations are clearly of a private nature, we can choose to share the
 
 If there hasn't been an update for the progress on an issue in about 1-2 weeks we may reassign the issue to someone else. One reason for this is that we want new volunteers to be able to take on these issues.
 
-### Conversations about issues in the gitter chat
+### Conversations about issues in the Gitter chat
 
-Please use [the gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby) rather than issue comments for conversations about issues. The goal is that the issue has almost no comments and that a person new to an issue is easily able to grasp what the issue is about. If new information is gained it may be better to update the first issue comment
+Please use [the Gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby) rather than issue comments for conversations about issues. The goal is that the issue has almost no comments and that a person new to an issue is easily able to grasp what the issue is about. If new information is gained it may be better to update the first issue comment
 
 If you use comments to discuss issues please be aware that comments are removed now and then, and the description (first comment) is updated with information relevant to the issue
 
@@ -40,7 +40,7 @@ This application is Free Libre Open Source Software. The software license is GPL
 
 * Read about the [tech architecture](docs/tech-architecture.md) for the application
 * Read the [advertisement for new people at code4socialgood](https://app.code4socialgood.org/project/view/932)
-* If things are unclear, please ask in the [gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby)
+* If things are unclear, please ask in the [Gitter chat](https://gitter.im/mindfulness-at-the-computer/Lobby)
 
 ## What can I do right now?
 
@@ -85,7 +85,7 @@ Periodically, you'll need the sync your repo with mine (the upstream). GitHub ha
 
 We need help localizing the application. Helping with translations is easy:
 * You can add your name to our list of translators on [this wiki page](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/wiki/Translators)
-* You can [**join us on crowdin**](https://crwd.in/mindfulness-at-the-computer) which is the system we use for adding translations and enter your translations there
+* You can [**join us on Crowdin**](https://crwd.in/mindfulness-at-the-computer) which is the system we use for adding translations and enter your translations there
 
 ## Website
 
