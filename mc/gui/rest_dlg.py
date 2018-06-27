@@ -1,6 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from mc import model, mc_global
+import pygame
 
 
 class RestDlg(QtWidgets.QDialog):
@@ -55,6 +56,10 @@ class RestDlg(QtWidgets.QDialog):
         buttons_hbox_l3.addWidget(self.close_and_breathe_qpb, stretch=2)
         self.close_and_breathe_qpb.clicked.connect(self.on_close_and_breathe_clicked)
 
+        self.choose_music_qpb = QtWidgets.QPushButton("Choose music")
+        buttons_hbox_l3.addWidget(self.choose_music_qpb, stretch=2)
+        self.choose_music_qpb.clicked.connect(self.on_choose_music_clicked)
+
         buttons_hbox_l3.addStretch(3)
 
         self.setup_rest_action_list()
@@ -70,7 +75,22 @@ class RestDlg(QtWidgets.QDialog):
 
         mc_global.rest_window_shown_bool = True
 
+
+    def on_choose_music_clicked(self):
+        audio_file_result_tuple = QtWidgets.QFileDialog.getOpenFileName(
+            self,
+            self.tr("Please choose an mp3 audio file"),
+            mc_global.get_user_audio_path(),
+            self.tr("Mp3 files (*.mp3)")
+            )
+        if audio_file_result_tuple[0] != '':
+            pygame.mixer.init()
+            pygame.mixer.music.load(audio_file_result_tuple[0])
+            pygame.mixer.music.play(0)
+
     def on_close_clicked(self):
+        if pygame.mixer.music.get_busy():
+            pygame.mixer.music.stop()
         self.showNormal()
         # -for MacOS. showNormal is used here rather than showMinimized to avoid animation
         self.close_signal.emit(False)
@@ -78,6 +98,8 @@ class RestDlg(QtWidgets.QDialog):
         self.close()
 
     def on_close_and_breathe_clicked(self):
+        if pygame.mixer.music.get_busy():
+            pygame.mixer.music.stop()
         self.showMinimized()
         # -for MacOS
         self.close_signal.emit(True)
