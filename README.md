@@ -1,3 +1,9 @@
+# IMPORTANT: Mindfulness at the computer has moved to GitLab
+
+**https://gitlab.com/mindfulness-at-the-computer/mindfulness-at-the-computer**
+
+***
+
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/mindfulness-at-the-computer/Lobby)
 [![First-timers only friendly](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](http://www.firsttimersonly.com/)
 [![GitHub (pre-)release](https://img.shields.io/github/release/mindfulness-at-the-computer/mindfulness-at-the-computer/all.svg)](https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/releases/latest)
