@@ -19,7 +19,10 @@ NOTHING_SELECTED_INT = -1
 FEEDBACK_DIALOG_NOT_SHOWN_AT_STARTUP = -1
 NR_OF_TIMES_UNTIL_FEEDBACK_SHOWN_INT = 10
 
-LIST_ITEM_SPACING_INT = 2
+LIST_ITEM_HEIGHT_INT = 30
+
+GRID_VERTICAL_SPACING_LINUX = 15
+BUTTON_BAR_HORIZONTAL_SPACING_LINUX = 2
 
 APPLICATION_ICON_NAME_STR = "icon.png"
 DATABASE_FILE_STR = "mindfulness-at-the-computer.db"
@@ -216,9 +219,12 @@ class EventSource(enum.Enum):
     rest_list_selection_changed = 12
     breathing_list_phrase_updated = 21
     breathing_list_selection_changed = 22
-    rest_settings_changed = 31
+    breathing_phrase_deleted = 23
+    rest_settings_changed_from_settings = 31
+    rest_settings_changed_from_intro = 32
     rest_slider_value_changed = 34
-    breathing_settings_changed = 4
+    breathing_settings_changed_from_settings = 3
+    breathing_settings_changed_from_intro = 4
     rest_opened = 5
     rest_closed = 6
 

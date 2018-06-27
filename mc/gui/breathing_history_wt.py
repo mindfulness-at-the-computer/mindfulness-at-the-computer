@@ -5,7 +5,7 @@ from PyQt5 import QtWidgets
 import mc.mc_global
 import mc.gui.breathing_dlg
 
-BAR_HEIGHT_FT = 12.0
+BAR_WIDTH_FT = 24.0
 LARGE_MARGIN_FT = 10.0
 SMALL_MARGIN_FT = 2.0
 POINT_SIZE_INT = 16
@@ -18,7 +18,6 @@ class BreathingHistoryWt(QtWidgets.QWidget):
         super().__init__()
         self.show()
         self.setMinimumHeight(300)
-        self.setMinimumWidth(270)
 
         self.ib_qtimer = None
         self.ob_qtimer = None
@@ -31,7 +30,7 @@ class BreathingHistoryWt(QtWidgets.QWidget):
         vbox_l2 = QtWidgets.QVBoxLayout()
         self.setLayout(vbox_l2)
 
-        vbox_l2.addWidget(QtWidgets.QLabel("Breathing History"))
+        # vbox_l2.addWidget(QtWidgets.QLabel("Breathing History"))
         self.breathing_graphicsview = QtWidgets.QGraphicsView()  # QGraphicsScene
         vbox_l2.addWidget(self.breathing_graphicsview)
         self.breathing_graphicsscene = QtWidgets.QGraphicsScene()
@@ -61,33 +60,34 @@ class BreathingHistoryWt(QtWidgets.QWidget):
             self.new_cycle_bool = False
 
         # Rectangle
-        ypos_ft = 0.0
+        xpos_ft = 0.0
         if len(self.in_breath_graphics_qgri_list) > 0:
             margin_int = SMALL_MARGIN_FT
             if self.new_cycle_bool:
                 margin_int = LARGE_MARGIN_FT
             last_graphics_rect_item = self.in_breath_graphics_qgri_list[-1]
-            ypos_ft = float(last_graphics_rect_item.rect().bottom() + margin_int)
+            xpos_ft = float(last_graphics_rect_item.rect().right() + margin_int)
             if i_io == mc.mc_global.BreathingState.breathing_out:
-                ypos_ft = float(last_graphics_rect_item.rect().top())
-        xpos_ft = -i_length
+                xpos_ft = float(last_graphics_rect_item.rect().left())
+        ypos_ft = -i_length
         if i_io == mc.mc_global.BreathingState.breathing_out:
-            xpos_ft = 0.0
-        t_drawrect = QtCore.QRectF(xpos_ft, ypos_ft, i_length, BAR_HEIGHT_FT)
+            ypos_ft = 0.0
+
+        t_drawrect = QtCore.QRectF(xpos_ft, ypos_ft, BAR_WIDTH_FT, i_length)
 
         # Gradient
-        y_gradient = t_drawrect.y() - GRADIENT_IN_FT
+        x_gradient = t_drawrect.x() - GRADIENT_IN_FT
         if i_io == mc.mc_global.BreathingState.breathing_out:
-            y_gradient = t_drawrect.y() + GRADIENT_OUT_FT
-        t_start_qpointf = QtCore.QPointF(t_drawrect.x(), y_gradient)
-        t_stop_qpointf = t_drawrect.bottomLeft()  # QtCore.QPointF(0.0, 50.0)
+            x_gradient = t_drawrect.x() + GRADIENT_OUT_FT
+        t_start_qpointf = QtCore.QPointF(x_gradient, t_drawrect.y())
+        t_stop_qpointf = t_drawrect.bottomRight()
         t_linear_gradient = QtGui.QLinearGradient(t_start_qpointf, t_stop_qpointf)
         if i_io == mc.mc_global.BreathingState.breathing_in:
-            t_linear_gradient.setColorAt(0.0, QtGui.QColor(204, 255, 77))
-            t_linear_gradient.setColorAt(1.0, QtGui.QColor(164, 230, 0))
+            t_linear_gradient.setColorAt(0.0, QtGui.QColor(0, 153, 0))
+            t_linear_gradient.setColorAt(1.0, QtGui.QColor(0, 204, 0))
         else:
-            t_linear_gradient.setColorAt(0.0, QtGui.QColor(219, 255, 128))
-            t_linear_gradient.setColorAt(1.0, QtGui.QColor(183, 255, 0))
+            t_linear_gradient.setColorAt(0.0, QtGui.QColor(51, 255, 51))
+            t_linear_gradient.setColorAt(1.0, QtGui.QColor(102, 255, 102))
 
         # Adding rectangle with gradient
         t_graphics_rect_item = self.breathing_graphicsscene.addRect(

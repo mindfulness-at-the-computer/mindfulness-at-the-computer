@@ -19,7 +19,7 @@ TIME_LINE_OB_FRAME_RANGE_INT = 2000
 
 class BreathingDlg(QtWidgets.QFrame):
     close_signal = QtCore.pyqtSignal(list, list)
-    phrase_changed_signal = QtCore.pyqtSignal()
+    phrase_changed_from_breathing_dialog_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -145,7 +145,7 @@ class BreathingDlg(QtWidgets.QFrame):
         # for i in range(0, self.phrases_qcb.count() - 1):
         db_id_int = self._phrases_qcb.itemData(i_index)
         mc.mc_global.active_phrase_id_it = db_id_int
-        self.phrase_changed_signal.emit()
+        self.phrase_changed_from_breathing_dialog_signal.emit()
         self.update_gui()
 
     def _on_close_button_entered(self):

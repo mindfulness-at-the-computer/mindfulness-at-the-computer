@@ -1,0 +1,210 @@
+QCheckBox::indicator:unchecked {
+    image: url(:/checkbox_unchecked.svg);
+}
+
+QCheckBox::indicator:checked {
+    image: url(:/checkbox_checked.svg);
+}
+
+H1 {
+    font-family: Verdana, Arial;
+    font-size: 18px;
+}
+
+H2 {
+    font-family: Verdana, Arial;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+RadioButtonLeft, RadioButtonMiddle, RadioButtonRight {
+    spacing: -110;
+}
+
+RadioButtonLeft::indicator::unchecked {
+    border: 1px solid #B3B3B3;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background: #ffffff;
+    width: 120px;
+    height: 22px;
+}
+
+RadioButtonLeft::indicator::checked {
+    border: 1px solid #B3B3B3;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background: #44db5e;
+    width: 120px;
+    height: 22px;
+}
+
+RadioButtonMiddle::indicator::unchecked {
+    border: 1px solid #B3B3B3;
+    background: #ffffff;
+    width: 120px;
+    height: 22px;
+}
+
+RadioButtonMiddle::indicator::checked {
+    border: 1px solid #B3B3B3;
+    background: #44db5e;
+    width: 120px;
+    height: 22px;
+}
+
+RadioButtonRight::indicator::unchecked {
+    border: 1px solid #B3B3B3;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: #ffffff;
+    width: 120px;
+    height: 22px;
+}
+
+RadioButtonRight::indicator::checked {
+    border: 1px solid #B3B3B3;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: #44db5e;
+    width: 120px;
+    height: 22px;
+}
+
+QSpinBox {
+    padding-right: 20px; /* make room for the arrows */
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid #B3B3B3;
+    border-radius: 15px;
+}
+
+QSpinBox::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right; /* position at the top right corner */
+
+    width: 20px;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+    border-color: #B3B3B3;
+    padding-right: 2px;
+}
+
+QSpinBox::up-arrow {
+    image: url(:/up.svg);
+    width: 7px;
+    height: 7px;
+}
+
+QSpinBox::up-arrow:disabled, QSpinBox::up-arrow:off { /* off state when value is max */
+   image: url(:/up_disabled.svg);
+}
+
+QSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+
+    width: 20px;
+    border-left: 1px solid;
+    border-color: #B3B3B3;
+    padding-right: 2px;
+}
+
+QSpinBox::down-arrow {
+    image: url(:/down.svg);
+    width: 7px;
+    height: 7px;
+}
+
+QSpinBox::down-arrow:disabled,
+QSpinBox::down-arrow:off { /* off state when value in min */
+   image: url(:/down_disabled.svg);
+}
+
+QPushButton#notif_select_audio_qpb,
+QPushButton#prep_select_audio_qpb {
+    border: 1px solid #B3B3B3;
+    border-radius: 10px;
+    height: 20px;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f6f7fa, stop: 1 #dadbde);
+    min-width: 200px;
+}
+
+QPushButton:pressed#notif_select_audio_qpb,
+QPushButton:pressed#prep_select_audio_qpb {
+    border: 1px solid #B3B3B3;
+    border-radius: 10px;
+    height: 20px;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+QPushButton#rest_reminder_reset_qpb {
+    border: 1px solid #B3B3B3;
+    border-radius: 10px;
+    height: 20px;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f6f7fa, stop: 1 #dadbde);
+    min-width: 75px;
+}
+
+QPushButton:pressed#rest_reminder_reset_qpb {
+    border: 1px solid #B3B3B3;
+    border-radius: 10px;
+    height: 20px;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+HorizontalLine {
+    color: #B3B3B3;
+}
+
+PhrasesList,
+TimingOverviewWt {
+    show-decoration-selected: 1; /* make the selection span the entire width of the view */
+}
+
+PhrasesList::item,
+TimingOverviewWt::item {
+    height: 30px;
+    padding-left: 5px;
+    border-bottom: 1px solid #B3B3B3
+}
+
+PhrasesList::item:selected {
+}
+
+PhrasesList::item:selected:!active {
+    background: #EFEFEF;
+}
+
+PhrasesList::item:selected:active {
+    background: #EFEFEF;
+}
+
+PhrasesList::item:hover {
+    background: #F7F7F7;
+}
+
+PushButton {
+    border: 1px solid #B3B3B3;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f6f7fa, stop: 1 #dadbde);
+    height: 22px;
+}
+
+PushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+QLineEdit#add_to_list_qle {
+    border: 1px solid #B3B3B3;
+    height: 22;
+}
+
+QScrollArea {
+    background-image: url(a_background_image_to_be_determined.jpg);
+    margin: 0;
+}
+
+QScrollArea * {
+    background-color: transparent;
+}

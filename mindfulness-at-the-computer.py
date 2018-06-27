@@ -10,6 +10,10 @@ import mc.gui.main_win
 from mc import mc_global
 import mc.db
 
+# The following import looks like it isn't used, but it is necessary for importing the images.
+import icons.matc_rc # pylint: disable=unused-import
+
+
 if __name__ == "__main__":
     mc_global.db_file_exists_at_application_startup_bl = os.path.isfile(mc_global.get_database_filename())
     # -settings this variable before the file has been created
@@ -29,6 +33,12 @@ if __name__ == "__main__":
     mc.mc_global.sys_info_telist.append(("Qt version", QtCore.qVersion()))
     # noinspection PyUnresolvedReferences
     mc.mc_global.sys_info_telist.append(("PyQt (Python module) version", PyQt5.Qt.PYQT_VERSION_STR))
+
+    # set stylesheet
+    stream = QtCore.QFile(os.path.join(mc.mc_global.get_base_dir(), "matc.qss"))
+    stream.open(QtCore.QIODevice.ReadOnly)
+    matc_qapplication.setStyleSheet(QtCore.QTextStream(stream).readAll())
+
     desktop_widget = matc_qapplication.desktop()
     mc.mc_global.sys_info_telist.append(("Virtual desktop", str(desktop_widget.isVirtualDesktop())))
     mc.mc_global.sys_info_telist.append(("Screen count", str(desktop_widget.screenCount())))
