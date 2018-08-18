@@ -1,4 +1,10 @@
-## 1. Building binaries
+
+## 1. Updating the application version
+
+In the mc_globals.py file there is a constant which holds the application version: `APPLICATION_VERSION_STR`
+
+
+## 2. Building binaries
 
 Semantic versioning is used: semver.org
 
@@ -92,7 +98,7 @@ Please verify that there is an `.exe` file (`mindfulness-at-the-computer.exe`) a
 
 
 
-## 2. Manual testing
+## 3. Manual testing
 
 The most important things to test after building:
 1. Start by unzipping the file (rather than starting with the result of the build, since this will risk that the application is distributed with a db file inside the zip file)
@@ -105,7 +111,7 @@ The most important things to test after building:
 
 
 
-## 3. Publishing
+## 4. Publishing
 
 ### Creating a new GitHub release
 
@@ -116,7 +122,7 @@ https://github.com/mindfulness-at-the-computer/mindfulness-at-the-computer/relea
 Upload the archive files (tar.gz, zip, {mac?}) created in the "Building binaries" sections above
 
 
-## 4. Notifying people of the new version
+## 5. Notifying people of the new version
 
 ### Newsletter
 
