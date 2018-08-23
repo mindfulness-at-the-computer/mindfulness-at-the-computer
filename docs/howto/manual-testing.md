@@ -52,3 +52,14 @@ TBD: Removing an image file to create a "broken link"
 3. Enable breathing reminders.
 4. Click on "test" for the breathing reminders (or wait for the next reminder).
 5. Verify: The text has been changed from before.
+
+## Styling
+
+TBD
+
+## Translations
+
+TBD
+
+
+
