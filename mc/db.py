@@ -119,7 +119,7 @@ def upgrade_1_2(i_db_conn: sqlite3.Connection):
 """
 
 
-def upgrade_23_24(i_db_conn: sqlite3.Connection):
+def upgrade_23_24(i_db_conn: sqlite3.Connection) -> None:
     backup_db_file()
     i_db_conn.execute(
         "ALTER TABLE " + Schema.SettingsTable.name + " ADD COLUMN "
@@ -200,7 +200,7 @@ class Helper(object):
         i_db_conn.execute("DROP TABLE IF EXISTS " + i_table_name)
 
     @staticmethod
-    def close_db():
+    def close_db() -> None:
         if Helper.__db_connection is not None:
             Helper.__db_connection.close()
             Helper.__db_connection = None
