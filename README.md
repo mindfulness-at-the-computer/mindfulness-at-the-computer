@@ -1,4 +1,4 @@
-# IMPORTANT: Mindfulness at the computer has moved to GitLab
+﻿# IMPORTANT: Mindfulness at the computer has moved to GitLab
 
 **https://gitlab.com/mindfulness-at-the-computer/mindfulness-at-the-computer**
 
@@ -21,7 +21,7 @@ remember to stay in touch with and be mindful of your breathing and body
 while sitting at the computer, and helps you concentrate on breathing
 in and out when you need a breathing pause.
 
-**The [application website](https://mindfulness-at-the-computer.github.io)
+**The [application website](https://mindfulness-at-the-computer.gitlab.io/)
 has more information** (including screenshots and downloads).
 
 The application is written in Python and uses Qt/PyQt for the front-end.
